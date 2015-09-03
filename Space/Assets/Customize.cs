@@ -3,10 +3,10 @@ using System.Collections;
 
 public class Customize : MonoBehaviour {
 
-	public Ship ship;
-
 	// Use this for initialization
 	void Start () {
+		Ship ship = GetComponent<Ship>();
+
 		//For each empty attachment point on the ship, draw an indicator that you can click to change the attachements
 		foreach(Vector2 v in ship.AttachmentPoints){
 			GameObject indicator = Instantiate((GameObject)Resources.Load("ShipPrefabs/AttachmentIndicator"));
@@ -22,4 +22,8 @@ public class Customize : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void OnGUI() {
+        
+    }
 }
