@@ -161,6 +161,47 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!1 &282228651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 282228653}
+  - 114: {fileID: 282228652}
+  m_Layer: 0
+  m_Name: CustomizationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &282228652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282228651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3459c8acaae5f9844bb53066c83a29ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ship: {fileID: 774709832}
+  WeaponToggles: {fileID: 1385384292}
+--- !u!4 &282228653
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282228651}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 75.397995, y: 270.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
 --- !u!1 &774709827
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +213,6 @@ GameObject:
   - 33: {fileID: 774709830}
   - 64: {fileID: 774709829}
   - 23: {fileID: 774709828}
-  - 114: {fileID: 774709833}
   - 114: {fileID: 774709832}
   m_Layer: 0
   m_Name: Ship
@@ -250,17 +290,6 @@ MonoBehaviour:
   AttachmentPoints:
   - {x: 0, y: 1}
   - {x: 0, y: -1}
---- !u!114 &774709833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 774709827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3459c8acaae5f9844bb53066c83a29ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &876315897
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,6 +476,7 @@ GameObject:
   - 222: {fileID: 1385384289}
   - 114: {fileID: 1385384288}
   - 114: {fileID: 1385384291}
+  - 114: {fileID: 1385384292}
   m_Layer: 5
   m_Name: Weapons Panel
   m_TagString: Untagged
@@ -510,6 +540,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c6edc79d310074fa695549fa42a173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonBackground: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  ButtonWidth: 100
+  ButtonHeight: 50
+--- !u!114 &1385384292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1385384287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1184210157, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 1
 --- !u!1 &2014115345
 GameObject:
   m_ObjectHideFlags: 0

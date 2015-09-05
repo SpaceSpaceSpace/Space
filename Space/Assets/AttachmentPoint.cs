@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class AttachmentPoint : MonoBehaviour {
+
+    public ToggleGroup WeaponToggles;
 
 	Material mat;
 
@@ -20,7 +23,8 @@ public class AttachmentPoint : MonoBehaviour {
 	}
 
 	void OnMouseOver(){
-		mat.color = selectedColor;
+        if(WeaponToggles.AnyTogglesOn())
+		    mat.color = selectedColor;
 	}
 	void OnMouseExit(){
 		mat.color = startColor;
