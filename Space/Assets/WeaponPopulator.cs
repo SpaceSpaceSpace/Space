@@ -60,6 +60,10 @@ public class WeaponPopulator : MonoBehaviour {
 
             buttonRectTrans.sizeDelta = new Vector2(ButtonWidth, ButtonHeight);
 
+			//Each button needs to store which attachment its using
+			AttachmentToggle attachment = button.AddComponent<AttachmentToggle>();
+			attachment.Attachment = weapon;
+
             //Create weapon image
             GameObject wepImage = new GameObject();
             Image wepImageComp = wepImage.AddComponent<Image>();
