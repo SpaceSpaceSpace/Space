@@ -176,6 +176,26 @@ Prefab:
       propertyPath: rotationSpeed
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 484210, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 492772, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 458906, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 436222, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 429022, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
   m_IsPrefabParent: 0
@@ -206,7 +226,7 @@ Transform:
   m_LocalScale: {x: 4.21586561, y: 4.21586418, z: 4.21586418}
   m_Children: []
   m_Father: {fileID: 1630880426}
-  m_RootOrder: 5
+  m_RootOrder: 1
 --- !u!212 &693163750
 SpriteRenderer:
   m_ObjectHideFlags: 0

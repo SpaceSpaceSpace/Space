@@ -16,10 +16,11 @@ public class PlayerShipScript : ShipScript
 		
 		// Temporarily just grabbing the weapons from the children
 		// Children shouldn't have weapons anyway. They're children.
-		m_weapons = new WeaponScript[ transform.childCount - 1 ];
-		for( int i = 1; i < transform.childCount; i++ )
+		int numNonWepChildren = 2;
+		m_weapons = new WeaponScript[ transform.childCount - numNonWepChildren ];
+		for( int i = numNonWepChildren; i < transform.childCount; i++ )
 		{
-			m_weapons[ ( i - 1 ) ] = transform.GetChild( i ).GetComponent<WeaponScript>();
+			m_weapons[ ( i - numNonWepChildren ) ] = transform.GetChild( i ).GetComponent<WeaponScript>();
 		}
 	}
 	
