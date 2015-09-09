@@ -11,7 +11,6 @@ GameObject:
   - 20: {fileID: 2096834}
   - 124: {fileID: 12483996}
   - 92: {fileID: 9246058}
-  - 81: {fileID: 8161466}
   m_Layer: 0
   m_Name: Radar Camera
   m_TagString: Untagged
@@ -64,13 +63,6 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
   m_StereoMirrorMode: 0
---- !u!81 &8161466
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 131510}
-  m_Enabled: 1
 --- !u!92 &9246058
 Behaviour:
   m_ObjectHideFlags: 1
