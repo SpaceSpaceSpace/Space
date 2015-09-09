@@ -60,22 +60,4 @@ public class PlayerShipScript : ShipScript
 			}
 		}
 	}
-	
-	// Eagle 1, Fox 2
-	private void FireWeapons()
-	{
-		for( int i = 0; i < m_weapons.Length; i++ )
-		{
-			// Relax, the weapons check if they are active first
-			m_weapons[ i ].Fire();
-		}
-	}
-	
-	private void ReleaseFire()
-	{
-		for( int i = 0; i < m_weapons.Length; i++ )
-		{
-			m_weapons[ i ].OnRelease();
-		}
-	}
 }
