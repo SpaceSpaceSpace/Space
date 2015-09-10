@@ -39,7 +39,7 @@ public class ThrustScript : MonoBehaviour
 	///
 	
 	// You know what Start does, right?
-	void Start ()
+	void Awake ()
 	{
 		m_accelerate = false;
 		m_turnDirection = 0;
@@ -82,7 +82,7 @@ public class ThrustScript : MonoBehaviour
 	{
 		m_accelForce = accelForce;
 		m_turnForce = turnForce;
-		
+
 		// Sets the drag to limit the maximum speed
 		// Might have to change if we want less drag for more floaty movement
 		m_rigidbody.drag = accelForce / maxMoveSpeed;
