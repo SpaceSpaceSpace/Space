@@ -23,11 +23,14 @@ public class AIShipScript : ShipScript {
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce, maxTurnSpeed);
 
 		m_target = GameObject.FindWithTag("Player").transform; // Find the player, will likely change
+
+		//transform.position += new Vector3(Random.Range(-20.0f, 20.0f), Random.Range(-20.0f, 20.0f), 0.0f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		MoveTowardTarget();
+		MoveAwayFromTarget();
+		
 	}
 
 	// Turn to face the target
@@ -50,7 +53,7 @@ public class AIShipScript : ShipScript {
 		Vector2 targetPos = PredictTargetPosition();
 		FaceTarget(targetPos);
 
-		if(Vector2.Angle(targetPos - (Vector2)transform.position, transform.up) < 45)
+		//if(Vector2.Angle(targetPos - (Vector2)transform.position, transform.up) < 45)
 			m_thrust.Accelerate = true;
 		//else
 			//m_thrust.Accelerate = false;
@@ -58,13 +61,28 @@ public class AIShipScript : ShipScript {
 
 	public void MoveAwayFromTarget()
 	{
-
+		Vector2 targetPos = transform.position - m_target.position;
+		FaceTarget(targetPos);
+		
+		//if(Vector2.Angle(targetPos - (Vector2)transform.position, transform.up) < 45)
+			m_thrust.Accelerate = true;
 	}
 
 	public void PassTarget()
 	{
 
 	}
+
+	public void FireWeapon()
+	{
+
+	}
+
+	public void CircleTarget()
+	{
+
+	}
+
 
 	// return the angle between the direction the AI ship is facing
 	// and the direction to the target's predicted position
