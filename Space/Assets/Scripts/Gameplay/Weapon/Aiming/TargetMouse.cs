@@ -4,6 +4,7 @@
 public class TargetMouse : TargetingBehavior
 {
 	private float m_mouseZ;
+	
 	void Start ()
 	{
 		Init();

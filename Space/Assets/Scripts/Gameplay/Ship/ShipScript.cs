@@ -15,4 +15,20 @@ public class ShipScript : MonoBehaviour
 	{
 		m_thrust = GetComponent<ThrustScript>();
 	}
+	
+	protected void FireWeapons()
+	{
+		for( int i = 0; i < m_weapons.Length; i++ )
+		{			
+			m_weapons[ i ].Fire();
+		}
+	}
+	
+	protected void ReleaseFire()
+	{
+		for( int i = 0; i < m_weapons.Length; i++ )
+		{
+			m_weapons[ i ].OnRelease();
+		}
+	}
 }
