@@ -39,6 +39,7 @@ public class AttachmentPoint : MonoBehaviour {
 		    mat.color = selectedColor;
 			Vector2 pointPos = transform.position;
 
+			// If it's left mouse button, attach
 			if(Input.GetMouseButtonDown(0) && !attaching)
 			{
 				Toggle selectedToggle = WeaponToggles.ActiveToggles().FirstOrDefault();
@@ -65,7 +66,16 @@ public class AttachmentPoint : MonoBehaviour {
 				//Don't let this happen again until the mouse is lifted
 				attaching = true;
 			}
-			else if(Input.GetMouseButtonUp(0))
+			//If it's right mouse button, clear
+			else if(Input.GetMouseButtonDown(1) && !attaching)
+			{
+				if(ship.Attachments.ContainsKey(pointPos))
+				{
+					GameObject currentAttachment = ship.Attachments[pointPos];
+					Destroy(currentAttachment);
+				}
+			}
+			else if(Input.GetMouseButtonUp(0) && Input.GetMouseButtonUp(1))
 			{
 				attaching = false;
 			}

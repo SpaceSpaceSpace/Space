@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21273656}
   - 114: {fileID: 11492966}
   m_Layer: 0
-  m_Name: Weapon2
+  m_Name: SEO Blaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,9 +37,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 197346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 824abd6e08c149b4ca1d16279fe7cd1c, type: 3}
+  m_Script: {fileID: 11500000, guid: ab9ff2c329182495c9a77a64ee7c42c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 145664, guid: 86b245eab1bbd4e94919303b4214bfd1, type: 2}
+  fireTime: .5
+  maxSpreadAngle: 15
 --- !u!212 &21273656
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -64,7 +67,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7c7e105d4bfe22b44bdcafbc0cabf623, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6910064f211f54fdd801e05d608d37dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -85,6 +88,15 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6910064f211f54fdd801e05d608d37dd,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 145664, guid: 86b245eab1bbd4e94919303b4214bfd1, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 197346}

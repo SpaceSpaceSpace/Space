@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21235446}
   - 114: {fileID: 11475874}
   m_Layer: 0
-  m_Name: Weapon1
+  m_Name: Bullhorns
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,9 +37,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 127572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 824abd6e08c149b4ca1d16279fe7cd1c, type: 3}
+  m_Script: {fileID: 11500000, guid: ab9ff2c329182495c9a77a64ee7c42c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 126896, guid: 12ceba296381a48beaa613297c741941, type: 2}
+  fireTime: .5
+  maxSpreadAngle: 15
 --- !u!212 &21235446
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -64,7 +67,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 53f4503f5515cee4397f73296abc509c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0c63e6e39356d44cf9fca62d2f2e3017, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -93,6 +96,15 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 126896, guid: 12ceba296381a48beaa613297c741941, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0c63e6e39356d44cf9fca62d2f2e3017,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 127572}

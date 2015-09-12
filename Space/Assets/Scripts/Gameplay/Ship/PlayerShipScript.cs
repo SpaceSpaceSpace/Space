@@ -4,12 +4,29 @@ using System.Collections.Generic;
 // Set an open course for the virgin sea
 public class PlayerShipScript : ShipScript
 {
+	public static PlayerShipScript player;
+
 	public List<Vector2> AttachmentPoints = new List<Vector2>();
 	public Dictionary<Vector2, GameObject> Attachments = new Dictionary<Vector2, GameObject>();
 
 	private Transform m_cameraTransform;
-	private bool m_docked;
-	
+	private bool m_docked = false;
+
+	void Awake()
+	{
+		//There can be only one
+		if(player == null)
+		{
+			//Don't destroy ship from scene to scene
+			DontDestroyOnLoad(gameObject);
+			player = this;
+		}
+		else if(player != this)
+		{
+			Destroy(gameObject);
+		}
+	}
+
 	void Start ()
 	{
 		InitShip();
@@ -18,17 +35,18 @@ public class PlayerShipScript : ShipScript
 		// The camera is parented to a GO and offset on the Z axis
 		// We're keeping the parent so we don't have to set the Z when moving the camera
 		m_cameraTransform = Camera.main.transform.parent;
-		
-		// Temporarily just grabbing the weapons from the children
-		// Children shouldn't have weapons anyway. They're children.
-		int numNonWepChildren = 2;
-		m_weapons = new WeaponScript[ transform.childCount - numNonWepChildren ];
-		for( int i = numNonWepChildren; i < transform.childCount; i++ )
-		{
-			m_weapons[ ( i - numNonWepChildren ) ] = transform.GetChild( i ).GetComponent<WeaponScript>();
-		}
 	}
-	
+
+	void OnLevelWasLoaded()
+	{
+		InitShip();
+		m_thrust.Init( 50.0f, 5.0f, 10.0f, 90.0f ); // Magic numbers. Because I can.
+		
+		// The camera is parented to a GO and offset on the Z axis
+		// We're keeping the parent so we don't have to set the Z when moving the camera
+		m_cameraTransform = Camera.main.transform.parent;
+	}
+
 	void Update ()
 	{
 		// Keeping the camera with us
@@ -58,7 +76,24 @@ public class PlayerShipScript : ShipScript
 			}
 		}
 	}
-	
+
+	public void Dock()
+	{
+		//Kill thrusters
+		if(m_thrust)
+		{
+			m_thrust.Accelerate = false;
+			m_thrust.TurnDirection = 0;
+		}
+
+		m_docked = true;
+	}
+
+	public void Undock()
+	{
+		m_docked = false;
+	}
+
 	// Checks if any of the number keys were pressed to toggle weapons
 	private void SetActiveWeapons()
 	{
