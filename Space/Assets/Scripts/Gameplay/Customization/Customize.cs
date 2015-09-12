@@ -4,7 +4,7 @@ using System.Collections;
 
 public class Customize : MonoBehaviour {
 
-    public Ship ship;
+    public PlayerShipScript ship;
     public ToggleGroup WeaponToggles;
 
 	// Use this for initialization

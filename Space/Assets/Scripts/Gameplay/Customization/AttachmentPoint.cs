@@ -13,7 +13,7 @@ public class AttachmentPoint : MonoBehaviour {
 	Color startColor;
 	Color selectedColor = Color.blue;
 
-	Ship ship;
+	PlayerShipScript ship;
 
 	bool attaching;
 
@@ -23,7 +23,7 @@ public class AttachmentPoint : MonoBehaviour {
 		startColor = mat.color;
 
 		//Ship is attached to the parent game object
-		ship = transform.parent.gameObject.GetComponent<Ship>();
+		ship = transform.parent.gameObject.GetComponent<PlayerShipScript>();
 
 		attaching = false;
 	}
@@ -56,8 +56,10 @@ public class AttachmentPoint : MonoBehaviour {
 
 				//Now add the selected attachment to the ships' attached Weapons dictionary and instantiate it
 				GameObject attachmentClone = GameObject.Instantiate(attachment);
-				attachmentClone.transform.position = pointPos;
-				attachmentClone.transform.SetParent(ship.transform);
+				Transform attachmentTransform = attachmentClone.transform;
+
+				attachmentTransform.position = new Vector3(pointPos.x, pointPos.y, ship.transform.position.z - .1f);
+				attachmentTransform.SetParent(ship.transform);
 				ship.Attachments[pointPos] = attachmentClone;
 
 				//Don't let this happen again until the mouse is lifted

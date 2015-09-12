@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 // Set an open course for the virgin sea
 public class PlayerShipScript : ShipScript
 {
+	public List<Vector2> AttachmentPoints = new List<Vector2>();
+	public Dictionary<Vector2, GameObject> Attachments = new Dictionary<Vector2, GameObject>();
+
 	private Transform m_cameraTransform;
+	private bool m_docked;
 	
 	void Start ()
 	{
@@ -26,27 +31,31 @@ public class PlayerShipScript : ShipScript
 	
 	void Update ()
 	{
-		// Giving input to the thrust 
-		m_thrust.Accelerate = ( Input.GetAxis( "Vertical" ) > 0 );
-		m_thrust.TurnDirection = -Input.GetAxis( "Horizontal" );
-		
 		// Keeping the camera with us
 		m_cameraTransform.position = transform.position;
-		
-		// If a key was pressed, might as well check if it was a number key
-		if( Input.anyKeyDown )
+
+		//Don't fire or move if we're docked
+		if(!m_docked)
 		{
-			SetActiveWeapons();
-		}
-		
-		// Doing the pew pew
-		if( Input.GetButton( "Fire1" ) )
-		{
-			FireWeapons();
-		}
-		else if( Input.GetButtonUp( "Fire1" ) )
-		{
-			ReleaseFire();
+			// Giving input to the thrust 
+			m_thrust.Accelerate = ( Input.GetAxis( "Vertical" ) > 0 );
+			m_thrust.TurnDirection = -Input.GetAxis( "Horizontal" );
+			
+			// If a key was pressed, might as well check if it was a number key
+			if( Input.anyKeyDown )
+			{
+				SetActiveWeapons();
+			}
+			
+			// Doing the pew pew
+			if( Input.GetButton( "Fire1" ) )
+			{
+				FireWeapons();
+			}
+			else if( Input.GetButtonUp( "Fire1" ) )
+			{
+				ReleaseFire();
+			}
 		}
 	}
 	
