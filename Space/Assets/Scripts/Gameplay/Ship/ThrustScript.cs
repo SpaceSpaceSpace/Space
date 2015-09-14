@@ -37,8 +37,7 @@ public class ThrustScript : MonoBehaviour
 	///
 	/// Monobehavior Methods
 	///
-	
-	// You know what Start does, right?
+
 	void Awake ()
 	{
 		m_accelerate = false;
