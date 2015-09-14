@@ -27,7 +27,7 @@ public class AIShipScript : ShipScript {
 	
 	// Update is called once per frame
 	void Update () {
-		MoveTowardTarget();
+		ChaseTarget(5, 1);
 	}
 
 	// Turn to face the target
@@ -47,7 +47,7 @@ public class AIShipScript : ShipScript {
 
 	public void MoveTowardTarget()
 	{
-		Vector2 targetPos = PredictTargetPosition();
+		Vector2 targetPos = PredictTargetPosition(maxMoveSpeed);
 		FaceTarget(targetPos);
 
 		if(Vector2.Angle(targetPos - (Vector2)transform.position, transform.up) < 45)
@@ -58,14 +58,35 @@ public class AIShipScript : ShipScript {
 
 	public void MoveAwayFromTarget()
 	{
-
+		Vector2 targetPos = transform.position + (transform.position - m_target.position);
+		FaceTarget(targetPos);
+		m_thrust.Accelerate = true;
 	}
 
-	public void PassTarget()
+	public void PassByTarget(float distance)
 	{
+		int rand = Random.Range(0, 11);
+		Vector2 targetPos = m_target.position;
+		if(rand > 5)
+			targetPos += (Vector2)(m_target.right * distance);
+		else
+			targetPos -= (Vector2)(m_target.right * distance);
+
+		FaceTarget(targetPos);
 
 	}
 
+	// Follow the target, staying in between the max distance and min distance
+	public void ChaseTarget(float maxDistance, float minDistance)
+	{
+		FaceTarget(m_target.position);
+
+		float distance = Vector2.Distance(m_target.position, transform.position);
+		if(distance < minDistance || AngleToTarget() > 45)
+			m_thrust.Accelerate = false;
+		else if(distance > maxDistance)
+			m_thrust.Accelerate = true;
+	}
 	// return the angle between the direction the AI ship is facing
 	// and the direction to the target's predicted position
 	float AngleToTarget()
@@ -75,9 +96,9 @@ public class AIShipScript : ShipScript {
 		return angle;
 	}
 
-	// Using the target's velocity, this AI ships max velocity, and the distance to the target,
-	// predict where the ship will need to go to intercept the target
-	Vector2 PredictTargetPosition()
+	// Using the target's velocity, a parameter velocity, and the distance to the target,
+	// predict where the interception point of the target and the speed provided
+	Vector2 PredictTargetPosition(float speed)
 	{
 		// if the target doesn't have a rigidbody we can't get its velocity,
 		// so return the target's position
@@ -95,14 +116,14 @@ public class AIShipScript : ShipScript {
 		// velocity into distance, and use the now known distance and velocity to determine how much time ahead
 		// the predicted position will be.
 		angle *= Mathf.Deg2Rad; // convert andgle to radians for sin
-		float velRatio =  Mathf.Sin(angle) / maxMoveSpeed; // The ratio for the Law of Sins, using the velocity
-		if(Mathf.Abs(velRatio *targetVel.magnitude) > 1)
+		float velRatio =  Mathf.Sin(angle) / speed; // The ratio for the Law of Sins, using the velocity
+		if(Mathf.Abs(velRatio *targetVel.magnitude) > 1) // If we can't catch the target, return the target position
 			return m_target.position;
 		float targetAngle = Mathf.Asin(velRatio * targetVel.magnitude); // Get the second angle using the velRatio and the vel of the target
 		float finalAngle = Mathf.PI - (angle + targetAngle); // Find the final angle of the triangle, the one opposite the distance
 		float distRatio = distance / Mathf.Sin(finalAngle); // Now get the Law of Sins ratio, but we can do it with the distance now
 		float predictDist = distRatio * Mathf.Sin(angle); // Find the distance this ship will have to travel to intercept the target
-		float time =  Mathf.Abs(predictDist / maxMoveSpeed); // and use it to determine the amount of time that will take
+		float time =  Mathf.Abs(predictDist / speed); // and use it to determine the amount of time that will take
 		// And now we have the predicted position by advancing the target's position by the time 
 		Vector2 predictPos = (Vector2)m_target.position + (targetVel * time); 
 
