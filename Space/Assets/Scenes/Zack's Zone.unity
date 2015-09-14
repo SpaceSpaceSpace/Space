@@ -298,6 +298,18 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2070972, guid: 697b734f2535e4771a71e9db11439311, type: 2}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2070972, guid: 697b734f2535e4771a71e9db11439311, type: 2}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2070972, guid: 697b734f2535e4771a71e9db11439311, type: 2}
+      propertyPath: orthographic size
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 697b734f2535e4771a71e9db11439311, type: 2}
   m_IsPrefabParent: 0
