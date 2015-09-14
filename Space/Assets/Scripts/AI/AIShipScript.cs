@@ -68,9 +68,9 @@ public class AIShipScript : ShipScript {
 		int rand = Random.Range(0, 11);
 		Vector2 targetPos = m_target.position;
 		if(rand > 5)
-			targetPos += m_target.right * distance;
+			targetPos += (Vector2)(m_target.right * distance);
 		else
-			targetPos -= m_target.right * distance;
+			targetPos -= (Vector2)(m_target.right * distance);
 
 		FaceTarget(targetPos);
 
