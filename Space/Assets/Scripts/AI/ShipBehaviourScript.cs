@@ -15,7 +15,8 @@ public class ShipBehaviourScript : MonoBehaviour {
 		Asleep,
 		Patrol,
 		Agressive,
-		Defensive
+		Defensive,
+		Flee
 	}
 
 	public Behaviour behaviour; // to be defined in the inspector
@@ -40,8 +41,9 @@ public class ShipBehaviourScript : MonoBehaviour {
 		}
 	}
 
+	// Agressive enemies will contantly move toward the target, 
 	void Agressive()
 	{
-
+		m_shipScript.MoveTowardTarget();
 	}
 }
