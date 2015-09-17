@@ -19,6 +19,7 @@ public class LaserEditor : ScriptableWizard
 	public float Accuracy; // In percentage; 100 has no spread, 0 has 180 degree spread
 
 	private static string LaserPath = "Assets/Resources/ShipPrefabs/Weapons/";
+	private static string Error = "";
 
 	[MenuItem("Space/New/Weapon/Laser")]
 	static void CreateWizard()
@@ -27,8 +28,7 @@ public class LaserEditor : ScriptableWizard
 	}
 
 	void OnWizardCreate()
-	{
-		//Validate input from the user first
+	{ 
 		if(!ValidateInput())
 			return;
 
@@ -56,15 +56,23 @@ public class LaserEditor : ScriptableWizard
 		DestroyImmediate(laserObject);
 	}
 
-	bool ValidateInput()
+	void OnWizardUpdate()
 	{
 		//Don't allow blank names
 		if(string.IsNullOrEmpty(Name))
 		{
-			EditorUtility.DisplayDialog("Invalid Name!", "You cannot create a weapon with a blank name.", "Ok");
-			return false;
+			errorString = "You cannot create a weapon with a blank name.";
+			isValid = false;
 		}
+		else
+		{
+			errorString = "";
+			isValid = true;
+		}
+	}
 
+	bool ValidateInput()
+	{
 		//Make sure the prefab doesn't exist already
 		if(AssetDatabase.LoadAssetAtPath<GameObject>(LaserPath + Name + ".prefab"))
 		{
@@ -73,15 +81,32 @@ public class LaserEditor : ScriptableWizard
 			{
 				//Clear existing prefab
 				FileUtil.DeleteFileOrDirectory(LaserPath + Name + ".prefab");
-
 				return true;
 			}
 			else
 			{
+				ReopenWindow();
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	void ReopenWindow()
+	{
+		LaserEditor newWindow = ScriptableWizard.DisplayWizard<LaserEditor>("New Laser", "Create");
+
+		newWindow.Name = Name;
+
+		newWindow.WeaponImage = WeaponImage;
+		newWindow.ProjectilePrefab = ProjectilePrefab;
+		newWindow.ProjectileSpeed = ProjectileSpeed;
+		newWindow.ProjectileLifetime = ProjectileLifetime;
+	 	
+		newWindow.RateOfFire = RateOfFire;
+		newWindow.AttackPower = AttackPower;
+		newWindow.ShieldPiercing = ShieldPiercing;
+		newWindow.Accuracy = Accuracy; 
 	}
 }
