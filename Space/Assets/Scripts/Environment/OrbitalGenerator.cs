@@ -59,6 +59,7 @@ public class OrbitalGenerator : MonoBehaviour {
 				GameObject asteroidGenerated = (GameObject) Instantiate(satPrefab,pos,Quaternion.identity);
 				
 				asteroidGenerated.GetComponent<Satellite>().artificial = artificial;
+				asteroidGenerated.GetComponent<Satellite>().SetCenterOfOrbit(centerPoint);
 				
 				objectCount++;
 			}
