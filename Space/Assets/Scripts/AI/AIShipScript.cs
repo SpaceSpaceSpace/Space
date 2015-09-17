@@ -17,17 +17,19 @@ public class AIShipScript : ShipScript {
 	/// Private Variables
 	///
 	private Transform m_target; // the transform of the ship's target, currently the player
+	private int passSide; // is the side for the ship to pass on set
 	// Use this for initialization
 	void Start () {
 		InitShip();
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce, maxTurnSpeed);
 
 		m_target = GameObject.FindWithTag("Player").transform; // Find the player, will likely change
+		passSide = -1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		ChaseTarget(5, 1);
+		MoveTowardTarget();
 	}
 
 	// Turn to face the target
@@ -63,17 +65,39 @@ public class AIShipScript : ShipScript {
 		m_thrust.Accelerate = true;
 	}
 
+	public void MoveForward()
+	{
+		FaceTarget(transform.up);
+		m_thrust.Accelerate = true;
+	}
+
 	public void PassByTarget(float distance)
 	{
-		int rand = Random.Range(0, 11);
 		Vector2 targetPos = m_target.position;
-		if(rand > 5)
-			targetPos += m_target.right * distance;
+
+		if(passSide == -1)
+		{
+			passSide = Random.Range(0, 11);
+		}
 		else
-			targetPos -= m_target.right * distance;
+		{
+			Vector2 toTarget = m_target.position - transform.position;
+			toTarget.Normalize();
+			if(passSide > 5)
+				targetPos += new Vector2(-toTarget.y, toTarget.x) * distance;
+			else
+				targetPos -= new Vector2(toTarget.y, -toTarget.x) * distance;
+		}
 
 		FaceTarget(targetPos);
+		m_thrust.Accelerate = true;
 
+
+	}
+
+	public void ResetPassSide()
+	{
+		passSide = -1;
 	}
 
 	// Follow the target, staying in between the max distance and min distance
@@ -87,6 +111,7 @@ public class AIShipScript : ShipScript {
 		else if(distance > maxDistance)
 			m_thrust.Accelerate = true;
 	}
+
 	// return the angle between the direction the AI ship is facing
 	// and the direction to the target's predicted position
 	float AngleToTarget()
