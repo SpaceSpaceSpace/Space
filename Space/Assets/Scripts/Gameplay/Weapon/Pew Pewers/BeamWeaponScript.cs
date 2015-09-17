@@ -3,7 +3,12 @@
 // 'Imma firin' mah layzah' weapon
 public class BeamWeaponScript : WeaponScript
 {
+	public float projectileSpeed = .01f;
 	public float beamRange = 15.0f;
+	public float rateOfDamage = 1.0f;
+	public float shieldPiercing = 1.0f;
+	public float cooldown = 0;
+	public float beamWidth = 0.01f;
 	
 	private float m_beamSpriteSize;
 	private GameObject m_beam;
