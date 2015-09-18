@@ -9,9 +9,17 @@ public class WeaponScript : MonoBehaviour
 	/// Public members to be assigned in the Inpector
 	///
 	public ProjectileScript projectilePrefab;
-
-	public float projectileSpeed;
-	public float projectileLifeTime;
+	
+	public float projectileSpeed
+	{
+		get{return projectilePrefab.speed;}
+		set{projectilePrefab.speed = value;}
+	}
+	public float projectileLifeTime
+	{
+		get{return projectilePrefab.lifeTime;}
+		set{projectilePrefab.lifeTime = value;}
+	}
 	public float attackPower;
 	public float shieldPiercing;
 	public float fireTime = 0.5f;
@@ -39,9 +47,6 @@ public class WeaponScript : MonoBehaviour
 	{
 		m_active = false;
 		m_canFire = true;
-
-		projectilePrefab.speed = projectileSpeed;
-		projectilePrefab.lifeTime = projectileLifeTime;
 	}
 	
 	///

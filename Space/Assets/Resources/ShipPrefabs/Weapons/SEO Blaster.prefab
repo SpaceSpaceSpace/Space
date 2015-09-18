@@ -40,7 +40,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9ff2c329182495c9a77a64ee7c42c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 145664, guid: 86b245eab1bbd4e94919303b4214bfd1, type: 2}
+  projectilePrefab: {fileID: 11438754, guid: 86b245eab1bbd4e94919303b4214bfd1, type: 2}
+  projectileSpeed: 10
+  projectileLifeTime: 1
+  attackPower: 0
+  shieldPiercing: 0
   fireTime: .5
   maxSpreadAngle: 15
 --- !u!212 &21273656
@@ -96,7 +100,16 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: projectilePrefab
       value: 
-      objectReference: {fileID: 145664, guid: 86b245eab1bbd4e94919303b4214bfd1, type: 2}
+      objectReference: {fileID: 11438754, guid: 86b245eab1bbd4e94919303b4214bfd1,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: projectileSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: projectileLifeTime
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 197346}

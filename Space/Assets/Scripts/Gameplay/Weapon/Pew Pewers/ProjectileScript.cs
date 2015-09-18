@@ -6,6 +6,7 @@ public class ProjectileScript : MonoBehaviour
 	// Pubbies
 	public float speed = 10.0f;
 	public float lifeTime = 1.0f;
+	public bool stayAlive = false;
 	
 	void Update ()
 	{
@@ -14,7 +15,7 @@ public class ProjectileScript : MonoBehaviour
 		
 		lifeTime -= Time.deltaTime;
 		
-		if( lifeTime <= 0 )
+		if( lifeTime <= 0 && !stayAlive)
 		{
 			// Ideally we'll use object pooling rather than spawn/destroy
 			// But that comes later

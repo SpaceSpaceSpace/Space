@@ -3,10 +3,8 @@
 // 'Imma firin' mah layzah' weapon
 public class BeamWeaponScript : WeaponScript
 {
-	public float projectileSpeed = .01f;
 	public float beamRange = 15.0f;
 	public float rateOfDamage = 1.0f;
-	public float shieldPiercing = 1.0f;
 	public float cooldown = 0;
 	public float beamWidth = 0.01f;
 	
@@ -15,7 +13,7 @@ public class BeamWeaponScript : WeaponScript
 	 
 	void Start ()
 	{
-		m_beam = (GameObject)Instantiate( projectilePrefab, transform.position, Quaternion.identity );
+		m_beam = (GameObject)Instantiate( projectilePrefab.gameObject, transform.position, Quaternion.identity );
 		m_beam.transform.parent = transform;
 		m_beam.SetActive( false );
 		
