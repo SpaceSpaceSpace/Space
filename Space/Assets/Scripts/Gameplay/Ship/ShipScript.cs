@@ -10,6 +10,13 @@ public class ShipScript : MonoBehaviour
 	protected ThrustScript m_thrust;
 	protected WeaponScript[] m_weapons;
 	
+	// Primarily handles "collisions" with projeciles 
+	public void TakeHit( Vector2 force, Vector2 hitPoint )
+	{
+		m_thrust.AppyImpulse( force, hitPoint );
+		// Do damage
+	}
+	
 	// Basically the Start method of the script,
 	// since the Start of a base class script will not be called
 	protected void InitShip()
@@ -49,5 +56,12 @@ public class ShipScript : MonoBehaviour
 		{
 			m_weapons[ i ].OnRelease();
 		}
+	}
+	
+	protected void HandleCollision( Collision2D collision )
+	{
+		// Do damage
+		// Will probably use collision.relativeVelocity
+		// Maybe some extra fun based on the object that is hit
 	}
 }

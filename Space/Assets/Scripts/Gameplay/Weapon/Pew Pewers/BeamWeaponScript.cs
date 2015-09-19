@@ -35,7 +35,7 @@ public class BeamWeaponScript : WeaponScript
 			// If the raycast hit something, set the distance to the distance to that something
 			distance = Vector2.Distance( hit.point, (Vector2)transform.position );
 			
-			// Eventually it'll probably do other stuff too
+			HandleHit( hit );
 		}
 		
 		// Scale the beam to the distance
@@ -54,6 +54,19 @@ public class BeamWeaponScript : WeaponScript
 		if( !m_active )
 		{
 			m_beam.SetActive( false );
+		}
+	}
+	
+	private void HandleHit( RaycastHit2D hit )
+	{
+		GameObject go = hit.collider.gameObject;
+		if( go.tag == "Ship" )
+		{
+			ShipScript ship = go.GetComponent<ShipScript>();
+			Vector2 dir = ( hit.point - (Vector2)transform.position ).normalized;
+			ship.TakeHit( dir, hit.point );
+			
+			// Do damage over time
 		}
 	}
 }
