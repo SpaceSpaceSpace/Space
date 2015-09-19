@@ -44,6 +44,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 	// Agressive enemies will contantly move toward the target, 
 	void Agressive()
 	{
-		m_shipScript.MoveTowardTarget();
+		if(m_shipScript.DistanceToTarget() > 5.0f)
+			m_shipScript.MoveTowardTarget();
 	}
 }
