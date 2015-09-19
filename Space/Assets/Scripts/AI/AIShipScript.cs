@@ -22,7 +22,10 @@ public class AIShipScript : ShipScript {
 		InitShip();
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce, maxTurnSpeed);
 
-		m_target = GameObject.FindWithTag("Player").transform; // Find the player, will likely change
+		// Changed this to find by name for now
+		// Not planning on using the Player tag for the player's ship
+		// Love, Nick
+		m_target = GameObject.Find("Player Ship").transform; // Find the player, will likely change
 	}
 	
 	// Update is called once per frame
