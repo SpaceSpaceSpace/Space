@@ -13,7 +13,7 @@ public class OrbitalGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		generateBelt (36, new Vector2 (15.0f, 12.0f), false);
+		generateBelt (36, new Vector2 (12.0f, 12.0f), false);
 	}
 
 	public void generateObjectAtRandom(GameObject objectPrefab, Vector2 radius)
@@ -36,6 +36,8 @@ public class OrbitalGenerator : MonoBehaviour {
 	/// <param name="artificial">If set to <c>true</c> satellites span, if <c>false</c> asteroids spawn.</param>
 	public void generateBelt(int numChunks, Vector2 radius, bool artificial)
 	{
+		GameObject beltMaster = new GameObject ();
+		beltMaster.AddComponent<BeltRotator> ();
 		for(int i = 0; i < numChunks; i++)
 		{
 			float angle = i * ((Mathf.PI *2)/numChunks);
@@ -59,8 +61,9 @@ public class OrbitalGenerator : MonoBehaviour {
 				GameObject asteroidGenerated = (GameObject) Instantiate(satPrefab,pos,Quaternion.identity);
 				
 				asteroidGenerated.GetComponent<Satellite>().artificial = artificial;
-				asteroidGenerated.GetComponent<Satellite>().SetCenterOfOrbit(centerPoint);
-				
+				asteroidGenerated.GetComponent<Satellite>().radius = radius;
+				//asteroidGenerated.GetComponent<Satellite>().SetCenterOfOrbit(centerPoint);
+				asteroidGenerated.transform.parent = beltMaster.transform;
 				objectCount++;
 			}
 		}

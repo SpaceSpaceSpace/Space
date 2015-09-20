@@ -4,13 +4,14 @@ using System.Collections;
 public class Satellite : MonoBehaviour {
 
 	public bool artificial;
+	public bool inOrbit;
 	public float mass;
-	public float radius;
+	public const float MAX_VELOCITY = 2.0f;
+	public Vector2 radius;
 	public float splitForce;
-	private float rotationFactor;
-	private Vector2 velocity;
-	private Vector2 acceleration;
-	private Transform centerOfOrbit;
+	public Vector3 velocity;
+	public Vector3 acceleration;
+	public Vector3 centerOfOrbit;
 
 
 	// Use this for initialization
@@ -29,26 +30,31 @@ public class Satellite : MonoBehaviour {
 			GetComponent<SpriteRenderer> ().sprite = image;
 		}
 		mass = Random.Range (1, 9);
-		velocity = new Vector2(0, Random.Range(1, 2));
+		velocity = new Vector3(Random.Range(0,0.2f),Random.Range(0,0.2f), 0.0f);
+		acceleration = new Vector3 (0, 0);
+		centerOfOrbit = new Vector3 (0.0f, 0.0f, 0.0f);
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//velocity += acceleration;
+
 		//transform.Rotate (0.0f, 0.0f, rotationFactor);
-		transform.Rotate (0.0f,rotationFactor, 0.0f);
+		//transform.Rotate (0.0f,rotationFactor, 0.0f);
 		//transform.Rotate (rotationFactor, 0.0f, 0.0f);
-		transform.Translate(velocity);
+		CalculateOrbitalForce ();
+		while (velocity.magnitude > MAX_VELOCITY) {
+			velocity /= 2.0f;
+		}
+		transform.GetComponent<Rigidbody2D> ().AddForce (new Vector2(velocity.x, velocity.y));
 	}
 
-	void CalculateGravitationalForce(){
+	void CalculateOrbitalForce(){
 		float gravForce;
-		Vector3 distanceBetween = centerOfOrbit.position - transform.position;
-		rotationFactor = Mathf.Sin (Time.deltaTime * 2 * Mathf.PI);
-		acceleration = distanceBetween * velocity.magnitude;
+		velocity = new Vector3 (transform.forward.x, transform.forward.y, 0.0f);
 	}
 
 	public void SetCenterOfOrbit(Transform cO){
-		centerOfOrbit = cO;
+		//centerOfOrbit = cO;
 	}
 }
