@@ -7,10 +7,11 @@ public class Satellite : MonoBehaviour {
 	public bool inOrbit;
 	public float mass;
 	public const float MAX_VELOCITY = 2.0f;
+	public const float GRAVITATION_MAGNITUDE = 0.9f;
+	public const float STARTING_IMPULSE = 12f;
 	public Vector2 radius;
 	public float splitForce;
 	public Vector3 velocity;
-	public Vector3 acceleration;
 	public Vector3 centerOfOrbit;
 
 
@@ -30,9 +31,12 @@ public class Satellite : MonoBehaviour {
 			GetComponent<SpriteRenderer> ().sprite = image;
 		}
 		mass = Random.Range (1, 9);
-		velocity = new Vector3(Random.Range(0,0.2f),Random.Range(0,0.2f), 0.0f);
-		acceleration = new Vector3 (0, 0);
+		Vector3 toCenter = centerOfOrbit - transform.position;
+		Vector2 tangential = new Vector2(-toCenter.y, toCenter.x);
+		tangential.Normalize();
+		velocity = new Vector3(tangential.x,tangential.y, 0.0f);
 		centerOfOrbit = new Vector3 (0.0f, 0.0f, 0.0f);
+		transform.GetComponent<Rigidbody2D>().AddForce(STARTING_IMPULSE * velocity / toCenter.magnitude * mass, ForceMode2D.Impulse);
 
 	}
 	
@@ -46,12 +50,16 @@ public class Satellite : MonoBehaviour {
 		while (velocity.magnitude > MAX_VELOCITY) {
 			velocity /= 2.0f;
 		}
-		transform.GetComponent<Rigidbody2D> ().AddForce (new Vector2(velocity.x, velocity.y));
+		//transform.GetComponent<Rigidbody2D> ().AddForce (new Vector2(velocity.x, velocity.y));
+
 	}
 
 	void CalculateOrbitalForce(){
-		float gravForce;
 		velocity = new Vector3 (transform.forward.x, transform.forward.y, 0.0f);
+		Vector3 toCenter = centerOfOrbit - transform.position;
+		toCenter.Normalize();
+		Vector3 gravity = GRAVITATION_MAGNITUDE * toCenter;
+		transform.GetComponent<Rigidbody2D> ().AddForce (new Vector2(gravity.x, gravity.y));
 	}
 
 	public void SetCenterOfOrbit(Transform cO){

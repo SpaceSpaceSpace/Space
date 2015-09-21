@@ -13,7 +13,8 @@ public class OrbitalGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		generateBelt (36, new Vector2 (12.0f, 12.0f), false);
+		generateBelt (64, new Vector2 (12.0f, 12.0f), false);
+		generateBelt (64, new Vector2 (4.0f, 4.0f), false);
 	}
 
 	public void generateObjectAtRandom(GameObject objectPrefab, Vector2 radius)
