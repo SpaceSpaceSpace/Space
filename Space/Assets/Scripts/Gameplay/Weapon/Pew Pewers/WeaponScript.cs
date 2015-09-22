@@ -8,8 +8,26 @@ public class WeaponScript : MonoBehaviour
 	///
 	/// Public members to be assigned in the Inpector
 	///
-	public GameObject projectilePrefab;
+	public ProjectileScript projectilePrefab;
 	
+	public float projectileSpeed
+	{
+		get{return projectilePrefab.speed;}
+		set{projectilePrefab.speed = value;}
+	}
+	public float projectileLifeTime
+	{
+		get{return projectilePrefab.lifeTime;}
+		set{projectilePrefab.lifeTime = value;}
+	}
+	public float attackPower;
+	public float shieldPiercing;
+	public float cooldown;
+	public float shotsBeforeCooldown;
+	public float projectilesPerShot;
+	public float shotsPerClip;
+	public float maxReserveClips;
+	public float knockback;
 	public float fireTime = 0.5f;
 	public float maxSpreadAngle = 15.0f;
 	
