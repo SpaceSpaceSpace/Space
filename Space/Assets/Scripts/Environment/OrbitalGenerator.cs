@@ -13,8 +13,9 @@ public class OrbitalGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		generateBelt (64, new Vector2 (12.0f, 12.0f), false);
-		generateBelt (64, new Vector2 (4.0f, 4.0f), false);
+		generateBelt (80, new Vector2 (50.0f, 50.0f), false);
+		generateBelt (80, new Vector2 (49.0f, 49.0f), false);
+		//generateBelt (64, new Vector2 (4.0f, 4.0f), false);
 	}
 
 	public void generateObjectAtRandom(GameObject objectPrefab, Vector2 radius)
@@ -38,7 +39,8 @@ public class OrbitalGenerator : MonoBehaviour {
 	public void generateBelt(int numChunks, Vector2 radius, bool artificial)
 	{
 		GameObject beltMaster = new GameObject ();
-		beltMaster.AddComponent<BeltRotator> ();
+		beltMaster.name = "Asteroid Belt";
+
 		for(int i = 0; i < numChunks; i++)
 		{
 			float angle = i * ((Mathf.PI *2)/numChunks);
@@ -48,7 +50,7 @@ public class OrbitalGenerator : MonoBehaviour {
 			
 			Vector3 chunkCenter = new Vector3(x,y,0) + centerPoint.position;
 			
-			int numOfAsteroids = Random.Range(1,4);
+			int numOfAsteroids = Random.Range(2,4);
 			
 			for(int j = 0; j < numOfAsteroids; j++)
 			{
