@@ -13,9 +13,11 @@ public class ThrustScript : MonoBehaviour
 	///
 	private bool m_accelerate;		// Is the pedal to the metal?
 	
+	private float m_accelPercent;	// 0 to 1 percent of the acceleration to apply
 	private float m_accelForce;		// Force applied when accelerating
+	private float m_maxMoveSpeed;	// Max movement speed
 	private float m_turnForce;		// Force applied for turning
-	private float m_turnDirection;	// The direction to turn (ideally should be -1 to 1)
+	private float m_turnDirection;	// The direction to turn
 	
 	private Rigidbody2D m_rigidbody;
 	
@@ -31,7 +33,13 @@ public class ThrustScript : MonoBehaviour
 	public float TurnDirection
 	{
 		get { return m_turnDirection; }
-		set { m_turnDirection = value; }
+		set { m_turnDirection = Mathf.Clamp( value, -1.0f, 1.0f ); }
+	}
+	
+	public float AccelPercent
+	{
+		get { return m_accelPercent; }
+		set { m_accelPercent = Mathf.Clamp( value, 0.0f, 1.0f ); }
 	}
 	
 	///
@@ -42,6 +50,7 @@ public class ThrustScript : MonoBehaviour
 	{
 		m_accelerate = false;
 		m_turnDirection = 0;
+		m_accelPercent = 1.0f;
 		
 		m_rigidbody = GetComponent<Rigidbody2D>();
 	}
@@ -57,6 +66,9 @@ public class ThrustScript : MonoBehaviour
 			if( thrustParticleSystem != null )
 			{
 				thrustParticleSystem.Play();
+				
+				// So the length of the trail is shorter at lower speeds
+				thrustParticleSystem.startSpeed = m_maxMoveSpeed * m_accelPercent;
 			}
 		}
 		else if( thrustParticleSystem != null )
@@ -79,8 +91,20 @@ public class ThrustScript : MonoBehaviour
 	// MoveSpeed is in units/sec, TurnSpeed is in deg/sec
 	public void Init( float accelForce, float maxMoveSpeed, float turnForce, float maxTurnSpeed )
 	{
-		m_accelForce = accelForce;
-		m_turnForce = turnForce;
+		float mass = m_rigidbody.mass;
+		float radius = 1;
+		
+		CircleCollider2D circleCol = GetComponent<CircleCollider2D>();
+
+		if( circleCol != null )
+		{
+			radius = circleCol.radius;
+		}
+		
+		m_maxMoveSpeed = maxMoveSpeed;
+		
+		m_accelForce = accelForce * mass;
+		m_turnForce = turnForce * mass * radius * radius * 0.5f;
 
 		// Sets the drag to limit the maximum speed
 		// Might have to change if we want less drag for more floaty movement
@@ -105,7 +129,7 @@ public class ThrustScript : MonoBehaviour
 	///
 	private void ApplyAcceleration()
 	{
-		m_rigidbody.AddForce( transform.up * m_accelForce, ForceMode2D.Force );
+		m_rigidbody.AddForce( transform.up * m_accelForce * m_accelPercent, ForceMode2D.Force );
 	}
 	
 	private void Turn()
