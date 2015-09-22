@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections;
 
 [CustomEditor(typeof(WeaponScript))]
-public class LaserEditor : Editor {
+public class WeaponEditor : Editor {
 	
 	public override void OnInspectorGUI()
 	{
@@ -21,7 +21,14 @@ public class LaserEditor : Editor {
 		EditorGUILayout.LabelField("Weapon Settings");
 		weapon.attackPower = EditorGUILayout.FloatField("Attack Power", weapon.attackPower);
 		weapon.shieldPiercing = EditorGUILayout.FloatField("Shield Piercing", weapon.shieldPiercing);
-		weapon.fireTime = EditorGUILayout.FloatField("Rate Of Fire (shots per second)", weapon.fireTime);
+		weapon.fireTime = EditorGUILayout.Slider("Rate Of Fire (shots per sec)", weapon.fireTime, 0, 5);
+
+		weapon.cooldown = EditorGUILayout.FloatField("Cooldown (in seconds)", weapon.cooldown);
+		weapon.shotsBeforeCooldown = EditorGUILayout.FloatField("Shots before Cooldown", weapon.shotsBeforeCooldown);
+		weapon.projectilesPerShot = EditorGUILayout.FloatField("Projectiles per Shot", weapon.projectilesPerShot);
+		weapon.shotsPerClip = EditorGUILayout.FloatField("Shots per Clip", weapon.shotsPerClip);
+		weapon.maxReserveClips = EditorGUILayout.FloatField("Max Reserve Clips", weapon.maxReserveClips);
+		weapon.knockback = EditorGUILayout.FloatField("Knockback", weapon.knockback);
 
 		float accuracy = SpaceUtility.Remap(weapon.maxSpreadAngle, 90, 0, 0, 100);
 		accuracy = EditorGUILayout.Slider("Accuracy (percentage)", accuracy, 0, 100);

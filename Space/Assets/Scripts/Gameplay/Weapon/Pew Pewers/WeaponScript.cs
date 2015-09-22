@@ -22,6 +22,12 @@ public class WeaponScript : MonoBehaviour
 	}
 	public float attackPower;
 	public float shieldPiercing;
+	public float cooldown;
+	public float shotsBeforeCooldown;
+	public float projectilesPerShot;
+	public float shotsPerClip;
+	public float maxReserveClips;
+	public float knockback;
 	public float fireTime = 0.5f;
 	public float maxSpreadAngle = 15.0f;
 	

@@ -1,65 +1,63 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System.Collections;
 
-public class LaserWizard : ScriptableWizard
+public class RailGunWizard : ScriptableWizard
 {
 	public string Name;
-
+	
 	public Sprite WeaponImage;
 	public ProjectileScript ProjectilePrefab;
 
-	public float ProjectileSpeed = 10;
-	public float ProjectileLifetime = 1;
+	public float ProjectileSpeed = 15;
+	public float ProjectileLifetime = 4;
 
-	[Range (0,5)]
-	public float RateOfFire = 0.5f;
+	public float ChargePowerRatio = 1;
+	public float Cooldown = 0.8f;
 
-	public float AttackPower = 2;
-	public float ShieldPiercing = 1;
-
+	public float AttackPower = 3;
+	public float ShieldPiercing = 5;
 
 	[Range (0, 100)]
 	public float Accuracy = 90; // In percentage; 100 has no spread, 0 has 180 degree spread
-
-	private static string LaserPath = "Assets/Resources/ShipPrefabs/Weapons/";
-
-	[MenuItem("Space/New/Weapon/Laser")]
+	
+	private static string RailPath = "Assets/Resources/ShipPrefabs/Weapons/";
+	
+	[MenuItem("Space/New/Weapon/Rail Gun")]
 	static void CreateWizard()
 	{
-		ScriptableWizard.DisplayWizard<LaserWizard>("New Laser", "Create");
+		ScriptableWizard.DisplayWizard<RailGunWizard>("New Rail Gun", "Create");
 	}
-
+	
 	void OnWizardCreate()
 	{ 
 		if(!ValidateInput())
 			return;
-
+		
 		//Create game object with weapon info
-		GameObject laserObject = new GameObject(Name);
-
-		SpriteRenderer renderer = laserObject.AddComponent<SpriteRenderer>();
+		GameObject railObject = new GameObject(Name);
+		
+		SpriteRenderer renderer = railObject.AddComponent<SpriteRenderer>();
 		renderer.sprite = WeaponImage;
 		renderer.material = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/WepMat.mat");
+		
+		WeaponScript railScript = railObject.AddComponent<WeaponScript>();
+		railScript.projectilePrefab = ProjectilePrefab;
+		
+		railScript.attackPower = AttackPower;
+		railScript.shieldPiercing = ShieldPiercing;
+		railScript.maxSpreadAngle = SpaceUtility.Remap(Accuracy, 0, 100, 90, 0);
 
-		WeaponScript laserScript = laserObject.AddComponent<WeaponScript>();
-		laserScript.projectilePrefab = ProjectilePrefab;
-
-		laserScript.projectileSpeed = ProjectileSpeed;
-		laserScript.projectileLifeTime = ProjectileLifetime;
-
-		laserScript.attackPower = AttackPower;
-		laserScript.fireTime = RateOfFire;
-		laserScript.shieldPiercing = ShieldPiercing;
-		laserScript.maxSpreadAngle = SpaceUtility.Remap(Accuracy, 0, 100, 90, 0);
-
+		railScript.cooldown = Cooldown;
+		railScript.shotsBeforeCooldown = 1;
+		
 		//Save game object to prefab
-		PrefabUtility.CreatePrefab(LaserPath + Name + ".prefab", laserObject);
-
+		PrefabUtility.CreatePrefab(RailPath + Name + ".prefab", railObject);
+		
 		//Delete game object from scene
-		DestroyImmediate(laserObject);
+		DestroyImmediate(railObject);
 	}
-
+	
 	void OnWizardUpdate()
 	{
 		//Check for missing info
@@ -84,17 +82,17 @@ public class LaserWizard : ScriptableWizard
 			isValid = true;
 		}
 	}
-
+	
 	bool ValidateInput()
 	{
 		//Make sure the prefab doesn't exist already
-		if(AssetDatabase.LoadAssetAtPath<GameObject>(LaserPath + Name + ".prefab"))
+		if(AssetDatabase.LoadAssetAtPath<GameObject>(RailPath + Name + ".prefab"))
 		{
 			if(EditorUtility.DisplayDialog("Warning", "A prefab named " + Name + " already exists. Do you want to overwrite it?",
 			                               "Yes I know what I'm doing", "No please don't"))
 			{
 				//Clear existing prefab
-				FileUtil.DeleteFileOrDirectory(LaserPath + Name + ".prefab");
+				FileUtil.DeleteFileOrDirectory(RailPath + Name + ".prefab");
 				return true;
 			}
 			else
@@ -103,23 +101,22 @@ public class LaserWizard : ScriptableWizard
 				return false;
 			}
 		}
-
+		
 		return true;
 	}
-
+	
 	void ReopenWindow()
 	{
-		LaserWizard newWindow = ScriptableWizard.DisplayWizard<LaserWizard>("New Laser", "Create");
-
+		RailGunWizard newWindow = ScriptableWizard.DisplayWizard<RailGunWizard>("New Rail Gun", "Create");
+		
 		newWindow.Name = Name;
-
+		
 		newWindow.WeaponImage = WeaponImage;
 		newWindow.ProjectilePrefab = ProjectilePrefab;
-	 	
-		newWindow.ProjectileSpeed = ProjectileSpeed;
-		newWindow.ProjectileLifetime = ProjectileLifetime;
 
-		newWindow.RateOfFire = RateOfFire;
+		newWindow.ChargePowerRatio = ChargePowerRatio;
+		newWindow.Cooldown = Cooldown;
+
 		newWindow.AttackPower = AttackPower;
 		newWindow.ShieldPiercing = ShieldPiercing;
 		newWindow.Accuracy = Accuracy; 
