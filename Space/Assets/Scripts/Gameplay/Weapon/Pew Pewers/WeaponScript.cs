@@ -12,13 +12,29 @@ public class WeaponScript : MonoBehaviour
 	
 	public float projectileSpeed
 	{
-		get{return projectilePrefab.speed;}
-		set{projectilePrefab.speed = value;}
+		get{
+			if(projectilePrefab)
+				return projectilePrefab.speed;
+			else
+				return 0;
+		}
+		set{
+			if(projectilePrefab)
+				projectilePrefab.speed = value;
+		}
 	}
 	public float projectileLifeTime
 	{
-		get{return projectilePrefab.lifeTime;}
-		set{projectilePrefab.lifeTime = value;}
+		get{
+			if(projectilePrefab)
+				return projectilePrefab.lifeTime;
+			else
+				return 0;
+		}
+		set{
+			if(projectilePrefab)
+				projectilePrefab.lifeTime = value;
+		}
 	}
 	public float attackPower;
 	public float shieldPiercing;
@@ -103,7 +119,8 @@ public class WeaponScript : MonoBehaviour
 	protected void FireProjectile()
 	{
 		float angle = transform.eulerAngles.z + Random.Range( -maxSpreadAngle, maxSpreadAngle );
-		GameObject projectile = (GameObject)Instantiate( projectilePrefab, 
+
+		GameObject projectile = (GameObject)Instantiate( projectilePrefab.gameObject, 
 														 transform.position, 
 														 Quaternion.AngleAxis( angle, Vector3.forward ) );
 		ProjectileScript projScript = projectile.GetComponent<ProjectileScript>();

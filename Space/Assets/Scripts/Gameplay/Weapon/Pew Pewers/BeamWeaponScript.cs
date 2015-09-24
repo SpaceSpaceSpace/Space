@@ -5,7 +5,6 @@ public class BeamWeaponScript : WeaponScript
 {
 	public float beamRange = 15.0f;
 	public float rateOfDamage = 1.0f;
-	public float cooldown = 0;
 	public float beamWidth = 0.01f;
 	
 	private float m_beamSpriteSize;
