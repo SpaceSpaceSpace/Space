@@ -18,10 +18,11 @@ public class AIShipScript : ShipScript {
 	///
 	private Transform m_target; // the transform of the ship's target, currently the player
 	private int passSide; // is the side for the ship to pass on set
+	private float wanderAngle;
 
 
 	// Acessors
-	public Transform Target {get {return target;}}
+	public Transform Target {get {return m_target;}}
 	// Use this for initialization
 	void Start () {
 		InitShip();
@@ -29,11 +30,11 @@ public class AIShipScript : ShipScript {
 
 		m_target = GameObject.FindWithTag("Player").transform; // Find the player, will likely change
 		passSide = -1;
+		wanderAngle = 0.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		MoveTowardTarget();
 	}
 
 
@@ -55,6 +56,7 @@ public class AIShipScript : ShipScript {
 	// Move toward the target's predicted position
 	public void MoveTowardTarget()
 	{
+		m_thrust.AccelPercent = 1.0f;
 		Vector2 targetPos = PredictTargetPosition(maxMoveSpeed);
 		FaceTarget(targetPos);
 
@@ -65,6 +67,7 @@ public class AIShipScript : ShipScript {
 	// Flee directly from the target
 	public void MoveAwayFromTarget()
 	{
+		m_thrust.AccelPercent = 1.0f;
 		Vector2 targetPos = transform.position + (transform.position - m_target.position);
 		FaceTarget(targetPos);
 		m_thrust.Accelerate = true;
@@ -73,6 +76,7 @@ public class AIShipScript : ShipScript {
 	// As it says, go forward, full speed
 	public void MoveForward()
 	{
+		m_thrust.AccelPercent = 1.0f;
 		FaceTarget(transform.position + transform.up);
 		m_thrust.Accelerate = true;
 	}
@@ -80,6 +84,7 @@ public class AIShipScript : ShipScript {
 	// pass by the target to the left or right (randomly determined) at the distance input
 	public void PassByTarget(float distance)
 	{
+		m_thrust.AccelPercent = 1.0f;
 		Vector2 targetPos = m_target.position;
 
 		if(passSide == -1)
@@ -115,14 +120,35 @@ public class AIShipScript : ShipScript {
 
 		float distance = Vector2.Distance(m_target.position, transform.position);
 		if(distance < minDistance || AngleToTarget() > 45)
-			m_thrust.Accelerate = false;
+			m_thrust.AccelPercent -= 1.0f * Time.deltaTime;
 		else if(distance > maxDistance)
-			m_thrust.Accelerate = true;
+			m_thrust.AccelPercent += 1.0f * Time.deltaTime;
 	}
 
 	public float DistanceToTarget()
 	{
 		return Vector2.Distance(transform.position, m_target.position);
+	}
+
+	public void FireWeapon(int index)
+	{
+		if(m_weapons.Length > index)
+		{
+			m_weapons[index].Active = true;
+			m_weapons[index].Fire();
+		}
+	}
+
+	public void Wander()
+	{
+		wanderAngle += Random.Range(-0.05f, 0.05f);
+		Debug.Log(wanderAngle);
+		Vector2 wanderPos = 3.0f * new Vector2(Mathf.Cos(wanderAngle), Mathf.Sin(wanderAngle));
+		wanderPos += (Vector2)(transform.position + (transform.up * 5.0f));
+		m_thrust.AccelPercent = 0.5f;
+		FaceTarget(wanderPos);
+		m_thrust.Accelerate = true;
+
 	}
 
 	// return the angle between the direction the AI ship is facing
