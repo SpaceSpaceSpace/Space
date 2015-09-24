@@ -142,7 +142,6 @@ public class AIShipScript : ShipScript {
 	public void Wander()
 	{
 		wanderAngle += Random.Range(-0.05f, 0.05f);
-		Debug.Log(wanderAngle);
 		Vector2 wanderPos = 3.0f * new Vector2(Mathf.Cos(wanderAngle), Mathf.Sin(wanderAngle));
 		wanderPos += (Vector2)(transform.position + (transform.up * 5.0f));
 		m_thrust.AccelPercent = 0.5f;
