@@ -28,7 +28,7 @@ public class AIShipScript : ShipScript {
 		InitShip();
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce, maxTurnSpeed);
 
-		m_target = GameObject.FindWithTag("Player").transform; // Find the player, will likely change
+		m_target = GameObject.Find("Player Ship").transform; // Find the player, will likely change
 		passSide = -1;
 		wanderAngle = 0.0f;
 	}
