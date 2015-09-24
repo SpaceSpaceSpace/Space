@@ -13,10 +13,10 @@ public class ShipBehaviourScript : MonoBehaviour {
 	public enum Behaviour
 	{
 		Asleep,
-		Patrol,
 		Agressive,
 		Defensive,
-		Flee
+		Flee,
+		Wander
 	}
 
 	public Behaviour behaviour; // to be defined in the inspector
@@ -37,13 +37,52 @@ public class ShipBehaviourScript : MonoBehaviour {
 		switch (behaviour)
 		{
 		case Behaviour.Agressive:
+			Agressive ();
+			break;
+		case Behaviour.Wander:
+			Wander();
+			break;
+		case Behaviour.Defensive:
+			Defensive();
+			break;
+		case Behaviour.Flee:
+			Flee();
 			break;
 		}
 	}
 
 	// Agressive enemies will contantly move toward the target, 
-	void Agressive()
+	public void Agressive()
 	{
-		m_shipScript.MoveTowardTarget();
+		if(m_shipScript.DistanceToTarget() > 5.0f)
+			m_shipScript.MoveTowardTarget();
+		else
+		{
+			m_shipScript.FireWeapon(0);
+			m_shipScript.ChaseTarget(5.0f, 3.0f);
+		}
 	}
+
+	// Wandering enemies will do just that
+	public void Wander()
+	{
+		m_shipScript.Wander();
+	}
+
+	public void Defensive()
+	{
+		if(m_shipScript.DistanceToTarget() < 6.0f)
+		{
+			m_shipScript.ResetPassSide();
+			m_shipScript.MoveAwayFromTarget();
+		}
+		else
+			m_shipScript.PassByTarget(10.0f);
+	}
+
+	public void Flee()
+	{
+		m_shipScript.MoveAwayFromTarget();
+	}
+
 }
