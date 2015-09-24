@@ -74,7 +74,27 @@ public class PlayerShipScript : ShipScript
 			{
 				ReleaseFire();
 			}
+			
+			if( Input.GetKeyDown( KeyCode.LeftBracket ) )
+			{
+				m_thrust.AccelPercent -= 0.1f;
+			}
+			
+			if( Input.GetKeyDown( KeyCode.RightBracket ) )
+			{
+				m_thrust.AccelPercent += 0.1f;
+			}
 		}
+	}
+	
+	void OnCollisionEnter2D( Collision2D collision )
+	{
+		HandleCollision( collision );
+	}
+	
+	void OnCollisionStay2D( Collision2D collision )
+	{
+		// Will handle damage from sustained contact
 	}
 
 	public void Dock()

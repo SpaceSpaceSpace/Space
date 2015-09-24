@@ -12,13 +12,29 @@ public class WeaponScript : MonoBehaviour
 	
 	public float projectileSpeed
 	{
-		get{return projectilePrefab.speed;}
-		set{projectilePrefab.speed = value;}
+		get{
+			if(projectilePrefab)
+				return projectilePrefab.speed;
+			else
+				return 0;
+		}
+		set{
+			if(projectilePrefab)
+				projectilePrefab.speed = value;
+		}
 	}
 	public float projectileLifeTime
 	{
-		get{return projectilePrefab.lifeTime;}
-		set{projectilePrefab.lifeTime = value;}
+		get{
+			if(projectilePrefab)
+				return projectilePrefab.lifeTime;
+			else
+				return 0;
+		}
+		set{
+			if(projectilePrefab)
+				projectilePrefab.lifeTime = value;
+		}
 	}
 	public float attackPower;
 	public float shieldPiercing;
@@ -37,6 +53,8 @@ public class WeaponScript : MonoBehaviour
 	protected bool m_active;
 	protected bool m_canFire;
 	
+	protected Collider2D m_parentCollider;
+	
 	///
 	/// Properties for access to private members
 	///
@@ -53,6 +71,8 @@ public class WeaponScript : MonoBehaviour
 	{
 		m_active = false;
 		m_canFire = true;
+		
+		m_parentCollider = transform.root.GetComponent<Collider2D>();
 	}
 	
 	///
@@ -66,8 +86,7 @@ public class WeaponScript : MonoBehaviour
 			return;
 		}
 		
-		float angle = transform.eulerAngles.z + Random.Range( -maxSpreadAngle, maxSpreadAngle );
-		Instantiate( projectilePrefab, transform.position, Quaternion.AngleAxis( angle, Vector3.forward ) );
+		FireProjectile();
 		
 		StartCoroutine( FireDelay() );
 	}
@@ -96,6 +115,17 @@ public class WeaponScript : MonoBehaviour
 	///
 	/// Private Methods
 	///
+	
+	protected void FireProjectile()
+	{
+		float angle = transform.eulerAngles.z + Random.Range( -maxSpreadAngle, maxSpreadAngle );
+
+		GameObject projectile = (GameObject)Instantiate( projectilePrefab.gameObject, 
+														 transform.position, 
+														 Quaternion.AngleAxis( angle, Vector3.forward ) );
+		ProjectileScript projScript = projectile.GetComponent<ProjectileScript>();
+		projScript.Init( m_parentCollider );
+	}
 	
 	// Waits for the fireTime before setting canFire to true
 	private IEnumerator FireDelay()
