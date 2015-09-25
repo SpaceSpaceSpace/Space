@@ -30,7 +30,7 @@ public class WeaponEditor : Editor {
 		weapon.fireTime = EditorGUILayout.Slider("Rate Of Fire (shots per sec)", weapon.fireTime, 0, 5);
 
 		weapon.cooldown = EditorGUILayout.FloatField("Cooldown (in seconds)", weapon.cooldown);
-		weapon.shotsBeforeCooldown = EditorGUILayout.FloatField("Shots before Cooldown", weapon.shotsBeforeCooldown);
+		weapon.shotsBeforeCooldown = EditorGUILayout.IntField("Shots before Cooldown", weapon.shotsBeforeCooldown);
 		weapon.projectilesPerShot = EditorGUILayout.IntField("Projectiles per Shot", weapon.projectilesPerShot);
 		weapon.shotsPerClip = EditorGUILayout.FloatField("Shots per Clip", weapon.shotsPerClip);
 		weapon.maxReserveClips = EditorGUILayout.FloatField("Max Reserve Clips", weapon.maxReserveClips);
