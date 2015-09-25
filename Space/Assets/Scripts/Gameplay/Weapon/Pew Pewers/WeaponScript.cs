@@ -40,7 +40,7 @@ public class WeaponScript : MonoBehaviour
 	public float shieldPiercing;
 	public float cooldown;
 	public float shotsBeforeCooldown;
-	public float projectilesPerShot;
+	public int projectilesPerShot;
 	public float shotsPerClip;
 	public float maxReserveClips;
 	public float knockback;

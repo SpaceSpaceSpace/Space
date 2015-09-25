@@ -49,7 +49,7 @@ MonoBehaviour:
   shotsPerClip: 0
   maxReserveClips: 0
   knockback: 0
-  fireTime: .5
+  fireTime: .109999999
   maxSpreadAngle: 9
 --- !u!212 &21264642
 SpriteRenderer:
