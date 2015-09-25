@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.Collections;
 
-public class LaserWizard : WizardMaster
+public class BeamWizard : WizardMaster
 {
 	public float ProjectileSpeed = 10;
 	public float ProjectileLifetime = 1;
@@ -20,7 +20,7 @@ public class LaserWizard : WizardMaster
 	[MenuItem("Space/New/Weapon/Laser")]
 	static void CreateWizard()
 	{
-		ScriptableWizard.DisplayWizard<LaserWizard>("New Laser", "Create");
+		ScriptableWizard.DisplayWizard<BeamWizard>("New Laser", "Create");
 	}
 
 	void OnWizardCreate()
@@ -29,33 +29,33 @@ public class LaserWizard : WizardMaster
 			return;
 
 		//Create game object with weapon info
-		GameObject laserObject = new GameObject(Name);
+		GameObject beamObject = new GameObject(Name);
 
-		SpriteRenderer renderer = laserObject.AddComponent<SpriteRenderer>();
+		SpriteRenderer renderer = beamObject.AddComponent<SpriteRenderer>();
 		renderer.sprite = WeaponImage;
 		renderer.material = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/WepMat.mat");
 
-		WeaponScript laserScript = laserObject.AddComponent<WeaponScript>();
-		laserScript.projectilePrefab = ProjectilePrefab;
+		WeaponScript beamScript = beamObject.AddComponent<WeaponScript>();
+		beamScript.projectilePrefab = ProjectilePrefab;
 
-		laserScript.projectileSpeed = ProjectileSpeed;
-		laserScript.projectileLifeTime = ProjectileLifetime;
+		beamScript.projectileSpeed = ProjectileSpeed;
+		beamScript.projectileLifeTime = ProjectileLifetime;
 
-		laserScript.attackPower = AttackPower;
-		laserScript.fireTime = RateOfFire;
-		laserScript.shieldPiercing = ShieldPiercing;
-		laserScript.maxSpreadAngle = SpaceUtility.Remap(Accuracy, 0, 100, 90, 0);
+		beamScript.attackPower = AttackPower;
+		beamScript.fireTime = RateOfFire;
+		beamScript.shieldPiercing = ShieldPiercing;
+		beamScript.maxSpreadAngle = SpaceUtility.Remap(Accuracy, 0, 100, 90, 0);
 
 		//Save game object to prefab
-		PrefabUtility.CreatePrefab(WeaponPath + Name + ".prefab", laserObject);
+		PrefabUtility.CreatePrefab(WeaponPath + Name + ".prefab", beamObject);
 
 		//Delete game object from scene
-		DestroyImmediate(laserObject);
+		DestroyImmediate(beamObject);
 	}
 
 	protected override void ReopenWindow()
 	{
-		LaserWizard newWindow = ScriptableWizard.DisplayWizard<LaserWizard>("New Laser", "Create");
+		BeamWizard newWindow = ScriptableWizard.DisplayWizard<BeamWizard>("New Laser", "Create");
 
 		newWindow.Name = Name;
 
