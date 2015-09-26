@@ -1522,6 +1522,48 @@ MonoBehaviour:
   projectilePrefab: {fileID: 126896, guid: 12ceba296381a48beaa613297c741941, type: 2}
   fireTime: .0500000007
   maxSpreadAngle: 5
+--- !u!1 &943471455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 943471456}
+  - 114: {fileID: 943471457}
+  m_Layer: 0
+  m_Name: Shield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &943471456
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 943471455}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 569173391}
+  m_RootOrder: 6
+--- !u!114 &943471457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 943471455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1305c911bcf5a4cec85dfaf3758908d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxShieldAmount: 100
+  rechargeDelay: 5
+  rechargeRate: 2
 --- !u!1 &1032627082
 GameObject:
   m_ObjectHideFlags: 0
@@ -1688,6 +1730,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c786afdbba68e4a679098142760039f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1360176310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1360176312}
+  - 114: {fileID: 1360176311}
+  m_Layer: 0
+  m_Name: Shield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1360176311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1360176310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1305c911bcf5a4cec85dfaf3758908d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxShieldAmount: 100
+  rechargeDelay: 5
+  rechargeRate: 2
+--- !u!4 &1360176312
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1360176310}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1602457671}
+  m_RootOrder: 2
 --- !u!1 &1412900244
 GameObject:
   m_ObjectHideFlags: 0
@@ -2035,6 +2119,7 @@ Transform:
   m_Children:
   - {fileID: 221490559}
   - {fileID: 1412900246}
+  - {fileID: 1360176312}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!58 &1602457672
@@ -2169,6 +2254,10 @@ Prefab:
     - target: {fileID: 456484, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 127228, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
@@ -2424,3 +2513,4 @@ MonoBehaviour:
   fireTime: .100000001
   maxSpreadAngle: 0
   beamRange: 15
+  damage: 10

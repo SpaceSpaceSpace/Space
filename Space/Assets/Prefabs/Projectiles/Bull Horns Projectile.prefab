@@ -56,6 +56,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   lifeTime: 1
+  knockback: 1
+  damage: 10
+  shieldPenetration: .5
 --- !u!212 &21232848
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -100,6 +103,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shieldPenetration
+      value: .5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -125,4 +125,9 @@ public class PlayerShipScript : ShipScript
 			}
 		}
 	}
+
+	protected override void Die()
+	{
+		print( "sry u died :'(" );
+	}
 }

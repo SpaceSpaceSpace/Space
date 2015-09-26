@@ -4,6 +4,7 @@
 public class BeamWeaponScript : WeaponScript
 {
 	public float beamRange = 15.0f;
+	public float damage = 10;
 	
 	private float m_beamSpriteSize;
 	private GameObject m_beam;
@@ -66,7 +67,7 @@ public class BeamWeaponScript : WeaponScript
 			Vector2 dir = ( hit.point - (Vector2)transform.position ).normalized;
 			ship.TakeHit( dir, hit.point );
 			
-			// Do damage over time
+			ship.ApplyDamage( damage * Time.deltaTime );
 		}
 	}
 }

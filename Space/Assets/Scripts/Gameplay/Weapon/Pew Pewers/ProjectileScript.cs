@@ -7,6 +7,9 @@ public class ProjectileScript : MonoBehaviour
 	public float speed = 10.0f;
 	public float lifeTime = 1.0f;
 	public float knockback = 1.0f;
+
+	public float damage = 10.0f;
+	public float shieldPenetration = 0.0f;
 	
 	// In case we want the player to be hit by their own projectiles
 	/* private bool m_detectOwnCollider = false;
@@ -45,13 +48,22 @@ public class ProjectileScript : MonoBehaviour
 	}
 	
 	void OnTriggerEnter2D( Collider2D col )
-	{	
+	{
+		Vector2 colPos = col.transform.position;
+		Vector2 offset = (Vector2)transform.position - colPos;
+
+		Vector2 hitForce = transform.up * speed * knockback;
+		Vector2 hitPosition = offset + colPos;
+
 		if( col.tag == "Ship" )
 		{
-			Vector2 colPos = col.transform.position;
-			Vector2 offset = (Vector2)transform.position - colPos;
 			ShipScript ship = col.GetComponent<ShipScript>();
-			ship.TakeHit( transform.up * speed * knockback, offset + colPos );
+			ship.TakeHit( hitForce, hitPosition );
+			ship.ApplyDamage( damage, shieldPenetration );
+		}
+		else if( col.tag == "Asteroid" )
+		{
+			// Do same sort of thing as with Ship
 		}
 		
 		Destroy( gameObject );
