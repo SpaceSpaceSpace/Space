@@ -40,9 +40,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9ff2c329182495c9a77a64ee7c42c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 126896, guid: 12ceba296381a48beaa613297c741941, type: 2}
+  projectilePrefab: {fileID: 11485766, guid: 12ceba296381a48beaa613297c741941, type: 2}
+  attackPower: 0
+  shieldPiercing: 0
   fireTime: .5
-  maxSpreadAngle: 15
+  maxSpreadAngle: 14.999999
 --- !u!212 &21235446
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -99,12 +101,21 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: projectilePrefab
       value: 
-      objectReference: {fileID: 126896, guid: 12ceba296381a48beaa613297c741941, type: 2}
+      objectReference: {fileID: 11485766, guid: 12ceba296381a48beaa613297c741941,
+        type: 2}
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 0c63e6e39356d44cf9fca62d2f2e3017,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: projectileSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: projectileLifeTime
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 127572}

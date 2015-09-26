@@ -17,21 +17,29 @@ public class AIShipScript : ShipScript {
 	/// Private Variables
 	///
 	private Transform m_target; // the transform of the ship's target, currently the player
+	private int m_passSide; // is the side for the ship to pass on set
+	private float m_wanderAngle;
+	private bool m_engage; // is the ship engaging in combat
+
+
+	// Acessors
+	public Transform Target {get {return m_target;}}
+	public bool Engage { get {return m_engage; }set { m_engage = value; } }
 	// Use this for initialization
 	void Start () {
 		InitShip();
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce, maxTurnSpeed);
 
-		// Changed this to find by name for now
-		// Not planning on using the Player tag for the player's ship
-		// Love, Nick
 		m_target = GameObject.Find("Player Ship").transform; // Find the player, will likely change
+		m_passSide = -1;
+		m_wanderAngle = 0.0f;
+		m_engage = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		ChaseTarget(5, 1);
 	}
+
 
 	// Turn to face the target
 	void FaceTarget(Vector2 targetPos) {
@@ -48,35 +56,64 @@ public class AIShipScript : ShipScript {
 
 	}
 
+	// Move toward the target's predicted position
 	public void MoveTowardTarget()
 	{
+		m_thrust.AccelPercent = 1.0f;
 		Vector2 targetPos = PredictTargetPosition(maxMoveSpeed);
 		FaceTarget(targetPos);
 
 		if(Vector2.Angle(targetPos - (Vector2)transform.position, transform.up) < 45)
 			m_thrust.Accelerate = true;
-		//else
-			//m_thrust.Accelerate = false;
 	}
 
+	// Flee directly from the target
 	public void MoveAwayFromTarget()
 	{
+		m_thrust.AccelPercent = 1.0f;
 		Vector2 targetPos = transform.position + (transform.position - m_target.position);
 		FaceTarget(targetPos);
 		m_thrust.Accelerate = true;
 	}
 
+	// As it says, go forward, full speed
+	public void MoveForward()
+	{
+		m_thrust.AccelPercent = 1.0f;
+		FaceTarget(transform.position + transform.up);
+		m_thrust.Accelerate = true;
+	}
+
+	// pass by the target to the left or right (randomly determined) at the distance input
 	public void PassByTarget(float distance)
 	{
-		int rand = Random.Range(0, 11);
+		m_thrust.AccelPercent = 1.0f;
 		Vector2 targetPos = m_target.position;
-		if(rand > 5)
-			targetPos += (Vector2)(m_target.right * distance);
+
+		if(m_passSide == -1)
+		{
+			m_passSide = Random.Range(0, 11);
+		}
 		else
-			targetPos -= (Vector2)(m_target.right * distance);
+		{
+			Vector2 toTarget = m_target.position - transform.position;
+			toTarget.Normalize();
+			if(m_passSide > 5)
+				targetPos += new Vector2(-toTarget.y, toTarget.x) * distance;
+			else
+				targetPos -= new Vector2(toTarget.y, -toTarget.x) * distance;
+		}
 
 		FaceTarget(targetPos);
+		m_thrust.Accelerate = true;
 
+
+	}
+	 
+	// Reset which side this ship will pass the target on
+	public void ResetPassSide()
+	{
+		m_passSide = -1;
 	}
 
 	// Follow the target, staying in between the max distance and min distance
@@ -85,14 +122,40 @@ public class AIShipScript : ShipScript {
 		FaceTarget(m_target.position);
 
 		float distance = Vector2.Distance(m_target.position, transform.position);
-		if(distance < minDistance || AngleToTarget() > 45)
-			m_thrust.Accelerate = false;
+		if(distance < minDistance || AngleToTarget() > 45.0f)
+			m_thrust.AccelPercent -= 5.0f * Time.deltaTime;
 		else if(distance > maxDistance)
-			m_thrust.Accelerate = true;
+			m_thrust.AccelPercent += 5.0f * Time.deltaTime;
 	}
+
+	public float DistanceToTarget()
+	{
+		return Vector2.Distance(transform.position, m_target.position);
+	}
+
+	public void FireWeapon(int index)
+	{
+		if(m_weapons.Length > index)
+		{
+			m_weapons[index].Active = true;
+			m_weapons[index].Fire();
+		}
+	}
+
+	public void Wander()
+	{
+		m_wanderAngle += Random.Range(-0.05f, 0.05f);
+		Vector2 wanderPos = 3.0f * new Vector2(Mathf.Cos(m_wanderAngle), Mathf.Sin(m_wanderAngle));
+		wanderPos += (Vector2)(transform.position + (transform.up * 5.0f));
+		m_thrust.AccelPercent = 0.1f;
+		FaceTarget(wanderPos);
+		m_thrust.Accelerate = true;
+
+	}
+
 	// return the angle between the direction the AI ship is facing
 	// and the direction to the target's predicted position
-	float AngleToTarget()
+	public float AngleToTarget()
 	{
 		Vector2 target = m_target.position - transform.position;
 		float angle = Vector2.Angle(transform.up, target);

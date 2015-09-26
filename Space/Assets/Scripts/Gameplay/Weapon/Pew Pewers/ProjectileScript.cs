@@ -10,6 +10,8 @@ public class ProjectileScript : MonoBehaviour
 
 	public float damage = 10.0f;
 	public float shieldPenetration = 0.0f;
+
+	public bool stayAlive = false;
 	
 	// In case we want the player to be hit by their own projectiles
 	/* private bool m_detectOwnCollider = false;
@@ -29,7 +31,7 @@ public class ProjectileScript : MonoBehaviour
 		
 		lifeTime -= Time.deltaTime;
 		
-		if( lifeTime <= 0 )
+		if( lifeTime <= 0 && !stayAlive)
 		{
 			// Ideally we'll use object pooling rather than spawn/destroy
 			// But that comes later
