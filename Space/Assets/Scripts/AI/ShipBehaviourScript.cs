@@ -54,13 +54,20 @@ public class ShipBehaviourScript : MonoBehaviour {
 	// Agressive enemies will contantly move toward the target, 
 	public void Agressive()
 	{
-		if(m_shipScript.DistanceToTarget() > 5.0f)
-			m_shipScript.MoveTowardTarget();
-		else
+		if(m_shipScript.DistanceToTarget() < 5.0f || m_shipScript.Engage)
 		{
-			m_shipScript.FireWeapon(0);
-			m_shipScript.ChaseTarget(5.0f, 3.0f);
+			m_shipScript.Engage = true;
+			if(m_shipScript.DistanceToTarget() > 5.0f)
+				m_shipScript.MoveTowardTarget();
+			else
+			{
+				if(m_shipScript.AngleToTarget() < 15.0f)
+					m_shipScript.FireWeapon(0);
+				m_shipScript.ChaseTarget(5.0f, 3.0f);
+			}
 		}
+		else
+			Wander ();
 	}
 
 	// Wandering enemies will do just that

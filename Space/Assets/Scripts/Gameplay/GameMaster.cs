@@ -11,7 +11,7 @@ public enum GameState
 public class GameMaster : MonoBehaviour {
 
 	public static GameMaster Master;
-	public static GameState CurrentGameState = GameState.MainMenu;
+	public static GameState CurrentGameState = GameState.Flying;
 
 	void Awake ()
 	{
@@ -28,8 +28,6 @@ public class GameMaster : MonoBehaviour {
 	}
 
 	void Update () {
-
-		Debug.Log (CurrentGameState);
 
 		//Go to Main Menu
 		if(Input.GetKey(KeyCode.F1))
