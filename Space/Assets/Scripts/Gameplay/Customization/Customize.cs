@@ -7,37 +7,41 @@ public class Customize : MonoBehaviour {
 
     public PlayerShipScript ship;
     public ToggleGroup WeaponToggles;
-	
-	void Start () {
-		ship = PlayerShipScript.player;
 
-		ship.Dock();
-
-		PopulateAttachmentPoints();
-	}
-
-	void OnLevelWasLoaded()
-	{
-		ship.Dock();
-
-		ship = PlayerShipScript.player;
-
-		PopulateAttachmentPoints();
-
-		CenterShip ();
-
-		ClearAttachmentPoints();
-	}
+	private bool customizing = false;
 
 	void Update()
 	{
-		//Swap to Nick's playground
-		if(Input.GetKey(KeyCode.F1))
-		{
-			ship.Undock();
-			ClearAttachmentPoints();
-			Application.LoadLevel("Nick's Playground");
-		}
+		if(GameMaster.CurrentGameState == GameState.Customization && !customizing)
+			EnterCustomization();
+		if(GameMaster.CurrentGameState != GameState.Customization && customizing)
+			EndCustomization();
+	}
+
+	private void EnterCustomization()
+	{
+		ship = PlayerShipScript.player;
+		
+		ship.Dock();
+		
+		PopulateAttachmentPoints();
+		
+		CenterShip ();
+
+		WeaponToggles.gameObject.SetActive(true);
+
+		customizing = true;
+	}
+
+	private void EndCustomization()
+	{
+		ClearAttachmentPoints();
+
+		ship.Undock();
+
+		WeaponToggles.gameObject.SetActive(false);
+
+		customizing = false;
 	}
 
 	private void CenterShip()

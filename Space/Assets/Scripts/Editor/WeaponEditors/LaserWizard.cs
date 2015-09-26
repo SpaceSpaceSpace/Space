@@ -2,13 +2,8 @@
 using UnityEditor;
 using System.Collections;
 
-public class LaserWizard : ScriptableWizard
+public class LaserWizard : WizardMaster
 {
-	public string Name;
-
-	public Sprite WeaponImage;
-	public ProjectileScript ProjectilePrefab;
-
 	public float ProjectileSpeed = 10;
 	public float ProjectileLifetime = 1;
 
@@ -17,12 +12,9 @@ public class LaserWizard : ScriptableWizard
 
 	public float AttackPower = 2;
 	public float ShieldPiercing = 1;
-
-
+	
 	[Range (0, 100)]
 	public float Accuracy = 90; // In percentage; 100 has no spread, 0 has 180 degree spread
-
-	private static string LaserPath = "Assets/Resources/ShipPrefabs/Weapons/";
 
 	[MenuItem("Space/New/Weapon/Laser")]
 	static void CreateWizard()
@@ -54,60 +46,13 @@ public class LaserWizard : ScriptableWizard
 		laserScript.maxSpreadAngle = SpaceUtility.Remap(Accuracy, 0, 100, 90, 0);
 
 		//Save game object to prefab
-		PrefabUtility.CreatePrefab(LaserPath + Name + ".prefab", laserObject);
+		PrefabUtility.CreatePrefab(WeaponPath + Name + ".prefab", laserObject);
 
 		//Delete game object from scene
 		DestroyImmediate(laserObject);
 	}
 
-	void OnWizardUpdate()
-	{
-		//Check for missing info
-		if(string.IsNullOrEmpty(Name))
-		{
-			errorString = "You cannot create a weapon with a blank name.";
-			isValid = false;
-		}
-		else if(WeaponImage == null)
-		{
-			errorString = "Every weapon needs an image.";
-			isValid = false;
-		}
-		else if(WeaponImage == null)
-		{
-			errorString = "Every weapon needs a projectile prefab.";
-			isValid = false;
-		}
-		else
-		{
-			errorString = "";
-			isValid = true;
-		}
-	}
-
-	bool ValidateInput()
-	{
-		//Make sure the prefab doesn't exist already
-		if(AssetDatabase.LoadAssetAtPath<GameObject>(LaserPath + Name + ".prefab"))
-		{
-			if(EditorUtility.DisplayDialog("Warning", "A prefab named " + Name + " already exists. Do you want to overwrite it?",
-			                               "Yes I know what I'm doing", "No please don't"))
-			{
-				//Clear existing prefab
-				FileUtil.DeleteFileOrDirectory(LaserPath + Name + ".prefab");
-				return true;
-			}
-			else
-			{
-				ReopenWindow();
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	void ReopenWindow()
+	protected override void ReopenWindow()
 	{
 		LaserWizard newWindow = ScriptableWizard.DisplayWizard<LaserWizard>("New Laser", "Create");
 

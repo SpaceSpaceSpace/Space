@@ -112,6 +112,7 @@ public class PlayerShipScript : ShipScript
 	public void Undock()
 	{
 		m_docked = false;
+		InitWeapons();
 	}
 
 	// Checks if any of the number keys were pressed to toggle weapons
