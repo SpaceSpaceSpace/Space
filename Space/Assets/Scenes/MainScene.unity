@@ -96,7 +96,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 29456042}
   - 212: {fileID: 29456041}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Planet Background Art
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,6 +280,61 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c71a27634a5356e458aaa30f3a1dd945, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &446592619
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 172028, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 446592620}
+  - 212: {fileID: 446592621}
+  m_Layer: 8
+  m_Name: Blip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &446592620
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 477920, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 446592619}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.3100004, y: 0, z: .699999988}
+  m_LocalScale: {x: .601140976, y: .601141095, z: 0}
+  m_Children: []
+  m_Father: {fileID: 760360851}
+  m_RootOrder: 0
+--- !u!212 &446592621
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 21246362, guid: 07c03f46058f04b0d84e1c014d17700a,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 446592619}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_ReflectionProbeUsage: 0
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: -101
+  m_Sprite: {fileID: 21300000, guid: 520bf0b14a30d6742bf582ceba36d5cf, type: 3}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &479533523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1642,6 +1697,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 481230, guid: fd8e5ff145bcee14488d5cb9f4f070e5, type: 2}
       propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 180004, guid: fd8e5ff145bcee14488d5cb9f4f070e5, type: 2}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
