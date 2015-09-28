@@ -32,10 +32,14 @@ public class PlayerShipScript : ShipScript
 		InitShip();
 	}
 
-	void Start ()
+	void Start()
 	{
 		m_thrust.Init( 50.0f, 5.0f, 10.0f, 90.0f ); // Magic numbers. Because I can.
-		m_shield.SetAsPlayerShield();
+
+		if( m_shield != null )
+		{
+			m_shield.SetAsPlayerShield();
+		}
 		// The camera is parented to a GO and offset on the Z axis
 		// We're keeping the parent so we don't have to set the Z when moving the camera
 		m_cameraTransform = Camera.main.transform.parent;
