@@ -23,10 +23,10 @@ public class Customize : MonoBehaviour {
 		ship = PlayerShipScript.player;
 		
 		ship.Dock();
-		
-		PopulateAttachmentPoints();
-		
+
 		CenterShip ();
+
+		PopulateAttachmentPoints();
 
 		WeaponToggles.gameObject.SetActive(true);
 
