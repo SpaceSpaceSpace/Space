@@ -3,6 +3,7 @@
 public class InteractScript : MonoBehaviour
 {
 	public const string INTERACTABLE_TAG = "Interactable";
+	public GameObject interactText;
 	
 	private InteractableScript m_targetInteractible;
 	
@@ -32,6 +33,7 @@ public class InteractScript : MonoBehaviour
 			// =============================
 			
 			m_targetInteractible = col.GetComponent<InteractableScript>();
+			interactText.SetActive(true);
 		}
 	}
 	
@@ -69,6 +71,7 @@ public class InteractScript : MonoBehaviour
 				SpriteRenderer sr = col.GetComponent<SpriteRenderer>();
 				sr.color = Color.gray;
 				// =============================
+				interactText.SetActive(false);
 			}
 		}
 	}

@@ -36,6 +36,8 @@ public class Satellite : MonoBehaviour {
 		else
 			semiMajor = radius.y;
 		mass = Random.Range (1, 9);
+		transform.localScale = new Vector3 (mass, mass, 1);
+		transform.GetComponent<Rigidbody2D> ().mass = mass * 100.0f;
 		Vector3 toCenter = centerOfOrbit - transform.position;
 		Vector2 tangential = new Vector2(-toCenter.y, toCenter.x);
 		tangential.Normalize();
