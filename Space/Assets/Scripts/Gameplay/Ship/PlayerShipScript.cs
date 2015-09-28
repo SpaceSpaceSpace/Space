@@ -106,6 +106,7 @@ public class PlayerShipScript : ShipScript
 	public void Undock()
 	{
 		m_docked = false;
+		InitWeapons();
 	}
 
 	public override void ApplyDamage( float damage, float shieldPen = 0.0f )
