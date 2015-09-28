@@ -23,13 +23,18 @@ public class UIMarker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 direction = transform.parent.position - targetStack[targetStack.Count - 1].transform.position;
+		transform.localPosition = Vector3.zero;
+		Vector3 direction =  targetStack[targetStack.Count - 1].transform.position - transform.parent.transform.position;
+		//Vector3 heading = targetStack [targetStack.Count - 1].transform.position + direction;
 
-		Debug.Log (targetStack[targetStack.Count - 1].transform.position + " + " + transform.parent.position + " = " + direction);
+		Vector3 newMarkerPos = direction.normalized;
+		newMarkerPos *= 1.0f;
 
-		Debug.DrawLine (transform.parent.position,direction,Color.blue);
+		transform.localPosition = newMarkerPos;
 
-		Debug.DrawLine (targetStack [targetStack.Count - 1].transform.position,transform.parent.position, Color.red);
+		Debug.DrawLine (targetStack[targetStack.Count - 1].transform.position-direction,targetStack[targetStack.Count - 1].transform.position,Color.blue);
+
+		//Debug.DrawLine (targetStack [targetStack.Count - 1].transform.position,transform.parent.position, Color.red);
 
 		if(targetStack.Count == 0)
 		{
