@@ -1,28 +1,63 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class Contract : MonoBehaviour {
-
+public class Contract
+{
 	public bool completed;
-	public GameObject[] objectives;
-	public GameObject[] rewards;
+	public List<GameObject> objectives = new List<GameObject>();
+	public List<GameObject> rewards = new List<GameObject>();
 	private string description;
 	private string targetImage;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	public string GetDescription()
+
+	//Not sure whether to pass these items in the construction of the object or generate them randomly in constructor..?
+	public Contract(List<GameObject> obj, List<GameObject> rew, string desc, string tImage)
 	{
-		return description;
+		completed = false;
+		for (int i = 0; i < obj.Count; i++) 
+		{
+			objectives.Add(obj[i]);
+		}
+		for (int i = 0; i < rew.Count; i++) 
+		{
+			rewards.Add(rew[i]);
+		}
+		description = desc;
+		//Code to load in image for the contract target(sprite?)
+		targetImage = tImage;
 	}
-	public void SetDescription(string d)
+
+	public Contract()
 	{
-		description = d;
+		completed = false;
+		//objectives.Add ();// Add an enemy
+		//rewards.Add ();// Add rewards
+		description = "Go kill the enemy!";
+		targetImage = "Image Directory";
+	}
+
+	public void CompleteContract()
+	{
+		completed = true;
+		GrantRewards ();
+	}
+
+	void SpawnContractObjectives()
+	{
+		for (int i = 0; i < objectives.Count; i++) 
+		{
+			if(objectives[i].transform.position != null)//if there's a position set, spawn there
+				GameObject.Instantiate(objectives[i], objectives[i].transform.position, Quaternion.identity);
+			else//No position set, spawn at world center (for now)
+				GameObject.Instantiate(objectives[i], new Vector3(0,0,0), Quaternion.identity);
+		}
+	}
+
+	void GrantRewards()//Not Sure how we are doing rewards yet..? :)
+	{
+		for (int i = 0; i < rewards.Count; i++) 
+		{
+			GameObject.Instantiate(rewards[i]);
+		}
 	}
 }

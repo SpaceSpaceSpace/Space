@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ship
   - Interactable
+  - Contract
+  - Objective
   layers:
   - Default
   - TransparentFX
