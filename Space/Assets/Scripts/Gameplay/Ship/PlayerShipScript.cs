@@ -12,36 +12,30 @@ public class PlayerShipScript : ShipScript
 	private Transform m_cameraTransform;
 	private bool m_docked = false;
 
+	public float Health
+	{
+		get { return m_health; }
+	}
+	
+	public float MaxHealth
+	{
+		get { return m_maxHealth; }
+	}
+
+	public ShieldScript Shield
+	{
+		get { return m_shield; }
+	}
+
 	void Awake()
 	{
-		//There can be only one
-		if(player == null)
-		{
-			//Don't destroy ship from scene to scene
-			DontDestroyOnLoad(gameObject);
-			player = this;
-		}
-		else if(player != this)
-		{
-			Destroy(gameObject);
-		}
+		InitShip();
 	}
 
 	void Start ()
 	{
-		InitShip();
 		m_thrust.Init( 50.0f, 5.0f, 10.0f, 90.0f ); // Magic numbers. Because I can.
-		
-		// The camera is parented to a GO and offset on the Z axis
-		// We're keeping the parent so we don't have to set the Z when moving the camera
-		m_cameraTransform = Camera.main.transform.parent;
-	}
-
-	void OnLevelWasLoaded()
-	{
-		InitShip();
-		m_thrust.Init( 50.0f, 5.0f, 10.0f, 90.0f ); // Magic numbers. Because I can.
-		
+		m_shield.SetAsPlayerShield();
 		// The camera is parented to a GO and offset on the Z axis
 		// We're keeping the parent so we don't have to set the Z when moving the camera
 		m_cameraTransform = Camera.main.transform.parent;
@@ -112,6 +106,12 @@ public class PlayerShipScript : ShipScript
 	public void Undock()
 	{
 		m_docked = false;
+	}
+
+	public override void ApplyDamage( float damage, float shieldPen = 0.0f )
+	{
+		base.ApplyDamage( damage, shieldPen );
+		EventManager.TriggerEvent( EventDefs.PLAYER_HEALTH_UPDATE );
 	}
 
 	// Checks if any of the number keys were pressed to toggle weapons

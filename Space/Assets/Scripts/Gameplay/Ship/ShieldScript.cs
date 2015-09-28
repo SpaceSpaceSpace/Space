@@ -11,6 +11,8 @@ public class ShieldScript : MonoBehaviour
 	private float m_shieldAmount;
 	private float m_rechargeTime;
 
+	private bool m_isPlayerShield;
+
 	public float ShieldAmount
 	{
 		get { return m_shieldAmount; }
@@ -18,6 +20,7 @@ public class ShieldScript : MonoBehaviour
 
 	void Start ()
 	{
+		m_isPlayerShield = false;
 		m_shieldAmount = maxShieldAmount;
 		m_rechargeTime = 0.0f;
 	}
@@ -33,6 +36,10 @@ public class ShieldScript : MonoBehaviour
 		if( m_rechargeTime >= rechargeDelay )
 		{
 			m_shieldAmount = Mathf.Min( maxShieldAmount, m_shieldAmount + rechargeRate * Time.deltaTime );
+			if( m_isPlayerShield )
+			{
+				EventManager.TriggerEvent( EventDefs.PLAYER_SHIELD_UPDATE );
+			}
 		}
 		else
 		{
@@ -46,6 +53,11 @@ public class ShieldScript : MonoBehaviour
 		m_shieldAmount -= damage;
 		m_rechargeTime = 0.0f;
 
+		if( m_isPlayerShield )
+		{
+			EventManager.TriggerEvent( EventDefs.PLAYER_SHIELD_UPDATE );
+		}
+
 		if( m_shieldAmount < 0.0f )
 		{
 			float remainder = -m_shieldAmount;
@@ -54,5 +66,10 @@ public class ShieldScript : MonoBehaviour
 		}
 
 		return 0;
+	}
+
+	public void SetAsPlayerShield()
+	{
+		m_isPlayerShield = true;
 	}
 }

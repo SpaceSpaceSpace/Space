@@ -58,7 +58,8 @@ MonoBehaviour:
   lifeTime: 1
   knockback: 1
   damage: 10
-  shieldPenetration: .5
+  shieldPenetration: 0
+  stayAlive: 0
 --- !u!212 &21232848
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -106,7 +107,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shieldPenetration
-      value: .5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
