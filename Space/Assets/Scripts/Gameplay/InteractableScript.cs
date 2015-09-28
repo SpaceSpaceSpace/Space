@@ -1,20 +1,45 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class InteractableScript : MonoBehaviour
 {
-	public PlayerShipScript playerShip; 
-
+	PlayerShipScript playerShip; 
 	void Start()
 	{
 		playerShip = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
 	}
+
 	public void OnInteract()
 	{
-		print( "this should do something" );
-		//give contract script to player
-		//print or display description of the quest
-		playerShip.playerContracts.Add (new Contract());//Contract takes list of objectives (enemies at this point), list of rewards(gold?), a string description, and an image string URL
-		print (playerShip.playerContracts);
 		//This will be a UI Menu for the Space Station in the future, will be used just to spawn contracts for now
+		CreateAndAcceptContract ();
+		TurnInContracts ();
+	}
+
+	public void CreateAndAcceptContract()
+	{
+		Contract newContract = new Contract ();
+		playerShip.AcceptContract (newContract);
+	}
+	//NOTE - Contracts do not get removed when they're turned in
+	public void TurnInContracts()
+	{
+		for (int i = 0; i < playerShip.playerContracts.Count; i++) 
+		{
+			if(playerShip.playerContracts[i].completed)
+			{
+				playerShip.playerContracts.Remove(playerShip.playerContracts[i]);
+				i--;
+				if(i < 0)
+					i = 0;
+			}
+		}
+		for (int i = 0; i < playerShip.playerContracts.Count; i++) 
+		{
+			if(playerShip.playerContracts[i].completed)
+			{
+				Debug.Log ("I should never happen, ever.");
+			}
+		}
 	}
 }
