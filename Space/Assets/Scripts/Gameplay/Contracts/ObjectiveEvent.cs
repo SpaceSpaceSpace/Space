@@ -3,7 +3,9 @@ using System.Collections;
 
 public class ObjectiveEvent : MonoBehaviour {
 
-	Contract objectiveContract;
+	private Contract objectiveContract;
+
+	//Look into enums for different objective types
 
 	public Contract ObjectiveContract {
 		get { return objectiveContract; }

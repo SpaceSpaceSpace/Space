@@ -28,6 +28,12 @@ public class UIMarker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
+		if(targetStack.Count == 0)
+		{
+			gameObject.SetActive(false);
+		}
+
 		transform.localPosition = Vector3.zero;
 		Vector3 direction =  targetStack[targetStack.Count - 1].transform.position - transform.parent.transform.position;
 		//Vector3 heading = targetStack [targetStack.Count - 1].transform.position + direction;
@@ -49,10 +55,5 @@ public class UIMarker : MonoBehaviour {
 		Debug.DrawLine (targetStack[targetStack.Count - 1].transform.position-direction,targetStack[targetStack.Count - 1].transform.position,Color.blue);
 
 		//Debug.DrawLine (targetStack [targetStack.Count - 1].transform.position,transform.parent.position, Color.red);
-
-		if(targetStack.Count == 0)
-		{
-			gameObject.SetActive(false);
-		}
 	}
 }

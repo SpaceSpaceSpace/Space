@@ -36,7 +36,6 @@ public class Contract
 		contractObjective.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
 		SetUIMarker (contractObjective);
 		contractObjectives.Add (contractObjective);
-		SetUIMarker (contractObjective);
 	}
 
 	public void SetUIMarker(GameObject contractObjective)
