@@ -6,7 +6,7 @@ public class Satellite : MonoBehaviour {
 	public bool artificial;
 	public bool inOrbit;
 	public float mass;
-	public const float MAX_VELOCITY = 2.0f;
+	public const float MAX_VELOCITY = 1000.0f;
 	public const float GRAVITATION_MAGNITUDE = 15.0f;
 	//public const float STARTING_IMPULSE = 12f;
 	public Vector2 radius;
@@ -42,7 +42,7 @@ public class Satellite : MonoBehaviour {
 		Vector2 tangential = new Vector2(-toCenter.y, toCenter.x);
 		tangential.Normalize();
 		velocity = new Vector3(tangential.x,tangential.y, 0.0f);
-		velocity *= Mathf.Sqrt (GRAVITATION_MAGNITUDE * (2.0f / toCenter.magnitude - 1.0f / semiMajor));
+		velocity *= Mathf.Sqrt (GRAVITATION_MAGNITUDE * (10000.0f / toCenter.magnitude - 1.0f / semiMajor));
 		centerOfOrbit = new Vector3 (0.0f, 0.0f, 0.0f);
 		transform.GetComponent<Rigidbody2D>().AddForce( velocity, ForceMode2D.Impulse);
 
