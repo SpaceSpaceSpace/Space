@@ -24,7 +24,8 @@ public class ObjectiveEvent : MonoBehaviour {
 	{
 		if( col.tag == "Ship" )
 		{
-			objectiveContract.completed = true;//Make boolean an array for multi-mission contracts
+			//objectiveContract.completed = true;//Make boolean an array for multi-mission contracts
+			objectiveContract.CompleteContractObjective(this.gameObject);
 			GameObject.Destroy(this.gameObject);
 		}
 	}

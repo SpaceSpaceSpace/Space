@@ -19,6 +19,11 @@ public class UIMarker : MonoBehaviour {
 	public void removeTargetFromStack(GameObject completedTarget)
 	{
 		targetStack.Remove (completedTarget);
+
+		if(targetStack.Count == 0)
+		{
+			gameObject.SetActive(false);
+		}
 	}
 	
 	// Update is called once per frame
@@ -28,9 +33,18 @@ public class UIMarker : MonoBehaviour {
 		//Vector3 heading = targetStack [targetStack.Count - 1].transform.position + direction;
 
 		Vector3 newMarkerPos = direction.normalized;
-		newMarkerPos *= 1.0f;
+		newMarkerPos *= 2.0f;
 
-		transform.localPosition = newMarkerPos;
+		//transform.localPosition = newMarkerPos;
+		transform.position = newMarkerPos + transform.parent.transform.position;
+
+		//float angle = Vector3.Angle (Vector3.right, direction);
+
+		float angle = Mathf.Atan2 (direction.y, direction.x);
+
+		angle *= Mathf.Rad2Deg;
+
+		transform.eulerAngles = new Vector3 (0, 0, angle+90.0f);
 
 		Debug.DrawLine (targetStack[targetStack.Count - 1].transform.position-direction,targetStack[targetStack.Count - 1].transform.position,Color.blue);
 
