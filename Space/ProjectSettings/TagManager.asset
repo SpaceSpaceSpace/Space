@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ship
   - Interactable
+  - Obstacle
   layers:
   - Default
   - TransparentFX
