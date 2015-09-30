@@ -4,22 +4,36 @@ using System.Collections.Generic;
 // Set an open course for the virgin sea
 public class PlayerShipScript : ShipScript
 {
-	public static PlayerShipScript player;
+	public static PlayerShipScript player = null;
 	public GameObject objectivePrefab;
 
 	public List<Vector2> AttachmentPoints = new List<Vector2>();
 	public Dictionary<Vector2, GameObject> Attachments = new Dictionary<Vector2, GameObject>();
 	public List<Contract> playerContracts = new List<Contract>();
+
 	private Transform m_cameraTransform;
 	private bool m_docked = false;
-	public GameObject objectiveMarker;
+
+	public float Health
+	{
+		get { return m_health; }
+	}
+	
+	public float MaxHealth
+	{
+		get { return m_maxHealth; }
+	}
+
+	public ShieldScript Shield
+	{
+		get { return m_shield; }
+	}
 
 	void Awake()
 	{
 		//There can be only one
 		if(player == null)
 		{
-			//Don't destroy ship from scene to scene
 			DontDestroyOnLoad(gameObject);
 			player = this;
 		}
@@ -27,10 +41,7 @@ public class PlayerShipScript : ShipScript
 		{
 			Destroy(gameObject);
 		}
-	}
 
-	void Start ()
-	{
 		InitShip();
 		m_thrust.Init( 50.0f, 5.0f, 10.0f, 90.0f ); // Magic numbers. Because I can.
 
@@ -39,24 +50,22 @@ public class PlayerShipScript : ShipScript
 		m_cameraTransform = Camera.main.transform.parent;
 	}
 
-	public GameObject ObjectiveMarker
-	{
-		get{return objectiveMarker;}
-	}
-
 	//Accepts contract and spawns the objective in world space
 	public void AcceptContract(Contract contract)
 	{
 		playerContracts.Add (contract);
-		contract.SpawnContract (player);
+		contract.SpawnContract (this);
 		Debug.Log (playerContracts.Count);
 	}
 
-	void OnLevelWasLoaded()
+	void Start()
 	{
-		InitShip();
-		m_thrust.Init( 50.0f, 5.0f, 10.0f, 90.0f ); // Magic numbers. Because I can. LOL THIS DOESN'T WORK ANYMORE NICK YOU SCRUB
-		
+		m_thrust.Init( 50.0f, 5.0f, 10.0f, 90.0f ); // Magic numbers. Because I can.
+
+		if( m_shield != null )
+		{
+			m_shield.SetAsPlayerShield();
+		}
 		// The camera is parented to a GO and offset on the Z axis
 		// We're keeping the parent so we don't have to set the Z when moving the camera
 		m_cameraTransform = Camera.main.transform.parent;
@@ -130,6 +139,12 @@ public class PlayerShipScript : ShipScript
 		InitWeapons();
 	}
 
+	public override void ApplyDamage( float damage, float shieldPen = 0.0f )
+	{
+		base.ApplyDamage( damage, shieldPen );
+		EventManager.TriggerEvent( EventDefs.PLAYER_HEALTH_UPDATE );
+	}
+
 	// Checks if any of the number keys were pressed to toggle weapons
 	private void SetActiveWeapons()
 	{
@@ -140,5 +155,10 @@ public class PlayerShipScript : ShipScript
 				m_weapons[ i ].ToggleActive();
 			}
 		}
+	}
+
+	protected override void Die()
+	{
+		print( "sry u died :'(" );
 	}
 }

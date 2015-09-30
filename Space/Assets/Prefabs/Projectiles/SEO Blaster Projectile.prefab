@@ -86,6 +86,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7
   lifeTime: 5
+  knockback: 1
+  damage: 10
+  shieldPenetration: .699999988
+  stayAlive: 0
 --- !u!198 &19864598
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1231,6 +1235,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shieldPenetration
+      value: .699999988
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
