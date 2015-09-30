@@ -24,6 +24,7 @@ public class AIShipScript : ShipScript {
 	private int passSide; // is the side for the ship to pass on set
 	private float wanderAngle;
 	private bool m_obstacle; // is there an obstacle in the way
+	private Transform objective;
 
 	// Weights for flocking
 	private const float ALIGNMENT = 4.0f;
@@ -47,12 +48,17 @@ public class AIShipScript : ShipScript {
 		passSide = -1;
 		wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
+		m_thrust.Accelerate = true;
+
+		for(int i = 0; i < squad.Length; i++)
+		{
+			if(squad[i].GetComponent<ShipBehaviourScript>().behaviour.ToString() == "Leader")
+				leader = squad[i];
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(!m_obstacle)
-			Flock(squad);
 		AvoidObstacle();
 	}
 
@@ -123,11 +129,8 @@ public class AIShipScript : ShipScript {
 			else
 				targetPos -= new Vector2(toTarget.y, -toTarget.x) * distance;
 		}
-
 		FaceTarget(targetPos);
 		m_thrust.Accelerate = true;
-
-
 	}
 	 
 	// Reset which side this ship will pass the target on
@@ -142,8 +145,10 @@ public class AIShipScript : ShipScript {
 		FaceTarget(m_target.position);
 
 		float distance = Vector2.Distance(m_target.position, transform.position);
-		if(distance < minDistance || AngleToTarget() > 45)
+		if(distance < minDistance)
+		{
 			m_thrust.AccelPercent -= 1.0f * Time.deltaTime;
+		}
 		else if(distance > maxDistance)
 			m_thrust.AccelPercent += 1.0f * Time.deltaTime;
 		else
@@ -154,7 +159,6 @@ public class AIShipScript : ShipScript {
 	}
 
 
-	#region Distance stuff for convenience
 	public float DistanceTo(Vector2 target)
 	{
 		return Vector2.Distance(transform.position, target);
@@ -168,7 +172,6 @@ public class AIShipScript : ShipScript {
 			m_weapons[index].Fire();
 		}
 	}
-	#endregion
 
 	public void Wander()
 	{
@@ -182,7 +185,7 @@ public class AIShipScript : ShipScript {
 	}
 
 	// flock with the other ships in the squad
-	public void Flock(GameObject[] squad)
+	public void Flock()
 	{
 		m_thrust.Accelerate = true;
 		Vector2 align = Vector2.zero; // the alignment angle of the squad

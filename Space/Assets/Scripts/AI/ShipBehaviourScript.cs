@@ -15,10 +15,8 @@ public class ShipBehaviourScript : MonoBehaviour {
 	{
 		Asleep,
 		Civilian,
-		Agressive,
-		Defensive,
-		Flee,
-		Wander
+		Grunt,
+		Leader
 	}
 
 	public Behaviour behaviour; // to be defined in the inspector
@@ -27,32 +25,45 @@ public class ShipBehaviourScript : MonoBehaviour {
 	/// Private
 	/// 
 	private AIShipScript m_shipScript;
+	private float chaseTime; // how long will an enemy chase
 
 	// Use this for initialization
 	void Start () {
 		m_shipScript = GetComponent<AIShipScript>();
+		chaseTime = 0.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-		switch (behaviour)
+		if(!m_shipScript.Obstacle)
 		{
-		case Behaviour.Agressive:
-			Agressive ();
-			break;
-		case Behaviour.Wander:
-			Wander();
-			break;
-		case Behaviour.Defensive:
-			Defensive();
-			break;
+			if(m_shipScript.DistanceTo(m_shipScript.objective) > 10.0f)
+				m_shipScript.MoveToward(m_shipScript.objective);
+			else
+			{
+				switch (behaviour)
+				{
+				case Behaviour.Civilian:
+					Civilian();
+					break;
+				case Behaviour.Grunt:
+					Grunt ();
+					break;
+				case Behaviour.Leader:
+					Leader ();
+					break;
+				}
+			}
 		}
+
+
+		chaseTime += Time.deltaTime;
 	}
 
 	public void Civilian()
 	{
-
+		m_shipScript.Wander();
 	}
 
 	public void Grunt()
@@ -65,49 +76,58 @@ public class ShipBehaviourScript : MonoBehaviour {
 				m_shipScript.Wander();
 			// if the player is close, run away
 			else
+			{
 				m_shipScript.MoveAwayFrom(m_shipScript.player);
+			}
+
 		}
-		else if(m_shipScript.DistanceTo(m_shipScript.Target.position) > 10.0f)
-			m_shipScript.MoveToward(m_shipScript.leader.transform);
-		if(m_shipScript.CanSeeTarget())
+		else if(chaseTime > 5.0f)
 		{
-			if(m_shipScript.DistanceTo(m_shipScript.Target.position) > 5.0)
-				m_shipScript.MoveToward(m_shipScript.Target);
-			else
+			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 10.0f)
+				m_shipScript.MoveAwayFrom(m_shipScript.Target);
+			if(chaseTime > 6.5f)
+				chaseTime = Random.Range(0.0f, 2.0f);
+		}
+		// If the leader is alive and the player is less than 10 units away, move toward it
+		else if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 10.0f)
+		{
+
+			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 5.0)
 			{
 				m_shipScript.FireWeapon(0);
 				m_shipScript.ChaseTarget(5.0f, 3.0f);
 			}
+			else
+				m_shipScript.MoveToward(m_shipScript.Target);
+
+
 		}
-	}
-	// Agressive enemies will contantly move toward the target, 
-	public void Agressive()
-	{
-		//if(m_shipScript.DistanceToTarget() > 5.0f)
-		//	m_shipScript.MoveTowardTarget();
-		//else
-		//{
-		//	m_shipScript.FireWeapon(0);
-		//	m_shipScript.ChaseTarget(5.0f, 3.0f);
-		//}
+		// If the leader is alive, and the player is not near
+		else
+			m_shipScript.Flock();
 	}
 
-	// Wandering enemies will do just that
-	public void Wander()
+	public void Leader()
 	{
-		m_shipScript.Wander();
+		// if the player is not near
+		if(m_shipScript.DistanceTo(m_shipScript.Target.position) > 10.0f)
+			m_shipScript.Flock();
+		else if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 10.0f)
+		{
+			
+			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 5.0)
+			{
+				m_shipScript.FireWeapon(0);
+				m_shipScript.ChaseTarget(5.0f, 3.0f);
+			}
+			else
+				m_shipScript.MoveToward(m_shipScript.Target);
+			
+			
+		}
+
 	}
 
-	public void Defensive()
-	{
-		//if(m_shipScript.DistanceToTarget() < 6.0f)
-		//{
-		//	m_shipScript.ResetPassSide();
-		//	m_shipScript.MoveAwayFromTarget();
-		//}
-		//else
-		//	m_shipScript.PassByTarget(10.0f);
-	}
 
 
 }
