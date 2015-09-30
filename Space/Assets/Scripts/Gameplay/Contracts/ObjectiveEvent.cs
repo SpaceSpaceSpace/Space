@@ -3,7 +3,9 @@ using System.Collections;
 
 public class ObjectiveEvent : MonoBehaviour {
 
-	Contract objectiveContract;
+	private Contract objectiveContract;
+
+	//Look into enums for different objective types
 
 	public Contract ObjectiveContract {
 		get { return objectiveContract; }
@@ -24,7 +26,9 @@ public class ObjectiveEvent : MonoBehaviour {
 	{
 		if( col.tag == "Ship" )
 		{
-			objectiveContract.completed = true;//Make boolean an array for multi-mission contracts
+			//objectiveContract.completed = true;//Make boolean an array for multi-mission contracts
+			objectiveContract.CompleteContractObjective(this.gameObject);
+			objectiveContract.Player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(this.gameObject);
 			GameObject.Destroy(this.gameObject);
 		}
 	}

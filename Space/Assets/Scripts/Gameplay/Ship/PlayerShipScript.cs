@@ -13,6 +13,12 @@ public class PlayerShipScript : ShipScript
 
 	private Transform m_cameraTransform;
 	private bool m_docked = false;
+	public GameObject objectiveMarker;
+
+	public GameObject ObjectiveMarker
+	{
+		get{return objectiveMarker;}
+	}
 
 	public float Health
 	{
