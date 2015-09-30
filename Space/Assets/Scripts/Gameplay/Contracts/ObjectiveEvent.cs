@@ -28,6 +28,7 @@ public class ObjectiveEvent : MonoBehaviour {
 		{
 			//objectiveContract.completed = true;//Make boolean an array for multi-mission contracts
 			objectiveContract.CompleteContractObjective(this.gameObject);
+			objectiveContract.Player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(this.gameObject);
 			GameObject.Destroy(this.gameObject);
 		}
 	}

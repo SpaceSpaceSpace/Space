@@ -8,12 +8,12 @@ public class UIMarker : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
 	}
 
 	public void AddToTargetStack(GameObject newTarget)
 	{
 		targetStack.Add (newTarget);
+		//targetStack.Insert (0, newTarget);
 	}
 
 	public void removeTargetFromStack(GameObject completedTarget)

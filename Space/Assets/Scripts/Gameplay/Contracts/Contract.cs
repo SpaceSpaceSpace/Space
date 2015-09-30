@@ -9,6 +9,7 @@ public class Contract
 	private string description;
 	private string targetImage;
 	private List<GameObject> contractObjectives;
+	private PlayerShipScript player;
 
 	public Contract()
 	{
@@ -17,6 +18,12 @@ public class Contract
 		objectivePosition = new Vector3 (Random.Range(-100,100), Random.Range(-100,100), 0);
 		description = "Go here!";
 		targetImage = "Image Directory";
+		player = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
+	}
+
+	public PlayerShipScript Player
+	{
+		get{return player;}
 	}
 
 	public void CompleteContractObjective(GameObject completedObjective)
@@ -40,7 +47,7 @@ public class Contract
 
 	public void SetUIMarker(GameObject contractObjective)
 	{
-		GameObject oMarker =  PlayerShipScript.player.ObjectiveMarker;
+		GameObject oMarker =  player.ObjectiveMarker;
 
 		if(!oMarker.activeSelf)
 		{
