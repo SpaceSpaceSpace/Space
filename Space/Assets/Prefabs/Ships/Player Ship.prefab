@@ -136,6 +136,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &192520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 492082}
+  - 212: {fileID: 21236134}
+  - 114: {fileID: 11487132}
+  m_Layer: 8
+  m_Name: ObjectiveMarker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &449388
 Transform:
   m_ObjectHideFlags: 1
@@ -220,6 +237,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 497826}
   m_RootOrder: 1
+--- !u!4 &492082
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192520}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: -1.62920685e-07}
+  m_LocalPosition: {x: 0, y: 3.5, z: 0}
+  m_LocalScale: {x: 6, y: 14, z: 1}
+  m_Children: []
+  m_Father: {fileID: 497826}
+  m_RootOrder: 7
 --- !u!4 &497826
 Transform:
   m_ObjectHideFlags: 1
@@ -227,7 +256,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 127228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 48, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 456484}
@@ -237,6 +266,7 @@ Transform:
   - {fileID: 449388}
   - {fileID: 451122}
   - {fileID: 452368}
+  - {fileID: 492082}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!50 &5041380
@@ -279,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 964bf817d539c40269b83b66db1fe976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactText: {fileID: 0}
 --- !u!114 &11417204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -337,12 +368,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94792ed96b7744fbeabf82b25c08037c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectivePrefab: {fileID: 146980, guid: 2840ea0ea420db641a04e5bdb32e8cb6, type: 2}
   AttachmentPoints:
   - {x: -.550000012, y: -.25}
   - {x: .550000012, y: -.25}
   - {x: 0, y: .349999994}
   - {x: 0, y: 0}
   - {x: 0, y: -.349999994}
+  objectiveMarker: {fileID: 192520}
 --- !u!114 &11438230
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -413,6 +446,18 @@ MonoBehaviour:
   knockback: 0
   fireTime: .0500000007
   maxSpreadAngle: 5.00000143
+--- !u!114 &11487132
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9be7a88533816a347850d2901f21862f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetStack: []
 --- !u!114 &11494370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1528,6 +1573,32 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+--- !u!212 &21236134
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192520}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_ReflectionProbeUsage: 0
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 9d29e803845385547b91f43d05f4f9cb, type: 3}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!212 &21246362
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -1578,7 +1649,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ae9b96e7c4b7d435489546eb7b8d9a44, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 039cd87b37906ac4e92eaaa8ed2d0803, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
