@@ -11,6 +11,8 @@ public class OrbitalGenerator : MonoBehaviour {
 	//public int numChunks;
 	public int objectCount = 0;
 
+	public GameObject[] asteroidPrefabs = new GameObject[9];
+
 	// Use this for initialization
 	void Start () {
 		generateBelt (80, new Vector2 (75.0f, 75.0f), false);
@@ -60,8 +62,10 @@ public class OrbitalGenerator : MonoBehaviour {
 				float chunkY = Mathf.Cos(chunkAngle) * 0.65f;
 				
 				Vector3 pos = new Vector3(chunkX,chunkY,0) + chunkCenter;
+
+				int randomSpriteNum = Random.Range (1, 9);
 				
-				GameObject asteroidGenerated = (GameObject) Instantiate(satPrefab,pos,Quaternion.identity);
+				GameObject asteroidGenerated = (GameObject) Instantiate(asteroidPrefabs[randomSpriteNum],pos,Quaternion.identity);
 				
 				asteroidGenerated.GetComponent<Satellite>().artificial = artificial;
 				asteroidGenerated.GetComponent<Satellite>().radius = radius;
