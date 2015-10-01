@@ -49,7 +49,11 @@ public class ShipScript : MonoBehaviour
 		InitWeapons();
 
 		// Temporary
-		m_shield = transform.GetChild( transform.childCount - 1 ).GetComponent<ShieldScript>();
+		Transform shieldTrans = transform.FindChild( "Shield" );
+		if( shieldTrans != null )
+		{
+			m_shield = shieldTrans.GetComponent<ShieldScript>();
+		}
 	}
 
 	// Checks which weapons are attached and loads them into m_weapons
