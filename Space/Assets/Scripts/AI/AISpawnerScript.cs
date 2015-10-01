@@ -11,8 +11,15 @@ public class AISpawnerScript : MonoBehaviour {
 	public Sprite leaderSprite;
 
 	private int currentAI;
+	private GameObject squadLeader;
+
+	public GameObject SquadLeader
+	{
+		get{return squadLeader;}
+	}
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 
 		currentAI = 0;
 		Vector2 spawnPos;
@@ -29,6 +36,8 @@ public class AISpawnerScript : MonoBehaviour {
 			{
 				g.GetComponent<ShipBehaviourScript>().behaviour = ShipBehaviourScript.Behaviour.Leader;
 				g.GetComponent<SpriteRenderer>().sprite = leaderSprite;
+				g.transform.FindChild("Blip").GetComponent<SpriteRenderer>().color = Color.yellow;
+				squadLeader = g;
 			}
 			else
 				g.GetComponent<ShipBehaviourScript>().behaviour = ShipBehaviourScript.Behaviour.Grunt;
