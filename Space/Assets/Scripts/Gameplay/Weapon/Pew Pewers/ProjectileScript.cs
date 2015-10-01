@@ -66,6 +66,8 @@ public class ProjectileScript : MonoBehaviour
 		else if( col.tag == "Asteroid" )
 		{
 			// Do same sort of thing as with Ship
+			Satellite sat = col.GetComponent<Satellite>();
+			sat.ApplyDamage(damage);
 		}
 		
 		Destroy( gameObject );
