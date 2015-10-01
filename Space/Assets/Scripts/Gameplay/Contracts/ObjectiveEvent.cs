@@ -3,7 +3,16 @@ using System.Collections;
 
 public class ObjectiveEvent : MonoBehaviour {
 
+	public enum ObjectiveType
+	{
+		GoTo,
+		KillTarget
+	}
+
+	public AISpawnerScript AISpawner;
+
 	private Contract objectiveContract;
+	ObjectiveType type;
 
 	//Look into enums for different objective types
 
@@ -12,9 +21,19 @@ public class ObjectiveEvent : MonoBehaviour {
 		set { objectiveContract = value; }
 	}
 
-	// Use this for initialization
-	void Start () {
-	
+	public void init(ObjectiveType p_Type)
+	{
+		type = p_Type;
+
+		//Spawn Correct Objective
+		switch(type)
+		{
+			case ObjectiveType.GoTo:
+				break;
+			case ObjectiveType.KillTarget:
+				break;
+				
+		}
 	}
 	
 	// Update is called once per frame

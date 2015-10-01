@@ -14,6 +14,7 @@ public class Contract
 	public Contract()
 	{
 		contractObjectives = new List<GameObject> ();
+		//contractObjectives.Add(
 		completed = false;
 		objectivePosition = new Vector3 (Random.Range(-100,100), Random.Range(-100,100), 0);
 		description = "Go here!";
@@ -41,7 +42,7 @@ public class Contract
 	{
 		GameObject contractObjective = (GameObject)GameObject.Instantiate (player.objectivePrefab, objectivePosition, Quaternion.identity);
 		contractObjective.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
-		SetUIMarker (contractObjective);
+		//SetUIMarker (contractObjective);
 		contractObjectives.Add (contractObjective);
 	}
 

@@ -18,7 +18,7 @@ public class ShieldScript : MonoBehaviour
 		get { return m_shieldAmount; }
 	}
 
-	void Start ()
+	void Awake ()
 	{
 		m_isPlayerShield = false;
 		m_shieldAmount = maxShieldAmount;
