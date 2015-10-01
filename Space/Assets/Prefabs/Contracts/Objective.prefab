@@ -82,6 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1e7e55da6a8b34c9e56bc61a92b288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AISpawner: {fileID: 191072, guid: 2a43c85bd6d9dbd479fdb88663bd566e, type: 2}
 --- !u!212 &21236508
 SpriteRenderer:
   m_ObjectHideFlags: 1
