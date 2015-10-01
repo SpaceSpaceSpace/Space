@@ -13,6 +13,7 @@ public class BeamWeaponScript : WeaponScript
 	 
 	void Start ()
 	{
+		m_soundSystem = GetComponent<SoundSystemScript>();
 		m_beam = (GameObject)Instantiate( projectilePrefab.gameObject, transform.position, Quaternion.identity );
 		m_beam.transform.parent = transform;
 		m_beam.SetActive( false );
@@ -26,6 +27,11 @@ public class BeamWeaponScript : WeaponScript
 		{
 			// Early return
 			return;
+		}
+
+		if( !m_soundSystem.IsPlaying() )
+		{
+			m_soundSystem.PlayLooping( fireSoundName );
 		}
 		
 		// Doing a raycast jobbie
@@ -48,6 +54,7 @@ public class BeamWeaponScript : WeaponScript
 	
 	public override void OnRelease()
 	{
+		m_soundSystem.StopPlaying();
 		m_beam.SetActive( false );
 	}
 	
