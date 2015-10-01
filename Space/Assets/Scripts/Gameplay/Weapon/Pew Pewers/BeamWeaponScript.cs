@@ -64,6 +64,10 @@ public class BeamWeaponScript : WeaponScript
 		if( !m_active )
 		{
 			m_beam.SetActive( false );
+			if( m_soundSystem.IsPlaying() )
+			{
+				m_soundSystem.StopPlaying();
+			}
 		}
 	}
 	

@@ -42,7 +42,8 @@ public class Contract
 	{
 		GameObject contractObjective = (GameObject)GameObject.Instantiate (player.objectivePrefab, objectivePosition, Quaternion.identity);
 		contractObjective.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
-		//SetUIMarker (contractObjective);
+		contractObjective.GetComponent<ObjectiveEvent> ().init (ObjectiveEvent.ObjectiveType.KillTarget);
+		SetUIMarker (contractObjective);
 		contractObjectives.Add (contractObjective);
 	}
 
