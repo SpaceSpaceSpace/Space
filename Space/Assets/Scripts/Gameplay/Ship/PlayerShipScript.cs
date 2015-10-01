@@ -4,7 +4,7 @@ using System.Collections.Generic;
 // Set an open course for the virgin sea
 public class PlayerShipScript : ShipScript
 {
-	public static PlayerShipScript player;
+	public static PlayerShipScript player = null;
 	public GameObject objectivePrefab;
 
 	public List<Vector2> AttachmentPoints = new List<Vector2>();
@@ -13,6 +13,12 @@ public class PlayerShipScript : ShipScript
 
 	private Transform m_cameraTransform;
 	private bool m_docked = false;
+	public GameObject objectiveMarker;
+
+	public GameObject ObjectiveMarker
+	{
+		get{return objectiveMarker;}
+	}
 
 	public float Health
 	{
@@ -31,6 +37,17 @@ public class PlayerShipScript : ShipScript
 
 	void Awake()
 	{
+		//There can be only one
+		if(player == null)
+		{
+			DontDestroyOnLoad(gameObject);
+			player = this;
+		}
+		else if(player != this)
+		{
+			Destroy(gameObject);
+		}
+
 		InitShip();
 		m_thrust.Init( 50.0f, 5.0f, 10.0f, 90.0f ); // Magic numbers. Because I can.
 
@@ -43,7 +60,7 @@ public class PlayerShipScript : ShipScript
 	public void AcceptContract(Contract contract)
 	{
 		playerContracts.Add (contract);
-		contract.SpawnContract (player);
+		contract.SpawnContract (this);
 		Debug.Log (playerContracts.Count);
 	}
 
