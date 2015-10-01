@@ -23,8 +23,7 @@ public class ChargeableWeaponScript : WeaponScript
 	{
 		if( m_chargeTime >= fireTime )
 		{
-			float angle = transform.eulerAngles.z + Random.Range( -maxSpreadAngle, maxSpreadAngle );
-			Instantiate( projectilePrefab, transform.position, Quaternion.AngleAxis( angle, Vector3.forward ) );
+			FireProjectile();
 		}
 		
 		m_chargeTime = 0f;

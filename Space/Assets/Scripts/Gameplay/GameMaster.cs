@@ -1,29 +1,50 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum GameState
+{
+	MainMenu,
+	Flying,
+	Customization
+}
+
 public class GameMaster : MonoBehaviour {
 
-	public static GameMaster master;
+	public static GameMaster Master;
+	public static GameState CurrentGameState = GameState.Flying;
 
 	void Awake ()
 	{
 		//There can be only one
-		if(master == null)
+		if(Master == null)
 		{
 			DontDestroyOnLoad(gameObject);
-			master = this;
+			Master = this;
 		}
-		else if(master != this)
+		else if(Master != this)
 		{
 			Destroy(gameObject);
 		}
 	}
 
 	void Update () {
-		//Swap to Customization scene
-		if(Input.GetKey(KeyCode.F2))
+
+		//Go to Main Menu
+		if(Input.GetKey(KeyCode.F1))
 		{
-			Application.LoadLevel("CustomizationTest");
+			CurrentGameState = GameState.MainMenu;
+		}
+
+		//Go to Flying mode
+		if(Input.GetKey (KeyCode.F2))
+		{
+			CurrentGameState = GameState.Flying;
+		}
+
+		//Go to Customization Mode
+		if(Input.GetKey(KeyCode.F3))
+		{
+			CurrentGameState = GameState.Customization;
 		}
 	}
 }
