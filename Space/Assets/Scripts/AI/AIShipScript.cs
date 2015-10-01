@@ -13,31 +13,53 @@ public class AIShipScript : ShipScript {
 	public float maxMoveSpeed; // max move speed for thrust
 	public float maxTurnSpeed; // max turn speed for thrust
 
+	public GameObject[] squad; // the squad of ships
+	public GameObject leader; // the leader of a squad
+	public Transform player;
+
 	///
 	/// Private Variables
 	///
 	private Transform m_target; // the transform of the ship's target, currently the player
-	private int m_passSide; // is the side for the ship to pass on set
-	private float m_wanderAngle;
-	private bool m_engage; // is the ship engaging in combat
+	private int passSide; // is the side for the ship to pass on set
+	private float wanderAngle;
+	private bool m_obstacle; // is there an obstacle in the way
+	public Transform objective;
+
+	// Weights for flocking
+	private const float ALIGNMENT = 4.0f;
+	private const float SEPARATION = 6.0f;
+	private const float COHESION = 1.0f;
+	// The distance for separation
+	private const float SEP_DISTANCE = 3.0f;
+
 
 
 	// Acessors
-	public Transform Target {get {return m_target;}}
-	public bool Engage { get {return m_engage; }set { m_engage = value; } }
+	public Transform Target { get { return m_target; } set { m_target = value; } }
+	public bool Obstacle { get { return m_obstacle; } }
 	// Use this for initialization
 	void Start () {
 		InitShip();
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce, maxTurnSpeed);
 
+		player = GameObject.Find("Player Ship").transform;
 		m_target = GameObject.Find("Player Ship").transform; // Find the player, will likely change
-		m_passSide = -1;
-		m_wanderAngle = 0.0f;
-		m_engage = false;
+		passSide = -1;
+		wanderAngle = 0.0f;
+		m_thrust.AccelPercent = 1.0f;
+		m_thrust.Accelerate = true;
+
+		for(int i = 0; i < squad.Length; i++)
+		{
+			if(squad[i].GetComponent<ShipBehaviourScript>().behaviour.ToString() == "Leader")
+				leader = squad[i];
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		AvoidObstacle();
 	}
 
 
@@ -57,10 +79,14 @@ public class AIShipScript : ShipScript {
 	}
 
 	// Move toward the target's predicted position
-	public void MoveTowardTarget()
+	public void MoveToward(Transform target)
 	{
 		m_thrust.AccelPercent = 1.0f;
-		Vector2 targetPos = PredictTargetPosition(maxMoveSpeed);
+		Vector2 targetPos = Vector2.zero;
+		if(Vector2.Distance(target.position, transform.position) > 5.0f)
+			targetPos = PredictPosition(target, maxMoveSpeed);
+		else
+			targetPos = target.position;
 		FaceTarget(targetPos);
 
 		if(Vector2.Angle(targetPos - (Vector2)transform.position, transform.up) < 45)
@@ -68,10 +94,10 @@ public class AIShipScript : ShipScript {
 	}
 
 	// Flee directly from the target
-	public void MoveAwayFromTarget()
+	public void MoveAwayFrom(Transform target)
 	{
 		m_thrust.AccelPercent = 1.0f;
-		Vector2 targetPos = transform.position + (transform.position - m_target.position);
+		Vector2 targetPos = transform.position + (transform.position - target.position);
 		FaceTarget(targetPos);
 		m_thrust.Accelerate = true;
 	}
@@ -90,30 +116,27 @@ public class AIShipScript : ShipScript {
 		m_thrust.AccelPercent = 1.0f;
 		Vector2 targetPos = m_target.position;
 
-		if(m_passSide == -1)
+		if(passSide == -1)
 		{
-			m_passSide = Random.Range(0, 11);
+			passSide = Random.Range(0, 11);
 		}
 		else
 		{
 			Vector2 toTarget = m_target.position - transform.position;
 			toTarget.Normalize();
-			if(m_passSide > 5)
+			if(passSide > 5)
 				targetPos += new Vector2(-toTarget.y, toTarget.x) * distance;
 			else
 				targetPos -= new Vector2(toTarget.y, -toTarget.x) * distance;
 		}
-
 		FaceTarget(targetPos);
 		m_thrust.Accelerate = true;
-
-
 	}
 	 
 	// Reset which side this ship will pass the target on
 	public void ResetPassSide()
 	{
-		m_passSide = -1;
+		passSide = -1;
 	}
 
 	// Follow the target, staying in between the max distance and min distance
@@ -122,15 +145,23 @@ public class AIShipScript : ShipScript {
 		FaceTarget(m_target.position);
 
 		float distance = Vector2.Distance(m_target.position, transform.position);
-		if(distance < minDistance || AngleToTarget() > 45.0f)
-			m_thrust.AccelPercent -= 5.0f * Time.deltaTime;
+		if(distance < minDistance)
+		{
+			m_thrust.AccelPercent -= 1.0f * Time.deltaTime;
+		}
 		else if(distance > maxDistance)
-			m_thrust.AccelPercent += 5.0f * Time.deltaTime;
+			m_thrust.AccelPercent += 1.0f * Time.deltaTime;
+		else
+		{
+			float targetSpeed = m_target.GetComponent<Rigidbody2D>().velocity.magnitude;
+			m_thrust.AccelPercent = maxMoveSpeed / targetSpeed;
+		}
 	}
 
-	public float DistanceToTarget()
+
+	public float DistanceTo(Vector2 target)
 	{
-		return Vector2.Distance(transform.position, m_target.position);
+		return Vector2.Distance(transform.position, target);
 	}
 
 	public void FireWeapon(int index)
@@ -144,18 +175,125 @@ public class AIShipScript : ShipScript {
 
 	public void Wander()
 	{
-		m_wanderAngle += Random.Range(-0.05f, 0.05f);
-		Vector2 wanderPos = 3.0f * new Vector2(Mathf.Cos(m_wanderAngle), Mathf.Sin(m_wanderAngle));
+		wanderAngle += Random.Range(-0.05f, 0.05f);
+		Vector2 wanderPos = 3.0f * new Vector2(Mathf.Cos(wanderAngle), Mathf.Sin(wanderAngle));
 		wanderPos += (Vector2)(transform.position + (transform.up * 5.0f));
-		m_thrust.AccelPercent = 0.1f;
+		m_thrust.AccelPercent = 0.5f;
 		FaceTarget(wanderPos);
 		m_thrust.Accelerate = true;
 
 	}
 
+	// flock with the other ships in the squad
+	public void Flock()
+	{
+		m_thrust.Accelerate = true;
+		Vector2 align = Vector2.zero; // the alignment angle of the squad
+		Vector2 center = Vector2.zero; // the center of the squad
+		Vector2 separation = Vector2.zero; // the closest ship in the squad
+		// Gather all of the data necessary to figure out the flocking vectors
+		foreach(GameObject g in squad)
+		{
+			center += (Vector2)g.transform.position;
+			float dist = Vector2.Distance(g.transform.position, transform.position);
+			if(g != this.gameObject && dist < SEP_DISTANCE)
+			{
+				Vector2 fromShip = (Vector2)(transform.position - g.transform.position);
+				fromShip *= SEP_DISTANCE/fromShip.magnitude;
+				separation += fromShip;
+			}
+			align += (Vector2)(g.transform.up - transform.up);
+		}
+
+		align /= squad.Length;
+		center /= squad.Length;
+		align = align.normalized * ALIGNMENT;
+		Vector2 cohesion = center - (Vector2) transform.position;
+		cohesion = cohesion.normalized * COHESION;
+
+		separation = separation.normalized * SEPARATION;
+
+		Vector2 final = separation + cohesion + align;
+		if(Vector2.Dot(final, transform.right) > 0.1f)
+			m_thrust.TurnDirection = -1;
+		else
+			m_thrust.TurnDirection = 1;
+		
+		if(Vector2.Dot(final, transform.up) > 0)
+			m_thrust.AccelPercent += 1.0f * Time.deltaTime;
+		else
+			m_thrust.AccelPercent -= 1.0f * Time.deltaTime;
+
+		// Set a minimum speed for the squad
+		if(m_thrust.AccelPercent < 0.4f)
+			m_thrust.AccelPercent = 0.4f;
+
+	}
+
+	public bool CanSeeTarget()
+	{
+		float targetDist = Vector2.Distance(m_target.position, transform.position);
+		if(targetDist > 15.0f)
+			return false;
+		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, m_target.position - transform.position, 15.0f);
+		foreach(RaycastHit2D h in hits)
+		{
+			if(h.collider.gameObject.tag == "Obstacle" && h.distance < targetDist)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public void AvoidObstacle()
+	{
+		m_obstacle = false;
+		RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, GetComponent<CircleCollider2D>().radius, transform.up, 10.0f);
+		float closestDist = 100.0f; // the closest gameobject
+		Vector2 closestPos = Vector2.zero; // the center of the closest obstacle
+		Vector2 impactPoint = Vector2.zero; // the point of impact for the closest obstacle
+		foreach(RaycastHit2D h in hits)
+		{
+			if(h.collider.gameObject.tag == "Obstacle")
+			{
+				m_obstacle = true;
+				Vector2 obsPos = h.collider.gameObject.transform.position;
+				if(h.distance < closestDist)
+				{
+					closestPos = obsPos;
+					impactPoint = h.point;
+				}
+			}
+		}
+
+		if(!m_obstacle)
+			return;
+		
+		// turn to go around the obstacle
+		if(Vector2.Dot(transform.right, closestPos - (Vector2)transform.position) > 0)
+			m_thrust.TurnDirection = 1;
+		else
+			m_thrust.TurnDirection = -1;
+
+		float impactDist = Vector2.Distance(impactPoint, transform.position);
+		// slow down when getting too close to the obstacle
+		if(impactDist < GetComponent<CircleCollider2D>().radius + (maxMoveSpeed * m_thrust.AccelPercent))
+			m_thrust.AccelPercent -= 1.0f * Time.deltaTime;
+
+		// stop completely if about to impact
+		if(impactDist < GetComponent<CircleCollider2D>().radius + 0.25f)
+			m_thrust.Accelerate = false;
+		
+
+	}
+
+
+
 	// return the angle between the direction the AI ship is facing
 	// and the direction to the target's predicted position
-	public float AngleToTarget()
+	float AngleToTarget()
 	{
 		Vector2 target = m_target.position - transform.position;
 		float angle = Vector2.Angle(transform.up, target);
@@ -164,15 +302,15 @@ public class AIShipScript : ShipScript {
 
 	// Using the target's velocity, a parameter velocity, and the distance to the target,
 	// predict where the interception point of the target and the speed provided
-	Vector2 PredictTargetPosition(float speed)
+	Vector2 PredictPosition(Transform target, float speed)
 	{
 		// if the target doesn't have a rigidbody we can't get its velocity,
 		// so return the target's position
-		if(!m_target.GetComponent<Rigidbody2D>() || m_target.GetComponent<Rigidbody2D>().velocity.magnitude < 0.1f) 
-			return m_target.position;
+		if(!target.GetComponent<Rigidbody2D>() || target.GetComponent<Rigidbody2D>().velocity.magnitude < 0.1f) 
+			return target.position;
 
-		Vector2 toTarget = m_target.position - transform.position; // Vector to the target
-		Vector2 targetVel = m_target.GetComponent<Rigidbody2D>().velocity; // the velocity of the target
+		Vector2 toTarget = target.position - transform.position; // Vector to the target
+		Vector2 targetVel = target.GetComponent<Rigidbody2D>().velocity; // the velocity of the target
 		float angle = 180 - Vector2.Angle(toTarget, targetVel); // the angle betweeen the target's velocity and the ane vector to the target
 		float distance = toTarget.magnitude; // the distance to the target
 		// Now for some math stuff
@@ -184,14 +322,14 @@ public class AIShipScript : ShipScript {
 		angle *= Mathf.Deg2Rad; // convert andgle to radians for sin
 		float velRatio =  Mathf.Sin(angle) / speed; // The ratio for the Law of Sins, using the velocity
 		if(Mathf.Abs(velRatio *targetVel.magnitude) > 1) // If we can't catch the target, return the target position
-			return m_target.position;
+			return target.position;
 		float targetAngle = Mathf.Asin(velRatio * targetVel.magnitude); // Get the second angle using the velRatio and the vel of the target
 		float finalAngle = Mathf.PI - (angle + targetAngle); // Find the final angle of the triangle, the one opposite the distance
 		float distRatio = distance / Mathf.Sin(finalAngle); // Now get the Law of Sins ratio, but we can do it with the distance now
 		float predictDist = distRatio * Mathf.Sin(angle); // Find the distance this ship will have to travel to intercept the target
 		float time =  Mathf.Abs(predictDist / speed); // and use it to determine the amount of time that will take
 		// And now we have the predicted position by advancing the target's position by the time 
-		Vector2 predictPos = (Vector2)m_target.position + (targetVel * time); 
+		Vector2 predictPos = (Vector2)target.position + (targetVel * time); 
 
 		Debug.DrawLine(transform.position, predictPos);
 

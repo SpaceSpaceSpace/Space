@@ -6,9 +6,12 @@ TagManager:
   tags:
   - Ship
   - Interactable
+<<<<<<< HEAD
   - Obstacle
+=======
   - Contract
   - Objective
+>>>>>>> 5c3197493e87a8b827ffe5d8248c60d13c852e67
   layers:
   - Default
   - TransparentFX
