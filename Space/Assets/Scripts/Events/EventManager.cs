@@ -90,4 +90,5 @@ public struct EventDefs
 {
 	public const string PLAYER_HEALTH_UPDATE = "PlayerHealthUpdate";
 	public const string PLAYER_SHIELD_UPDATE = "PlayerShieldUpdate";
+	public const string PLAYER_KILLED_TARGET = "PlayerKilledTarget";
 }

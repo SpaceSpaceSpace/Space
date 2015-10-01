@@ -8,6 +8,7 @@ public class AISpawnerScript : MonoBehaviour {
 	public float range;
 
 	public GameObject AIPrefab;
+	public Sprite leaderSprite;
 
 	private int currentAI;
 	// Use this for initialization
@@ -15,6 +16,7 @@ public class AISpawnerScript : MonoBehaviour {
 
 		currentAI = 0;
 		Vector2 spawnPos;
+		GameObject[] squad = new GameObject[startAI];
 		for(int i = 0; i < startAI; i++)
 		{
 			float distance = Random.Range(0.0f, range);
@@ -22,8 +24,22 @@ public class AISpawnerScript : MonoBehaviour {
 
 			spawnPos = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 			spawnPos = (spawnPos * distance) + (Vector2)transform.position;
+			GameObject g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.identity); 
+			if(i == 0)
+			{
+				g.GetComponent<ShipBehaviourScript>().behaviour = ShipBehaviourScript.Behaviour.Leader;
+				g.GetComponent<SpriteRenderer>().sprite = leaderSprite;
+			}
+			else
+				g.GetComponent<ShipBehaviourScript>().behaviour = ShipBehaviourScript.Behaviour.Grunt;
 
-			GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.identity); 
+			g.GetComponent<AIShipScript>().objective = transform; 
+			squad[i] = g;
+		}
+
+		for(int i = 0; i < squad.Length; i++)
+		{
+			squad[i].GetComponent<AIShipScript>().squad = squad;
 		}
 	
 	}

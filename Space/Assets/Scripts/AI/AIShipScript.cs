@@ -24,7 +24,7 @@ public class AIShipScript : ShipScript {
 	private int passSide; // is the side for the ship to pass on set
 	private float wanderAngle;
 	private bool m_obstacle; // is there an obstacle in the way
-	private Transform objective;
+	public Transform objective;
 
 	// Weights for flocking
 	private const float ALIGNMENT = 4.0f;

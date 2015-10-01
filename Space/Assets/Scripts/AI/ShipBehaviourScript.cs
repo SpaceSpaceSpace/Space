@@ -38,27 +38,38 @@ public class ShipBehaviourScript : MonoBehaviour {
 	
 		if(!m_shipScript.Obstacle)
 		{
-			if(m_shipScript.DistanceTo(m_shipScript.objective) > 10.0f)
-				m_shipScript.MoveToward(m_shipScript.objective);
-			else
+			if(m_shipScript.objective != null)
 			{
-				switch (behaviour)
-				{
-				case Behaviour.Civilian:
-					Civilian();
-					break;
-				case Behaviour.Grunt:
-					Grunt ();
-					break;
-				case Behaviour.Leader:
-					Leader ();
-					break;
-				}
+			 	if(m_shipScript.DistanceTo(m_shipScript.objective.position) > 10.0f)
+					m_shipScript.MoveToward(m_shipScript.objective);
+				else
+					DoNormalStuff();
+
+	
 			}
+			else
+				DoNormalStuff();
+				
+
 		}
 
 
 		chaseTime += Time.deltaTime;
+	}
+
+	public void DoNormalStuff() // to be fxed later
+	{
+		switch (behaviour) {
+		case Behaviour.Civilian:
+			Civilian ();
+			break;
+		case Behaviour.Grunt:
+			Grunt ();
+			break;
+		case Behaviour.Leader:
+			Leader ();
+			break;
+		}
 	}
 
 	public void Civilian()
@@ -81,11 +92,11 @@ public class ShipBehaviourScript : MonoBehaviour {
 			}
 
 		}
-		else if(chaseTime > 5.0f)
+		else if(chaseTime > 10.0f)
 		{
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 10.0f)
 				m_shipScript.MoveAwayFrom(m_shipScript.Target);
-			if(chaseTime > 6.5f)
+			if(chaseTime > 11.5f)
 				chaseTime = Random.Range(0.0f, 2.0f);
 		}
 		// If the leader is alive and the player is less than 10 units away, move toward it
