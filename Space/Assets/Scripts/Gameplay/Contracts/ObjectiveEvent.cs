@@ -16,6 +16,7 @@ public class ObjectiveEvent : MonoBehaviour {
 	private Contract objectiveContract;
 	private GameObject target;
 	private GameObject nextObjective;
+	private bool firstActivation = true;
 	ObjectiveType type;
 
 
@@ -33,11 +34,18 @@ public class ObjectiveEvent : MonoBehaviour {
 
 	void OnEnable()
 	{
-		if(type == ObjectiveType.TurnInContract)
+		if(firstActivation)
 		{
+			firstActivation = false;
+		}
+		else
+		{
+			if(type == ObjectiveType.TurnInContract)
+			{
 
-			transform.position = spaceStation.transform.position;
-			transform.parent = spaceStation.transform;
+				transform.position = spaceStation.transform.position;
+				transform.parent = spaceStation.transform;
+			}
 		}
 	}
 
