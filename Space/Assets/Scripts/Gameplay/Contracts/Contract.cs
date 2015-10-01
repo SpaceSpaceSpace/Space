@@ -40,11 +40,20 @@ public class Contract
 	//Eventually will spawn objectives based off contract
 	public void SpawnContract(PlayerShipScript player)
 	{
-		GameObject contractObjective = (GameObject)GameObject.Instantiate (player.objectivePrefab, objectivePosition, Quaternion.identity);
-		contractObjective.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
-		contractObjective.GetComponent<ObjectiveEvent> ().init (ObjectiveEvent.ObjectiveType.KillTarget);
-		SetUIMarker (contractObjective);
-		contractObjectives.Add (contractObjective);
+		GameObject contractObjective1 = (GameObject)GameObject.Instantiate (player.objectivePrefab, objectivePosition, Quaternion.identity);
+		contractObjective1.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
+		contractObjective1.GetComponent<ObjectiveEvent> ().init (ObjectiveEvent.ObjectiveType.KillTarget);
+		SetUIMarker (contractObjective1);
+
+		GameObject contractObjective2 = (GameObject)GameObject.Instantiate (player.objectivePrefab, objectivePosition, Quaternion.identity);
+		contractObjective2.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
+		contractObjective2.GetComponent<ObjectiveEvent> ().init (ObjectiveEvent.ObjectiveType.TurnInContract);
+		contractObjective2.SetActive (false);
+
+		contractObjective1.GetComponent<ObjectiveEvent> ().NextObjective = contractObjective2;
+
+		contractObjectives.Add (contractObjective1);
+		contractObjectives.Add (contractObjective2);
 	}
 
 	public void SetUIMarker(GameObject contractObjective)
