@@ -91,7 +91,7 @@ public class ShipScript : MonoBehaviour
 	
 	protected void HandleCollision( Collision2D collision )
 	{
-		ApplyDamage( collision.relativeVelocity.magnitude * collision.rigidbody.mass );
+		ApplyDamage( collision.relativeVelocity.magnitude * collision.rigidbody.mass * 0.02f );
 	}
 
 	protected virtual void Die()
