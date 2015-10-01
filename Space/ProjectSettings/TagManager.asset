@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - Contract
   - Objective
+  - Asteroid
   layers:
   - Default
   - TransparentFX
