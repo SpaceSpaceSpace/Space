@@ -6,13 +6,16 @@ public class ObjectiveEvent : MonoBehaviour {
 	public enum ObjectiveType
 	{
 		GoTo,
-		KillTarget
+		KillTarget,
+		TurnInContract
 	}
 
 	public GameObject AISpawner;
+	public GameObject spaceStation;
 
 	private Contract objectiveContract;
 	private GameObject target;
+	private GameObject nextObjective;
 	ObjectiveType type;
 
 
@@ -21,6 +24,31 @@ public class ObjectiveEvent : MonoBehaviour {
 	public Contract ObjectiveContract {
 		get { return objectiveContract; }
 		set { objectiveContract = value; }
+	}
+
+	public GameObject NextObjective{
+		get{ return nextObjective;}
+		set{ nextObjective = value;}
+	}
+
+	void OnEnable()
+	{
+		if(type == ObjectiveType.TurnInContract)
+		{
+
+			transform.position = spaceStation.transform.position;
+			transform.parent = spaceStation.transform;
+		}
+	}
+
+	public bool CheckIfNextObjective()
+	{
+		if(nextObjective == null)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	public void init(ObjectiveType p_Type)
@@ -35,6 +63,8 @@ public class ObjectiveEvent : MonoBehaviour {
 			case ObjectiveType.KillTarget:
 				GameObject spawner = (GameObject) GameObject.Instantiate(AISpawner,transform.position, Quaternion.identity);
  				target = spawner.GetComponent<AISpawnerScript>().SquadLeader;
+				break;
+			case ObjectiveType.TurnInContract:
 				break;
 		}
 	}
@@ -53,7 +83,13 @@ public class ObjectiveEvent : MonoBehaviour {
 			case ObjectiveType.KillTarget:
 				if(target == null)
 				{
-					CompleteTask();	
+					if(CheckIfNextObjective())
+					{
+						//Set the next objective to active and update the minimap
+						nextObjective.SetActive(true);
+						objectiveContract.SetUIMarker(nextObjective);
+					}
+					CompleteTask();
 				}
 				break;
 		}
@@ -61,7 +97,7 @@ public class ObjectiveEvent : MonoBehaviour {
 
 	void OnTriggerEnter2D( Collider2D col )
 	{
-		if( col.tag == "Ship" && type == ObjectiveType.GoTo )
+		if( col.tag == "Ship" && type != ObjectiveType.KillTarget)
 		{
 			//objectiveContract.completed = true;//Make boolean an array for multi-mission contracts
 			CompleteTask();
