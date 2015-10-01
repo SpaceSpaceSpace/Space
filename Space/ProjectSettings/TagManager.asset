@@ -7,6 +7,8 @@ TagManager:
   - Ship
   - Interactable
   - Obstacle
+  - Contract
+  - Objective
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - 
   - Blips
   - Ships
-  - 
+  - RadarAndInGame
   - 
   - 
   - 

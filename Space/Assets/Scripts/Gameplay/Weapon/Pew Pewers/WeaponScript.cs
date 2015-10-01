@@ -8,8 +8,42 @@ public class WeaponScript : MonoBehaviour
 	///
 	/// Public members to be assigned in the Inpector
 	///
-	public GameObject projectilePrefab;
+	public ProjectileScript projectilePrefab;
 	
+	public float projectileSpeed
+	{
+		get{
+			if(projectilePrefab)
+				return projectilePrefab.speed;
+			else
+				return 0;
+		}
+		set{
+			if(projectilePrefab)
+				projectilePrefab.speed = value;
+		}
+	}
+	public float projectileLifeTime
+	{
+		get{
+			if(projectilePrefab)
+				return projectilePrefab.lifeTime;
+			else
+				return 0;
+		}
+		set{
+			if(projectilePrefab)
+				projectilePrefab.lifeTime = value;
+		}
+	}
+	public float attackPower;
+	public float shieldPiercing;
+	public float cooldown;
+	public int shotsBeforeCooldown;
+	public int projectilesPerShot;
+	public float shotsPerClip;
+	public float maxReserveClips;
+	public float knockback;
 	public float fireTime = 0.5f;
 	public float maxSpreadAngle = 15.0f;
 	
@@ -85,7 +119,8 @@ public class WeaponScript : MonoBehaviour
 	protected void FireProjectile()
 	{
 		float angle = transform.eulerAngles.z + Random.Range( -maxSpreadAngle, maxSpreadAngle );
-		GameObject projectile = (GameObject)Instantiate( projectilePrefab, 
+
+		GameObject projectile = (GameObject)Instantiate( projectilePrefab.gameObject, 
 														 transform.position, 
 														 Quaternion.AngleAxis( angle, Vector3.forward ) );
 		ProjectileScript projScript = projectile.GetComponent<ProjectileScript>();

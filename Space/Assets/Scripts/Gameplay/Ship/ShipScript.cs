@@ -1,20 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[RequireComponent (typeof ( Rigidbody2D ) ) ]
-[RequireComponent ( typeof ( ThrustScript ) ) ]
+[ RequireComponent (typeof ( Rigidbody2D ) ) ]
+[ RequireComponent ( typeof ( ThrustScript ) ) ]
 
 // I'm sailing away...
 public class ShipScript : MonoBehaviour
 {
+	protected float m_health = 100.0f;
+	protected float m_maxHealth = 100.0f;
+
 	protected ThrustScript m_thrust;
 	protected WeaponScript[] m_weapons;
-	
+	protected ShieldScript m_shield;
+
 	// Primarily handles "collisions" with projeciles 
 	public void TakeHit( Vector2 force, Vector2 hitPoint )
 	{
 		m_thrust.AppyImpulse( force, hitPoint );
-		// Do damage
+	}
+
+	public virtual void ApplyDamage( float damage, float shieldPen = 0.0f )
+	{
+		float damageToShip = damage * shieldPen;
+		if( m_shield != null )
+		{
+			// ShieldScript.ApplyDamage returns any leftover damage
+			damageToShip += m_shield.ApplyDamage( damage - damageToShip );
+		}
+		else
+		{
+			damageToShip = damage;
+		}
+
+		m_health -= damageToShip;
+
+		if( m_health <= 0 )
+		{
+			Die();
+		}
 	}
 	
 	// Basically the Start method of the script,
@@ -23,6 +47,9 @@ public class ShipScript : MonoBehaviour
 	{
 		m_thrust = GetComponent<ThrustScript>();
 		InitWeapons();
+
+		// Temporary
+		m_shield = transform.GetChild( transform.childCount - 1 ).GetComponent<ShieldScript>();
 	}
 
 	// Checks which weapons are attached and loads them into m_weapons
@@ -60,8 +87,11 @@ public class ShipScript : MonoBehaviour
 	
 	protected void HandleCollision( Collision2D collision )
 	{
-		// Do damage
-		// Will probably use collision.relativeVelocity
-		// Maybe some extra fun based on the object that is hit
+		ApplyDamage( collision.relativeVelocity.magnitude * collision.rigidbody.mass );
+	}
+
+	protected virtual void Die()
+	{
+		Destroy( gameObject );
 	}
 }
