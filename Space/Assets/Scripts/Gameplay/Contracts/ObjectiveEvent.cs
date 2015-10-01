@@ -37,6 +37,7 @@ public class ObjectiveEvent : MonoBehaviour {
 		if(firstActivation)
 		{
 			firstActivation = false;
+			spaceStation = GameObject.Find("SpaceStore");
 		}
 		else
 		{
