@@ -8,7 +8,7 @@ public class Satellite : MonoBehaviour {
 	public float mass;
 	public GameObject satPrefab;
 	public const float MAX_VELOCITY = 1000.0f;
-	public const float GRAVITATION_MAGNITUDE = 15.0f;
+	public const float GRAVITATION_MAGNITUDE = 10.0f;
 	//public const float STARTING_IMPULSE = 12f;
 	public Vector2 radius;
 	public float splitForce;
@@ -25,13 +25,13 @@ public class Satellite : MonoBehaviour {
 		else
 			semiMajor = radius.y;
 
-		if(!artificial)
+		/*if(!artificial)
 		{
 			mass = Random.Range (1, 9);
 			transform.localScale = new Vector3 (mass, mass, 1);
 			transform.GetComponent<Rigidbody2D> ().mass = mass * 100.0f;
 			health = 5.0f * mass;
-		}
+		}*/
 
 		Vector3 toCenter = centerOfOrbit - transform.position;
 		Vector2 tangential = new Vector2(-toCenter.y, toCenter.x);
@@ -78,12 +78,13 @@ public class Satellite : MonoBehaviour {
 
 		}
 	}
-	public void ScaleMass(float m){
+	public void ScaleMass(float m, bool split){
 		mass = m;
 		if (mass < 1.0f) {
 			Destroy (gameObject);
 		}
 		transform.localScale = new Vector3 (m, m, 1);
+		transform.GetComponent<Rigidbody2D> ().mass = mass * 75.0f;
 		health = 2.5f * m;
 	}
 
