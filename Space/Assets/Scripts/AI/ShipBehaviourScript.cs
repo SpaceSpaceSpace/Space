@@ -26,32 +26,20 @@ public class ShipBehaviourScript : MonoBehaviour {
 	/// 
 	private AIShipScript m_shipScript;
 	private float chaseTime; // how long will an enemy chase
+	private bool aggro; // is the ship aggroed on to a target
 
 	// Use this for initialization
 	void Start () {
 		m_shipScript = GetComponent<AIShipScript>();
 		chaseTime = 0.0f;
+		aggro = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-		if(!m_shipScript.Obstacle)
-		{
-			if(m_shipScript.objective != null)
-			{
-			 	if(m_shipScript.DistanceTo(m_shipScript.objective.position) > 10.0f)
-					m_shipScript.MoveToward(m_shipScript.objective);
-				else
-					DoNormalStuff();
+		DoNormalStuff();
 
-	
-			}
-			else
-				DoNormalStuff();
-				
-
-		}
 
 
 		chaseTime += Time.deltaTime;
@@ -92,21 +80,33 @@ public class ShipBehaviourScript : MonoBehaviour {
 			}
 
 		}
-		else if(chaseTime > 10.0f)
+		else if(chaseTime > 5.0f)
 		{
+
+			chaseTime+=Time.deltaTime;
+
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 10.0f)
 				m_shipScript.MoveAwayFrom(m_shipScript.Target);
-			if(chaseTime > 11.5f)
-				chaseTime = Random.Range(0.0f, 2.0f);
+			else
+				m_shipScript.MoveToward(m_shipScript.Target);
+
+			if(chaseTime > 0.0f)
+				chaseTime = 0.0f;
+
+
 		}
 		// If the leader is alive and the player is less than 10 units away, move toward it
 		else if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 10.0f)
 		{
 
+			aggro = true;
+
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 5.0)
 			{
-				m_shipScript.FireWeapon(0);
+				if(m_shipScript.AngleToTarget() < 10.0f)
+					m_shipScript.FireWeapon(0);
 				m_shipScript.ChaseTarget(5.0f, 3.0f);
+				chaseTime+=Time.deltaTime;
 			}
 			else
 				m_shipScript.MoveToward(m_shipScript.Target);

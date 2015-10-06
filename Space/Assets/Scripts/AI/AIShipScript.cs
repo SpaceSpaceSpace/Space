@@ -216,8 +216,10 @@ public class AIShipScript : ShipScript {
 		Vector2 final = separation + cohesion + align;
 		if(Vector2.Dot(final, transform.right) > 0.1f)
 			m_thrust.TurnDirection = -1;
-		else
+		else if(Vector2.Dot(final, transform.right) < 0.1f)
 			m_thrust.TurnDirection = 1;
+		else
+			m_thrust.TurnDirection = 0;
 		
 		if(Vector2.Dot(final, transform.up) > 0)
 			m_thrust.AccelPercent += 1.0f * Time.deltaTime;
@@ -293,7 +295,7 @@ public class AIShipScript : ShipScript {
 
 	// return the angle between the direction the AI ship is facing
 	// and the direction to the target's predicted position
-	float AngleToTarget()
+	public float AngleToTarget()
 	{
 		Vector2 target = m_target.position - transform.position;
 		float angle = Vector2.Angle(transform.up, target);
