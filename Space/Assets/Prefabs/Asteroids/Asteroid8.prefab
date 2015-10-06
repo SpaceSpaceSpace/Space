@@ -11,8 +11,7 @@ GameObject:
   - 212: {fileID: 21236478}
   - 114: {fileID: 11411348}
   - 50: {fileID: 5086828}
-  - 58: {fileID: 5814230}
-  - 58: {fileID: 5869900}
+  - 60: {fileID: 6044094}
   m_Layer: 0
   m_Name: Asteroid8
   m_TagString: Asteroid
@@ -44,7 +43,7 @@ Transform:
   m_GameObject: {fileID: 125702}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 7.49524879, y: 7.49524689, z: 1.49904943}
   m_Children: []
   m_Father: {fileID: 472884}
   m_RootOrder: 0
@@ -77,8 +76,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5814230
-CircleCollider2D:
+--- !u!60 &6044094
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -87,22 +86,31 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: .0900000036, y: -.0700000003}
-  serializedVersion: 2
-  m_Radius: .219999999
---- !u!58 &5869900
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 119174}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: .0199999996, y: .0599999987}
-  serializedVersion: 2
-  m_Radius: .270000011
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: .654999971, y: -.174999997}
+      - {x: .654999971, y: .324999988}
+      - {x: .405000001, y: .555000007}
+      - {x: .335000008, y: .545000017}
+      - {x: .104999997, y: .654999971}
+      - {x: .0549999997, y: .654999971}
+      - {x: -.455000013, y: .474999994}
+      - {x: -.514999986, y: .405000001}
+      - {x: -.574999988, y: .275000006}
+      - {x: -.654999971, y: .075000003}
+      - {x: -.654999971, y: -.0949999988}
+      - {x: -.644999981, y: -.194999993}
+      - {x: -.61500001, y: -.264999986}
+      - {x: -.574999988, y: -.324999988}
+      - {x: -.444999993, y: -.405000001}
+      - {x: -.305000007, y: -.574999988}
+      - {x: -.185000002, y: -.63499999}
+      - {x: -.135000005, y: -.654999971}
+      - {x: .234999999, y: -.654999971}
+      - {x: .264999986, y: -.644999981}
+      - {x: .36500001, y: -.595000029}
+      - {x: .504999995, y: -.465000004}
 --- !u!114 &11411348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,7 +155,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fb341bdc69cd73145911bd15056123d7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 64130ca9f39607247ab3e74e8a708e2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21280036
 SpriteRenderer:
@@ -190,6 +198,11 @@ Prefab:
       propertyPath: satPrefab
       value: 
       objectReference: {fileID: 104800, guid: de7fe8dd0745df943ae2d3fd29f1214f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 64130ca9f39607247ab3e74e8a708e2b,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 119174}

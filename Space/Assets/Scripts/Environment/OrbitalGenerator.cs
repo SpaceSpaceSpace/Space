@@ -71,7 +71,7 @@ public class OrbitalGenerator : MonoBehaviour {
 				
 				asteroidGenerated.GetComponent<Satellite>().artificial = artificial;
 				asteroidGenerated.GetComponent<Satellite>().radius = radius;
-				asteroidGenerated.GetComponent<Satellite> ().ScaleMass (Random.Range (1, 9), false);
+				asteroidGenerated.GetComponent<Satellite> ().ScaleMass (Random.Range (.75f, 5f), false);
 				//asteroidGenerated.GetComponent<Satellite>().SetCenterOfOrbit(centerPoint);
 				asteroidGenerated.transform.parent = beltMaster.transform;
 

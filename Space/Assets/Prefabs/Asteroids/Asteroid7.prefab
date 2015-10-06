@@ -27,8 +27,7 @@ GameObject:
   - 212: {fileID: 21263156}
   - 114: {fileID: 11472954}
   - 50: {fileID: 5010974}
-  - 58: {fileID: 5845560}
-  - 58: {fileID: 5867610}
+  - 60: {fileID: 6087948}
   m_Layer: 0
   m_Name: Asteroid7
   m_TagString: Asteroid
@@ -77,8 +76,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5845560
-CircleCollider2D:
+--- !u!60 &6087948
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -87,22 +86,24 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: .129999995, y: 0}
-  serializedVersion: 2
-  m_Radius: .230000004
---- !u!58 &5867610
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 165392}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -.119999997, y: .0299999993}
-  serializedVersion: 2
-  m_Radius: .200000003
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: .435000002, y: .474999994}
+      - {x: .204999998, y: .644999981}
+      - {x: .135000005, y: .654999971}
+      - {x: -.125, y: .654999971}
+      - {x: -.36500001, y: .564999998}
+      - {x: -.63499999, y: .275000006}
+      - {x: -.63499999, y: -.075000003}
+      - {x: -.595000029, y: -.245000005}
+      - {x: -.485000014, y: -.495000005}
+      - {x: -.425000012, y: -.564999998}
+      - {x: -.215000004, y: -.654999971}
+      - {x: .335000008, y: -.654999971}
+      - {x: .644999981, y: -.305000007}
+      - {x: .654999971, y: -.284999996}
+      - {x: .654999971, y: .224999994}
 --- !u!114 &11472954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -173,7 +174,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a0b32aca1bab39745985e0c74052fe94, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1f67dda7690d8b84280b15fe3779999c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -190,6 +191,11 @@ Prefab:
       propertyPath: satPrefab
       value: 
       objectReference: {fileID: 137980, guid: b1c82ec4361199848b4f9d94f6fd2886, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1f67dda7690d8b84280b15fe3779999c,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 165392}
