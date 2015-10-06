@@ -125,7 +125,7 @@ MonoBehaviour:
   artificial: 0
   inOrbit: 0
   mass: 0
-  satPrefab: {fileID: 104800, guid: de7fe8dd0745df943ae2d3fd29f1214f, type: 2}
+  satPrefab: {fileID: 119174}
   radius: {x: 0, y: 0}
   splitForce: 0
   velocity: {x: 0, y: 0, z: 0}
@@ -197,7 +197,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: satPrefab
       value: 
-      objectReference: {fileID: 104800, guid: de7fe8dd0745df943ae2d3fd29f1214f, type: 2}
+      objectReference: {fileID: 119174}
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 

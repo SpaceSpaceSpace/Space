@@ -11,8 +11,6 @@ GameObject:
   - 212: {fileID: 21237442}
   - 114: {fileID: 11421052}
   - 50: {fileID: 5003270}
-  - 58: {fileID: 5809684}
-  - 58: {fileID: 5833048}
   - 60: {fileID: 6034428}
   m_Layer: 0
   m_Name: Asteroid6
@@ -78,32 +76,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5809684
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 161810}
-  m_Enabled: 0
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: .0199999996, y: -.0900000036}
-  serializedVersion: 2
-  m_Radius: .219999999
---- !u!58 &5833048
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 161810}
-  m_Enabled: 0
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -.129999995, y: .119999997}
-  serializedVersion: 2
-  m_Radius: .180000007
 --- !u!60 &6034428
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -148,7 +120,7 @@ MonoBehaviour:
   artificial: 0
   inOrbit: 0
   mass: 0
-  satPrefab: {fileID: 178922, guid: 9207a46fe21d8784dacc201ba444df8c, type: 2}
+  satPrefab: {fileID: 161810}
   radius: {x: 0, y: 0}
   splitForce: 0
   velocity: {x: 0, y: 0, z: 0}
@@ -220,7 +192,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: satPrefab
       value: 
-      objectReference: {fileID: 178922, guid: 9207a46fe21d8784dacc201ba444df8c, type: 2}
+      objectReference: {fileID: 161810}
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
