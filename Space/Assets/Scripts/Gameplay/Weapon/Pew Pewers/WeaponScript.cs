@@ -8,16 +8,55 @@ public class WeaponScript : MonoBehaviour
 	///
 	/// Public members to be assigned in the Inpector
 	///
-	public GameObject projectilePrefab;
-	
+	public ProjectileScript projectilePrefab;
+
+	public float projectileSpeed
+	{
+		get{
+			if(projectilePrefab)
+				return projectilePrefab.speed;
+			else
+				return 0;
+		}
+		set{
+			if(projectilePrefab)
+				projectilePrefab.speed = value;
+		}
+	}
+	public float projectileLifeTime
+	{
+		get{
+			if(projectilePrefab)
+				return projectilePrefab.lifeTime;
+			else
+				return 0;
+		}
+		set{
+			if(projectilePrefab)
+				projectilePrefab.lifeTime = value;
+		}
+	}
+	public float attackPower;
+	public float shieldPiercing;
+	public float cooldown;
+	public int shotsBeforeCooldown;
+	public int projectilesPerShot;
+	public float shotsPerClip;
+	public float maxReserveClips;
+	public float knockback;
 	public float fireTime = 0.5f;
 	public float maxSpreadAngle = 15.0f;
+	public string fireSoundName = "Laser_Bolt";
 	
 	///
 	/// Protected (Private) members
 	///
 	protected bool m_active;
 	protected bool m_canFire;
+	
+	protected Collider2D m_parentCollider;
+
+	protected SoundSystemScript m_soundSystem;
 	
 	///
 	/// Properties for access to private members
@@ -35,6 +74,9 @@ public class WeaponScript : MonoBehaviour
 	{
 		m_active = false;
 		m_canFire = true;
+		
+		m_parentCollider = transform.root.GetComponent<Collider2D>();
+		m_soundSystem = GetComponent<SoundSystemScript>();
 	}
 	
 	///
@@ -48,8 +90,7 @@ public class WeaponScript : MonoBehaviour
 			return;
 		}
 		
-		float angle = transform.eulerAngles.z + Random.Range( -maxSpreadAngle, maxSpreadAngle );
-		Instantiate( projectilePrefab, transform.position, Quaternion.AngleAxis( angle, Vector3.forward ) );
+		FireProjectile();
 		
 		StartCoroutine( FireDelay() );
 	}
@@ -78,6 +119,19 @@ public class WeaponScript : MonoBehaviour
 	///
 	/// Private Methods
 	///
+	
+	protected void FireProjectile()
+	{
+		float angle = transform.eulerAngles.z + Random.Range( -maxSpreadAngle, maxSpreadAngle );
+
+		GameObject projectile = (GameObject)Instantiate( projectilePrefab.gameObject, 
+														 transform.position, 
+														 Quaternion.AngleAxis( angle, Vector3.forward ) );
+		ProjectileScript projScript = projectile.GetComponent<ProjectileScript>();
+		projScript.Init( m_parentCollider );
+
+		m_soundSystem.PlayOneShot( fireSoundName );
+	}
 	
 	// Waits for the fireTime before setting canFire to true
 	private IEnumerator FireDelay()

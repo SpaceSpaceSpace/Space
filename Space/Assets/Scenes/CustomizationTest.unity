@@ -160,7 +160,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &282228651
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +201,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!1 &766916468
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,7 +1394,7 @@ RectTransform:
   m_Children:
   - {fileID: 1385384290}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1575,7 +1575,7 @@ Transform:
   m_Children:
   - {fileID: 766916469}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!114 &1783677749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1602,8 +1602,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttachmentPoints:
-  - {x: -.550000012, y: -.25}
-  - {x: .550000012, y: -.25}
+  - {x: -.400000006, y: -.300000012}
+  - {x: .400000006, y: -.300000012}
   - {x: 0, y: .349999994}
   - {x: 0, y: 0}
   - {x: 0, y: -.349999994}
@@ -1649,7 +1649,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ae9b96e7c4b7d435489546eb7b8d9a44, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 039cd87b37906ac4e92eaaa8ed2d0803, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2014115345
 GameObject:
