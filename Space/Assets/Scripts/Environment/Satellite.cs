@@ -6,6 +6,7 @@ public class Satellite : MonoBehaviour {
 	public bool artificial;
 	public bool inOrbit;
 	public float mass;
+	public GameObject satPrefab;
 	public const float MAX_VELOCITY = 1000.0f;
 	public const float GRAVITATION_MAGNITUDE = 15.0f;
 	//public const float STARTING_IMPULSE = 12f;
@@ -13,6 +14,8 @@ public class Satellite : MonoBehaviour {
 	public float splitForce;
 	public Vector3 velocity;
 	public Vector3 centerOfOrbit;
+	public float health;
+
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +30,7 @@ public class Satellite : MonoBehaviour {
 			mass = Random.Range (1, 9);
 			transform.localScale = new Vector3 (mass, mass, 1);
 			transform.GetComponent<Rigidbody2D> ().mass = mass * 100.0f;
+			health = 5.0f * mass;
 		}
 
 		Vector3 toCenter = centerOfOrbit - transform.position;
@@ -38,6 +42,8 @@ public class Satellite : MonoBehaviour {
 		transform.GetComponent<Rigidbody2D>().AddForce( velocity, ForceMode2D.Impulse);
 
 	}
+
+
 	
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -61,8 +67,30 @@ public class Satellite : MonoBehaviour {
 		Vector3 gravity = GRAVITATION_MAGNITUDE * toCenter / (radius * radius);
 		transform.GetComponent<Rigidbody2D> ().AddForce (new Vector2(gravity.x, gravity.y));
 	}
+	public void ApplyDamage(float damage){
+		health -= damage;
+		if (health <= 0) {
+			/*GameObject split1 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
+			split1.GetComponent<Satellite>().ScaleMass(mass/2);
+			GameObject split2 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
+		 	split2.GetComponent<Satellite>().ScaleMass(mass/2);*/
+			Destroy (gameObject);
 
-	public void SetCenterOfOrbit(Transform cO){
-		//centerOfOrbit = cO;
+		}
 	}
+	public void ScaleMass(float m){
+		mass = m;
+		if (mass < 1.0f) {
+			Destroy (gameObject);
+		}
+		transform.localScale = new Vector3 (m, m, 1);
+		health = 2.5f * m;
+	}
+
+	IEnumerator Resize(float m){
+		yield return new WaitForSeconds (1.0f);
+		Debug.Log ("THIS SHOULD HAPPEN");
+
+	}
+
 }
