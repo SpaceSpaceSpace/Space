@@ -68,8 +68,10 @@ public class Satellite : MonoBehaviour {
 		Vector3 gravity = GRAVITATION_MAGNITUDE * toCenter / (radius * radius);
 		transform.GetComponent<Rigidbody2D> ().AddForce (new Vector2(gravity.x, gravity.y));
 	}
-	public void ApplyDamage(float damage){
+	public void ApplyDamage(float damage, Vector2 impulse){
 		health -= damage;
+		Vector3 imp = new Vector3(impulse.x,impulse.y,0.0f);
+		transform.GetComponent<Rigidbody2D>().AddForce(imp, ForceMode2D.Impulse);
 		if (health <= 0) {
 			/*GameObject split1 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(mass/2);
@@ -94,8 +96,8 @@ public class Satellite : MonoBehaviour {
 		}
 		else
 		{
-			Vector3 offset1 = new Vector3(Random.Range(-2.0f,2.0f),Random.Range(-2.0f,2.0f),0.0f);
-			Vector3 offset2 = new Vector3(Random.Range(-2.0f,2.0f),Random.Range(-2.0f,2.0f),0.0f);
+			Vector3 offset1 = new Vector3(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f),0.0f);
+			Vector3 offset2 = new Vector3(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f),0.0f);
 			GameObject split1 = (GameObject)Instantiate(satPrefab,transform.position + offset1,Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(m/2, true);
 			GameObject split2 = (GameObject)Instantiate(satPrefab,transform.position + offset2,Quaternion.identity);

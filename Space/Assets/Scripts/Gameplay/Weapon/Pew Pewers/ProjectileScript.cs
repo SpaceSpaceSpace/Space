@@ -67,7 +67,7 @@ public class ProjectileScript : MonoBehaviour
 		{
 			// Do same sort of thing as with Ship
 			Satellite sat = col.GetComponent<Satellite>();
-			sat.ApplyDamage(damage);
+			sat.ApplyDamage(damage, hitForce);
 		}
 		
 		Destroy( gameObject );
