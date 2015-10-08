@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AISpawnerScript : MonoBehaviour {
 
@@ -23,7 +24,7 @@ public class AISpawnerScript : MonoBehaviour {
 
 		currentAI = 0;
 		Vector2 spawnPos;
-		GameObject[] squad = new GameObject[startAI];
+		List<GameObject> squad = new List<GameObject>(startAI);
 		for(int i = 0; i < startAI; i++)
 		{
 			float distance = Random.Range(0.0f, range);
@@ -43,10 +44,10 @@ public class AISpawnerScript : MonoBehaviour {
 				g.GetComponent<ShipBehaviourScript>().behaviour = ShipBehaviourScript.Behaviour.Grunt;
 
 			g.GetComponent<AIShipScript>().objective = transform; 
-			squad[i] = g;
+			squad.Add(g);
 		}
 
-		for(int i = 0; i < squad.Length; i++)
+		for(int i = 0; i < squad.Count; i++)
 		{
 			squad[i].GetComponent<AIShipScript>().squad = squad;
 		}

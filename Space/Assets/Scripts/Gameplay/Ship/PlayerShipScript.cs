@@ -10,7 +10,7 @@ public class PlayerShipScript : ShipScript
 	public List<Vector2> AttachmentPoints = new List<Vector2>();
 	public Dictionary<Vector2, GameObject> Attachments = new Dictionary<Vector2, GameObject>();
 	public List<Contract> playerContracts = new List<Contract>();
-
+	
 	private Transform m_cameraTransform;
 	private bool m_docked = false;
 	public GameObject objectiveMarker;
@@ -61,7 +61,7 @@ public class PlayerShipScript : ShipScript
 	{
 		playerContracts.Add (contract);
 		contract.SpawnContract (this);
-		Debug.Log (playerContracts.Count);
+		Debug.Log ("Contract Accepted: " + playerContracts.Count);
 	}
 
 	void Start()
