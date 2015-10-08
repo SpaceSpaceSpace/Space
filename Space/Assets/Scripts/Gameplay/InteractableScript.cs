@@ -12,8 +12,8 @@ public class InteractableScript : MonoBehaviour
 	public void OnInteract()
 	{
 		//This will be a UI Menu for the Space Station in the future, will be used just to spawn contracts for now
-		CreateAndAcceptContract ();
 		TurnInContracts ();
+		CreateAndAcceptContract ();
 	}
 
 	public void CreateAndAcceptContract()
@@ -32,6 +32,8 @@ public class InteractableScript : MonoBehaviour
 				i--;
 				if(i < 0)
 					i = 0;
+
+				Debug.Log ("Contract Completed!");
 			}
 		}
 		for (int i = 0; i < playerShip.playerContracts.Count; i++) 

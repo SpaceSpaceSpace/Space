@@ -61,7 +61,7 @@ public class PlayerShipScript : ShipScript
 	{
 		playerContracts.Add (contract);
 		contract.SpawnContract (this);
-		Debug.Log (playerContracts.Count);
+		Debug.Log ("Contract Accepted: " + playerContracts.Count);
 	}
 
 	void Start()
