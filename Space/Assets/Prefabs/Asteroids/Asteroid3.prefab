@@ -27,7 +27,7 @@ GameObject:
   - 212: {fileID: 21271740}
   - 114: {fileID: 11499132}
   - 50: {fileID: 5040460}
-  - 58: {fileID: 5838210}
+  - 60: {fileID: 6071410}
   m_Layer: 0
   m_Name: Asteroid3
   m_TagString: Asteroid
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 122670}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 7.42377329, y: 7.42377234, z: 1.48475444}
   m_Children: []
   m_Father: {fileID: 483608}
   m_RootOrder: 0
@@ -76,8 +76,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5838210
-CircleCollider2D:
+--- !u!60 &6071410
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -86,9 +86,28 @@ CircleCollider2D:
   m_Material: {fileID: 6200000, guid: 695af6ad59bfe8140a7d517f2ee09560, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: .0399999991, y: 0}
-  serializedVersion: 2
-  m_Radius: .281434774
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: .654999971, y: .215000004}
+      - {x: .595000029, y: .354999989}
+      - {x: .425000012, y: .545000017}
+      - {x: .135000005, y: .644999981}
+      - {x: .0350000001, y: .644999981}
+      - {x: -.115000002, y: .595000029}
+      - {x: -.294999987, y: .584999979}
+      - {x: -.395000011, y: .524999976}
+      - {x: -.545000017, y: .375}
+      - {x: -.644999981, y: .174999997}
+      - {x: -.644999981, y: .00499999989}
+      - {x: -.625, y: -.204999998}
+      - {x: -.495000005, y: -.485000014}
+      - {x: -.395000011, y: -.574999988}
+      - {x: -.234999999, y: -.654999971}
+      - {x: .135000005, y: -.654999971}
+      - {x: .524999976, y: -.485000014}
+      - {x: .584999979, y: -.324999988}
+      - {x: .654999971, y: -.0250000004}
 --- !u!114 &11499132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,7 +178,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c5481caee798d13429b88349a872ddc2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 379c27498f42d904ba5680873e99aa45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -184,6 +203,11 @@ Prefab:
       propertyPath: satPrefab
       value: 
       objectReference: {fileID: 137980}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 379c27498f42d904ba5680873e99aa45,
+        type: 3}
     - target: {fileID: 0}
       propertyPath: m_Material
       value: 

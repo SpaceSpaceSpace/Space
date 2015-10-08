@@ -11,8 +11,7 @@ GameObject:
   - 212: {fileID: 21237442}
   - 114: {fileID: 11421052}
   - 50: {fileID: 5003270}
-  - 58: {fileID: 5809684}
-  - 58: {fileID: 5833048}
+  - 60: {fileID: 6034428}
   m_Layer: 0
   m_Name: Asteroid6
   m_TagString: Asteroid
@@ -44,7 +43,7 @@ Transform:
   m_GameObject: {fileID: 186418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 7.47938347, y: 7.47938395, z: 1.49587679}
   m_Children: []
   m_Father: {fileID: 480984}
   m_RootOrder: 0
@@ -77,8 +76,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5809684
-CircleCollider2D:
+--- !u!60 &6034428
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -87,22 +86,26 @@ CircleCollider2D:
   m_Material: {fileID: 6200000, guid: 695af6ad59bfe8140a7d517f2ee09560, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: .0199999996, y: -.0900000036}
-  serializedVersion: 2
-  m_Radius: .219999999
---- !u!58 &5833048
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 161810}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -.129999995, y: .119999997}
-  serializedVersion: 2
-  m_Radius: .180000007
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: .555000007, y: .395000011}
+      - {x: .104999997, y: .644999981}
+      - {x: -.075000003, y: .644999981}
+      - {x: -.165000007, y: .63499999}
+      - {x: -.344999999, y: .574999988}
+      - {x: -.574999988, y: .294999987}
+      - {x: -.654999971, y: -.0250000004}
+      - {x: -.654999971, y: -.194999993}
+      - {x: -.644999981, y: -.234999999}
+      - {x: -.545000017, y: -.435000002}
+      - {x: -.435000002, y: -.535000026}
+      - {x: -.174999997, y: -.63499999}
+      - {x: -.104999997, y: -.654999971}
+      - {x: .294999987, y: -.654999971}
+      - {x: .495000005, y: -.524999976}
+      - {x: .654999971, y: -.245000005}
+      - {x: .654999971, y: .165000007}
 --- !u!114 &11421052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -117,7 +120,7 @@ MonoBehaviour:
   artificial: 0
   inOrbit: 0
   mass: 0
-  satPrefab: {fileID: 178922, guid: 9207a46fe21d8784dacc201ba444df8c, type: 2}
+  satPrefab: {fileID: 161810}
   radius: {x: 0, y: 0}
   splitForce: 0
   velocity: {x: 0, y: 0, z: 0}
@@ -147,7 +150,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8f3ae1b1a133b9f4a81a612ba9ff2027, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7a507bb84c0ae004695b2cc8b6386a9c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21293646
 SpriteRenderer:
@@ -189,6 +192,15 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: satPrefab
       value: 
+      objectReference: {fileID: 161810}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7a507bb84c0ae004695b2cc8b6386a9c,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 178922, guid: 9207a46fe21d8784dacc201ba444df8c, type: 2}
     - target: {fileID: 0}
       propertyPath: m_Material
