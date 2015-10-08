@@ -61,7 +61,8 @@ public class AIShipScript : ShipScript {
 	
 	// Update is called once per frame
 	void Update () {
-		AvoidObstacle();
+		//AvoidObstacle();
+		DetectObstacle();
 	}
 
 
@@ -242,9 +243,11 @@ public class AIShipScript : ShipScript {
 		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, m_target.position - transform.position, 15.0f);
 		foreach(RaycastHit2D h in hits)
 		{
-			if(h.collider.gameObject.tag == "Obstacle" && h.distance < targetDist)
+			switch(h.collider.gameObject.tag)
 			{
-				return false;
+			case "Ship":
+			case "Asteroid":
+				return h.gameObject.name;
 			}
 		}
 
@@ -260,7 +263,7 @@ public class AIShipScript : ShipScript {
 		Vector2 impactPoint = Vector2.zero; // the point of impact for the closest obstacle
 		foreach(RaycastHit2D h in hits)
 		{
-			if(h.collider.gameObject.tag == "Obstacle")
+			if(h.collider.gameObject.tag == "Asteroid")
 			{
 				m_obstacle = true;
 				Vector2 obsPos = h.collider.gameObject.transform.position;
@@ -286,11 +289,31 @@ public class AIShipScript : ShipScript {
 		if(impactDist < GetComponent<CircleCollider2D>().radius + (maxMoveSpeed * m_thrust.AccelPercent))
 			m_thrust.AccelPercent -= 1.0f * Time.deltaTime;
 
+		if(m_thrust.AccelPercent < 0.1f)
+			m_thrust.AccelPercent = 0.1f;
+
 		// stop completely if about to impact
 		if(impactDist < GetComponent<CircleCollider2D>().radius + 0.25f)
 			m_thrust.Accelerate = false;
 		
 
+	}
+
+	public void DetectObstacle()
+	{
+		m_obstacle = false;
+		RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, GetComponent<CircleCollider2D>().radius, transform.up, 10.0f);
+
+		foreach(RaycastHit2D h in hits)
+		{
+			if(h.collider.gameObject.tag == "Asteroid")
+			{
+				m_obstacle = true;
+			}
+		}
+		
+		if(!m_obstacle)
+			return;
 	}
 
 
