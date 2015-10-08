@@ -12,6 +12,7 @@ public class GameMaster : MonoBehaviour {
 
 	public static GameMaster Master;
 	public static GameState CurrentGameState = GameState.Flying;
+	public static PlayerData playerData;
 
 	void Awake ()
 	{
@@ -25,6 +26,8 @@ public class GameMaster : MonoBehaviour {
 		{
 			Destroy(gameObject);
 		}
+
+		playerData = transform.GetComponent<PlayerData> ();
 	}
 
 	void Update () {

@@ -9,7 +9,6 @@ public class PlayerShipScript : ShipScript
 
 	public List<Vector2> AttachmentPoints = new List<Vector2>();
 	public Dictionary<Vector2, GameObject> Attachments = new Dictionary<Vector2, GameObject>();
-	public List<Contract> playerContracts = new List<Contract>();
 
 	private Transform m_cameraTransform;
 	private bool m_docked = false;
@@ -54,14 +53,6 @@ public class PlayerShipScript : ShipScript
 		// The camera is parented to a GO and offset on the Z axis
 		// We're keeping the parent so we don't have to set the Z when moving the camera
 		m_cameraTransform = Camera.main.transform.parent;
-	}
-
-	//Accepts contract and spawns the objective in world space
-	public void AcceptContract(Contract contract)
-	{
-		playerContracts.Add (contract);
-		contract.SpawnContract (this);
-		Debug.Log (playerContracts.Count);
 	}
 
 	void Start()
