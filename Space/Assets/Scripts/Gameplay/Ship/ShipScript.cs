@@ -10,6 +10,7 @@ public class ShipScript : MonoBehaviour
 	protected float m_health = 100.0f;
 	protected float m_maxHealth = 100.0f;
 
+	protected HitParticleSpawner m_hitParticles;
 	protected ThrustScript m_thrust;
 	protected WeaponScript[] m_weapons;
 	protected ShieldScript m_shield;
@@ -17,6 +18,7 @@ public class ShipScript : MonoBehaviour
 	// Primarily handles "collisions" with projeciles 
 	public void TakeHit( Vector2 force, Vector2 hitPoint )
 	{
+		m_hitParticles.ReactToHit(hitPoint);
 		m_thrust.AppyImpulse( force, hitPoint );
 	}
 
@@ -46,10 +48,16 @@ public class ShipScript : MonoBehaviour
 	protected void InitShip()
 	{
 		m_thrust = GetComponent<ThrustScript>();
+		m_hitParticles = GetComponentInChildren<HitParticleSpawner>();
+
 		InitWeapons();
 
 		// Temporary
-		m_shield = transform.GetChild( transform.childCount - 1 ).GetComponent<ShieldScript>();
+		Transform shieldTrans = transform.FindChild( "Shield" );
+		if( shieldTrans != null )
+		{
+			m_shield = shieldTrans.GetComponent<ShieldScript>();
+		}
 	}
 
 	// Checks which weapons are attached and loads them into m_weapons
@@ -87,7 +95,9 @@ public class ShipScript : MonoBehaviour
 	
 	protected void HandleCollision( Collision2D collision )
 	{
-		ApplyDamage( collision.relativeVelocity.magnitude * collision.rigidbody.mass );
+		m_hitParticles.ReactToHit(collision.transform.position);
+
+		ApplyDamage( collision.relativeVelocity.magnitude * collision.rigidbody.mass * 0.02f );
 	}
 
 	protected virtual void Die()
