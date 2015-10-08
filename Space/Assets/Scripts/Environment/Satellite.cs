@@ -77,7 +77,7 @@ public class Satellite : MonoBehaviour {
 			split1.GetComponent<Satellite>().ScaleMass(mass/2);
 			GameObject split2 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
 		 	split2.GetComponent<Satellite>().ScaleMass(mass/2);*/
-			Split (mass);
+			Split (mass, imp);
 
 		}
 	}
@@ -89,8 +89,9 @@ public class Satellite : MonoBehaviour {
 		else { health = 5.0f * m;}
 	}
 
-	public void Split(float m)
+	public void Split(float m, Vector3 impulse)
 	{
+
 		if(mass <  1.0f){
 			Destroy(gameObject);
 		}
@@ -102,6 +103,8 @@ public class Satellite : MonoBehaviour {
 			split1.GetComponent<Satellite>().ScaleMass(m/2, true);
 			GameObject split2 = (GameObject)Instantiate(satPrefab,transform.position + offset2,Quaternion.identity);
 			split2.GetComponent<Satellite>().ScaleMass(m/2, true);
+			split1.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
+			split2.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
 			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
 			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
 			Destroy(gameObject);
