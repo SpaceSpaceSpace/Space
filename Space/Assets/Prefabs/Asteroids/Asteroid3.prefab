@@ -30,7 +30,7 @@ GameObject:
   - 58: {fileID: 5838210}
   m_Layer: 0
   m_Name: Asteroid3
-  m_TagString: Untagged
+  m_TagString: Asteroid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,7 +83,7 @@ CircleCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 137980}
   m_Enabled: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 695af6ad59bfe8140a7d517f2ee09560, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: .0399999991, y: 0}
@@ -103,10 +103,12 @@ MonoBehaviour:
   artificial: 0
   inOrbit: 0
   mass: 0
+  satPrefab: {fileID: 137980}
   radius: {x: 0, y: 0}
   splitForce: 0
   velocity: {x: 0, y: 0, z: 0}
   centerOfOrbit: {x: 0, y: 0, z: 0}
+  health: 0
 --- !u!212 &21270920
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -174,6 +176,18 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Asteroid
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: satPrefab
+      value: 
+      objectReference: {fileID: 137980}
+    - target: {fileID: 0}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 695af6ad59bfe8140a7d517f2ee09560, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 137980}
