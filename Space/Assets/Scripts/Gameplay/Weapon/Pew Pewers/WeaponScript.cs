@@ -9,7 +9,7 @@ public class WeaponScript : MonoBehaviour
 	/// Public members to be assigned in the Inpector
 	///
 	public ProjectileScript projectilePrefab;
-	
+
 	public float projectileSpeed
 	{
 		get{
@@ -46,6 +46,7 @@ public class WeaponScript : MonoBehaviour
 	public float knockback;
 	public float fireTime = 0.5f;
 	public float maxSpreadAngle = 15.0f;
+	public string fireSoundName = "Laser_Bolt";
 	
 	///
 	/// Protected (Private) members
@@ -54,6 +55,8 @@ public class WeaponScript : MonoBehaviour
 	protected bool m_canFire;
 	
 	protected Collider2D m_parentCollider;
+
+	protected SoundSystemScript m_soundSystem;
 	
 	///
 	/// Properties for access to private members
@@ -73,6 +76,7 @@ public class WeaponScript : MonoBehaviour
 		m_canFire = true;
 		
 		m_parentCollider = transform.root.GetComponent<Collider2D>();
+		m_soundSystem = GetComponent<SoundSystemScript>();
 	}
 	
 	///
@@ -125,6 +129,8 @@ public class WeaponScript : MonoBehaviour
 														 Quaternion.AngleAxis( angle, Vector3.forward ) );
 		ProjectileScript projScript = projectile.GetComponent<ProjectileScript>();
 		projScript.Init( m_parentCollider );
+
+		m_soundSystem.PlayOneShot( fireSoundName );
 	}
 	
 	// Waits for the fireTime before setting canFire to true

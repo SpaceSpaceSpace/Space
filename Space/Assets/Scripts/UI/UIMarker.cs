@@ -39,7 +39,7 @@ public class UIMarker : MonoBehaviour {
 		//Vector3 heading = targetStack [targetStack.Count - 1].transform.position + direction;
 
 		Vector3 newMarkerPos = direction.normalized;
-		newMarkerPos *= 2.0f;
+		newMarkerPos *= 4.0f;
 
 		//transform.localPosition = newMarkerPos;
 		transform.position = newMarkerPos + transform.parent.transform.position;

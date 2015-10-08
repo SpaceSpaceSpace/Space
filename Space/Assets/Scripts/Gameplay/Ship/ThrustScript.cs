@@ -20,6 +20,7 @@ public class ThrustScript : MonoBehaviour
 	private float m_turnDirection;	// The direction to turn
 	
 	private Rigidbody2D m_rigidbody;
+	private SoundSystemScript m_soundSystem;
 	
 	///
 	/// Properties for access to private members
@@ -27,7 +28,10 @@ public class ThrustScript : MonoBehaviour
 	public bool Accelerate
 	{
 		get { return m_accelerate; }
-		set { m_accelerate = value; }
+		set { 
+			m_accelerate = value;
+			ToggleSound();
+		}
 	}
 	
 	public float TurnDirection
@@ -53,6 +57,7 @@ public class ThrustScript : MonoBehaviour
 		m_accelPercent = 1.0f;
 		
 		m_rigidbody = GetComponent<Rigidbody2D>();
+		m_soundSystem = GetComponent<SoundSystemScript>();
 	}
 	
 	// Using FixedUpdate here cause that's how Unity do
@@ -135,5 +140,20 @@ public class ThrustScript : MonoBehaviour
 	private void Turn()
 	{
 		m_rigidbody.AddTorque( m_turnForce * m_turnDirection, ForceMode2D.Force );
+	}
+
+	private void ToggleSound()
+	{
+		if( m_accelerate )
+		{
+			if( !m_soundSystem.IsPlaying() )
+			{
+				m_soundSystem.PlayLooping( "Ship_Engine" );
+			}
+		}
+		else
+		{
+			m_soundSystem.StopPlaying();
+		}
 	}
 }
