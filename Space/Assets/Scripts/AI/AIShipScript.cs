@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
 
 // This script contains all of the necessary methods to carry out
 // behaviours in a ShipBehaviourScript
@@ -13,7 +15,7 @@ public class AIShipScript : ShipScript {
 	public float maxMoveSpeed; // max move speed for thrust
 	public float maxTurnSpeed; // max turn speed for thrust
 
-	public GameObject[] squad; // the squad of ships
+	public List<GameObject> squad; // the squad of ships
 	public GameObject leader; // the leader of a squad
 	public Transform player;
 
@@ -50,7 +52,7 @@ public class AIShipScript : ShipScript {
 		m_thrust.AccelPercent = 1.0f;
 		m_thrust.Accelerate = true;
 
-		for(int i = 0; i < squad.Length; i++)
+		for(int i = 0; i < squad.Count; i++)
 		{
 			if(squad[i].GetComponent<ShipBehaviourScript>().behaviour.ToString() == "Leader")
 				leader = squad[i];
@@ -205,8 +207,8 @@ public class AIShipScript : ShipScript {
 			align += (Vector2)(g.transform.up - transform.up);
 		}
 
-		align /= squad.Length;
-		center /= squad.Length;
+		align /= squad.Count;
+		center /= squad.Count;
 		align = align.normalized * ALIGNMENT;
 		Vector2 cohesion = center - (Vector2) transform.position;
 		cohesion = cohesion.normalized * COHESION;
@@ -334,5 +336,10 @@ public class AIShipScript : ShipScript {
 		Debug.DrawLine(transform.position, predictPos);
 
 		return predictPos;
+	}
+
+	void OnDestroy()
+	{
+		squad.Remove (this.gameObject);
 	}
 }
