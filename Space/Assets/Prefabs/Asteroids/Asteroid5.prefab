@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21285312}
   - 114: {fileID: 11461854}
   - 50: {fileID: 5099260}
-  - 58: {fileID: 5839910}
+  - 60: {fileID: 6085432}
   m_Layer: 0
   m_Name: Asteroid5
   m_TagString: Asteroid
@@ -76,8 +76,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5839910
-CircleCollider2D:
+--- !u!60 &6085432
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -87,8 +87,28 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: .310000002
+  m_Points:
+    m_Paths:
+    - - {x: .654999971, y: .224999994}
+      - {x: .595000029, y: .354999989}
+      - {x: .514999986, y: .335000008}
+      - {x: .294999987, y: .564999998}
+      - {x: .144999996, y: .654999971}
+      - {x: -.125, y: .654999971}
+      - {x: -.275000006, y: .63499999}
+      - {x: -.414999992, y: .514999986}
+      - {x: -.574999988, y: .314999998}
+      - {x: -.564999998, y: .104999997}
+      - {x: -.654999971, y: .00499999989}
+      - {x: -.654999971, y: -.204999998}
+      - {x: -.644999981, y: -.264999986}
+      - {x: -.574999988, y: -.38499999}
+      - {x: -.444999993, y: -.545000017}
+      - {x: -.155000001, y: -.654999971}
+      - {x: .144999996, y: -.654999971}
+      - {x: .455000013, y: -.545000017}
+      - {x: .605000019, y: -.38499999}
+      - {x: .654999971, y: -.155000001}
 --- !u!114 &11461854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,7 +153,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8f3ae1b1a133b9f4a81a612ba9ff2027, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 55d0be857e0e8ab4b85a8152fde0ecc4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21295480
 SpriteRenderer:
@@ -171,7 +191,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8f3ae1b1a133b9f4a81a612ba9ff2027,
+      objectReference: {fileID: 21300000, guid: 55d0be857e0e8ab4b85a8152fde0ecc4,
         type: 3}
     - target: {fileID: 0}
       propertyPath: m_UsedByEffector
@@ -185,6 +205,10 @@ Prefab:
       propertyPath: satPrefab
       value: 
       objectReference: {fileID: 182878}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Material
       value: 

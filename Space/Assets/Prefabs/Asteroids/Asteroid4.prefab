@@ -11,8 +11,7 @@ GameObject:
   - 212: {fileID: 21212312}
   - 114: {fileID: 11460314}
   - 50: {fileID: 5097120}
-  - 58: {fileID: 5811422}
-  - 58: {fileID: 5813322}
+  - 60: {fileID: 6051770}
   m_Layer: 0
   m_Name: Asteroid4
   m_TagString: Asteroid
@@ -44,7 +43,7 @@ Transform:
   m_GameObject: {fileID: 124732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 7.26663971, y: 7.26664066, z: 1.45332813}
   m_Children: []
   m_Father: {fileID: 471484}
   m_RootOrder: 0
@@ -77,8 +76,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &5811422
-CircleCollider2D:
+--- !u!60 &6051770
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -87,22 +86,28 @@ CircleCollider2D:
   m_Material: {fileID: 6200000, guid: 695af6ad59bfe8140a7d517f2ee09560, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: .140000001, y: 0}
-  serializedVersion: 2
-  m_Radius: .200000003
---- !u!58 &5813322
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 117442}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: -.119999997, y: -.00999999978}
-  serializedVersion: 2
-  m_Radius: .170000002
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: .654999971, y: .0649999976}
+      - {x: .63499999, y: .215000004}
+      - {x: .485000014, y: .504999995}
+      - {x: .155000001, y: .644999981}
+      - {x: -.104999997, y: .644999981}
+      - {x: -.224999994, y: .61500001}
+      - {x: -.38499999, y: .395000011}
+      - {x: -.414999992, y: .284999996}
+      - {x: -.63499999, y: .104999997}
+      - {x: -.644999981, y: .075000003}
+      - {x: -.644999981, y: -.104999997}
+      - {x: -.564999998, y: -.354999989}
+      - {x: -.465000004, y: -.504999995}
+      - {x: -.36500001, y: -.514999986}
+      - {x: -.204999998, y: -.654999971}
+      - {x: .254999995, y: -.654999971}
+      - {x: .455000013, y: -.564999998}
+      - {x: .595000029, y: -.435000002}
+      - {x: .654999971, y: -.305000007}
 --- !u!114 &11460314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,7 +152,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 40579b216c71133468cc188e5db67b4d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c254ee14b0f5c324188e8e6654dea3ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21289212
 SpriteRenderer:
@@ -177,24 +182,17 @@ SpriteRenderer:
   m_Color: {r: .522058845, g: .313235253, b: 0, a: 1}
 --- !u!1001 &100100000
 Prefab:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
-      propertyPath: m_TagString
-      value: Asteroid
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: satPrefab
-      value: 
-      objectReference: {fileID: 117442}
-    - target: {fileID: 0}
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 695af6ad59bfe8140a7d517f2ee09560, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 117442}
-  m_IsPrefabParent: 1
+  m_RootGameObject: {fileID: 0}
+  m_IsPrefabParent: 0
