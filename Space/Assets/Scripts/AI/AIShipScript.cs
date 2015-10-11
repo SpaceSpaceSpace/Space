@@ -10,11 +10,6 @@ public class AIShipScript : ShipScript {
 	///
 	/// Public Variables
 	///
-	public float accelForce; // the accel force for thrust
-	public float turnForce; // the turn force for thrust
-	public float maxMoveSpeed; // max move speed for thrust
-	public float maxTurnSpeed; // max turn speed for thrust
-
 	public List<GameObject> squad; // the squad of ships
 	public GameObject leader; // the leader of a squad
 	public Transform player;
@@ -43,7 +38,7 @@ public class AIShipScript : ShipScript {
 	// Use this for initialization
 	void Start () {
 		InitShip();
-		m_thrust.Init(accelForce, maxMoveSpeed, turnForce, maxTurnSpeed);
+		m_thrust.Init(accelForce, maxMoveSpeed, turnForce);
 
 		player = GameObject.Find("Player Ship").transform;
 		m_target = GameObject.Find("Player Ship").transform; // Find the player, will likely change
