@@ -135,9 +135,10 @@ public class ThrustScript : MonoBehaviour
 
 		float speed = velocity.magnitude;
 
-		if( speed > m_maxMoveSpeed )
+		if( speed > m_maxMoveSpeed * m_accelPercent )
 		{
-			Vector2 counterForce = velocity.normalized * m_accelForce * ( velocity.magnitude - m_maxMoveSpeed * m_accelPercent );
+			float velocityDiff = velocity.magnitude - ( m_maxMoveSpeed - 1 ) * m_accelPercent;
+			Vector2 counterForce = velocity.normalized * m_accelForce * velocityDiff;
 			m_rigidbody.AddForce( -counterForce, ForceMode2D.Force );
 		}
 	}

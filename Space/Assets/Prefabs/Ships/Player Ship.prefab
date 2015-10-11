@@ -718,7 +718,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accelForce: 10
   turnForce: 10
-  maxMoveSpeed: 5
+  maxMoveSpeed: 7
   objectivePrefab: {fileID: 146980, guid: 2840ea0ea420db641a04e5bdb32e8cb6, type: 2}
   AttachmentPoints:
   - {x: -.550000012, y: -.25}
