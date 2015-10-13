@@ -7,6 +7,10 @@ using System.Collections.Generic;
 // I'm sailing away...
 public class ShipScript : MonoBehaviour
 {
+	public float accelForce = 50.0f; // the accel force for thrust
+	public float turnForce = 10.0f; // the turn force for thrust
+	public float maxMoveSpeed = 5.0f; // max move speed for thrust
+
 	protected float m_health = 100.0f;
 	protected float m_maxHealth = 100.0f;
 
