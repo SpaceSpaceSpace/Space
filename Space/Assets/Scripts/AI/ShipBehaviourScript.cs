@@ -129,7 +129,10 @@ public class ShipBehaviourScript : MonoBehaviour {
 			
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 5.0)
 			{
-				m_shipScript.FireWeapon(0);
+				if(m_shipScript.AngleToTarget() < 10.0f && m_shipScript.CanSeeTarget())
+				{
+					m_shipScript.FireWeapon(0);
+				}
 				m_shipScript.ChaseTarget(5.0f, 3.0f);
 			}
 			else

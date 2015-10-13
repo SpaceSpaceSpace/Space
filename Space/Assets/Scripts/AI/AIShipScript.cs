@@ -240,18 +240,11 @@ public class AIShipScript : ShipScript {
 		float targetDist = Vector2.Distance(m_target.position, transform.position);
 		if(targetDist > 15.0f)
 			return false;
-		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, m_target.position - transform.position, 15.0f);
-		foreach(RaycastHit2D h in hits)
-		{
-			switch(h.collider.gameObject.tag)
-			{
-			case "Ship":
-			case "Asteroid":
-				return h.gameObject.name;
-			}
-		}
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, m_target.position - transform.position, 15.0f);
+		if(hit.collider.gameObject.name == "Player Ship")
+			return true;
 
-		return true;
+		return false;
 	}
 
 	public void AvoidObstacle()
