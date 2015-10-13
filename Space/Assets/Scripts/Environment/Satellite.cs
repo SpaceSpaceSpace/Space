@@ -8,13 +8,14 @@ public class Satellite : MonoBehaviour {
 	public float mass;
 	public GameObject satPrefab;
 	public const float MAX_VELOCITY = 1000.0f;
-	public const float GRAVITATION_MAGNITUDE = 15.0f;
+	public const float GRAVITATION_MAGNITUDE = 10.0f;
 	//public const float STARTING_IMPULSE = 12f;
 	public Vector2 radius;
 	public float splitForce;
 	public Vector3 velocity;
 	public Vector3 centerOfOrbit;
 	public float health;
+
 
 
 	// Use this for initialization
@@ -25,13 +26,13 @@ public class Satellite : MonoBehaviour {
 		else
 			semiMajor = radius.y;
 
-		if(!artificial)
+		/*if(!artificial)
 		{
 			mass = Random.Range (1, 9);
 			transform.localScale = new Vector3 (mass, mass, 1);
 			transform.GetComponent<Rigidbody2D> ().mass = mass * 100.0f;
 			health = 5.0f * mass;
-		}
+		}*/
 
 		Vector3 toCenter = centerOfOrbit - transform.position;
 		Vector2 tangential = new Vector2(-toCenter.y, toCenter.x);
@@ -67,30 +68,47 @@ public class Satellite : MonoBehaviour {
 		Vector3 gravity = GRAVITATION_MAGNITUDE * toCenter / (radius * radius);
 		transform.GetComponent<Rigidbody2D> ().AddForce (new Vector2(gravity.x, gravity.y));
 	}
-	public void ApplyDamage(float damage){
+	public void ApplyDamage(float damage, Vector2 impulse){
 		health -= damage;
+		Vector3 imp = new Vector3(impulse.x,impulse.y,0.0f);
+		transform.GetComponent<Rigidbody2D>().AddForce(imp, ForceMode2D.Impulse);
 		if (health <= 0) {
 			/*GameObject split1 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(mass/2);
 			GameObject split2 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
 		 	split2.GetComponent<Satellite>().ScaleMass(mass/2);*/
-			Destroy (gameObject);
+			Split (mass, imp);
 
 		}
 	}
-	public void ScaleMass(float m){
+	public void ScaleMass(float m, bool split){
 		mass = m;
-		if (mass < 1.0f) {
-			Destroy (gameObject);
-		}
 		transform.localScale = new Vector3 (m, m, 1);
-		health = 2.5f * m;
+		transform.GetComponent<Rigidbody2D> ().mass = mass * 75.0f;
+		if(split){		health = 2.5f * m;}
+		else { health = 5.0f * m;}
 	}
 
-	IEnumerator Resize(float m){
-		yield return new WaitForSeconds (1.0f);
-		Debug.Log ("THIS SHOULD HAPPEN");
+	public void Split(float m, Vector3 impulse)
+	{
 
+		if(mass <  1.0f){
+			Destroy(gameObject);
+		}
+		else
+		{
+			Vector3 offset1 = new Vector3(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f),0.0f);
+			Vector3 offset2 = new Vector3(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f),0.0f);
+			GameObject split1 = (GameObject)Instantiate(satPrefab,transform.position + offset1,Quaternion.identity);
+			split1.GetComponent<Satellite>().ScaleMass(m/2, true);
+			GameObject split2 = (GameObject)Instantiate(satPrefab,transform.position + offset2,Quaternion.identity);
+			split2.GetComponent<Satellite>().ScaleMass(m/2, true);
+			split1.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
+			split2.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
+			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
+			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
+			Destroy(gameObject);
+		}
 	}
 
 }
