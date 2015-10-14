@@ -49,8 +49,10 @@ public class ProjectileScript : MonoBehaviour
 		}*/
 	}
 	
-	void OnTriggerEnter2D( Collider2D col )
+	void OnCollisionEnter2D( Collision2D collision )
 	{
+		Collider2D col = collision.collider;
+
 		Vector2 colPos = col.transform.position;
 		Vector2 offset = (Vector2)transform.position - colPos;
 

@@ -69,6 +69,7 @@ GameObject:
   - 82: {fileID: 8213586}
   - 114: {fileID: 11412936}
   - 60: {fileID: 6015708}
+  - 114: {fileID: 11451960}
   m_Layer: 9
   m_Name: Player Ship
   m_TagString: Ship
@@ -140,7 +141,6 @@ GameObject:
   - 4: {fileID: 432300}
   - 198: {fileID: 19874116}
   - 199: {fileID: 19980134}
-  - 114: {fileID: 11426368}
   m_Layer: 9
   m_Name: HitPS
   m_TagString: Untagged
@@ -196,7 +196,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 191664}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106709}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: .100000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 497826}
@@ -694,17 +694,6 @@ MonoBehaviour:
   rechargeDelay: 5
   rechargeRate: 25
   shieldShowDuration: 1
---- !u!114 &11426368
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e3d1f5aac12aec458d2ac5e5cdf4886, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11433544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -727,6 +716,18 @@ MonoBehaviour:
   - {x: 0, y: 0}
   - {x: 0, y: -.349999994}
   objectiveMarker: {fileID: 192520}
+--- !u!114 &11451960
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e3d1f5aac12aec458d2ac5e5cdf4886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitParticleSystem: {fileID: 19874116}
 --- !u!114 &11462724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2038,7 +2039,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: .100000001
+      scalar: .25
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2701,7 +2702,7 @@ ParticleSystem:
       minMaxState: 1
     separateAxis: 0
     inWorldSpace: 0
-    dampen: .0500000007
+    dampen: .00499999989
   SizeBySpeedModule:
     enabled: 0
     curve:
