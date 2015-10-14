@@ -15,8 +15,9 @@ public class OrbitalGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		generateBelt (80, new Vector2 (75.0f, 75.0f), false);
-		generateBelt (80, new Vector2 (90.0f, 90.0f), false);
+		generateBelt (50, new Vector2 (75.0f, 75.0f), false);
+		generateBelt (40, new Vector2 (85.0f, 85.0f), false);
+		generateBelt (40, new Vector2 (90.0f, 90.0f), false);
 		//generateBelt (64, new Vector2 (4.0f, 4.0f), false);
 	}
 
@@ -29,7 +30,8 @@ public class OrbitalGenerator : MonoBehaviour {
 		
 		Vector3 pos = new Vector3(x,y,0) + centerPoint.position;
 
-		Instantiate(objectPrefab,pos,Quaternion.identity);
+		GameObject obj = (GameObject)Instantiate(objectPrefab,pos,Quaternion.identity);
+		obj.GetComponent<Satellite> ().ScaleMass (Random.Range (1, 9), false);
 	}
 
 	/// <summary>
@@ -69,8 +71,10 @@ public class OrbitalGenerator : MonoBehaviour {
 				
 				asteroidGenerated.GetComponent<Satellite>().artificial = artificial;
 				asteroidGenerated.GetComponent<Satellite>().radius = radius;
+				asteroidGenerated.GetComponent<Satellite> ().ScaleMass (Random.Range (.75f, 5f), false);
 				//asteroidGenerated.GetComponent<Satellite>().SetCenterOfOrbit(centerPoint);
 				asteroidGenerated.transform.parent = beltMaster.transform;
+
 				objectCount++;
 			}
 		}
