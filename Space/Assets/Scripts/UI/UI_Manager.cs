@@ -16,8 +16,8 @@ public class UI_Manager : MonoBehaviour {
 
 	}
 
-	public void DisplayBountyBoard()
+	public void DisplayBountyBoard(bool active)
 	{
-		BountyBoard.SetActive (!BountyBoard.activeSelf);
+		BountyBoard.SetActive (active);
 	}
 }
