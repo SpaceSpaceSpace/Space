@@ -229,6 +229,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22461836}
+  - 114: {fileID: 11470080}
   m_Layer: 5
   m_Name: Bounty Board
   m_TagString: Untagged
@@ -1193,6 +1194,23 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11470080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4bb3eccc09e414683cad6adf52bb83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: {fileID: 11408870}
+  title: {fileID: 11428988}
+  description: {fileID: 11450866}
+  reward: {fileID: 11444752}
+  portrait: {fileID: 11410248}
+  shipImage: {fileID: 11455968}
 --- !u!114 &11478934
 MonoBehaviour:
   m_ObjectHideFlags: 1
