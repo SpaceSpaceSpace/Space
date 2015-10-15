@@ -93,9 +93,8 @@ public class ShipBehaviourScript : MonoBehaviour {
 
 		}
 		// If the leader is alive and the player is less than 10 units away, move toward it
-		else if(m_shipScript.aggro || m_shipScript.DistanceTo(m_shipScript.Target.position) < 10.0f)
+		else if(m_shipScript.CheckAggro())
 		{
-			m_shipScript.aggro = true;
 
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 5.0)
 			{
@@ -122,14 +121,8 @@ public class ShipBehaviourScript : MonoBehaviour {
 	public void Leader()
 	{
 		// if the player is not near
-		if(m_shipScript.DistanceTo(m_shipScript.Target.position) > 10.0f)
+		if(m_shipScript.CheckAggro())
 		{
-			m_shipScript.aggro = false;
-			m_shipScript.Flock();
-		}
-		else if(m_shipScript.aggro || m_shipScript.DistanceTo(m_shipScript.Target.position) < 10.0f)
-		{
-			m_shipScript.aggro = true;
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 5.0)
 			{
 				if(m_shipScript.AngleToTarget() < 10.0f && m_shipScript.CanSeeTarget())
@@ -140,8 +133,11 @@ public class ShipBehaviourScript : MonoBehaviour {
 			}
 			else
 				m_shipScript.MoveToward(m_shipScript.Target);
-			
-			
+		}
+		else if(m_shipScript.DistanceTo(m_shipScript.Target.position) >10.0f)
+		{
+			m_shipScript.aggro = false;
+			m_shipScript.Flock();
 		}
 
 	}

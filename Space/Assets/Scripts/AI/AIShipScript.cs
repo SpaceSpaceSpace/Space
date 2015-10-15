@@ -64,7 +64,6 @@ public class AIShipScript : ShipScript {
 	// Update is called once per frame
 	void Update () {
 		DetectObstacle();
-		AlertSquad();
 	}
 
 
@@ -138,15 +137,22 @@ public class AIShipScript : ShipScript {
 		m_thrust.Accelerate = true;
 	}
 
-	public void AlertSquad()
+	public bool CheckAggro()
 	{
-		if(aggro)
+		if(DistanceTo(Target.position) < 10.0f)
 		{
-			foreach(GameObject g in squad)
-			{
-				g.GetComponent<AIShipScript>().aggro = true;
-			}
+			aggro = true;
+			return true;
 		}
+		else
+			aggro = false;
+		foreach(GameObject g in squad)
+		{
+			if(g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
+				return true;
+		}
+		return false;
+
 	}
 	 
 	// Reset which side this ship will pass the target on
