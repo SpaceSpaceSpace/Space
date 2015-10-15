@@ -18,6 +18,8 @@ public class AIShipScript : ShipScript {
 	public List<GameObject> squad; // the squad of ships
 	public GameObject leader; // the leader of a squad
 	public Transform player;
+	public Transform objective;
+	public bool aggro; // is the enemy in combat
 
 	///
 	/// Private Variables
@@ -25,8 +27,7 @@ public class AIShipScript : ShipScript {
 	private Transform m_target; // the transform of the ship's target, currently the player
 	private int passSide; // is the side for the ship to pass on set
 	private float wanderAngle;
-	private bool m_obstacle; // is there an obstacle in the way
-	public Transform objective;
+	public bool m_obstacle; // is there an obstacle in the way
 
 	// Weights for flocking
 	private const float ALIGNMENT = 4.0f;
@@ -51,6 +52,7 @@ public class AIShipScript : ShipScript {
 		wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
 		m_thrust.Accelerate = true;
+		aggro = false;
 
 		for(int i = 0; i < squad.Count; i++)
 		{
@@ -61,8 +63,8 @@ public class AIShipScript : ShipScript {
 	
 	// Update is called once per frame
 	void Update () {
-		//AvoidObstacle();
 		DetectObstacle();
+		AlertSquad();
 	}
 
 
@@ -134,6 +136,17 @@ public class AIShipScript : ShipScript {
 		}
 		FaceTarget(targetPos);
 		m_thrust.Accelerate = true;
+	}
+
+	public void AlertSquad()
+	{
+		if(aggro)
+		{
+			foreach(GameObject g in squad)
+			{
+				g.GetComponent<AIShipScript>().aggro = true;
+			}
+		}
 	}
 	 
 	// Reset which side this ship will pass the target on
@@ -241,7 +254,7 @@ public class AIShipScript : ShipScript {
 		if(targetDist > 15.0f)
 			return false;
 		RaycastHit2D hit = Physics2D.Raycast(transform.position, m_target.position - transform.position, 15.0f);
-		if(hit.collider.gameObject.name == "Player Ship")
+		if(hit && hit.collider.gameObject.name == "Player Ship")
 			return true;
 
 		return false;
@@ -295,18 +308,13 @@ public class AIShipScript : ShipScript {
 	public void DetectObstacle()
 	{
 		m_obstacle = false;
-		RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, GetComponent<CircleCollider2D>().radius, transform.up, 10.0f);
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 10.0f);
 
-		foreach(RaycastHit2D h in hits)
+
+		if(hit && hit.collider.gameObject.tag == "Asteroid")
 		{
-			if(h.collider.gameObject.tag == "Asteroid")
-			{
-				m_obstacle = true;
-			}
+			m_obstacle = true;
 		}
-		
-		if(!m_obstacle)
-			return;
 	}
 
 
