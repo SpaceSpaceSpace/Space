@@ -99,8 +99,6 @@ public class ShipScript : MonoBehaviour
 	
 	protected void HandleCollision( Collision2D collision )
 	{
-		m_hitParticles.ReactToHit(collision.transform.position);
-
 		ApplyDamage( collision.relativeVelocity.magnitude * collision.rigidbody.mass * 0.02f );
 	}
 

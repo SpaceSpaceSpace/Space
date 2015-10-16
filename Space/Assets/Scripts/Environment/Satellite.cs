@@ -15,9 +15,7 @@ public class Satellite : MonoBehaviour {
 	public Vector3 velocity;
 	public Vector3 centerOfOrbit;
 	public float health;
-
-
-
+	
 	// Use this for initialization
 	void Start () {
 		float semiMajor;
