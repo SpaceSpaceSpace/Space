@@ -15,6 +15,8 @@ public class Satellite : MonoBehaviour {
 	public Vector3 velocity;
 	public Vector3 centerOfOrbit;
 	public float health;
+
+	private static GameObject m_dustplosion = null;
 	
 	// Use this for initialization
 	void Start () {
@@ -40,10 +42,11 @@ public class Satellite : MonoBehaviour {
 		centerOfOrbit = new Vector3 (0.0f, 0.0f, 0.0f);
 		transform.GetComponent<Rigidbody2D>().AddForce( velocity, ForceMode2D.Impulse);
 
+		//Load dustplosion
+		if(m_dustplosion == null)
+			m_dustplosion = Resources.Load("AsteroidExplosion") as GameObject;
 	}
 
-
-	
 	// Update is called once per frame
 	void FixedUpdate () {
 
@@ -107,6 +110,16 @@ public class Satellite : MonoBehaviour {
 			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
 			Destroy(gameObject);
 		}
+
+		//Spawn a little dust poof
+		float rotation = Random.Range(0, 360);
+		Vector3 rotVector = new Vector3(0,0,rotation);
+		GameObject dust = Instantiate(m_dustplosion,transform.position, Quaternion.Euler(rotVector)) as GameObject;
+
+		//Set the fade speed of the dust poof to be inversely proportional to the mass of the satellite
+		Explode explosion = dust.GetComponent<Explode>();
+		explosion.FadeSpeed = 1/m;
+
 	}
 
 }

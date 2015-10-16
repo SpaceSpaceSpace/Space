@@ -11,9 +11,16 @@ public class PlayerShipScript : ShipScript
 	public Dictionary<Vector2, GameObject> Attachments = new Dictionary<Vector2, GameObject>();
 	public List<Contract> playerContracts = new List<Contract>();
 
+	public GameObject objectiveMarker;
+
+	public bool Alive
+	{
+		get{return m_alive;}
+	}
+
 	private Transform m_cameraTransform;
 	private bool m_docked = false;
-	public GameObject objectiveMarker;
+	private bool m_alive = true;
 
 	public GameObject ObjectiveMarker
 	{
@@ -48,6 +55,8 @@ public class PlayerShipScript : ShipScript
 			Destroy(gameObject);
 		}
 
+		m_alive = true;
+
 		InitShip();
 
 		// The camera is parented to a GO and offset on the Z axis
@@ -81,8 +90,8 @@ public class PlayerShipScript : ShipScript
 		// Keeping the camera with us
 		m_cameraTransform.position = transform.position;
 
-		//Don't fire or move if we're docked
-		if(!m_docked)
+		//Don't fire or move if we're docked or dead
+		if(!m_docked && m_alive)
 		{
 			// Giving input to the thrust 
 			m_thrust.Accelerate = ( Input.GetAxis( "Vertical" ) > 0 );
@@ -173,6 +182,19 @@ public class PlayerShipScript : ShipScript
 
 	protected override void Die()
 	{
-		print( "sry u died :'(" );
+		//can't die more than once
+		if(!m_alive)
+			return;
+
+		m_alive = false;
+		//Kill thrusters
+		if(m_thrust)
+		{
+			m_thrust.Accelerate = false;
+			m_thrust.TurnDirection = 0;
+		}
+
+		Explode();
+		Destroy(gameObject);
 	}
 }
