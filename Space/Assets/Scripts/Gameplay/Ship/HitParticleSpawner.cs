@@ -51,7 +51,10 @@ public class HitParticleSpawner : MonoBehaviour {
 		ParticleSystem hitPS = hitObject.GetComponent<ParticleSystem>();
 
 		if(m_particleSystems == null)
+		{
+			Destroy (hitObject);
 			return;
+		}
 
 		//Rotate PS to face collision
 		Vector2 difference = hitPoint - (Vector2)pos;
