@@ -35,6 +35,9 @@ public class PlayerUI : MonoBehaviour
 	private void UpdateHealth()
 	{
 		healthBar.value = playerShip.Health;
+
+		if(playerShip.Health <= 0)
+			healthBar.transform.parent.gameObject.SetActive(false);
 	}
 
 	private void UpdateShield()
