@@ -13,6 +13,8 @@ public class AIShipScript : ShipScript {
 	public List<GameObject> squad; // the squad of ships
 	public GameObject leader; // the leader of a squad
 	public Transform player;
+	public Transform objective;
+	public bool aggro; // is the enemy in combat
 
 	///
 	/// Private Variables
@@ -20,8 +22,7 @@ public class AIShipScript : ShipScript {
 	private Transform m_target; // the transform of the ship's target, currently the player
 	private int passSide; // is the side for the ship to pass on set
 	private float wanderAngle;
-	private bool m_obstacle; // is there an obstacle in the way
-	public Transform objective;
+	public bool m_obstacle; // is there an obstacle in the way
 
 	// Weights for flocking
 	private const float ALIGNMENT = 4.0f;
@@ -46,6 +47,7 @@ public class AIShipScript : ShipScript {
 		wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
 		m_thrust.Accelerate = true;
+		aggro = false;
 
 		for(int i = 0; i < squad.Count; i++)
 		{
@@ -56,7 +58,7 @@ public class AIShipScript : ShipScript {
 	
 	// Update is called once per frame
 	void Update () {
-		AvoidObstacle();
+		DetectObstacle();
 	}
 
 
@@ -128,6 +130,24 @@ public class AIShipScript : ShipScript {
 		}
 		FaceTarget(targetPos);
 		m_thrust.Accelerate = true;
+	}
+
+	public bool CheckAggro()
+	{
+		if(DistanceTo(Target.position) < 10.0f)
+		{
+			aggro = true;
+			return true;
+		}
+		else
+			aggro = false;
+		foreach(GameObject g in squad)
+		{
+			if(g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
+				return true;
+		}
+		return false;
+
 	}
 	 
 	// Reset which side this ship will pass the target on
@@ -213,8 +233,10 @@ public class AIShipScript : ShipScript {
 		Vector2 final = separation + cohesion + align;
 		if(Vector2.Dot(final, transform.right) > 0.1f)
 			m_thrust.TurnDirection = -1;
-		else
+		else if(Vector2.Dot(final, transform.right) < 0.1f)
 			m_thrust.TurnDirection = 1;
+		else
+			m_thrust.TurnDirection = 0;
 		
 		if(Vector2.Dot(final, transform.up) > 0)
 			m_thrust.AccelPercent += 1.0f * Time.deltaTime;
@@ -232,16 +254,11 @@ public class AIShipScript : ShipScript {
 		float targetDist = Vector2.Distance(m_target.position, transform.position);
 		if(targetDist > 15.0f)
 			return false;
-		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, m_target.position - transform.position, 15.0f);
-		foreach(RaycastHit2D h in hits)
-		{
-			if(h.collider.gameObject.tag == "Obstacle" && h.distance < targetDist)
-			{
-				return false;
-			}
-		}
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, m_target.position - transform.position, 15.0f);
+		if(hit && hit.collider.gameObject.name == "Player Ship")
+			return true;
 
-		return true;
+		return false;
 	}
 
 	public void AvoidObstacle()
@@ -253,7 +270,7 @@ public class AIShipScript : ShipScript {
 		Vector2 impactPoint = Vector2.zero; // the point of impact for the closest obstacle
 		foreach(RaycastHit2D h in hits)
 		{
-			if(h.collider.gameObject.tag == "Obstacle")
+			if(h.collider.gameObject.tag == "Asteroid")
 			{
 				m_obstacle = true;
 				Vector2 obsPos = h.collider.gameObject.transform.position;
@@ -279,6 +296,9 @@ public class AIShipScript : ShipScript {
 		if(impactDist < GetComponent<CircleCollider2D>().radius + (maxMoveSpeed * m_thrust.AccelPercent))
 			m_thrust.AccelPercent -= 1.0f * Time.deltaTime;
 
+		if(m_thrust.AccelPercent < 0.1f)
+			m_thrust.AccelPercent = 0.1f;
+
 		// stop completely if about to impact
 		if(impactDist < GetComponent<CircleCollider2D>().radius + 0.25f)
 			m_thrust.Accelerate = false;
@@ -286,11 +306,23 @@ public class AIShipScript : ShipScript {
 
 	}
 
+	public void DetectObstacle()
+	{
+		m_obstacle = false;
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 10.0f);
+
+
+		if(hit && hit.collider.gameObject.tag == "Asteroid")
+		{
+			m_obstacle = true;
+		}
+	}
+
 
 
 	// return the angle between the direction the AI ship is facing
 	// and the direction to the target's predicted position
-	float AngleToTarget()
+	public float AngleToTarget()
 	{
 		Vector2 target = m_target.position - transform.position;
 		float angle = Vector2.Angle(transform.up, target);
