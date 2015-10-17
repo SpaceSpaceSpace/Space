@@ -16,8 +16,10 @@ public class ThrustScript : MonoBehaviour
 	private float m_accelPercent;	// 0 to 1 percent of the acceleration to apply
 	private float m_accelForce;		// Force applied when accelerating
 	private float m_maxMoveSpeed;	// Max movement speed
+	private float m_maxTurnSpeed;
 	private float m_turnForce;		// Force applied for turning
 	private float m_turnDirection;	// The direction to turn
+	private float m_brakingDrag;
 	
 	private Rigidbody2D m_rigidbody;
 	private SoundSystemScript m_soundSystem;
@@ -28,7 +30,8 @@ public class ThrustScript : MonoBehaviour
 	public bool Accelerate
 	{
 		get { return m_accelerate; }
-		set { 
+		set
+		{ 
 			m_accelerate = value;
 			ToggleSound();
 		}
@@ -57,6 +60,7 @@ public class ThrustScript : MonoBehaviour
 		m_accelPercent = 1.0f;
 		
 		m_rigidbody = GetComponent<Rigidbody2D>();
+		m_rigidbody.centerOfMass = Vector2.zero;
 		m_soundSystem = GetComponent<SoundSystemScript>();
 	}
 	
@@ -71,9 +75,6 @@ public class ThrustScript : MonoBehaviour
 			if( thrustParticleSystem != null )
 			{
 				thrustParticleSystem.Play();
-				
-				// So the length of the trail is shorter at lower speeds
-				thrustParticleSystem.startSpeed = m_maxMoveSpeed * m_accelPercent;
 			}
 		}
 		else if( thrustParticleSystem != null )
@@ -94,27 +95,17 @@ public class ThrustScript : MonoBehaviour
 	// Sets the values of some members
 	// We might just want properties for each member later on down the (intergalactic) road
 	// MoveSpeed is in units/sec, TurnSpeed is in deg/sec
-	public void Init( float accelForce, float maxMoveSpeed, float turnForce, float maxTurnSpeed )
+	public void Init( float accelForce, float maxMoveSpeed, float turnForce )
 	{
 		float mass = m_rigidbody.mass;
-		float radius = 1;
-		
-		CircleCollider2D circleCol = GetComponent<CircleCollider2D>();
-
-		if( circleCol != null )
-		{
-			radius = circleCol.radius;
-		}
 		
 		m_maxMoveSpeed = maxMoveSpeed;
 		
 		m_accelForce = accelForce * mass;
-		m_turnForce = turnForce * mass * radius * radius * 0.5f;
+		m_turnForce = turnForce * mass;
 
-		// Sets the drag to limit the maximum speed
-		// Might have to change if we want less drag for more floaty movement
-		m_rigidbody.drag = accelForce / maxMoveSpeed;
-		m_rigidbody.angularDrag = turnForce / ( maxTurnSpeed * Mathf.Deg2Rad );
+		m_brakingDrag = 1;//m_accelForce / maxMoveSpeed;
+		//m_rigidbody.angularDrag = turnForce / ( maxTurnSpeed * Mathf.Deg2Rad );
 	}
 	
 	// Adds a given impulse force to the center of the ship (ie recoil or something)
@@ -128,13 +119,28 @@ public class ThrustScript : MonoBehaviour
 	{
 		m_rigidbody.AddForceAtPosition( force, position, ForceMode2D.Impulse );
 	}
+
+	public void EnableBrake( bool enabled )
+	{
+		m_rigidbody.drag = enabled ? m_brakingDrag : 0;
+	}
 	
 	///
 	/// Private Methods
 	///
 	private void ApplyAcceleration()
 	{
+		Vector2 velocity = m_rigidbody.velocity;
 		m_rigidbody.AddForce( transform.up * m_accelForce * m_accelPercent, ForceMode2D.Force );
+
+		float speed = velocity.magnitude;
+
+		if( speed > m_maxMoveSpeed * m_accelPercent )
+		{
+			float velocityDiff = velocity.magnitude - ( m_maxMoveSpeed - 1 ) * m_accelPercent;
+			Vector2 counterForce = velocity.normalized * m_accelForce * velocityDiff;
+			m_rigidbody.AddForce( -counterForce, ForceMode2D.Force );
+		}
 	}
 	
 	private void Turn()

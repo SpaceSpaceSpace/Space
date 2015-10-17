@@ -40,11 +40,5 @@ public class GameMaster : MonoBehaviour {
 		{
 			CurrentGameState = GameState.Flying;
 		}
-
-		//Go to Customization Mode
-		if(Input.GetKey(KeyCode.F3))
-		{
-			CurrentGameState = GameState.Customization;
-		}
 	}
 }

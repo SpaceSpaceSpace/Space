@@ -7,6 +7,10 @@ using System.Collections.Generic;
 // I'm sailing away...
 public class ShipScript : MonoBehaviour
 {
+	public float accelForce = 50.0f; // the accel force for thrust
+	public float turnForce = 10.0f; // the turn force for thrust
+	public float maxMoveSpeed = 5.0f; // max move speed for thrust
+
 	protected float m_health = 100.0f;
 	protected float m_maxHealth = 100.0f;
 
@@ -14,6 +18,8 @@ public class ShipScript : MonoBehaviour
 	protected ThrustScript m_thrust;
 	protected WeaponScript[] m_weapons;
 	protected ShieldScript m_shield;
+
+	protected static GameObject m_explosionPrefab = null;
 
 	// Primarily handles "collisions" with projeciles 
 	public void TakeHit( Vector2 force, Vector2 hitPoint )
@@ -47,6 +53,8 @@ public class ShipScript : MonoBehaviour
 	// since the Start of a base class script will not be called
 	protected void InitShip()
 	{
+		if(m_explosionPrefab == null)
+			m_explosionPrefab = Resources.Load ("ShipPrefabs/ShipExplosion") as GameObject;
 		m_thrust = GetComponent<ThrustScript>();
 		m_hitParticles = GetComponentInChildren<HitParticleSpawner>();
 
@@ -95,13 +103,20 @@ public class ShipScript : MonoBehaviour
 	
 	protected void HandleCollision( Collision2D collision )
 	{
-		m_hitParticles.ReactToHit(collision.transform.position);
-
 		ApplyDamage( collision.relativeVelocity.magnitude * collision.rigidbody.mass * 0.02f );
 	}
 
 	protected virtual void Die()
 	{
+		Explode();
 		Destroy( gameObject );
+	}
+
+	protected void Explode()
+	{
+		//Spawn Explosion
+		float rotation = Random.Range(0, 360);
+		Vector3 rotVector = new Vector3(0,0,rotation);
+		Instantiate(m_explosionPrefab,transform.position, Quaternion.Euler(rotVector));
 	}
 }
