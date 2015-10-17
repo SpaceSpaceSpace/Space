@@ -263,7 +263,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 497826, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11401512, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
       propertyPath: interactText
@@ -457,11 +457,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 613041949}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -48, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 1481511478}
+  m_RootOrder: 8
 --- !u!4 &760360851 stripped
 Transform:
   m_PrefabParentObject: {fileID: 481230, guid: fd8e5ff145bcee14488d5cb9f4f070e5, type: 2}
@@ -654,6 +654,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709512a488201da459ec3cbcf69c9a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1481511478 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 497826, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
+  m_PrefabInternal: {fileID: 321668951}
 --- !u!114 &1493654551 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11433544, guid: 07c03f46058f04b0d84e1c014d17700a,
