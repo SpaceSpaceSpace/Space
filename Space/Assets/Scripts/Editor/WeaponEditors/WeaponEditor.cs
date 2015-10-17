@@ -5,7 +5,7 @@ using System.Collections;
 [CustomEditor(typeof(WeaponScript))]
 public class WeaponEditor : Editor {
 	
-	public override void OnInspectorGUI()
+	/*public override void OnInspectorGUI()
 	{
 		WeaponScript weapon = (WeaponScript)target;
 
@@ -42,5 +42,5 @@ public class WeaponEditor : Editor {
 
 		if (GUI.changed)
 			EditorUtility.SetDirty(target);
-	}
+	}*/
 }

@@ -55,6 +55,8 @@ public class ShipScript : MonoBehaviour
 	{
 		if(m_explosionPrefab == null)
 			m_explosionPrefab = Resources.Load ("ShipPrefabs/ShipExplosion") as GameObject;
+
+		Debug.Log( m_explosionPrefab );
 		m_thrust = GetComponent<ThrustScript>();
 		m_hitParticles = GetComponentInChildren<HitParticleSpawner>();
 

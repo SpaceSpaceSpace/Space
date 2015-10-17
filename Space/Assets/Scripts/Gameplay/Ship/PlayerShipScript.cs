@@ -106,12 +106,6 @@ public class PlayerShipScript : ShipScript
 				m_thrust.EnableBrake( false );
 			}
 			
-			// If a key was pressed, might as well check if it was a number key
-			if( Input.anyKeyDown )
-			{
-				SetActiveWeapons();
-			}
-			
 			// Doing the pew pew
 			if( Input.GetButton( "Fire1" ) )
 			{
@@ -166,18 +160,6 @@ public class PlayerShipScript : ShipScript
 	{
 		base.ApplyDamage( damage, shieldPen );
 		EventManager.TriggerEvent( EventDefs.PLAYER_HEALTH_UPDATE );
-	}
-
-	// Checks if any of the number keys were pressed to toggle weapons
-	private void SetActiveWeapons()
-	{
-		for ( int i = 0; i < m_weapons.Length; i++ )
-		{
-			if ( Input.GetKeyDown( "" + ( i + 1 ) ) )
-			{
-				m_weapons[ i ].ToggleActive();
-			}
-		}
 	}
 
 	protected override void Die()

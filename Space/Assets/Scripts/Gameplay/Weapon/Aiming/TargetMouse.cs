@@ -14,10 +14,7 @@ public class TargetMouse : TargetingBehavior
 	
 	void Update ()
 	{
-		if( m_weaponScript.Active )
-		{
-			SetAimTarget();
-		}
+		SetAimTarget();
 	}
 	
 	protected override void SetAimTarget()
