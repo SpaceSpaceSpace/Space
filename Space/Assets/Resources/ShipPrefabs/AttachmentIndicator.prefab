@@ -9,8 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 453630}
   - 212: {fileID: 21214406}
-  - 61: {fileID: 6172616}
   - 114: {fileID: 11450492}
+  - 65: {fileID: 6575882}
   m_Layer: 5
   m_Name: AttachmentIndicator
   m_TagString: Untagged
@@ -30,19 +30,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!61 &6172616
-BoxCollider2D:
+--- !u!65 &6575882
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 182030}
-  m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .159999996, y: .159999996}
+  m_Size: {x: .159999996, y: .159999996, z: .200000003}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11450492
 MonoBehaviour:
   m_ObjectHideFlags: 1

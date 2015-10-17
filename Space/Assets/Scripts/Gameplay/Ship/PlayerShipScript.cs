@@ -8,7 +8,8 @@ public class PlayerShipScript : ShipScript
 	public GameObject objectivePrefab;
 
 	public List<Vector2> AttachmentPoints = new List<Vector2>();
-	public Dictionary<Vector2, GameObject> Attachments = new Dictionary<Vector2, GameObject>();
+	public List<GameObject> Attachments = new List<GameObject>();
+
 	public List<Contract> playerContracts = new List<Contract>();
 
 	public GameObject objectiveMarker;

@@ -8,6 +8,9 @@ public class AttachmentPoint : MonoBehaviour {
 
     public ToggleGroup WeaponToggles;
 
+	[HideInInspector]
+	public int Index;
+
 	SpriteRenderer spriteRenderer;
 
 	Color startColor;
@@ -19,6 +22,8 @@ public class AttachmentPoint : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		ship = PlayerShipScript.player;
+
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		startColor = spriteRenderer.color;
 
@@ -35,8 +40,6 @@ public class AttachmentPoint : MonoBehaviour {
 
 	void OnMouseOver(){
 
-		Debug.Log("test");
-
         if(WeaponToggles.AnyTogglesOn())
 		{
 			spriteRenderer.color = selectedColor;
@@ -51,10 +54,9 @@ public class AttachmentPoint : MonoBehaviour {
 				GameObject attachment = attachmentToggle.Attachment;
 
 				//If the ship has an attachment here we should remove it
-
-				if(ship.Attachments.ContainsKey(pointPos))
+				if(ship.Attachments[Index] != null)
 				{
-					GameObject currentAttachment = ship.Attachments[pointPos];
+					GameObject currentAttachment = ship.Attachments[Index];
 					Destroy(currentAttachment);
 				}
 
@@ -64,7 +66,7 @@ public class AttachmentPoint : MonoBehaviour {
 
 				attachmentTransform.position = new Vector3(pointPos.x, pointPos.y, ship.transform.position.z - .1f);
 				attachmentTransform.SetParent(ship.transform);
-				ship.Attachments[pointPos] = attachmentClone;
+				ship.Attachments[Index] = attachmentClone;
 
 				//Don't let this happen again until the mouse is lifted
 				attaching = true;
@@ -73,11 +75,10 @@ public class AttachmentPoint : MonoBehaviour {
 			//If it's right mouse button, clear
 			else if(Input.GetMouseButtonDown(1) && !attaching)
 			{
-				if(ship.Attachments.ContainsKey(pointPos))
-				{
-					GameObject currentAttachment = ship.Attachments[pointPos];
+				GameObject currentAttachment = ship.Attachments[Index];
+				if(currentAttachment != null)
 					Destroy(currentAttachment);
-				}
+
 			}
 			else if(Input.GetMouseButtonUp(0) && Input.GetMouseButtonUp(1))
 			{

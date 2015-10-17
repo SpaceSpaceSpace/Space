@@ -79,10 +79,13 @@ public class Customize : MonoBehaviour {
 		Transform shipTransform = ship.transform;
 		
 		//For each empty attachment point on the ship, draw an indicator that you can click to change the attachements
-		foreach(Vector2 v in ship.AttachmentPoints)
+		for(int i = 0; i < ship.AttachmentPoints.Count; i++)
 		{
+			Vector2 v = ship.AttachmentPoints[i];
+
 			GameObject indicator = Instantiate(Resources.Load("ShipPrefabs/AttachmentIndicator")) as GameObject;
 			AttachmentPoint attachment = indicator.GetComponent<AttachmentPoint>();
+			attachment.Index = i;
 			indicator.transform.position = ship.transform.position + (Vector3)v;
 			indicator.transform.parent = shipTransform;
 			
