@@ -9,6 +9,7 @@ public class Customize : MonoBehaviour {
     public ToggleGroup WeaponToggles;
 
 	private bool customizing = false;
+	private float oldCameraSize;
 
 	void Update()
 	{
@@ -16,15 +17,28 @@ public class Customize : MonoBehaviour {
 			EnterCustomization();
 		if(GameMaster.CurrentGameState != GameState.Customization && customizing)
 			EndCustomization();
+
+		if(customizing)
+			CenterShip();
+	}
+
+	void OnMouseOver()
+	{
+		Debug.Log("test");
 	}
 
 	private void EnterCustomization()
 	{
+		//Focus camera on player
+		Camera cam = Camera.main;
+		oldCameraSize = cam.orthographicSize;
+
+		cam.orthographicSize = 1.5f;
+
 		ship = PlayerShipScript.player;
 		
 		ship.Dock();
-
-		CenterShip ();
+		CenterShip();
 
 		PopulateAttachmentPoints();
 
@@ -35,6 +49,9 @@ public class Customize : MonoBehaviour {
 
 	private void EndCustomization()
 	{
+		Camera cam = Camera.main;
+		cam.orthographicSize = oldCameraSize;
+
 		ClearAttachmentPoints();
 
 		ship.Undock();
@@ -46,7 +63,7 @@ public class Customize : MonoBehaviour {
 
 	private void CenterShip()
 	{
-		ship.transform.position = new Vector2(0,0);
+		ship.transform.position = transform.position;
 		ship.transform.eulerAngles = new Vector2(0,0);
 
 		Rigidbody2D rigidbody = ship.GetComponent<Rigidbody2D>();
@@ -62,19 +79,18 @@ public class Customize : MonoBehaviour {
 		Transform shipTransform = ship.transform;
 		
 		//For each empty attachment point on the ship, draw an indicator that you can click to change the attachements
-		foreach(Vector2 v in ship.AttachmentPoints)
+		for(int i = 0; i < ship.AttachmentPoints.Count; i++)
 		{
-			GameObject indicator = Instantiate((GameObject)Resources.Load("ShipPrefabs/AttachmentIndicator"));
+			Vector2 v = ship.AttachmentPoints[i];
+
+			GameObject indicator = Instantiate(Resources.Load("ShipPrefabs/AttachmentIndicator")) as GameObject;
 			AttachmentPoint attachment = indicator.GetComponent<AttachmentPoint>();
+			attachment.Index = i;
+			indicator.transform.position = ship.transform.position + (Vector3)v;
 			indicator.transform.parent = shipTransform;
 			
 			//Send the toggles to the attachment point so that it knows how to react when a weapon is selected
 			attachment.WeaponToggles = WeaponToggles;
-			
-			Vector3 pos = v;
-			pos.z = ship.transform.position.z - .2f;
-			
-			indicator.transform.position = pos;
 		}
 	}
 

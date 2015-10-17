@@ -6,7 +6,7 @@ public class InteractableScript : MonoBehaviour
 	PlayerShipScript playerShip; 
 	void Start()
 	{
-		playerShip = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
+		playerShip = PlayerShipScript.player;
 	}
 
 	public void OnInteract()

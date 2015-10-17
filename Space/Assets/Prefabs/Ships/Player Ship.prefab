@@ -710,11 +710,12 @@ MonoBehaviour:
   maxMoveSpeed: 7
   objectivePrefab: {fileID: 146980, guid: 2840ea0ea420db641a04e5bdb32e8cb6, type: 2}
   AttachmentPoints:
-  - {x: -.550000012, y: -.25}
-  - {x: .550000012, y: -.25}
+  - {x: -.349999994, y: -.150000006}
+  - {x: .349999994, y: -.150000006}
   - {x: 0, y: .349999994}
   - {x: 0, y: 0}
   - {x: 0, y: -.349999994}
+  Attachments: []
   objectiveMarker: {fileID: 192520}
 --- !u!114 &11451960
 MonoBehaviour:
@@ -761,7 +762,7 @@ MonoBehaviour:
   maxReserveClips: 0
   knockback: 0
   fireTime: .200000003
-  maxSpreadAngle: 5
+  maxSpreadAngle: 5.00000143
   fireSoundName: Laser_Bolt
 --- !u!114 &11471672
 MonoBehaviour:
