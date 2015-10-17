@@ -8,7 +8,7 @@ public class AttachmentPoint : MonoBehaviour {
 
     public ToggleGroup WeaponToggles;
 
-	Material mat;
+	SpriteRenderer spriteRenderer;
 
 	Color startColor;
 	Color selectedColor = Color.blue;
@@ -19,11 +19,11 @@ public class AttachmentPoint : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		mat = GetComponent<Renderer>().material;
-		startColor = mat.color;
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		startColor = spriteRenderer.color;
 
 		//Ship is attached to the parent game object
-		ship = transform.parent.gameObject.GetComponent<PlayerShipScript>();
+		//ship = transform.parent.gameObject.GetComponent<PlayerShipScript>();
 
 		attaching = false;
 	}
@@ -34,9 +34,12 @@ public class AttachmentPoint : MonoBehaviour {
 	}
 
 	void OnMouseOver(){
+
+		Debug.Log("test");
+
         if(WeaponToggles.AnyTogglesOn())
 		{
-		    mat.color = selectedColor;
+			spriteRenderer.color = selectedColor;
 			Vector2 pointPos = transform.position;
 
 			// If it's left mouse button, attach
@@ -66,6 +69,7 @@ public class AttachmentPoint : MonoBehaviour {
 				//Don't let this happen again until the mouse is lifted
 				attaching = true;
 			}
+
 			//If it's right mouse button, clear
 			else if(Input.GetMouseButtonDown(1) && !attaching)
 			{
@@ -82,7 +86,7 @@ public class AttachmentPoint : MonoBehaviour {
 		}
 	}
 	void OnMouseExit(){
-		mat.color = startColor;
+		spriteRenderer.color = startColor;
 		attaching = false;
 	}
 }
