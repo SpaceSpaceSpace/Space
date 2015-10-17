@@ -6,14 +6,33 @@ public class InteractScript : MonoBehaviour
 	public GameObject interactText;
 	
 	private InteractableScript m_targetInteractible;
+	private Customize m_customization;
 	
 	void Update()
 	{
-		if( Input.GetButtonDown( "Interact" ) )
+		if( Input.GetButtonDown( "Interact" ) && GameMaster.CurrentGameState == GameState.Flying)
 		{
 			if( m_targetInteractible != null )
 			{
 				m_targetInteractible.OnInteract();
+			}
+		}
+
+		//TEMPORARY -- This functionality will be replaced with the Space Station UI
+		if(Input.GetKeyDown (KeyCode.E) && GameMaster.CurrentGameState != GameState.Customization)
+		{
+			if( m_targetInteractible != null )
+			{
+				GameMaster.CurrentGameState = GameState.Customization;
+				interactText.SetActive(false);
+			}
+		}
+		if(Input.GetKeyDown (KeyCode.Escape) && GameMaster.CurrentGameState == GameState.Customization)
+		{
+			if( m_targetInteractible != null )
+			{
+				GameMaster.CurrentGameState = GameState.Flying;
+				interactText.SetActive(true);
 			}
 		}
 	}
@@ -53,6 +72,9 @@ public class InteractScript : MonoBehaviour
 			SpriteRenderer sr = col.GetComponent<SpriteRenderer>();
 			sr.color = Color.green;
 			// =============================
+
+			if(GameMaster.CurrentGameState == GameState.Customization)
+				interactText.SetActive(false);
 			
 			m_targetInteractible = col.GetComponent<InteractableScript>();
 		}
