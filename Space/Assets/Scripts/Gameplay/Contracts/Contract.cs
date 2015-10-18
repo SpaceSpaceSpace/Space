@@ -24,7 +24,11 @@ public class Contract
 		completed = false;
 		objectivePosition = new Vector3 (Random.Range(-100,100), Random.Range(-100,100), 0);
 		description = "Go here!";
-		targetImage = "Image Directory";
+		targetImagePath = "Image Directory";
+		targetShipImagePath = "ShipImage Directory";
+		name = "Unknown";
+		title = "Unknown Title";
+		reward = "0 Space Dollars";
 		player = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
 	}
 
@@ -42,6 +46,7 @@ public class Contract
 		contractDetails.Add ("Reward", reward);
 		contractDetails.Add ("Description", description);
 
+		return contractDetails;
 	}
 
 	public void CompleteContractObjective(GameObject completedObjective)

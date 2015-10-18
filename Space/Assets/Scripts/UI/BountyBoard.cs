@@ -4,26 +4,35 @@ using UnityEngine.UI;
 
 public class BountyBoard : MonoBehaviour {
 
-	public Text name;
+	public Text targetName;
 	public Text title;
 	public Text description;
 	public Text reward;
 	public Image portrait;
 	public Image shipImage;
 
-	public void setName(string p_Name)
+	void OnEnable()
 	{
-		name = p_Name;
+
 	}
 
-	public void setTitle(string p_Title)
+	public void SetName(string p_Name)
 	{
-		title = p_Title;
+		targetName.text = p_Name;
 	}
 
-	public void setDescription(string p_Des)
+	public void SetTitle(string p_Title)
 	{
-		description = p_Des;
+		title.text = p_Title;
 	}
 
+	public void SetDescription(string p_Des)
+	{
+		description.text = p_Des;
+	}
+
+	public void SetReward(string p_Reward)
+	{
+		reward.text = p_Reward;
+	}
 }
