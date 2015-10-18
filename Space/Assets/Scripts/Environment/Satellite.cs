@@ -33,14 +33,14 @@ public class Satellite : MonoBehaviour {
 			transform.GetComponent<Rigidbody2D> ().mass = mass * 100.0f;
 			health = 5.0f * mass;
 		}*/
-
+		centerOfOrbit = new Vector3 (0.0f, 0.0f, 0.0f);
 		Vector3 toCenter = centerOfOrbit - transform.position;
 		Vector2 tangential = new Vector2(-toCenter.y, toCenter.x);
 		tangential.Normalize();
 		velocity = new Vector3(tangential.x,tangential.y, 0.0f);
 		velocity *= Mathf.Sqrt (GRAVITATION_MAGNITUDE * (10000.0f / toCenter.magnitude - 1.0f / semiMajor));
-		centerOfOrbit = new Vector3 (0.0f, 0.0f, 0.0f);
-		transform.GetComponent<Rigidbody2D>().AddForce( velocity, ForceMode2D.Impulse);
+
+		transform.GetComponent<Rigidbody2D>().AddForce( new Vector2(velocity.x,velocity.y), ForceMode2D.Impulse);
 
 		//Load dustplosion
 		if(m_dustplosion == null)
@@ -89,7 +89,11 @@ public class Satellite : MonoBehaviour {
 		if(split){		health = 2.5f * m;}
 		else { health = 5.0f * m;}
 	}
-
+	public void OnCollisionStay2D(Collision2D coll) {
+		if (coll.gameObject.tag == "Asteroid")
+			ApplyDamage (.05f, Vector2.zero);
+		
+	}
 	public void Split(float m, Vector3 impulse)
 	{
 
@@ -104,8 +108,8 @@ public class Satellite : MonoBehaviour {
 			split1.GetComponent<Satellite>().ScaleMass(m/2, true);
 			GameObject split2 = (GameObject)Instantiate(satPrefab,transform.position + offset2,Quaternion.identity);
 			split2.GetComponent<Satellite>().ScaleMass(m/2, true);
-			split1.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
-			split2.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
+			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x,impulse.y), ForceMode2D.Impulse);
+			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x,impulse.y), ForceMode2D.Impulse);
 			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
 			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
 			Destroy(gameObject);

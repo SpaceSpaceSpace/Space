@@ -9,9 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 419124}
   - 212: {fileID: 21264196}
-  - 114: {fileID: 11463978}
   - 50: {fileID: 5015534}
   - 60: {fileID: 6029180}
+  - 114: {fileID: 11427368}
   m_Layer: 0
   m_Name: SAsteroid3
   m_TagString: Asteroid
@@ -104,7 +104,7 @@ PolygonCollider2D:
       - {x: .134643421, y: -.594762206}
       - {x: .307470769, y: -.532173097}
       - {x: .497470737, y: -.394881129}
---- !u!114 &11463978
+--- !u!114 &11427368
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 115062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7899095b70533841849d506674d80a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9faee587c8a453f41b84336ae60e3c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   artificial: 0

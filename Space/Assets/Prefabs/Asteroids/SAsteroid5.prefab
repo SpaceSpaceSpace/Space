@@ -25,9 +25,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 450996}
   - 212: {fileID: 21215892}
-  - 114: {fileID: 11443082}
   - 50: {fileID: 5056566}
   - 60: {fileID: 6028530}
+  - 114: {fileID: 11422888}
   m_Layer: 0
   m_Name: SAsteroid5
   m_TagString: Asteroid
@@ -103,7 +103,7 @@ PolygonCollider2D:
       - {x: -.174999997, y: -.654999971}
       - {x: .0819350928, y: -.677589178}
       - {x: .565237522, y: -.51535666}
---- !u!114 &11443082
+--- !u!114 &11422888
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 189850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7899095b70533841849d506674d80a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9faee587c8a453f41b84336ae60e3c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   artificial: 0
@@ -181,7 +181,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: satPrefab
+      value: 
+      objectReference: {fileID: 189850}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 189850}
