@@ -15,9 +15,17 @@ public class OrbitalGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		generateBelt (50, new Vector2 (75.0f, 75.0f), false);
-		generateBelt (40, new Vector2 (85.0f, 85.0f), false);
-		generateBelt (40, new Vector2 (90.0f, 90.0f), false);
+		//generateBelt (50, new Vector2 (75.0f, 75.0f), false);
+		//generateBelt (60, new Vector2 (85.0f, 85.0f), false);
+		//generateBelt (60, new Vector2 (90.0f, 90.0f), false);
+		//generateBelt (70, new Vector2 (95.0f, 95.0f), false);
+		generateBelt (20, new Vector2 (90.0f, 90.0f), false);
+		//generateBelt (50, new Vector2 (100.0f, 100.0f), false);
+		generateBelt (24, new Vector2 (120.0f, 120.0f), false);
+		generateBelt (24, new Vector2 (160.0f, 160.0f), false);
+		//generateBelt (65, new Vector2 (130.0f, 130.0f), false);
+		generateBelt (24, new Vector2 (200.0f, 200.0f), false);
+
 		//generateBelt (64, new Vector2 (4.0f, 4.0f), false);
 	}
 
@@ -60,8 +68,8 @@ public class OrbitalGenerator : MonoBehaviour {
 			{
 				float chunkAngle = j * ((Mathf.PI *2)/numOfAsteroids);
 				
-				float chunkX = Mathf.Sin(chunkAngle) * 0.65f;
-				float chunkY = Mathf.Cos(chunkAngle) * 0.65f;
+				float chunkX = Mathf.Sin(chunkAngle) * 9.0f;
+				float chunkY = Mathf.Cos(chunkAngle) * 9.0f;
 				
 				Vector3 pos = new Vector3(chunkX,chunkY,0) + chunkCenter;
 
