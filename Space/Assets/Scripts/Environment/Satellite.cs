@@ -109,10 +109,10 @@ public class Satellite : MonoBehaviour {
 			split1.GetComponent<Satellite>().ScaleMass(m/2, true);
 			GameObject split2 = (GameObject)Instantiate(satPrefab,transform.position + offset2,Quaternion.identity);
 			split2.GetComponent<Satellite>().ScaleMass(m/2, true);
-			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x,impulse.y), ForceMode2D.Impulse);
-			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x,impulse.y), ForceMode2D.Impulse);
-			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
-			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
+			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x * 20.0f,impulse.y* 20.0f), ForceMode2D.Impulse);
+			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x* 20.0f,impulse.y* 20.0f), ForceMode2D.Impulse);
+			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-50,0),Random.Range(-50,0)));
+			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0,50),Random.Range(0,50)));
 			Destroy(gameObject);
 		}
 
