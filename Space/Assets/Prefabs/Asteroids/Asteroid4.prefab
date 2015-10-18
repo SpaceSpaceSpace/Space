@@ -166,9 +166,8 @@ MonoBehaviour:
   artificial: 0
   inOrbit: 0
   mass: 0
-
-  satPrefab: {fileID: 137370, guid: 6788d473fb6c54b499917769a65a75bc, type: 2}
-
+  satPrefab: {fileID: 129030, guid: 74af49bae754d0d4eb4501bc6c9cfddb, type: 2}
+  satPrefab1: {fileID: 157994, guid: cdf5b7a1346f1954f99cbded1430779d, type: 2}
   radius: {x: 0, y: 0}
   splitForce: 0
   velocity: {x: 0, y: 0, z: 0}
@@ -1308,14 +1307,17 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
-
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 695af6ad59bfe8140a7d517f2ee09560, type: 2}
     - target: {fileID: 0}
       propertyPath: satPrefab
       value: 
-      objectReference: {fileID: 137370, guid: 6788d473fb6c54b499917769a65a75bc, type: 2}
+      objectReference: {fileID: 129030, guid: 74af49bae754d0d4eb4501bc6c9cfddb, type: 2}
+    - target: {fileID: 0}
+      propertyPath: satPrefab1
+      value: 
+      objectReference: {fileID: 157994, guid: cdf5b7a1346f1954f99cbded1430779d, type: 2}
     m_RemovedComponents:
     - {fileID: 0}
   m_ParentPrefab: {fileID: 0}

@@ -7,6 +7,7 @@ public class Satellite : MonoBehaviour {
 	public bool inOrbit;
 	public float mass;
 	public GameObject satPrefab;
+	public GameObject satPrefab1;
 	public const float MAX_VELOCITY = 1000.0f;
 	public const float GRAVITATION_MAGNITUDE = 10.0f;
 	//public const float STARTING_IMPULSE = 12f;
