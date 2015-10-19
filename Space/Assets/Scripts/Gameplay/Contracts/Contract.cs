@@ -32,6 +32,11 @@ public class Contract
 		player = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
 	}
 
+	public string Name
+	{
+		get{ return name;}
+	}
+
 	public PlayerShipScript Player
 	{
 		get{return player;}
