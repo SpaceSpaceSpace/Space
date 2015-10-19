@@ -156,7 +156,8 @@ MonoBehaviour:
   artificial: 0
   inOrbit: 0
   mass: 0
-  satPrefab: {fileID: 119174}
+  satPrefab: {fileID: 126292, guid: 545b683ec69de26409b8397bb6bc17bc, type: 2}
+  satPrefab1: {fileID: 113986, guid: d5e2b9d7d9af3a24f9fd58d3cd9a815b, type: 2}
   radius: {x: 0, y: 0}
   splitForce: 0
   velocity: {x: 0, y: 0, z: 0}
@@ -1314,7 +1315,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: satPrefab
       value: 
-      objectReference: {fileID: 119174}
+      objectReference: {fileID: 126292, guid: 545b683ec69de26409b8397bb6bc17bc, type: 2}
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
@@ -1332,6 +1333,10 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: satPrefab1
+      value: 
+      objectReference: {fileID: 113986, guid: d5e2b9d7d9af3a24f9fd58d3cd9a815b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 119174}
