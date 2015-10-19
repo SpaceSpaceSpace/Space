@@ -10,7 +10,6 @@ public class PlayerShipScript : ShipScript
 	public List<Vector2> AttachmentPoints = new List<Vector2>();
 	public List<GameObject> Attachments = new List<GameObject>();
 
-	public List<Contract> playerContracts = new List<Contract>();
 
 	public GameObject objectiveMarker;
 
@@ -63,14 +62,6 @@ public class PlayerShipScript : ShipScript
 		// The camera is parented to a GO and offset on the Z axis
 		// We're keeping the parent so we don't have to set the Z when moving the camera
 		m_cameraTransform = Camera.main.transform.parent;
-	}
-
-	//Accepts contract and spawns the objective in world space
-	public void AcceptContract(Contract contract)
-	{
-		playerContracts.Add (contract);
-		contract.SpawnContract (this);
-		Debug.Log ("Contract Accepted: " + playerContracts.Count);
 	}
 
 	void Start()
