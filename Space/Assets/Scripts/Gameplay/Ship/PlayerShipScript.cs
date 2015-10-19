@@ -8,12 +8,19 @@ public class PlayerShipScript : ShipScript
 	public GameObject objectivePrefab;
 
 	public List<Vector2> AttachmentPoints = new List<Vector2>();
-	public Dictionary<Vector2, GameObject> Attachments = new Dictionary<Vector2, GameObject>();
-	public List<Contract> playerContracts = new List<Contract>();
+	public List<GameObject> Attachments = new List<GameObject>();
+
+
+	public GameObject objectiveMarker;
+
+	public bool Alive
+	{
+		get{return m_alive;}
+	}
 
 	private Transform m_cameraTransform;
 	private bool m_docked = false;
-	public GameObject objectiveMarker;
+	private bool m_alive = true;
 
 	public GameObject ObjectiveMarker
 	{
@@ -48,25 +55,18 @@ public class PlayerShipScript : ShipScript
 			Destroy(gameObject);
 		}
 
+		m_alive = true;
+
 		InitShip();
-		m_thrust.Init( 50.0f, 5.0f, 10.0f, 90.0f ); // Magic numbers. Because I can.
 
 		// The camera is parented to a GO and offset on the Z axis
 		// We're keeping the parent so we don't have to set the Z when moving the camera
 		m_cameraTransform = Camera.main.transform.parent;
 	}
 
-	//Accepts contract and spawns the objective in world space
-	public void AcceptContract(Contract contract)
-	{
-		playerContracts.Add (contract);
-		contract.SpawnContract (this);
-		Debug.Log (playerContracts.Count);
-	}
-
 	void Start()
 	{
-		m_thrust.Init( 50.0f, 5.0f, 10.0f, 90.0f ); // Magic numbers. Because I can.
+		m_thrust.Init( accelForce, maxMoveSpeed, turnForce );
 
 		if( m_shield != null )
 		{
@@ -82,12 +82,21 @@ public class PlayerShipScript : ShipScript
 		// Keeping the camera with us
 		m_cameraTransform.position = transform.position;
 
-		//Don't fire or move if we're docked
-		if(!m_docked)
+		//Don't fire or move if we're docked or dead
+		if(!m_docked && m_alive)
 		{
 			// Giving input to the thrust 
 			m_thrust.Accelerate = ( Input.GetAxis( "Vertical" ) > 0 );
 			m_thrust.TurnDirection = -Input.GetAxis( "Horizontal" );
+
+			if( Input.GetAxisRaw( "Vertical" ) < 0 )
+			{
+				m_thrust.EnableBrake( true );
+			}
+			else
+			{
+				m_thrust.EnableBrake( false );
+			}
 			
 			// If a key was pressed, might as well check if it was a number key
 			if( Input.anyKeyDown )
@@ -165,6 +174,19 @@ public class PlayerShipScript : ShipScript
 
 	protected override void Die()
 	{
-		print( "sry u died :'(" );
+		//can't die more than once
+		if(!m_alive)
+			return;
+
+		m_alive = false;
+		//Kill thrusters
+		if(m_thrust)
+		{
+			m_thrust.Accelerate = false;
+			m_thrust.TurnDirection = 0;
+		}
+
+		Explode();
+		Destroy(gameObject);
 	}
 }

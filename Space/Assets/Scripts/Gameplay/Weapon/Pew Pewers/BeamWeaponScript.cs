@@ -74,13 +74,20 @@ public class BeamWeaponScript : WeaponScript
 	private void HandleHit( RaycastHit2D hit )
 	{
 		GameObject go = hit.collider.gameObject;
+		Vector2 dir = ( hit.point - (Vector2)transform.position ).normalized;
 		if( go.tag == "Ship" )
 		{
 			ShipScript ship = go.GetComponent<ShipScript>();
-			Vector2 dir = ( hit.point - (Vector2)transform.position ).normalized;
+			//Vector2 dir = ( hit.point - (Vector2)transform.position ).normalized;
 			ship.TakeHit( dir, hit.point );
 			
 			ship.ApplyDamage( damage * Time.deltaTime );
+		}
+		else if( go.tag == "Asteroid" )
+		{
+			// Do same sort of thing as with Ship
+			Satellite sat = go.GetComponent<Satellite>();
+			sat.ApplyDamage(damage, dir);
 		}
 	}
 }
