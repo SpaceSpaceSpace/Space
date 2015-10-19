@@ -12,8 +12,8 @@ public class SpaceStation : InteractableScript {
 		//Destroy original buttons, Place new ones in the scroll list
 
 		//This will be a UI Menu for the Space Station in the future, will be used just to spawn contracts for now
-		CreateAndAcceptContract ();
-		TurnInContracts ();
+		//CreateAndAcceptContract ();
+		//TurnInContracts ();
 	}
 
 	public void CreateAndAcceptContract()
