@@ -22,13 +22,27 @@ public class Contract
 	{
 		contractObjectives = new List<GameObject> ();
 		completed = false;
-		objectivePosition = new Vector3 (Random.Range(-100,100), Random.Range(-100,100), 0);
+		objectivePosition = new Vector3 (Random.Range(-100,100), Random.Range(-25,25), 0);
 		description = "Go here!";
 		targetImagePath = "Image Directory";
 		targetShipImagePath = "ShipImage Directory";
 		name = "Unknown";
 		title = "Unknown Title";
 		reward = "0 Space Dollars";
+		player = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
+	}
+
+	public Contract(string p_Name, string p_Description, string p_Title, string p_Reward)
+	{
+		contractObjectives = new List<GameObject> ();
+		completed = false;
+		objectivePosition = new Vector3 (Random.Range(-100,100), Random.Range(-100,100), 0);
+		targetImagePath = "Image Directory";
+		targetShipImagePath = "ShipImage Directory";
+		name = p_Name;
+		title = p_Title;
+		description = p_Description;
+		reward = p_Reward;
 		player = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
 	}
 

@@ -8,18 +8,6 @@ public class SpaceStation : InteractableScript {
 	public override void OnInteract ()
 	{
 		UI_Manager.instance.DisplayBountyBoard (true);
-
-		//Destroy original buttons, Place new ones in the scroll list
-
-		//This will be a UI Menu for the Space Station in the future, will be used just to spawn contracts for now
-		//CreateAndAcceptContract ();
-		//TurnInContracts ();
-	}
-
-	public void CreateAndAcceptContract()
-	{
-		Contract newContract = new Contract ();
-		GameMaster.playerData.AcceptContract (newContract);
 	}
 	 
 	//NOTE - Contracts do not get removed when they're turned in

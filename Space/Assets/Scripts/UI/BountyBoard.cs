@@ -14,6 +14,7 @@ public class BountyBoard : MonoBehaviour {
 	public GameObject scrollView;
 	public GameObject buttonPrefab;
 	private List<Contract> currentContracts;
+	private int currentSelectedContract;
 
 	void OnEnable()
 	{
@@ -34,15 +35,34 @@ public class BountyBoard : MonoBehaviour {
 		{
 			int _i = i;
 			GameObject button = Instantiate(buttonPrefab) as GameObject;
-			button.transform.parent = scrollView.transform;
-			button.transform.localScale = new Vector3(1.0f,1.0f,1.0f);
+			button.name = "contract" + i;
+			button.transform.SetParent(scrollView.transform,false);
 			button.gameObject.GetComponent<Button>().onClick.AddListener(()=>SetBountyValues(_i));
 			button.GetComponentInChildren<Text>().text = currentContracts[i].Name;
 		}
 	}
 
+	public void DestroyButtons()
+	{
+		Button[] buttons = scrollView.GetComponentsInChildren<Button> ();
+		foreach(Button _button in buttons)
+		{
+			Destroy(_button.gameObject);
+		}
+	}
+	
+	public void AcceptContract()
+	{
+		GameMaster.playerData.AcceptContract (currentContracts[currentSelectedContract]);
+
+		GameObject button = scrollView.transform.FindChild ("contract" + currentSelectedContract).gameObject;
+
+		Destroy (scrollView.transform.FindChild("contract" + currentSelectedContract).gameObject);
+	}
+
 	public void SetBountyValues(int index)
 	{
+		currentSelectedContract = index;
 		Dictionary<string,string> values = currentContracts [index].GetContractDetails ();
 
 		SetName (values ["Name"]);

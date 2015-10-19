@@ -18,6 +18,7 @@ public class UI_Manager : MonoBehaviour {
 
 	public void DisplayBountyBoard(bool active)
 	{
+		BountyBoard.GetComponent<BountyBoard> ().DestroyButtons ();
 		BountyBoard.SetActive (active);
 	}
 }
