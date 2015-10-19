@@ -114,10 +114,10 @@ public class Satellite : MonoBehaviour {
 			split2.GetComponent<Satellite>().ScaleMass(m/2, true);
 
 			//add forces that push them apart and in the direction of impact
-			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x * 20.0f,impulse.y* 20.0f), ForceMode2D.Impulse);
-			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x* 20.0f,impulse.y* 20.0f), ForceMode2D.Impulse);
-			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-50,0),Random.Range(-50,0)));
-			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0,50),Random.Range(0,50)));
+			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x * -40.0f,impulse.y* -40.0f), ForceMode2D.Impulse);
+			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x* 40.0f,impulse.y* 40.0f), ForceMode2D.Impulse);
+			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-100,-50),Random.Range(-100,-50)));
+			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(50,100),Random.Range(50,100)));
 
 			//destroy the parent asteroid gameobject
 			Destroy(gameObject);
