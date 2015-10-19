@@ -43,7 +43,12 @@ public class BountyBoard : MonoBehaviour {
 
 	public void SetBountyValues(int index)
 	{
-		Debug.Log (index);
+		Dictionary<string,string> values = currentContracts [index].GetContractDetails ();
+
+		SetName (values ["Name"]);
+		SetTitle (values ["Title"]);
+		SetDescription (values ["Description"]);
+		SetReward (values ["Reward"]);
 	}
 
 	public void SetName(string p_Name)
