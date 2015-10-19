@@ -75,22 +75,25 @@ public class BountyBoard : MonoBehaviour {
 	
 	public void AcceptContract()
 	{
-		GameMaster.playerData.AcceptContract (currentContracts[currentSelectedContract]);
-
-		GameObject button = scrollView.transform.FindChild ("contract" + currentSelectedContract).gameObject;
-
-		Destroy (scrollView.transform.FindChild("contract" + currentSelectedContract).gameObject);
-
-		try
+		if(currentSelectedContract != -1)
 		{
-			string indexString = scrollView.transform.GetChild(1).name;
-			int index = int.Parse(indexString[indexString.Length-1].ToString());
+			GameMaster.playerData.AcceptContract (currentContracts[currentSelectedContract]);
 
-			SetBountyValues (index);
-		}
-		catch(Exception e)
-		{
-			SetBlankValues();
+			GameObject button = scrollView.transform.FindChild ("contract" + currentSelectedContract).gameObject;
+
+			Destroy (scrollView.transform.FindChild("contract" + currentSelectedContract).gameObject);
+
+			try
+			{
+				string indexString = scrollView.transform.GetChild(1).name;
+				int index = int.Parse(indexString[indexString.Length-1].ToString());
+
+				SetBountyValues (index);
+			}
+			catch(Exception e)
+			{
+				SetBlankValues();
+			}
 		}
 	}
 
@@ -107,6 +110,7 @@ public class BountyBoard : MonoBehaviour {
 
 	private void SetBlankValues()
 	{
+		currentSelectedContract = -1;
 		SetName ("-----");
 		SetTitle ("-----");
 		SetDescription ("-----");
