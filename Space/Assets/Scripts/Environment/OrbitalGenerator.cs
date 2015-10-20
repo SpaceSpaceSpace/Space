@@ -15,12 +15,9 @@ public class OrbitalGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//generateBelt (50, new Vector2 (75.0f, 75.0f), false);
-		//generateBelt (60, new Vector2 (85.0f, 85.0f), false);
-		//generateBelt (60, new Vector2 (90.0f, 90.0f), false);
-		//generateBelt (70, new Vector2 (95.0f, 95.0f), false);
+
 		generateBelt (48, new Vector2 (90.0f, 90.0f), false);
-		generateBelt (48, new Vector2 (105.0f, 105.0f), false);
+		//generateBelt (48, new Vector2 (105.0f, 105.0f), false);
 		generateBelt (56, new Vector2 (120.0f, 120.0f), false);
 		generateBelt (56, new Vector2 (140.0f, 140.0f), false);
 		generateBelt (64, new Vector2 (160.0f, 160.0f), false);
