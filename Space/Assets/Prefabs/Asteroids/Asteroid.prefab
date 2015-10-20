@@ -159,7 +159,8 @@ MonoBehaviour:
   artificial: 0
   inOrbit: 0
   mass: 0
-  satPrefab: {fileID: 181978}
+  satPrefab: {fileID: 129030, guid: 74af49bae754d0d4eb4501bc6c9cfddb, type: 2}
+  satPrefab1: {fileID: 164504, guid: 79521eb4c06e0a6479b6f006cece5731, type: 2}
   radius: {x: 0, y: 0}
   splitForce: 0
   velocity: {x: 0, y: 0, z: 0}
@@ -1301,7 +1302,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a2648229379c72d448599f37916770a7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b9058b56ad7cae44994fbf3d2063b254, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -1321,7 +1322,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: satPrefab
       value: 
-      objectReference: {fileID: 181978}
+      objectReference: {fileID: 129030, guid: 74af49bae754d0d4eb4501bc6c9cfddb, type: 2}
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
@@ -1343,6 +1344,10 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: satPrefab1
+      value: 
+      objectReference: {fileID: 164504, guid: 79521eb4c06e0a6479b6f006cece5731, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 181978}
