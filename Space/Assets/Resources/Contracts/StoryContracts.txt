@@ -1,1 +1,0 @@
-{"Tier":10,"Title":"Kill Joebba","TargetName":"Joebba da Butt","Description":null,"TargetImagePath":"AsteroidSprites/asteroid1","TargetShipImagePath":"TempSat","Contracts":["ContractModel"]}

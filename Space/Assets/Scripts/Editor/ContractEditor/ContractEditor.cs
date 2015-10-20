@@ -21,6 +21,7 @@ public class ContractEditor : EditorWindow
 	private const int ImagePreviewSize = 70;
 	private const string StoryContractsPath = "Assets/Resources/Contracts/";
 	private const string StoryContractsName = "StoryContracts";
+	private const string StoryContractsExt = ".json";
 
 	[MenuItem("Space/New/Contract/Story Contract")]
 	static void Init()
@@ -88,11 +89,11 @@ public class ContractEditor : EditorWindow
 
 	private JSON LoadContracts()
 	{
-		TextAsset contractsAsset = Resources.Load(StoryContractsPath + StoryContractsName) as TextAsset;
-		string contractsContent = "[]";
+		string contractsContent = "{}";
 
-		if(contractsAsset != null)
-			contractsContent = contractsAsset.text;
+		try{
+			contractsContent = File.ReadAllText(StoryContractsPath + StoryContractsName + StoryContractsExt);
+		}catch(FileNotFoundException e){Debug.Log ("Exception: " + e.Message + " " + "Creating new JSON");}
 
 		JSON js = new JSON();
 		js.serialized = contractsContent;
@@ -102,7 +103,7 @@ public class ContractEditor : EditorWindow
 
 	private void WriteContracts(string contracts)
 	{
-		File.WriteAllText(StoryContractsPath + StoryContractsName + ".txt", contracts);
+		File.WriteAllText(StoryContractsPath + StoryContractsName + StoryContractsExt, contracts);
 		AssetDatabase.Refresh();
 	}
 
@@ -111,13 +112,13 @@ public class ContractEditor : EditorWindow
 		JSON contractJSON = LoadContracts();
 
 		//Do a bit of deserialization to see if any conflicting contracts exist
-		List<ContractModel> contracts = contractJSON.ToArray<ContractModel>("Contracts").ToList();
+		List<JSON> contracts = contractJSON.ToArray<JSON>("Contracts").ToList();
 
 		bool replace = false;
 		int index = 0;
 		for(int i = 0; i < contracts.Count; i++)
 		{
-			if(contracts[i].Title == Title)
+			if(((ContractModel)contracts[i]).Title == Title)
 			{
 				replace = true;
 				index = i;
@@ -137,8 +138,10 @@ public class ContractEditor : EditorWindow
 			contracts.Add(model);
 		}
 
-		contractJSON["Contracts"] = (JSON[])contracts.ToArray();
-
+		contractJSON["Contracts"] = contracts;
+		
 		WriteContracts(contractJSON.serialized);
+
+		Close();
 	}
 }

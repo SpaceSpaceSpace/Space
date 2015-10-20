@@ -67,7 +67,7 @@ public class ContractModel
 	public string TargetImagePath;
 	public string TargetShipImagePath;
 
-	public ContractModel(int Tier, string Title, string TargetName, string Descripton, string TargetImagePath, string TargetShipImagePath)
+	public ContractModel(int Tier, string Title, string TargetName, string Description, string TargetImagePath, string TargetShipImagePath)
 	{
 		this.Tier = Tier;
 		this.Title = Title;
@@ -109,15 +109,5 @@ public class ContractModel
 
 			return new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath);
 		}
-	}
-
-	//Allows for conversion from ContractModel array to JSON array for deserialization
-	public static JSON[] Array(ContractModel[] array)
-	{
-		JSON[] js = new JSON[array.Length];
-		for(int i = 0; i < array.Length; i++)
-			js[i] = (JSON)array[i];
-
-		return js;
 	}
 }
