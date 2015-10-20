@@ -111,6 +111,18 @@ public class AIShipScript : ShipScript {
 		m_thrust.Accelerate = true;
 	}
 
+	public void Stop()
+	{
+		m_thrust.Accelerate = false;
+		m_thrust.EnableBrake(true);
+	}
+
+	public void Go()
+	{
+		m_thrust.Accelerate = true;
+		m_thrust.EnableBrake(false);
+	}
+
 	// pass by the target to the left or right (randomly determined) at the distance input
 	public void PassByTarget(float distance)
 	{
@@ -190,11 +202,11 @@ public class AIShipScript : ShipScript {
 	}
 
 	// Follow the target, staying in between the max distance and min distance
-	public void ChaseTarget(float maxDistance, float minDistance)
+	public void Chase(float maxDistance, float minDistance, Transform target)
 	{
-		FaceTarget(m_target.position);
+		FaceTarget(target.position);
 
-		float distance = Vector2.Distance(m_target.position, transform.position);
+		float distance = Vector2.Distance(target.position, transform.position);
 		if(distance < minDistance)
 		{
 			m_thrust.Accelerate = false;
@@ -208,7 +220,7 @@ public class AIShipScript : ShipScript {
 		else
 		{
 			m_thrust.EnableBrake(false);
-			float targetSpeed = m_target.GetComponent<Rigidbody2D>().velocity.magnitude;
+			float targetSpeed = target.GetComponent<Rigidbody2D>().velocity.magnitude;
 			m_thrust.AccelPercent = maxMoveSpeed / targetSpeed;
 		}
 	}
@@ -284,6 +296,8 @@ public class AIShipScript : ShipScript {
 		// Set a minimum speed for the squad
 		if(m_thrust.AccelPercent < 0.4f)
 			m_thrust.AccelPercent = 0.4f;
+		else if(m_thrust.AccelPercent > 0.7f)
+			m_thrust.AccelPercent = 0.7f;
 
 	}
 

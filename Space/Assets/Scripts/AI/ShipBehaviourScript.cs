@@ -16,7 +16,8 @@ public class ShipBehaviourScript : MonoBehaviour {
 		Asleep,
 		Civilian,
 		Grunt,
-		Leader
+		Leader,
+		Cargo
 	}
 
 	public Behaviour behaviour; // to be defined in the inspector
@@ -54,6 +55,9 @@ public class ShipBehaviourScript : MonoBehaviour {
 				break;
 			case Behaviour.Leader:
 				Leader ();
+				break;
+			case Behaviour.Cargo:
+				Cargo();
 				break;
 			}
 	}
@@ -114,8 +118,11 @@ public class ShipBehaviourScript : MonoBehaviour {
 		// If the leader is alive, and the player is not near
 		else
 		{
+			if(m_shipScript.DistanceTo(m_shipScript.objective.position) > 25.0f)
+				m_shipScript.MoveToward(m_shipScript.objective);
+			else
+				m_shipScript.Flock();
 			m_shipScript.aggro = false;
-			m_shipScript.Flock();
 		}
 	}
 
@@ -124,25 +131,27 @@ public class ShipBehaviourScript : MonoBehaviour {
 		// if the player is not near
 		if(m_shipScript.CheckAggro(15.0f))
 		{
-			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 5.0)
+			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 15.0)
 			{
-				if(m_shipScript.AngleToTarget() < 10.0f && m_shipScript.CanSeeTarget())
-				{
-					m_shipScript.FireWeapon(0);
-				}
-				m_shipScript.ChaseTarget(5.0f, 3.0f);
+				m_shipScript.AttackTarget(10.0f);
 			}
 			else
 				m_shipScript.MoveToward(m_shipScript.Target);
 		}
 		else if(m_shipScript.DistanceTo(m_shipScript.Target.position) >10.0f)
 		{
+			if(m_shipScript.DistanceTo(m_shipScript.objective.position) > 25.0f)
+				m_shipScript.MoveToward(m_shipScript.objective);
+			else
+				m_shipScript.Flock();
 			m_shipScript.aggro = false;
-			m_shipScript.Flock();
 		}
 
 	}
 
+	public void Cargo()
+	{
 
 
+	}
 }
