@@ -18,6 +18,25 @@ public class InteractScript : MonoBehaviour
 			}
 		}
 
+		if (Input.GetButtonDown ("Warp") && GameMaster.CurrentGameState == GameState.Flying) 
+		{
+			GameObject level = (GameObject)GameObject.Find("Planet1");
+
+			GameObject warpMngr = (GameObject)GameObject.Find("Warp Manager");
+			WarpScript warpScript = warpMngr.GetComponent<WarpScript>();
+
+			if(level != null)
+			{
+				print( "to planet 2" );
+				warpScript.WarpToPlanet("Planet2");
+			}
+			else
+			{
+				print( "to planet 1" );
+				warpScript.WarpToPlanet("Planet1");
+			}
+		}
+
 		//TEMPORARY -- This functionality will be replaced with the Space Station UI
 		if(Input.GetKeyDown (KeyCode.E) && GameMaster.CurrentGameState != GameState.Customization)
 		{

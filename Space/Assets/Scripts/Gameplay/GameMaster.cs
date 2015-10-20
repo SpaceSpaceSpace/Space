@@ -12,6 +12,7 @@ public class GameMaster : MonoBehaviour {
 
 	public static GameMaster Master;
 	public static GameState CurrentGameState = GameState.Flying;
+	public string PlanetName = "Planet1";
 
 	void Awake ()
 	{

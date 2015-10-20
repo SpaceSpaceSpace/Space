@@ -5,7 +5,9 @@ public class WarpScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		GameObject levelObj = Resources.Load ( "Sectors/" + GameMaster.Master.PlanetName ) as GameObject;
+		GameObject planet = Instantiate (levelObj);
+		planet.name = GameMaster.Master.PlanetName;
 	}
 	
 	// Update is called once per frame
@@ -23,7 +25,7 @@ public class WarpScript : MonoBehaviour {
 	void WarpToStation()
 	{
 		GameObject playerShip = (GameObject)GameObject.Find ("Player Ship");
-		GameObject spaceStation = (GameObject)GameObject.Find ("SpaceStoreOrbit");
+		GameObject spaceStation = (GameObject)GameObject.Find ("SpaceStore");
 
 		StartCoroutine ("WarpWaitTime");
 
@@ -32,8 +34,12 @@ public class WarpScript : MonoBehaviour {
 
 	IEnumerator WarpWaitTime()
 	{
-		GUI.Label (new Rect (0, 1, 1, 1), "Warping");
 		yield return new WaitForSeconds (5.0f);
-		
+	}
+
+	public void WarpToPlanet(string prefabName)
+	{
+		GameMaster.Master.PlanetName = prefabName;
+		Application.LoadLevel ( "MainScene" );
 	}
 }

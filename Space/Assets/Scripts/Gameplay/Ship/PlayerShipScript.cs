@@ -48,7 +48,7 @@ public class PlayerShipScript : ShipScript
 		//There can be only one
 		if(player == null)
 		{
-			DontDestroyOnLoad(gameObject);
+			//DontDestroyOnLoad(gameObject);
 			player = this;
 		}
 		else if(player != this)
