@@ -68,17 +68,17 @@ public class ShipBehaviourScript : MonoBehaviour {
 		// If the leader is dead
 		if(m_shipScript.leader == null)
 		{
-			// and the player is not close, wander
-			if(m_shipScript.DistanceTo(m_shipScript.Target.position) > 20.0f)
-				m_shipScript.Wander();
-			// if the player is close, run away
-			else
-			{
-				m_shipScript.MoveAwayFrom(m_shipScript.player);
-			}
+			//// and the player is not close, wander
+			//if(m_shipScript.DistanceTo(m_shipScript.Target.position) > 20.0f)
+			//	m_shipScript.Wander();
+			//// if the player is close, run away
+			//else
+			//{
+			//	m_shipScript.MoveAwayFrom(m_shipScript.player);
+			//}
 
 		}
-		else if(chaseTime > 3.0f)
+		if(chaseTime > 3.0f)
 		{
 
 			chaseTime+=Time.deltaTime;
@@ -93,16 +93,17 @@ public class ShipBehaviourScript : MonoBehaviour {
 
 		}
 		// If the leader is alive and the player is less than 10 units away, move toward it
-		else if(m_shipScript.CheckAggro())
+		else if(m_shipScript.CheckAggro(15.0f))
 		{
 
-			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 5.0)
+			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 15.0)
 			{
-				if(m_shipScript.AngleToTarget() < 10.0f && m_shipScript.CanSeeTarget())
-				{
-					m_shipScript.FireWeapon(0);
-				}
-				m_shipScript.ChaseTarget(5.0f, 3.0f);
+				//if(m_shipScript.AngleToTarget() < 10.0f && m_shipScript.CanSeeTarget())
+				//{
+				//	m_shipScript.FireWeapon(0);
+				//}
+				//m_shipScript.ChaseTarget(5.0f, 3.0f);
+				m_shipScript.AttackTarget(10.0f);
 				chaseTime+=Time.deltaTime;
 			}
 			else
@@ -121,7 +122,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 	public void Leader()
 	{
 		// if the player is not near
-		if(m_shipScript.CheckAggro())
+		if(m_shipScript.CheckAggro(15.0f))
 		{
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 5.0)
 			{

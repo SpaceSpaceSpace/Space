@@ -21,6 +21,7 @@ public class AIShipScript : ShipScript {
 	///
 	private Transform m_target; // the transform of the ship's target, currently the player
 	private int passSide; // is the side for the ship to pass on set
+	private Vector2 attackPos; // the position the ship will be aiming for when attacking
 	private float wanderAngle;
 	public bool m_obstacle; // is there an obstacle in the way
 
@@ -48,6 +49,7 @@ public class AIShipScript : ShipScript {
 		m_thrust.AccelPercent = 1.0f;
 		m_thrust.Accelerate = true;
 		aggro = false;
+		attackPos = Vector2.zero;
 
 		for(int i = 0; i < squad.Count; i++)
 		{
@@ -130,11 +132,42 @@ public class AIShipScript : ShipScript {
 		}
 		FaceTarget(targetPos);
 		m_thrust.Accelerate = true;
+
+
 	}
 
-	public bool CheckAggro()
+	public void AttackTarget(float maxDistance)
 	{
-		if(DistanceTo(Target.position) < 10.0f)
+		if(attackPos == Vector2.zero)
+		{
+			float xPos = Random.Range(-maxDistance, maxDistance);
+			float yPos = Random.Range(-maxDistance, maxDistance);
+
+			attackPos = new Vector2(xPos, yPos);
+		}
+		if(DistanceTo(m_target.position) > maxDistance)
+		{
+			Debug.Log((Vector2)m_target.position + attackPos);
+			FaceTarget((Vector2)m_target.position + attackPos);
+			m_thrust.Accelerate = true;
+		}
+		else
+		{
+			m_thrust.Accelerate = false;
+			FaceTarget(m_target.position);
+			attackPos = Vector2.zero;
+			if(AngleToTarget() < 10.0f && CanSeeTarget())
+			{
+				FireWeapon(0);
+			}
+		}
+
+
+	}
+
+	public bool CheckAggro(float distance)
+	{
+		if(DistanceTo(Target.position) < distance)
 		{
 			aggro = true;
 			return true;
@@ -164,12 +197,17 @@ public class AIShipScript : ShipScript {
 		float distance = Vector2.Distance(m_target.position, transform.position);
 		if(distance < minDistance)
 		{
-			m_thrust.AccelPercent -= 1.0f * Time.deltaTime;
+			m_thrust.Accelerate = false;
+			m_thrust.EnableBrake(true);
 		}
 		else if(distance > maxDistance)
+		{
+			m_thrust.EnableBrake(false);
 			m_thrust.AccelPercent += 1.0f * Time.deltaTime;
+		}
 		else
 		{
+			m_thrust.EnableBrake(false);
 			float targetSpeed = m_target.GetComponent<Rigidbody2D>().velocity.magnitude;
 			m_thrust.AccelPercent = maxMoveSpeed / targetSpeed;
 		}
