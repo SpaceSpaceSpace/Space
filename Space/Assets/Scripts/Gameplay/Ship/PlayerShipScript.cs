@@ -186,7 +186,7 @@ public class PlayerShipScript : ShipScript
 			m_thrust.TurnDirection = 0;
 		}
 
-		Explode();
+		m_exploder.StartExplosion();
 		Destroy(gameObject);
 	}
 }
