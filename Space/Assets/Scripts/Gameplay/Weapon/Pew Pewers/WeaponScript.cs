@@ -14,8 +14,6 @@ public abstract class WeaponScript : MonoBehaviour
 	public string fireSoundName = "Laser_Bolt";
 
 	public float damage = 10.0f;
-	public float fireTime = 0.5f;
-	public float maxSpreadAngle = 15.0f;
 
 	public WeaponModifier.ModifierNames modifier = WeaponModifier.ModifierNames.DEFAULT;
 

@@ -4,7 +4,8 @@
 public class BeamWeaponScript : WeaponScript
 {
 	public float beamRange = 15.0f;
-	
+
+	private LayerMask m_layerMask;
 	private float m_beamSpriteSize;
 	private GameObject m_beam;
 	 
@@ -14,8 +15,13 @@ public class BeamWeaponScript : WeaponScript
 		m_beam = (GameObject)Instantiate( projectilePrefab, transform.position, Quaternion.identity );
 		m_beam.transform.parent = transform;
 		m_beam.SetActive( false );
+	
+		SpriteRenderer beamSR = m_beam.GetComponent<SpriteRenderer>();
+		beamSR.sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
 		
 		m_beamSpriteSize = m_beam.GetComponent<Renderer>().bounds.size.x;
+
+		m_layerMask = LayerMask.NameToLayer( "Projectiles" );
 	}
 	
 	public override void Fire()
@@ -26,7 +32,7 @@ public class BeamWeaponScript : WeaponScript
 		}
 		
 		// Doing a raycast jobbie
-		RaycastHit2D hit = Physics2D.Raycast( transform.position, transform.up, beamRange );
+		RaycastHit2D hit = Physics2D.Raycast( transform.position, transform.up, beamRange, m_layerMask );
 		
 		float distance = beamRange;
 		

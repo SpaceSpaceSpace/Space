@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ProjectileWeaponScript : WeaponScript
 {
+	public float fireTime = 0.5f;
+	public float maxSpreadAngle = 15.0f;
 	public float projectileSpeed = 10.0f;
 	public float projectileLifeTime = 2.0f;
 	public int projectilesPerShot = 1;
