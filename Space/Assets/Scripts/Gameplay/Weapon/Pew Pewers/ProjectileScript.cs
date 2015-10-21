@@ -55,7 +55,12 @@ public class ProjectileScript : MonoBehaviour
 			Satellite sat = col.GetComponent<Satellite>();
 			sat.ApplyDamage( damage, Vector2.zero );
 		}
+		DisableProjectile();
+	}
 
+	void OnCollisionStay2D( Collision2D col )
+	{
+		// Fail safe in case enter is skipped
 		DisableProjectile();
 	}
 
