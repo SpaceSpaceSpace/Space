@@ -43,23 +43,17 @@ public class ProjectileScript : MonoBehaviour
 	{
 		Collider2D col = collision.collider;
 
-		//Vector2 colPos = col.transform.position;
-		//Vector2 offset = (Vector2)transform.position - colPos;
-
-		Vector2 hitForce = Vector2.zero;//transform.up * speed * knockback;
-		Vector2 hitPosition = Vector2.zero;//offset + colPos;
-
 		if( col.tag == "Ship" )
 		{
 			ShipScript ship = col.GetComponent<ShipScript>();
-			ship.TakeHit( hitForce, hitPosition );
+			ship.TakeHit( Vector2.zero, collision.contacts[0].point );
 			ship.ApplyDamage( damage, shieldPenetration );
 		}
 		else if( col.tag == "Asteroid" )
 		{
 			// Do same sort of thing as with Ship
 			Satellite sat = col.GetComponent<Satellite>();
-			sat.ApplyDamage( damage, hitForce );
+			sat.ApplyDamage( damage, Vector2.zero );
 		}
 
 		DisableProjectile();
