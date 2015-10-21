@@ -5,7 +5,8 @@ public enum GameState
 {
 	MainMenu,
 	Flying,
-	Customization
+	Customization,
+	GameOver
 }
 
 public class GameMaster : MonoBehaviour {

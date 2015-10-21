@@ -3,16 +3,19 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-	public PlayerShipScript playerShip;
+	public GameObject PlayerUIObject;
 	public Slider healthBar;
 	public Slider shieldBar;
 
+	private PlayerShipScript playerShip;
 	private ShieldScript m_playerShield;
 
 	void Start ()
 	{
 		EventManager.AddEventListener( EventDefs.PLAYER_HEALTH_UPDATE, UpdateHealth );
 		EventManager.AddEventListener( EventDefs.PLAYER_SHIELD_UPDATE, UpdateShield );
+
+		playerShip = PlayerShipScript.player;
 
 		healthBar.maxValue = playerShip.MaxHealth;
 		healthBar.value = playerShip.Health;
@@ -30,6 +33,14 @@ public class PlayerUI : MonoBehaviour
 		{
 			shieldBar.gameObject.SetActive( false );
 		}
+	}
+
+	void Update()
+	{
+		if(GameMaster.CurrentGameState != GameState.Flying)
+			PlayerUIObject.SetActive(false);
+		else
+			PlayerUIObject.SetActive(true);
 	}
 
 	private void UpdateHealth()
