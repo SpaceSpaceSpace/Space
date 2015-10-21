@@ -5,9 +5,10 @@ public class ProjectileWeaponScript : WeaponScript
 {
 	public float projectileSpeed = 10.0f;
 	public float projectileLifeTime = 2.0f;
+	public int projectilesPerShot = 1;
 	
 	private GameObject m_projectileContainer;
-	public ProjectileScript[] m_projectilePool;
+	private ProjectileScript[] m_projectilePool;
 	private int m_currProjectile;
 	private int m_numProjectiles;
 	private bool m_canFire;
@@ -27,9 +28,12 @@ public class ProjectileWeaponScript : WeaponScript
 	
 	public override void Fire()
 	{
-		if( m_canFire )
+		if( m_active && m_canFire )
 		{
-			FireProjectile();
+			for( int i = 0; i < projectilesPerShot; i++ )
+			{
+				FireProjectile();
+			}
 			StartCoroutine( FireDelay() );
 		}
 	}
@@ -61,14 +65,15 @@ public class ProjectileWeaponScript : WeaponScript
 	
 	private void SpawnProjectiles()
 	{
-		// init the collection
-		int numProjectiles = Mathf.CeilToInt( projectileLifeTime / fireTime );
+		// Init the collection
+		int numProjectiles = Mathf.CeilToInt( projectileLifeTime / fireTime ) * projectilesPerShot;
 		m_numProjectiles = numProjectiles;
 		m_projectilePool = new ProjectileScript[ numProjectiles ];
 		
 		// Create a container GO for the projectiles
 		m_projectileContainer = new GameObject( gameObject.name + " Projectiles" );
-		
+
+		// Spawn the Projectiles
 		for( int i = 0; i < numProjectiles; i++ )
 		{
 			GameObject projectile = (GameObject)Instantiate( projectilePrefab, transform.position, Quaternion.identity );
