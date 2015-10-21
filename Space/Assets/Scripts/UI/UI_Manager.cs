@@ -5,12 +5,14 @@ public class UI_Manager : MonoBehaviour {
 
 	public static UI_Manager instance;
 	public GameObject BountyBoard;
+	public GameObject GameOverScreen;
 	public GameObject spaceStation;
 	public PlayerShipScript player;
 
 	// Use this for initialization
 	void Start () {
 		instance = this;
+		SetAllScreensToInactive ();
 	}
 
 	public void DisplayBountyBoard(bool active)
@@ -28,5 +30,24 @@ public class UI_Manager : MonoBehaviour {
 		{
 			player.Undock();
 		}
+	}
+
+	public void ChangeUIState(GameState state)
+	{
+		SetAllScreensToInactive ();
+
+		switch(state)
+		{
+			case GameState.GameOver:
+				GameOverScreen.SetActive(true);
+				break;
+				
+		}
+	}
+
+	private void SetAllScreensToInactive()
+	{
+		BountyBoard.SetActive (false);
+		GameOverScreen.SetActive (false);
 	}
 }

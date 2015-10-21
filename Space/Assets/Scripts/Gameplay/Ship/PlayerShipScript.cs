@@ -187,6 +187,7 @@ public class PlayerShipScript : ShipScript
 		}
 
 		GameMaster.CurrentGameState = GameState.GameOver;
+		UI_Manager.instance.ChangeUIState (GameState.GameOver);
 
 		base.Die();
 	}
