@@ -7,6 +7,7 @@ public class Satellite : MonoBehaviour {
 	public bool inOrbit;
 	public float mass;
 	public GameObject satPrefab;
+	public GameObject satPrefab1;
 	public const float MAX_VELOCITY = 1000.0f;
 	public const float GRAVITATION_MAGNITUDE = 10.0f;
 	//public const float STARTING_IMPULSE = 12f;
@@ -33,14 +34,14 @@ public class Satellite : MonoBehaviour {
 			transform.GetComponent<Rigidbody2D> ().mass = mass * 100.0f;
 			health = 5.0f * mass;
 		}*/
-
+		centerOfOrbit = new Vector3 (0.0f, 0.0f, 0.0f);
 		Vector3 toCenter = centerOfOrbit - transform.position;
 		Vector2 tangential = new Vector2(-toCenter.y, toCenter.x);
 		tangential.Normalize();
 		velocity = new Vector3(tangential.x,tangential.y, 0.0f);
 		velocity *= Mathf.Sqrt (GRAVITATION_MAGNITUDE * (10000.0f / toCenter.magnitude - 1.0f / semiMajor));
-		centerOfOrbit = new Vector3 (0.0f, 0.0f, 0.0f);
-		transform.GetComponent<Rigidbody2D>().AddForce( velocity, ForceMode2D.Impulse);
+
+		transform.GetComponent<Rigidbody2D>().AddForce( new Vector2(velocity.x,velocity.y), ForceMode2D.Impulse);
 
 		//Load dustplosion
 		if(m_dustplosion == null)
@@ -72,7 +73,7 @@ public class Satellite : MonoBehaviour {
 	public void ApplyDamage(float damage, Vector2 impulse){
 		health -= damage;
 		Vector3 imp = new Vector3(impulse.x,impulse.y,0.0f);
-		transform.GetComponent<Rigidbody2D>().AddForce(imp, ForceMode2D.Impulse);
+		transform.GetComponent<Rigidbody2D>().AddForce(imp*10.0f, ForceMode2D.Impulse);
 		if (health <= 0) {
 			/*GameObject split1 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(mass/2);
@@ -86,28 +87,39 @@ public class Satellite : MonoBehaviour {
 		mass = m;
 		transform.localScale = new Vector3 (m, m, 1);
 		transform.GetComponent<Rigidbody2D> ().mass = mass * 75.0f;
-		if(split){		health = 2.5f * m;}
-		else { health = 5.0f * m;}
+		if(split){		health = 10.0f * m;}
+		else { health = 20.0f * m;}
 	}
-
+	public void OnCollisionStay2D(Collision2D coll) {
+		//damage asteroids that remain in contact with eachother
+		if (coll.gameObject.tag == "Asteroid")
+			ApplyDamage (coll.relativeVelocity.magnitude, Vector2.zero);
+		
+	}
 	public void Split(float m, Vector3 impulse)
 	{
-
+		//destroy the asteroid if it is too small to split
 		if(mass <  1.0f){
 			Destroy(gameObject);
 		}
+		//otherwise, split it
 		else
 		{
+			//spawn asteroids apart from each other
 			Vector3 offset1 = new Vector3(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f),0.0f);
 			Vector3 offset2 = new Vector3(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f),0.0f);
 			GameObject split1 = (GameObject)Instantiate(satPrefab,transform.position + offset1,Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(m/2, true);
 			GameObject split2 = (GameObject)Instantiate(satPrefab,transform.position + offset2,Quaternion.identity);
 			split2.GetComponent<Satellite>().ScaleMass(m/2, true);
-			split1.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
-			split2.GetComponent<Rigidbody2D>().AddForce(impulse, ForceMode2D.Impulse);
-			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
-			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,10),Random.Range(-10,10)));
+
+			//add forces that push them apart and in the direction of impact
+			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x * 20.0f,impulse.y* 20.0f), ForceMode2D.Impulse);
+			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x* 20.0f,impulse.y* 20.0f), ForceMode2D.Impulse);
+			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-50,0),Random.Range(-50,0)));
+			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0,50),Random.Range(0,50)));
+
+			//destroy the parent asteroid gameobject
 			Destroy(gameObject);
 		}
 
