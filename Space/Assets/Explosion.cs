@@ -42,7 +42,10 @@ public class Explosion : MonoBehaviour {
 		//Set transparency
 		m_color.a = m_transparency;
 		m_material.color = m_color;
-		
+
+		//Apply velocity
+		transform.position += (Vector3)(Velocity * dt);
+
 		//Finished when object will no longer be visible
 		if(m_transparency <= 0)
 			Destroy(gameObject);

@@ -12,6 +12,5 @@ public class PlayerData : MonoBehaviour {
 	{
 		playerContracts.Add (contract);
 		contract.SpawnContract (player);
-		Debug.Log (playerContracts.Count);
 	}
 }

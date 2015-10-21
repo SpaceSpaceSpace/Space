@@ -17,9 +17,17 @@ public class Explode : MonoBehaviour {
 	void Start()
 	{
 		m_audioSrc = GetComponent<AudioSource>();
+
+		StartExplosion();
 	}
 
-	public void StartExplosion()
+	void Update()
+	{
+		if(!m_audioSrc.isPlaying)
+			Destroy(gameObject);
+	}
+
+	private void StartExplosion()
 	{
 		m_audioSrc.Play ();
 
@@ -34,6 +42,11 @@ public class Explode : MonoBehaviour {
 			float rotation = Random.Range(0, 360);
 			Vector3 rotVector = new Vector3(0,0,rotation);
 			obj.transform.rotation = Quaternion.Euler(rotVector);
+			obj.transform.position = transform.position;
+
+			obj.name = "Dustplosion";
+			SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
+			sr.sortingOrder = 5;
 
 			Explosion explosion = obj.AddComponent<Explosion>();
 			explosion.ExpandSpeed = ExpandSpeed;
@@ -42,7 +55,6 @@ public class Explode : MonoBehaviour {
 			explosion.Velocity = velocity;
 		}
 	}
-
 
 
 }
