@@ -510,19 +510,19 @@ Prefab:
       objectReference: {fileID: 1493654551}
     - target: {fileID: 22463512, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
       propertyPath: m_AnchorMax.x
-      value: .5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22463512, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22408928, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
       propertyPath: m_AnchorMax.x
-      value: .5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22408928, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 131908, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
       propertyPath: m_IsActive
