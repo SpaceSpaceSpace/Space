@@ -73,7 +73,7 @@ public class Satellite : MonoBehaviour {
 	public void ApplyDamage(float damage, Vector2 impulse){
 		health -= damage;
 		Vector3 imp = new Vector3(impulse.x,impulse.y,0.0f);
-		transform.GetComponent<Rigidbody2D>().AddForce(imp*10.0f, ForceMode2D.Impulse);
+		transform.GetComponent<Rigidbody2D>().AddForce(imp, ForceMode2D.Impulse);
 		if (health <= 0) {
 			/*GameObject split1 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(mass/2);
@@ -86,7 +86,7 @@ public class Satellite : MonoBehaviour {
 	public void ScaleMass(float m, bool split){
 		mass = m;
 		transform.localScale = new Vector3 (m, m, 1);
-		transform.GetComponent<Rigidbody2D> ().mass = mass * 75.0f;
+		transform.GetComponent<Rigidbody2D> ().mass = mass * 5.0f;
 		if(split){		health = 20.0f * m;}
 		else { health = 40.0f * m;}
 	}
@@ -114,10 +114,10 @@ public class Satellite : MonoBehaviour {
 			split2.GetComponent<Satellite>().ScaleMass(m/2, true);
 
 			//add forces that push them apart and in the direction of impact
-			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x * -60.0f,impulse.y* 60.0f), ForceMode2D.Impulse);
-			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x* 60.0f,impulse.y* -60.0f), ForceMode2D.Impulse);
-			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-100,-50),Random.Range(50,100)));
-			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(50,100),Random.Range(-100,-50)));
+			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x * -30.0f,impulse.y* 30.0f), ForceMode2D.Impulse);
+			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x* 30.0f,impulse.y* -30.0f), ForceMode2D.Impulse);
+			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,-5) * m,Random.Range(5,10) * m));
+			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(5,10) * m,Random.Range(-10,-5) * m));
 			split1.GetComponent<Rigidbody2D>().AddTorque(Mathf.PI/Random.Range (1,8));
 			split2.GetComponent<Rigidbody2D>().AddTorque(Mathf.PI/Random.Range (1,8));
 
