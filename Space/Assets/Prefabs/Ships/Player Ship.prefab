@@ -352,7 +352,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 127228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 48, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 456484}
@@ -729,9 +729,9 @@ MonoBehaviour:
   fireFromPoint: {fileID: 474742}
   fireSoundName: Laser_Bolt
   damage: 10
+  modifier: 1
   fireTime: .100000001
   maxSpreadAngle: 15
-  modifier: 1
   projectileSpeed: 10
   projectileLifeTime: 2
   projectilesPerShot: 1
@@ -816,9 +816,9 @@ MonoBehaviour:
   fireFromPoint: {fileID: 423800}
   fireSoundName: Laser_Bolt
   damage: 5
+  modifier: 1
   fireTime: .5
   maxSpreadAngle: 30
-  modifier: 1
   projectileSpeed: 10
   projectileLifeTime: 2
   projectilesPerShot: 5
@@ -837,9 +837,9 @@ MonoBehaviour:
   fireFromPoint: {fileID: 472770}
   fireSoundName: Laser_Bolt
   damage: 20
+  modifier: 1
   fireTime: 1
   maxSpreadAngle: 0
-  modifier: 1
   projectileSpeed: 15
   projectileLifeTime: 2
   projectilesPerShot: 1
