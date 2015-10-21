@@ -133,7 +133,7 @@ public class Satellite : MonoBehaviour {
 		//Set the fade speed of the dust poof to be inversely proportional to the mass of the satellite
 		Explode explosion = dust.GetComponent<Explode>();
 		explosion.FadeSpeed = 1/m;
-
+		Instantiate(explosion, transform.position, Quaternion.identity);
 	}
 
 }
