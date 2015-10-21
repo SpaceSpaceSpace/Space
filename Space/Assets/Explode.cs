@@ -1,45 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Explode : MonoBehaviour {
 
 	public float ExpandSpeed = 5.0f;
 	public float FadeSpeed = 1.0f;
-
-	private float m_scale = 0.4f;
-	private float m_transparency = 1.0f;
-
-	private Material m_material;
-	private Color m_color;
+	[Range(1,10)]
+	public int MinExplosions = 1;
+	[Range(1,10)]
+	public int MaxExplosions = 4;
+	public List<Sprite> ExplosionSprites;
+	
 	private AudioSource m_audioSrc;
 
 	void Start()
 	{
 		m_audioSrc = GetComponent<AudioSource>();
-		m_material = GetComponent<SpriteRenderer>().material;
-		m_color = m_material.color;
 
-		m_audioSrc.Play ();
+		StartExplosion();
 	}
 
-	void Update () 
+	void Update()
 	{
-
-		float dt = Time.deltaTime;
-
-		//Increment scale and transparency
-		m_scale += ExpandSpeed * dt;
-		m_transparency -= FadeSpeed * dt;
-
-		//Set scale
-		transform.localScale = new Vector3(m_scale, m_scale, 1);
-
-		//Set transparency
-		m_color.a = m_transparency;
-		m_material.color = m_color;
-
-		//Finished when object will no longer be visible
-		if(m_transparency <= 0)
+		if(!m_audioSrc.isPlaying)
 			Destroy(gameObject);
 	}
+
+	private void StartExplosion()
+	{
+		m_audioSrc.Play ();
+
+		//Pick a random explosion sprite and velocity
+		Sprite sprite = ExplosionSprites[Random.Range(0, ExplosionSprites.Count - 1)];
+		Vector2 velocity = new Vector2(Random.Range(0, 2.0f), Random.Range(0, 2.0f));
+
+		int explosionCount = Random.Range (MinExplosions, MaxExplosions);
+		for(int i = 0; i < explosionCount; i++)
+		{
+			GameObject obj = new GameObject();
+			float rotation = Random.Range(0, 360);
+			Vector3 rotVector = new Vector3(0,0,rotation);
+			obj.transform.rotation = Quaternion.Euler(rotVector);
+			obj.transform.position = transform.position;
+
+			obj.name = "Dustplosion";
+			SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
+			sr.sortingOrder = 5;
+
+			Explosion explosion = obj.AddComponent<Explosion>();
+			explosion.ExpandSpeed = ExpandSpeed;
+			explosion.FadeSpeed = FadeSpeed;
+			explosion.ExplosionSprite = sprite;
+			explosion.Velocity = velocity;
+		}
+	}
+
+
 }
