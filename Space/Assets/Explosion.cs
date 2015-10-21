@@ -10,7 +10,9 @@ public class Explosion : MonoBehaviour {
 	[HideInInspector]
 	public Sprite ExplosionSprite;
 	[HideInInspector]
-	public Vector2 Velocity = new Vector2();
+	public float MinSpeed;
+	[HideInInspector]
+	public float MaxSpeed;
 
 	private float m_scale = 0.4f;
 	private float m_transparency = 1.0f;
@@ -18,6 +20,9 @@ public class Explosion : MonoBehaviour {
 	private SpriteRenderer m_spriteRenderer;
 	private Material m_material;
 	private Color m_color;
+
+	private Vector2 direction;
+	private float speed;
 	
 	void Start () 
 	{
@@ -26,6 +31,11 @@ public class Explosion : MonoBehaviour {
 		m_color = m_material.color;
 
 		m_spriteRenderer.sprite = ExplosionSprite;
+
+		float x = Random.Range(-1f, 1f);
+		float y = Random.Range(-1f, 1f);
+		direction = new Vector2(x, y).normalized;
+		speed = Random.Range(MinSpeed, MaxSpeed);
 	}
 	
 	void Update () 
@@ -44,7 +54,7 @@ public class Explosion : MonoBehaviour {
 		m_material.color = m_color;
 
 		//Apply velocity
-		transform.position += (Vector3)(Velocity * dt);
+		transform.position += (Vector3)(direction * speed * dt);
 
 		//Finished when object will no longer be visible
 		if(m_transparency <= 0)

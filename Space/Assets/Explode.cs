@@ -10,6 +10,11 @@ public class Explode : MonoBehaviour {
 	public int MinExplosions = 1;
 	[Range(1,10)]
 	public int MaxExplosions = 4;
+
+	public float MinSpeed = 0.1f;
+	public float MaxSpeed = 2.0f;
+
+
 	public List<Sprite> ExplosionSprites;
 	
 	private AudioSource m_audioSrc;
@@ -52,7 +57,8 @@ public class Explode : MonoBehaviour {
 			explosion.ExpandSpeed = ExpandSpeed;
 			explosion.FadeSpeed = FadeSpeed;
 			explosion.ExplosionSprite = sprite;
-			explosion.Velocity = velocity;
+			explosion.MinSpeed = MinSpeed;
+			explosion.MaxSpeed = MaxSpeed;
 		}
 	}
 
