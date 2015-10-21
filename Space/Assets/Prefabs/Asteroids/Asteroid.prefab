@@ -46,6 +46,7 @@ GameObject:
   - 50: {fileID: 5011414}
   - 60: {fileID: 6021112}
   - 114: {fileID: 11477560}
+  - 114: {fileID: 11426898}
   m_Layer: 0
   m_Name: Asteroid
   m_TagString: Asteroid
@@ -145,6 +146,23 @@ PolygonCollider2D:
       - {x: .224999994, y: -.654999971}
       - {x: .314999998, y: -.61500001}
       - {x: .504999995, y: -.425000012}
+--- !u!114 &11426898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 074361089f77a364780863bff6f7606c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExpandSpeed: 3
+  FadeSpeed: .600000024
+  MinExplosions: 1
+  MaxExplosions: 4
+  ExplosionSprites:
+  - {fileID: 21300000, guid: f8ad867c2b2290d45b84f77eb376452f, type: 3}
 --- !u!114 &11455930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1312,6 +1330,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: ExplosionSprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_AngularDrag
       value: 0
       objectReference: {fileID: 0}
@@ -1348,6 +1370,27 @@ Prefab:
       propertyPath: satPrefab1
       value: 
       objectReference: {fileID: 164504, guid: 79521eb4c06e0a6479b6f006cece5731, type: 2}
+    - target: {fileID: 0}
+      propertyPath: ExpandSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: FadeSpeed
+      value: .600000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ExplosionSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: f8ad867c2b2290d45b84f77eb376452f,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReflectionProbeUsage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 181978}
