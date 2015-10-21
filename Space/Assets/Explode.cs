@@ -14,7 +14,6 @@ public class Explode : MonoBehaviour {
 	public float MinSpeed = 0.1f;
 	public float MaxSpeed = 2.0f;
 
-
 	public List<Sprite> ExplosionSprites;
 	
 	private AudioSource m_audioSrc;

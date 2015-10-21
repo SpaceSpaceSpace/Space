@@ -186,6 +186,8 @@ public class PlayerShipScript : ShipScript
 			m_thrust.TurnDirection = 0;
 		}
 
+		GameMaster.CurrentGameState = GameState.GameOver;
+
 		base.Die();
 	}
 }
