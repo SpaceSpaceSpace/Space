@@ -3,11 +3,7 @@
 // 'Imma firin' mah layzah' weapon
 public class BeamWeaponScript : WeaponScript
 {
-	public GameObject beamPrefab;
 	public float beamRange = 15.0f;
-	public float damage = 10;
-	public float rateOfDamage = 1.0f;
-	public float beamWidth = 0.01f;
 	
 	private float m_beamSpriteSize;
 	private GameObject m_beam;
@@ -15,7 +11,7 @@ public class BeamWeaponScript : WeaponScript
 	void Start ()
 	{
 		m_soundSystem = GetComponent<SoundSystemScript>();
-		m_beam = (GameObject)Instantiate( beamPrefab, transform.position, Quaternion.identity );
+		m_beam = (GameObject)Instantiate( projectilePrefab, transform.position, Quaternion.identity );
 		m_beam.transform.parent = transform;
 		m_beam.SetActive( false );
 		
@@ -52,6 +48,19 @@ public class BeamWeaponScript : WeaponScript
 		m_soundSystem.StopPlaying();
 		m_beam.SetActive( false );
 	}
+
+	public override void ToggleActive()
+	{
+		base.ToggleActive();
+		if( !m_active )
+		{
+			m_beam.SetActive( false );
+			if( m_soundSystem.IsPlaying() )
+			{
+				m_soundSystem.StopPlaying();
+			}
+		}
+	}
 	
 	private void HandleHit( RaycastHit2D hit )
 	{
@@ -60,7 +69,6 @@ public class BeamWeaponScript : WeaponScript
 		if( go.tag == "Ship" )
 		{
 			ShipScript ship = go.GetComponent<ShipScript>();
-			//Vector2 dir = ( hit.point - (Vector2)transform.position ).normalized;
 			ship.TakeHit( dir, hit.point );
 			
 			ship.ApplyDamage( damage * Time.deltaTime );

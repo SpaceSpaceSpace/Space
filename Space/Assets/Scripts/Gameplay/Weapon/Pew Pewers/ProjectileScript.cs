@@ -3,61 +3,51 @@
 // Basic projectile script
 public class ProjectileScript : MonoBehaviour
 {
-	// Pubbies
+	public float knockback = 1.0f;
+	public float shieldPenetration = 0.0f;
+	
 	public float speed = 10.0f;
 	public float lifeTime = 1.0f;
-	public float knockback = 1.0f;
-
 	public float damage = 10.0f;
-	public float shieldPenetration = 0.0f;
 
-	public bool stayAlive = false;
-	
-	// In case we want the player to be hit by their own projectiles
-	/* private bool m_detectOwnCollider = false;
-	private float m_detectOwnDelay = 0.1f;
-	private Collider2D m_firingCollider; */
-	
-	public void Init( Collider2D firingCollider )
+	private Collider2D m_firingCollider;
+	private Collider2D m_collider;
+	private Rigidbody2D m_rigidbody;
+	private Rigidbody2D m_firingRb;
+	private float m_currLifeTime = 0;
+
+	public void Init( float damage, float speed, float lifeTime, GameObject firingShip )
 	{
-		//m_firingCollider = firingCollider;
-		Physics2D.IgnoreCollision( firingCollider, GetComponent<Collider2D>(), true );
+		this.damage = damage;
+		this.speed = speed;
+		this.lifeTime = lifeTime;
+		m_currLifeTime = lifeTime;
+
+		m_firingCollider = firingShip.GetComponent<Collider2D>();
+		m_collider = GetComponent<Collider2D>();
+		m_firingRb = firingShip.GetComponent<Rigidbody2D>();
+		m_rigidbody = GetComponent<Rigidbody2D>();
 	}
 	
 	void Update ()
-	{
-		// Using translate because using rigidbodies for movement caused jittering
-		transform.Translate( Vector3.up * speed * Time.deltaTime );
+	{	
+		m_currLifeTime -= Time.deltaTime;
 		
-		lifeTime -= Time.deltaTime;
-		
-		if( lifeTime <= 0 && !stayAlive)
+		if( m_currLifeTime <= 0 )
 		{
-			// Ideally we'll use object pooling rather than spawn/destroy
-			// But that comes later
-			Destroy( gameObject );
+			DisableProjectile();
 		}
-		
-		/*if( !m_detectOwnCollider )
-		{
-			m_detectOwnDelay -= Time.deltaTime;
-			
-			if( m_detectOwnDelay <= 0 )
-			{
-				Physics2D.IgnoreCollision( m_firingCollider, GetComponent<Collider2D>(), false );
-			}
-		}*/
 	}
 	
 	void OnCollisionEnter2D( Collision2D collision )
 	{
 		Collider2D col = collision.collider;
 
-		Vector2 colPos = col.transform.position;
-		Vector2 offset = (Vector2)transform.position - colPos;
+		//Vector2 colPos = col.transform.position;
+		//Vector2 offset = (Vector2)transform.position - colPos;
 
-		Vector2 hitForce = transform.up * speed * knockback;
-		Vector2 hitPosition = offset + colPos;
+		Vector2 hitForce = Vector2.zero;//transform.up * speed * knockback;
+		Vector2 hitPosition = Vector2.zero;//offset + colPos;
 
 		if( col.tag == "Ship" )
 		{
@@ -69,9 +59,23 @@ public class ProjectileScript : MonoBehaviour
 		{
 			// Do same sort of thing as with Ship
 			Satellite sat = col.GetComponent<Satellite>();
-			sat.ApplyDamage(damage, hitForce);
+			sat.ApplyDamage( damage, hitForce );
 		}
-		
-		Destroy( gameObject );
+
+		DisableProjectile();
+	}
+
+	public void FireProj( float rotation )
+	{
+		gameObject.SetActive( true );
+		Physics2D.IgnoreCollision( m_firingCollider, m_collider, true );
+		transform.rotation = Quaternion.AngleAxis( rotation, Vector3.forward );
+		m_rigidbody.velocity = (Vector2)transform.up * speed + m_firingRb.velocity;
+	}
+
+	private void DisableProjectile()
+	{
+		m_currLifeTime = lifeTime;
+		gameObject.SetActive( false );
 	}
 }

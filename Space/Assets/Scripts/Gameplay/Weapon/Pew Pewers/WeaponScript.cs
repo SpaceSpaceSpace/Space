@@ -8,19 +8,30 @@ public abstract class WeaponScript : MonoBehaviour
 	///
 	/// Public members to be assigned in the Inpector
 	///
+	public GameObject projectilePrefab;
+	public Transform fireFromPoint;
+
+	public string fireSoundName = "Laser_Bolt";
+
+	public float damage = 10.0f;
 	public float fireTime = 0.5f;
 	public float maxSpreadAngle = 15.0f;
-	public string fireSoundName = "Laser_Bolt";
-	
+
+	public WeaponModifier.ModifierNames modifier = WeaponModifier.ModifierNames.DEFAULT;
+
 	///
 	/// Protected (Private) members
 	///
-	protected Collider2D m_parentCollider;
 	protected SoundSystemScript m_soundSystem;
+	protected bool m_active = true;
 
-	void Init()
-	{	
-		m_parentCollider = transform.root.GetComponent<Collider2D>();
+	public virtual void ToggleActive()
+	{
+		m_active = !m_active;
+	}
+
+	protected void Init()
+	{
 		m_soundSystem = GetComponent<SoundSystemScript>();
 	}
 	
