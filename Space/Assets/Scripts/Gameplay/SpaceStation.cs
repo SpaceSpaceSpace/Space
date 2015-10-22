@@ -7,8 +7,8 @@ public class SpaceStation : InteractableScript {
 
 	public override void OnInteract ()
 	{
-		//UI_Manager.instance.DisplayBountyBoard (true);
-		UI_Manager.instance.DisplayShopBoard (true);
+		UI_Manager.instance.DisplayBountyBoard (true);
+		//UI_Manager.instance.DisplayShopBoard (true);
 		//need some way to switch to ShopBoard
 	}
 	 

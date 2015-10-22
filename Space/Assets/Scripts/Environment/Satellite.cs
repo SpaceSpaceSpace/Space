@@ -8,7 +8,7 @@ public class Satellite : MonoBehaviour {
 	public float mass;
 	public GameObject satPrefab;
 	public GameObject satPrefab1;
-	public const float MAX_VELOCITY = 1000.0f;
+	public const float MAX_VELOCITY = 100.0f;
 	public const float GRAVITATION_MAGNITUDE = 10.0f;
 	//public const float STARTING_IMPULSE = 12f;
 	public Vector2 radius;
@@ -39,7 +39,7 @@ public class Satellite : MonoBehaviour {
 		Vector2 tangential = new Vector2(-toCenter.y, toCenter.x);
 		tangential.Normalize();
 		velocity = new Vector3(tangential.x,tangential.y, 0.0f);
-		velocity *= Mathf.Sqrt (GRAVITATION_MAGNITUDE * (10000.0f / toCenter.magnitude - 1.0f / semiMajor));
+		velocity *= Mathf.Sqrt (GRAVITATION_MAGNITUDE * (100.0f / toCenter.magnitude - 1.0f / semiMajor));
 
 		transform.GetComponent<Rigidbody2D>().AddForce( new Vector2(velocity.x,velocity.y), ForceMode2D.Impulse);
 
@@ -87,8 +87,8 @@ public class Satellite : MonoBehaviour {
 		mass = m;
 		transform.localScale = new Vector3 (m, m, 1);
 		transform.GetComponent<Rigidbody2D> ().mass = mass * 5.0f;
-		if(split){		health = 20.0f * m;}
-		else { health = 40.0f * m;}
+		if(split){		health = 15.0f * m;}
+		else { health = 30.0f * m;}
 	}
 	public void OnCollisionStay2D(Collision2D coll) {
 		//damage asteroids that remain in contact with eachother
