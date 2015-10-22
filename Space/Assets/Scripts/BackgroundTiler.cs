@@ -26,7 +26,6 @@ public class BackgroundTiler : MonoBehaviour
 		
 		Renderer renderer = m_tiles[ 0 ].GetComponent<Renderer>();
 		float tileWidth = renderer.bounds.size.x;
-		print( tileWidth );
 		m_totalWidth = tileWidth * m_numTiles / TILES_PER_ROW;
 		m_halfWidth = m_totalWidth * 0.5f;
 		
@@ -41,6 +40,9 @@ public class BackgroundTiler : MonoBehaviour
 	
 	private void CheckTilePositions()
 	{
+		if(playerTransform == null)
+			return;
+
 		for( int i = 0; i < m_numTiles; i++ )
 		{
 			// X
