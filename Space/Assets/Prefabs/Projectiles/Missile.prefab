@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 422090}
   - 198: {fileID: 19881198}
   - 199: {fileID: 19943774}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Thrust PS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ GameObject:
   - 61: {fileID: 6136494}
   - 114: {fileID: 11458002}
   - 50: {fileID: 5058426}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blastRadius: 10
   blastForce: 100
-  isAMine: 0
+  safetyTime: .5
 --- !u!198 &19881198
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1245,6 +1245,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: moveWithTransform
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
