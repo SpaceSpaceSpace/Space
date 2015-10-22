@@ -272,7 +272,7 @@ public class AIShipScript : ShipScript {
 			return false;
 
 		// if there is something on top of the weapon, don't fire
-		foreach(Collider2D col in Physics2D.OverlapPointAll(m_weapons[0].transform.position))
+		foreach(Collider2D col in Physics2D.OverlapPointAll(transform.position))
 		{
 			if(col.gameObject != this.gameObject)
 				return false;
