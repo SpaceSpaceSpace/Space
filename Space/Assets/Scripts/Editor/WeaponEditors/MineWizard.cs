@@ -4,7 +4,7 @@ using System.Collections;
 
 public class MineWizard : WizardMaster
 {
-	[Range (0,5)]
+	/*[Range (0,5)]
 	public float RateOfFire = 1.0f;
 	
 	public float AttackPower = 10;
@@ -59,5 +59,5 @@ public class MineWizard : WizardMaster
 		newWindow.AttackPower = ShieldPiercing;
 		newWindow.ShieldPiercing = ShieldPiercing;
 		newWindow.DamageRadius = DamageRadius;
-	}
+	}*/
 }
