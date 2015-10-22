@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour
 {
 	public GameObject PlayerUIObject;
-	public Slider healthBar;
+	public Image healthCicle;
 	public Slider shieldBar;
 
 	private PlayerShipScript playerShip;
@@ -16,11 +16,7 @@ public class PlayerUI : MonoBehaviour
 		EventManager.AddEventListener( EventDefs.PLAYER_SHIELD_UPDATE, UpdateShield );
 
 		playerShip = PlayerShipScript.player;
-
-		healthBar.maxValue = playerShip.MaxHealth;
-		healthBar.value = playerShip.Health;
-
-
+		healthCicle.fillAmount = playerShip.MaxHealth/100f;
 		ShieldScript playerShield = playerShip.Shield;
 
 		if( playerShield != null )
@@ -45,10 +41,10 @@ public class PlayerUI : MonoBehaviour
 
 	private void UpdateHealth()
 	{
-		healthBar.value = playerShip.Health;
+		healthCicle.fillAmount = playerShip.Health/100f;
 
 		if(playerShip.Health <= 0)
-			healthBar.transform.parent.gameObject.SetActive(false);
+			healthCicle.transform.parent.gameObject.SetActive(false);
 	}
 
 	private void UpdateShield()
