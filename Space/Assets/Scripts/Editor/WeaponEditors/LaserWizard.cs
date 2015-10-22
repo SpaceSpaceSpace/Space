@@ -4,7 +4,7 @@ using System.Collections;
 
 public class LaserWizard : WizardMaster
 {
-	public float ProjectileSpeed = 10;
+	/*public float ProjectileSpeed = 10;
 	public float ProjectileLifetime = 1;
 
 	[Range (0,5)]
@@ -68,5 +68,5 @@ public class LaserWizard : WizardMaster
 		newWindow.AttackPower = AttackPower;
 		newWindow.ShieldPiercing = ShieldPiercing;
 		newWindow.Accuracy = Accuracy; 
-	}
+	}*/
 }

@@ -4,7 +4,7 @@ using System.Collections;
 
 public class ProjectileWizard : ScriptableWizard
 {
-	public string Name;
+	/*public string Name;
 	
 	public Sprite ProjectileImage;
 	public float Speed = 10.0f;
@@ -90,5 +90,5 @@ public class ProjectileWizard : ScriptableWizard
 		newWindow.Speed = Speed;
 		newWindow.StayAlive = StayAlive;
 		newWindow.LifeTime = LifeTime;
-	}
+	}*/
 }

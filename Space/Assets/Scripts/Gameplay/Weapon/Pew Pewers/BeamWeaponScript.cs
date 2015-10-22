@@ -4,38 +4,35 @@
 public class BeamWeaponScript : WeaponScript
 {
 	public float beamRange = 15.0f;
-	public float damage = 10;
-	public float rateOfDamage = 1.0f;
-	public float beamWidth = 0.01f;
-	
+
+	private LayerMask m_layerMask;
 	private float m_beamSpriteSize;
 	private GameObject m_beam;
 	 
 	void Start ()
 	{
 		m_soundSystem = GetComponent<SoundSystemScript>();
-		m_beam = (GameObject)Instantiate( projectilePrefab.gameObject, transform.position, Quaternion.identity );
+		m_beam = (GameObject)Instantiate( projectilePrefab, transform.position, Quaternion.identity );
 		m_beam.transform.parent = transform;
 		m_beam.SetActive( false );
+	
+		SpriteRenderer beamSR = m_beam.GetComponent<SpriteRenderer>();
+		beamSR.sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
 		
 		m_beamSpriteSize = m_beam.GetComponent<Renderer>().bounds.size.x;
+
+		m_layerMask = LayerMask.NameToLayer( "Projectiles" );
 	}
 	
 	public override void Fire()
 	{
-		if( !m_active )
-		{
-			// Early return
-			return;
-		}
-
 		if( !m_soundSystem.IsPlaying() )
 		{
 			m_soundSystem.PlayLooping( fireSoundName );
 		}
 		
 		// Doing a raycast jobbie
-		RaycastHit2D hit = Physics2D.Raycast( transform.position, transform.up, beamRange );
+		RaycastHit2D hit = Physics2D.Raycast( transform.position, transform.up, beamRange, m_layerMask );
 		
 		float distance = beamRange;
 		
@@ -57,7 +54,7 @@ public class BeamWeaponScript : WeaponScript
 		m_soundSystem.StopPlaying();
 		m_beam.SetActive( false );
 	}
-	
+
 	public override void ToggleActive()
 	{
 		base.ToggleActive();
@@ -74,13 +71,19 @@ public class BeamWeaponScript : WeaponScript
 	private void HandleHit( RaycastHit2D hit )
 	{
 		GameObject go = hit.collider.gameObject;
+		Vector2 dir = ( hit.point - (Vector2)transform.position ).normalized;
 		if( go.tag == "Ship" )
 		{
 			ShipScript ship = go.GetComponent<ShipScript>();
-			Vector2 dir = ( hit.point - (Vector2)transform.position ).normalized;
 			ship.TakeHit( dir, hit.point );
 			
 			ship.ApplyDamage( damage * Time.deltaTime );
+		}
+		else if( go.tag == "Asteroid" )
+		{
+			// Do same sort of thing as with Ship
+			Satellite sat = go.GetComponent<Satellite>();
+			sat.ApplyDamage(damage, dir);
 		}
 	}
 }

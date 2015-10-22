@@ -7,16 +7,24 @@ using System.Collections.Generic;
 // I'm sailing away...
 public class ShipScript : MonoBehaviour
 {
+	public float accelForce = 50.0f; // the accel force for thrust
+	public float turnForce = 10.0f; // the turn force for thrust
+	public float maxMoveSpeed = 5.0f; // max move speed for thrust
+
 	protected float m_health = 100.0f;
 	protected float m_maxHealth = 100.0f;
 
+	protected HitParticleSpawner m_hitParticles;
 	protected ThrustScript m_thrust;
 	protected WeaponScript[] m_weapons;
 	protected ShieldScript m_shield;
 
+	protected static GameObject m_exploder;
+
 	// Primarily handles "collisions" with projeciles 
 	public void TakeHit( Vector2 force, Vector2 hitPoint )
 	{
+		m_hitParticles.ReactToHit(hitPoint);
 		m_thrust.AppyImpulse( force, hitPoint );
 	}
 
@@ -45,7 +53,11 @@ public class ShipScript : MonoBehaviour
 	// since the Start of a base class script will not be called
 	protected void InitShip()
 	{
+		if(m_exploder == null)
+			m_exploder = Resources.Load("ShipPrefabs/ShipExplosion") as GameObject;
 		m_thrust = GetComponent<ThrustScript>();
+		m_hitParticles = GetComponentInChildren<HitParticleSpawner>();
+
 		InitWeapons();
 
 		// Temporary
@@ -96,6 +108,7 @@ public class ShipScript : MonoBehaviour
 
 	protected virtual void Die()
 	{
+		Instantiate(m_exploder, transform.position, Quaternion.identity);
 		Destroy( gameObject );
 	}
 }

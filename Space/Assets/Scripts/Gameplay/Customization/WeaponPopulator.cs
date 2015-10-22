@@ -25,7 +25,7 @@ public class WeaponPopulator : MonoBehaviour {
     void CreateWeaponListButtons() 
     {
         RectTransform panelRectTrans = this.GetComponent<RectTransform>();
-        float Top = panelRectTrans.rect.height / 2 - 50;
+        float Top = panelRectTrans.rect.height / 2 - 130;
 
         //For every weapon, add a button to this game object
         for (int i = 0; i < WeaponList.Count; i++)
@@ -55,7 +55,7 @@ public class WeaponPopulator : MonoBehaviour {
 
             Vector3 pos = new Vector3();
             pos[0] = 0;
-            pos[1] = Top - (i * 60);
+            pos[1] = Top - (i * ButtonHeight * 3);
             pos[2] = panelRectTrans.position.z + 1; // To make sure the buttons are above the background
 
             buttonRectTrans.sizeDelta = new Vector2(ButtonWidth, ButtonHeight);

@@ -5,7 +5,7 @@ using System.Collections;
 [CustomEditor(typeof(ProjectileScript))]
 public class ProjectileScriptEditor : Editor {
 
-	public override void OnInspectorGUI()
+	/*public override void OnInspectorGUI()
 	{
 		ProjectileScript projectile = (ProjectileScript)target;
 
@@ -16,5 +16,5 @@ public class ProjectileScriptEditor : Editor {
 		{
 			projectile.lifeTime = EditorGUILayout.FloatField("Life Time (Seconds)", projectile.lifeTime);
 		}
-	}
+	}*/
 }
