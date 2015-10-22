@@ -44,17 +44,8 @@ public class PlayerShipScript : ShipScript
 	
 	void Awake()
 	{
-		//There can be only one
-		if(player == null)
-		{
-			DontDestroyOnLoad(gameObject);
-			player = this;
-		}
-		else if(player != this)
-		{
-			Destroy(gameObject);
-		}
-		
+		player = this;
+
 		m_alive = true;
 		
 		InitShip();
@@ -187,7 +178,8 @@ public class PlayerShipScript : ShipScript
 		}
 		
 		GameMaster.CurrentGameState = GameState.GameOver;
-		
+		UI_Manager.instance.ChangeUIState (GameState.GameOver);
+
 		base.Die();
 	}
 }
