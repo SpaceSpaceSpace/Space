@@ -512,10 +512,6 @@ Prefab:
       propertyPath: player
       value: 
       objectReference: {fileID: 1493654551}
-    - target: {fileID: 11422320, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
-      propertyPath: playerShip
-      value: 
-      objectReference: {fileID: 1493654551}
     - target: {fileID: 22463512, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
       propertyPath: m_AnchorMax.x
       value: 0

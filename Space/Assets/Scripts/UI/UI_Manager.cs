@@ -32,6 +32,11 @@ public class UI_Manager : MonoBehaviour {
 		}
 	}
 
+	public void ChangeUIStateWithButtonClick(int state)
+	{
+		ChangeUIState ((GameState)state);
+	}
+
 	public void ChangeUIState(GameState state)
 	{
 		SetAllScreensToInactive ();
@@ -41,7 +46,11 @@ public class UI_Manager : MonoBehaviour {
 			case GameState.GameOver:
 				GameOverScreen.SetActive(true);
 				break;
-				
+			case GameState.MainMenu:
+				GameMaster.CurrentGameState = GameState.MainMenu;
+				Application.LoadLevel("MainMenu");
+				break;
+					
 		}
 	}
 

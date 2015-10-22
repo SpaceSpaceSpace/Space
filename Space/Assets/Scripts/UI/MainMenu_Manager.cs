@@ -10,6 +10,8 @@ public class MainMenu_Manager : MonoBehaviour {
 	{
 		mainMenuGroup.SetActive (false);
 		loadingText.SetActive (true);
+		GameMaster.CurrentGameState = GameState.Flying;
+
 		Application.LoadLevel ("MainScene");
 	}
 

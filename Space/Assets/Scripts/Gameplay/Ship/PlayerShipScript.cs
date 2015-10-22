@@ -44,16 +44,7 @@ public class PlayerShipScript : ShipScript
 
 	void Awake()
 	{
-		//There can be only one
-		if(player == null)
-		{
-			DontDestroyOnLoad(gameObject);
-			player = this;
-		}
-		else if(player != this)
-		{
-			Destroy(gameObject);
-		}
+		player = this;
 
 		m_alive = true;
 
