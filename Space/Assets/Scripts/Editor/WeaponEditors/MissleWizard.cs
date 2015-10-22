@@ -4,7 +4,7 @@ using System.Collections;
 
 public class MissleWizard : WizardMaster
 {
-	public float ProjectileSpeed = 10;
+	/*public float ProjectileSpeed = 10;
 	public float ProjectileLifetime = 1;
 	public int ProjectilesPerShot = 1;
 
@@ -85,5 +85,5 @@ public class MissleWizard : WizardMaster
 		newWindow.Accuracy = Accuracy;
 
 		newWindow.Knockback = Knockback;
-	}
+	}*/
 }

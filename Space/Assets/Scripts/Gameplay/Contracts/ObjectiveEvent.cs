@@ -17,6 +17,7 @@ public class ObjectiveEvent : MonoBehaviour {
 	private GameObject target;
 	private GameObject nextObjective;
 	private bool firstActivation = true;
+	private float timeToObjUpdate = 5.0f;
 	ObjectiveType type;
 
 
@@ -100,6 +101,20 @@ public class ObjectiveEvent : MonoBehaviour {
 					}
 					CompleteTask();
 				}
+				else
+				{
+					timeToObjUpdate -= Time.deltaTime;
+				    if(timeToObjUpdate <= 0.0f)
+					{
+						transform.position = target.transform.position;
+						timeToObjUpdate = 5.0f;
+					}
+					Color c = gameObject.GetComponentInChildren<SpriteRenderer>().color;
+					float alpha = timeToObjUpdate.Remap(0f,5f,0f,1f);
+					c.a = alpha;
+					gameObject.GetComponentInChildren<SpriteRenderer>().color = c;
+					//Debug.Log(gameObject.GetComponentInChildren<SpriteRenderer>().color.a);
+				}
 				break;
 		}
 	}
@@ -112,4 +127,12 @@ public class ObjectiveEvent : MonoBehaviour {
 			CompleteTask();
 		}
 	}
+}
+
+public static class ExtensionMethods {
+	
+	public static float Remap (this float value, float from1, float to1, float from2, float to2) {
+		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+	}
+	
 }

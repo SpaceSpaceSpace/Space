@@ -35,6 +35,9 @@ public class ShipBehaviourScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		if(!PlayerShipScript.player.Alive)
+			return;
+
 		DoNormalStuff();
 	}
 

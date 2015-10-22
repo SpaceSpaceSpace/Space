@@ -4,7 +4,7 @@ using System.Collections;
 
 public class RailGunWizard : WizardMaster
 {
-	public float ProjectileSpeed = 15;
+	/*public float ProjectileSpeed = 15;
 	public float ProjectileLifetime = 4;
 
 	public float ChargePowerRatio = 1;
@@ -66,5 +66,5 @@ public class RailGunWizard : WizardMaster
 		newWindow.AttackPower = AttackPower;
 		newWindow.ShieldPiercing = ShieldPiercing;
 		newWindow.Accuracy = Accuracy; 
-	}
+	}*/
 }

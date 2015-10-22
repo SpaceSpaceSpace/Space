@@ -200,7 +200,6 @@ public class AIShipScript : ShipScript {
 	{
 		if(m_weapons.Length > index)
 		{
-			m_weapons[index].Active = true;
 			m_weapons[index].Fire();
 		}
 	}

@@ -10,7 +10,8 @@ GameObject:
   - 4: {fileID: 481230}
   - 212: {fileID: 21298282}
   - 61: {fileID: 6183492}
-  - 114: {fileID: 11462970}
+  - 114: {fileID: 11412218}
+  - 114: {fileID: 11483744}
   m_Layer: 10
   m_Name: SpaceStore
   m_TagString: Interactable
@@ -43,7 +44,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 7.4000001, y: 6.90999985}
---- !u!114 &11462970
+--- !u!114 &11412218
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -51,9 +52,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 180004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c786afdbba68e4a679098142760039f1, type: 3}
+  m_Script: {fileID: 11500000, guid: b0f70e8629a545a4aa04cbd2afcc3696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ship: {fileID: 0}
+  WeaponToggles: {fileID: 0}
+--- !u!114 &11483744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9f7ab0e186591e43b29cadf564ebab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerShip: {fileID: 0}
 --- !u!212 &21298282
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -77,7 +92,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: -100
+  m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: a4dd786c10f6eab4783491cfcf3591e2, type: 3}
   m_Color: {r: .501960814, g: .501960814, b: .501960814, a: 1}
 --- !u!1001 &100100000

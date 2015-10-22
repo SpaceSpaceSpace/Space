@@ -19,6 +19,8 @@ public class ShipScript : MonoBehaviour
 	protected WeaponScript[] m_weapons;
 	protected ShieldScript m_shield;
 
+	protected static GameObject m_exploder;
+
 	// Primarily handles "collisions" with projeciles 
 	public void TakeHit( Vector2 force, Vector2 hitPoint )
 	{
@@ -51,6 +53,8 @@ public class ShipScript : MonoBehaviour
 	// since the Start of a base class script will not be called
 	protected void InitShip()
 	{
+		if(m_exploder == null)
+			m_exploder = Resources.Load("ShipPrefabs/ShipExplosion") as GameObject;
 		m_thrust = GetComponent<ThrustScript>();
 		m_hitParticles = GetComponentInChildren<HitParticleSpawner>();
 
@@ -99,13 +103,12 @@ public class ShipScript : MonoBehaviour
 	
 	protected void HandleCollision( Collision2D collision )
 	{
-		m_hitParticles.ReactToHit(collision.transform.position);
-
 		ApplyDamage( collision.relativeVelocity.magnitude * collision.rigidbody.mass * 0.02f );
 	}
 
 	protected virtual void Die()
 	{
+		Instantiate(m_exploder, transform.position, Quaternion.identity);
 		Destroy( gameObject );
 	}
 }
