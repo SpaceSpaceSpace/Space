@@ -14,10 +14,7 @@ public class TargetTransform : TargetingBehavior
 	
 	void Update ()
 	{
-		if( m_weaponScript.Active && targetTransform != null )
-		{
-			SetAimTarget();
-		}
+		SetAimTarget();
 	}
 	
 	protected override void SetAimTarget()
