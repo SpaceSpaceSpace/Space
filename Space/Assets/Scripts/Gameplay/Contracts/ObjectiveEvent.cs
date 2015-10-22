@@ -113,7 +113,7 @@ public class ObjectiveEvent : MonoBehaviour {
 					float alpha = timeToObjUpdate.Remap(0f,5f,0f,1f);
 					c.a = alpha;
 					gameObject.GetComponentInChildren<SpriteRenderer>().color = c;
-					Debug.Log(gameObject.GetComponentInChildren<SpriteRenderer>().color.a);
+					//Debug.Log(gameObject.GetComponentInChildren<SpriteRenderer>().color.a);
 				}
 				break;
 		}

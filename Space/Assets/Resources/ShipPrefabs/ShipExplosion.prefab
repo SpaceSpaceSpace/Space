@@ -46,7 +46,7 @@ AudioSource:
   Mute: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 10
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -72,7 +72,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -113,6 +113,8 @@ MonoBehaviour:
   FadeSpeed: .600000024
   MinExplosions: 1
   MaxExplosions: 2
+  MinSpeed: .100000001
+  MaxSpeed: 2
   ExplosionSprites:
   - {fileID: 21300000, guid: 5c2b2949f89b4ab46a215543f8872ab6, type: 3}
 --- !u!1001 &100100000
@@ -138,6 +140,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: MaxExplosions
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: MinDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
