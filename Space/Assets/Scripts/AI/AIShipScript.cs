@@ -147,7 +147,7 @@ public class AIShipScript : ShipScript {
 			m_attackPos = Vector2.zero;
 			if(AngleToTarget(m_target.position) < 10.0f && CanSeeTarget(m_target))
 			{
-				FireWeapon(0);
+				FireWeapon();
 			}
 		}
 
@@ -196,11 +196,20 @@ public class AIShipScript : ShipScript {
 		return Vector2.Distance(transform.position, target);
 	}
 
+	// Fire weapon at the index, if no idex is provided fire all weapons
 	public void FireWeapon(int index)
 	{
 		if(m_weapons.Length > index)
 		{
 			m_weapons[index].Fire();
+		}
+	}
+	 
+	public void FireWeapon()
+	{
+		for(int i = 0; i < m_weapons.Length; i++)
+		{
+			m_weapons[i].Fire();
 		}
 	}
 

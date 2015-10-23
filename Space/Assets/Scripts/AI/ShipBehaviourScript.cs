@@ -75,7 +75,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 				m_shipScript.Stop();
 				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45.0f && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
 				{
-					m_shipScript.FireWeapon(0);
+					m_shipScript.FireWeapon();
 				}
 			}
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 15.0)
@@ -102,7 +102,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 				m_shipScript.FaceTarget(m_shipScript.obstacleTrans.position);
 				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 10 && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
 				{
-					m_shipScript.FireWeapon(0);
+					m_shipScript.FireWeapon();
 				}
 			}
 		}
@@ -118,7 +118,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 				m_shipScript.Stop();
 				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45.0f && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
 				{
-					m_shipScript.FireWeapon(0);
+					m_shipScript.FireWeapon();
 				}
 			}
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 15.0)
@@ -142,7 +142,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 				m_shipScript.FaceTarget(m_shipScript.obstacleTrans.position);
 				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 10 && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
 				{
-					m_shipScript.FireWeapon(0);
+					m_shipScript.FireWeapon();
 				}
 			}
 		}
