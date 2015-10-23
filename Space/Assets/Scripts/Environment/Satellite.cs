@@ -92,8 +92,8 @@ public class Satellite : MonoBehaviour {
 	}
 	public void OnCollisionStay2D(Collision2D coll) {
 		//damage asteroids that remain in contact with eachother
-		if (coll.gameObject.tag == "Asteroid")
-			ApplyDamage (coll.relativeVelocity.magnitude, Vector2.zero);
+		//if (coll.gameObject.tag == "Asteroid")
+			//ApplyDamage (coll.relativeVelocity.magnitude, Vector2.zero);
 		
 	}
 	public void Split(float m, Vector3 impulse)
@@ -105,9 +105,12 @@ public class Satellite : MonoBehaviour {
 		//otherwise, split it
 		else
 		{
+			Vector3 normalImpulse = Vector3.Normalize(impulse);
 			//spawn asteroids apart from each other
-			Vector3 offset1 = new Vector3(Random.Range(-m/2,m/2),Random.Range(m/2,m/2),0.0f);
-			Vector3 offset2 = new Vector3(Random.Range(-m/2,m/2),Random.Range(-m/2,m/2),0.0f);
+			//Vector3 offset1 = new Vector3(Random.Range(-m/2,m/2),Random.Range(m/2,m/2),0.0f);
+			//Vector3 offset2 = new Vector3(Random.Range(-m/2,m/2),Random.Range(-m/2,m/2),0.0f);
+			Vector3 offset1 = new Vector3(m * normalImpulse.x,-m *normalImpulse.y,0f);
+			Vector3 offset2 = new Vector3(-m* normalImpulse.x,m*normalImpulse.y,0f);
 			GameObject split1 = (GameObject)Instantiate(satPrefab,transform.position + offset1,Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(m/2, true);
 			GameObject split2 = (GameObject)Instantiate(satPrefab1,transform.position + offset2,Quaternion.identity);
