@@ -106,18 +106,27 @@ public class Satellite : MonoBehaviour {
 		else
 		{
 			//spawn asteroids apart from each other
-			Vector3 offset1 = new Vector3(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f),0.0f);
-			Vector3 offset2 = new Vector3(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f),0.0f);
+			Vector3 offset1 = new Vector3(Random.Range(-m/2,m/2),Random.Range(m/2,m/2),0.0f);
+			Vector3 offset2 = new Vector3(Random.Range(-m/2,m/2),Random.Range(-m/2,m/2),0.0f);
 			GameObject split1 = (GameObject)Instantiate(satPrefab,transform.position + offset1,Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(m/2, true);
 			GameObject split2 = (GameObject)Instantiate(satPrefab1,transform.position + offset2,Quaternion.identity);
 			split2.GetComponent<Satellite>().ScaleMass(m/2, true);
 
-			//add forces that push them apart and in the direction of impact
+			//add forces that push the splits apart from eachother
 			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x * -30.0f,impulse.y* 30.0f), ForceMode2D.Impulse);
 			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x* 30.0f,impulse.y* -30.0f), ForceMode2D.Impulse);
+
+			//add some random perpindicular forces so explosions look more asymmetric
 			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,-5) * m,Random.Range(5,10) * m));
 			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(5,10) * m,Random.Range(-10,-5) * m));
+
+			//maintain the current momentum of the asteroid by applying the current velocity to the splits
+			Vector2 currVelocity = gameObject.GetComponent<Rigidbody2D>().velocity;
+			split1.GetComponent<Rigidbody2D>().AddForce(currVelocity, ForceMode2D.Impulse);
+			split2.GetComponent<Rigidbody2D>().AddForce(currVelocity, ForceMode2D.Impulse);
+
+			//spin them a little bit to sell the asymmetry between splits a bit more
 			split1.GetComponent<Rigidbody2D>().AddTorque(Mathf.PI/Random.Range (1,8));
 			split2.GetComponent<Rigidbody2D>().AddTorque(Mathf.PI/Random.Range (1,8));
 
