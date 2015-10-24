@@ -83,7 +83,7 @@ public class BeamWeaponScript : WeaponScript
 		{
 			// Do same sort of thing as with Ship
 			Satellite sat = go.GetComponent<Satellite>();
-			sat.ApplyDamage(damage, dir);
+			sat.ApplyDamage(damage, dir, hit.point);
 		}
 	}
 }

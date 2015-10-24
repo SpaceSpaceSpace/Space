@@ -16,12 +16,12 @@ public class OrbitalGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		generateBelt (32, new Vector2 (90.0f, 90.0f), false);
+		generateBelt (24, new Vector2 (90.0f, 90.0f), false);
 		//generateBelt (48, new Vector2 (105.0f, 105.0f), false);
-		generateBelt (32, new Vector2 (120.0f, 120.0f), false);
-		generateBelt (48, new Vector2 (140.0f, 140.0f), false);
-		generateBelt (48, new Vector2 (160.0f, 160.0f), false);
-		generateBelt (56, new Vector2 (180.0f, 180.0f), false);
+		generateBelt (24, new Vector2 (120.0f, 120.0f), false);
+		generateBelt (32, new Vector2 (140.0f, 140.0f), false);
+		generateBelt (32, new Vector2 (160.0f, 160.0f), false);
+		generateBelt (48, new Vector2 (180.0f, 180.0f), false);
 		generateBelt (56, new Vector2 (200.0f, 200.0f), false);
 
 		//generateBelt (64, new Vector2 (4.0f, 4.0f), false);
@@ -37,7 +37,7 @@ public class OrbitalGenerator : MonoBehaviour {
 		Vector3 pos = new Vector3(x,y,0) + centerPoint.position;
 
 		GameObject obj = (GameObject)Instantiate(objectPrefab,pos,Quaternion.identity);
-		obj.GetComponent<Satellite> ().ScaleMass (Random.Range (1, 9), false);
+		obj.GetComponent<Satellite> ().ScaleMass (Random.Range (1, 12), false);
 	}
 
 	/// <summary>
@@ -66,8 +66,8 @@ public class OrbitalGenerator : MonoBehaviour {
 			{
 				float chunkAngle = j * ((Mathf.PI *2)/numOfAsteroids);
 				
-				float chunkX = Mathf.Sin(chunkAngle) * 9.0f;
-				float chunkY = Mathf.Cos(chunkAngle) * 9.0f;
+				float chunkX = Mathf.Sin(chunkAngle) * 10.0f;
+				float chunkY = Mathf.Cos(chunkAngle) * 10.0f;
 				
 				Vector3 pos = new Vector3(chunkX,chunkY,0) + chunkCenter;
 
@@ -77,7 +77,7 @@ public class OrbitalGenerator : MonoBehaviour {
 				
 				asteroidGenerated.GetComponent<Satellite>().artificial = artificial;
 				asteroidGenerated.GetComponent<Satellite>().radius = radius;
-				asteroidGenerated.GetComponent<Satellite> ().ScaleMass (Random.Range (.5f, 5f), false);
+				asteroidGenerated.GetComponent<Satellite> ().ScaleMass (Random.Range (.5f, 8f), false);
 				//asteroidGenerated.GetComponent<Satellite>().SetCenterOfOrbit(centerPoint);
 				asteroidGenerated.transform.parent = beltMaster.transform;
 

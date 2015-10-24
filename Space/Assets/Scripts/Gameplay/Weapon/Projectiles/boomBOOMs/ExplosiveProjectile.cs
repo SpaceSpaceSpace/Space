@@ -83,7 +83,7 @@ public class ExplosiveProjectile : ProjectileScript
 				//Rigidbody2D roidRb = col.GetComponent<Rigidbody2D>();
 				//roidRb.AddForce( impulse * percent, ForceMode2D.Impulse );
 				Satellite sat = col.GetComponent<Satellite>();
-				sat.ApplyDamage( m_damage * percent, Vector2.zero );
+				sat.ApplyDamage( m_damage * percent, Vector2.zero, pos );
 			}
 		}
 	}

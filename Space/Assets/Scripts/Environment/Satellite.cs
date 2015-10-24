@@ -70,16 +70,16 @@ public class Satellite : MonoBehaviour {
 		Vector3 gravity = GRAVITATION_MAGNITUDE * toCenter / (radius * radius);
 		transform.GetComponent<Rigidbody2D> ().AddForce (new Vector2(gravity.x, gravity.y));
 	}
-	public void ApplyDamage(float damage, Vector2 impulse){
+	public void ApplyDamage(float damage, Vector2 impulse, Vector2 collPosition){
 		health -= damage;
 		Vector3 imp = new Vector3(impulse.x,impulse.y,0.0f);
-		transform.GetComponent<Rigidbody2D>().AddForce(imp, ForceMode2D.Impulse);
+		transform.GetComponent<Rigidbody2D>().AddForceAtPosition(imp, collPosition, ForceMode2D.Impulse);
 		if (health <= 0) {
 			/*GameObject split1 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(mass/2);
 			GameObject split2 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
 		 	split2.GetComponent<Satellite>().ScaleMass(mass/2);*/
-			Split (mass, imp);
+			Split (mass, imp, collPosition);
 
 		}
 	}
@@ -94,9 +94,11 @@ public class Satellite : MonoBehaviour {
 		//damage asteroids that remain in contact with eachother
 		//if (coll.gameObject.tag == "Asteroid")
 			//ApplyDamage (coll.relativeVelocity.magnitude, Vector2.zero);
+		if(coll.gameObject.tag == "Asteroid")
+			ApplyDamage(.05f,Vector2.zero,coll.transform.position);
 		
 	}
-	public void Split(float m, Vector3 impulse)
+	public void Split(float m, Vector3 impulse, Vector2 collPosition)
 	{
 		//destroy the asteroid if it is too small to split
 		if(mass <  1.0f){
@@ -106,23 +108,21 @@ public class Satellite : MonoBehaviour {
 		else
 		{
 			Vector3 normalImpulse = Vector3.Normalize(impulse);
-			//spawn asteroids apart from each other
-			//Vector3 offset1 = new Vector3(Random.Range(-m/2,m/2),Random.Range(m/2,m/2),0.0f);
-			//Vector3 offset2 = new Vector3(Random.Range(-m/2,m/2),Random.Range(-m/2,m/2),0.0f);
-			Vector3 offset1 = new Vector3(m * normalImpulse.x,-m *normalImpulse.y,0f);
-			Vector3 offset2 = new Vector3(-m* normalImpulse.x,m*normalImpulse.y,0f);
-			GameObject split1 = (GameObject)Instantiate(satPrefab,transform.position + offset1,Quaternion.identity);
-			split1.GetComponent<Satellite>().ScaleMass(m/2, true);
-			GameObject split2 = (GameObject)Instantiate(satPrefab1,transform.position + offset2,Quaternion.identity);
-			split2.GetComponent<Satellite>().ScaleMass(m/2, true);
+			//spawn asteroids apart from each other based on the location of the collision
+			Vector2 offset1 = new Vector2(-m/2 * normalImpulse.x,m/2 *normalImpulse.y);
+			Vector2 offset2 = new Vector2(m/2* normalImpulse.x,-m/2*normalImpulse.y);
+			GameObject split1 = (GameObject)Instantiate(satPrefab,collPosition + offset1,Quaternion.identity);
+			split1.GetComponent<Satellite>().ScaleMass(Random.Range(m/8,m/2), true);
+			GameObject split2 = (GameObject)Instantiate(satPrefab1,collPosition + offset2,Quaternion.identity);
+			split2.GetComponent<Satellite>().ScaleMass(Random.Range(m/8,m/2), true);
 
 			//add forces that push the splits apart from eachother
-			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x * -30.0f,impulse.y* 30.0f), ForceMode2D.Impulse);
-			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x* 30.0f,impulse.y* -30.0f), ForceMode2D.Impulse);
+			split1.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(impulse.x * -40.0f,impulse.y* 40.0f), ForceMode2D.Impulse);
+			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(impulse.x* 40.0f,impulse.y* -40.0f), ForceMode2D.Impulse);
 
 			//add some random perpindicular forces so explosions look more asymmetric
-			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-10,-5) * m,Random.Range(5,10) * m));
-			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(5,10) * m,Random.Range(-10,-5) * m));
+			split1.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(-10,-5) * m,Random.Range(5,10) * m));
+			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(5,10) * m,Random.Range(-10,-5) * m));
 
 			//maintain the current momentum of the asteroid by applying the current velocity to the splits
 			Vector2 currVelocity = gameObject.GetComponent<Rigidbody2D>().velocity;
