@@ -23,6 +23,7 @@ public class MineProjectileScript : ExplosiveProjectile
 	private void PlantMine( Transform target )
 	{
 		Destroy( GetComponent<Rigidbody2D>() );
+		Destroy( GetComponent<Collider2D>() );
 		transform.parent = target;
 	}
 

@@ -9,9 +9,17 @@ public class ExplosiveProjectile : ProjectileScript
 
 	private bool m_safety = true; // Shouldn't detonate too soon after firing
 
+	private static GameObject ms_explosion;
+
 	public bool CanBoom
 	{
 		get { return !m_safety; }
+	}
+
+	void Awake()
+	{
+		if(ms_explosion == null)
+			ms_explosion = Resources.Load("ShipPrefabs/ExplosiveExplosion") as GameObject;
 	}
 
 	void OnCollisionEnter2D( Collision2D collision )
@@ -38,6 +46,7 @@ public class ExplosiveProjectile : ProjectileScript
 	{
 		if( !m_safety )
 		{
+			Instantiate(ms_explosion, transform.position, Quaternion.identity);
 			HandleExplosion();
 		}
 

@@ -37,7 +37,6 @@ public class Explode : MonoBehaviour {
 
 		//Pick a random explosion sprite and velocity
 		Sprite sprite = ExplosionSprites[Random.Range(0, ExplosionSprites.Count - 1)];
-		Vector2 velocity = new Vector2(Random.Range(0, 2.0f), Random.Range(0, 2.0f));
 
 		int explosionCount = Random.Range (MinExplosions, MaxExplosions);
 		for(int i = 0; i < explosionCount; i++)

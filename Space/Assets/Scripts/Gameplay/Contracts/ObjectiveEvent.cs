@@ -72,7 +72,7 @@ public class ObjectiveEvent : MonoBehaviour {
 				break;
 			case ObjectiveType.KillTarget:
 				GameObject spawner = (GameObject) GameObject.Instantiate(AISpawner,transform.position, Quaternion.identity);
- 				target = spawner.GetComponent<AISpawnerScript>().SquadLeader;
+ 				target = spawner.GetComponent<AISpawnerScript>().squadLeader;
 				break;
 			case ObjectiveType.TurnInContract:
 				break;
@@ -113,7 +113,7 @@ public class ObjectiveEvent : MonoBehaviour {
 					float alpha = timeToObjUpdate.Remap(0f,5f,0f,1f);
 					c.a = alpha;
 					gameObject.GetComponentInChildren<SpriteRenderer>().color = c;
-					Debug.Log(gameObject.GetComponentInChildren<SpriteRenderer>().color.a);
+					//Debug.Log(gameObject.GetComponentInChildren<SpriteRenderer>().color.a);
 				}
 				break;
 		}
