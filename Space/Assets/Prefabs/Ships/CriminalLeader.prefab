@@ -48,6 +48,7 @@ GameObject:
   - 58: {fileID: 5850198}
   - 82: {fileID: 8290054}
   - 114: {fileID: 11440776}
+  - 114: {fileID: 11483920}
   m_Layer: 9
   m_Name: CriminalLeader
   m_TagString: Ship
@@ -632,6 +633,18 @@ MonoBehaviour:
   rechargeDelay: 5
   rechargeRate: 2
   shieldShowDuration: 1
+--- !u!114 &11483920
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e3d1f5aac12aec458d2ac5e5cdf4886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitParticleSystem: {fileID: 19881064}
 --- !u!114 &11488886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2948,6 +2961,10 @@ Prefab:
       propertyPath: behaviour
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hitParticleSystem
+      value: 
+      objectReference: {fileID: 19881064}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 122626}
