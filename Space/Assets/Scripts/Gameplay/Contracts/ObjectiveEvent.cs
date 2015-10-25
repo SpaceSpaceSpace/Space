@@ -72,7 +72,7 @@ public class ObjectiveEvent : MonoBehaviour {
 				break;
 			case ObjectiveType.KillTarget:
 				GameObject spawner = (GameObject) GameObject.Instantiate(AISpawner,transform.position, Quaternion.identity);
- 				target = spawner.GetComponent<AISpawnerScript>().SquadLeader;
+ 				target = spawner.GetComponent<AISpawnerScript>().squadLeader;
 				break;
 			case ObjectiveType.TurnInContract:
 				break;
