@@ -112,9 +112,9 @@ public class Satellite : MonoBehaviour {
 			Vector2 offset1 = new Vector2(-m/2 * normalImpulse.x,m/2 *normalImpulse.y);
 			Vector2 offset2 = new Vector2(m/2* normalImpulse.x,-m/2*normalImpulse.y);
 			GameObject split1 = (GameObject)Instantiate(satPrefab,collPosition + offset1,Quaternion.identity);
-			split1.GetComponent<Satellite>().ScaleMass(Random.Range(m/8,m/2), true);
+			split1.GetComponent<Satellite>().ScaleMass(Random.Range(m/4,m/2), true);
 			GameObject split2 = (GameObject)Instantiate(satPrefab1,collPosition + offset2,Quaternion.identity);
-			split2.GetComponent<Satellite>().ScaleMass(Random.Range(m/8,m/2), true);
+			split2.GetComponent<Satellite>().ScaleMass(Random.Range(m/8,m/4), true);
 
 			//add forces that push the splits apart from eachother
 			split1.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(impulse.x * -40.0f,impulse.y* 40.0f), ForceMode2D.Impulse);
