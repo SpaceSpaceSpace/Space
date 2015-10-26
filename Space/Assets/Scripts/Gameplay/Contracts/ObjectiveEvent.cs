@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ObjectiveEvent : MonoBehaviour {
+public enum ObjectiveType
+{
+    GoTo,
+    KillTarget,
+    TurnInContract
+}
 
-	public enum ObjectiveType
-	{
-		GoTo,
-		KillTarget,
-		TurnInContract
-	}
+
+public class ObjectiveEvent : MonoBehaviour {
 
 	public GameObject AISpawner;
 	public GameObject spaceStation;

@@ -5,7 +5,6 @@ public struct WeaponModifier
 {
 	public enum ModifierNames
 	{
-		ModifierName,
 		DEFAULT,
 		Crappy,
 		Fast,
