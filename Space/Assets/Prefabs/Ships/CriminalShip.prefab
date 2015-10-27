@@ -596,7 +596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accelForce: 50
   turnForce: 5
-  maxMoveSpeed: 3
+  maxMoveSpeed: 6
   squad: []
   leader: {fileID: 0}
   player: {fileID: 0}
@@ -3018,7 +3018,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxMoveSpeed
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
