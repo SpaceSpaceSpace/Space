@@ -18,6 +18,7 @@ public class Satellite : MonoBehaviour {
 	public float health;
 
 	private static GameObject m_dustplosion = null;
+	private static GameObject ms_explosion = null;
 	
 	// Use this for initialization
 	void Start () {
@@ -27,13 +28,7 @@ public class Satellite : MonoBehaviour {
 		else
 			semiMajor = radius.y;
 
-		/*if(!artificial)
-		{
-			mass = Random.Range (1, 9);
-			transform.localScale = new Vector3 (mass, mass, 1);
-			transform.GetComponent<Rigidbody2D> ().mass = mass * 100.0f;
-			health = 5.0f * mass;
-		}*/
+
 		centerOfOrbit = new Vector3 (0.0f, 0.0f, 0.0f);
 		Vector3 toCenter = centerOfOrbit - transform.position;
 		Vector2 tangential = new Vector2(-toCenter.y, toCenter.x);
@@ -43,9 +38,17 @@ public class Satellite : MonoBehaviour {
 
 		transform.GetComponent<Rigidbody2D>().AddForce( new Vector2(velocity.x,velocity.y), ForceMode2D.Impulse);
 
-		//Load dustplosion
-		if(m_dustplosion == null)
-			m_dustplosion = Resources.Load("AsteroidExplosion") as GameObject;
+		if(!artificial)
+		{
+			//Load dustplosion
+			if(m_dustplosion == null)
+				m_dustplosion = Resources.Load("AsteroidExplosion") as GameObject;
+		}
+		else{
+			if(ms_explosion == null)
+				ms_explosion = Resources.Load("ShipPrefabs/ExplosiveExplosion") as GameObject;
+		}
+
 	}
 
 	// Update is called once per frame
@@ -75,19 +78,23 @@ public class Satellite : MonoBehaviour {
 		Vector3 imp = new Vector3(impulse.x,impulse.y,0.0f);
 		transform.GetComponent<Rigidbody2D>().AddForceAtPosition(imp, collPosition, ForceMode2D.Impulse);
 		if (health <= 0) {
-			/*GameObject split1 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
-			split1.GetComponent<Satellite>().ScaleMass(mass/2);
-			GameObject split2 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
-		 	split2.GetComponent<Satellite>().ScaleMass(mass/2);*/
-			Split (mass, imp, collPosition);
+			if(!artificial){	Split (mass, imp, collPosition); }
+			else {
+
+				Instantiate(ms_explosion, transform.position, Quaternion.identity);
+				HandleExplosion();
+				Destroy(gameObject);
+			}
 
 		}
+
 	}
 	public void ScaleMass(float m, bool split){
 		mass = m;
 		transform.localScale = new Vector3 (m, m, 1);
 		transform.GetComponent<Rigidbody2D> ().mass = mass * 5.0f;
 		if(split){		health = 15.0f * m;}
+		if(artificial){ health = 10.0f * m;}
 		else { health = 30.0f * m;}
 	}
 	public void OnCollisionStay2D(Collision2D coll) {
@@ -147,5 +154,35 @@ public class Satellite : MonoBehaviour {
 		explosion.FadeSpeed = 1/m;
 		Instantiate(explosion, transform.position, Quaternion.identity);
 	}
-
+	private void HandleExplosion()
+	{
+		float blastRadius = 10.0f;
+		float blastForce = 10.0f;
+		Collider2D[] hitColliders = Physics2D.OverlapCircleAll( transform.position, blastRadius );
+		
+		foreach( Collider2D col in hitColliders )
+		{
+			Vector3 pos = col.transform.position;
+			Vector2 impulse = pos - transform.position;
+			
+			impulse /= impulse.magnitude;
+			impulse *= blastForce;
+			
+			float percent = ( blastRadius - Vector3.Distance( pos, transform.position ) ) / blastRadius;
+			
+			if( col.tag == "Ship" )
+			{
+				ShipScript ship = col.GetComponent<ShipScript>();
+				ship.TakeHit( impulse * percent, pos );
+				ship.ApplyDamage( 10.0f * percent, 0.0f );
+			}
+			else if( col.tag == "Asteroid" )
+			{
+				//Rigidbody2D roidRb = col.GetComponent<Rigidbody2D>();
+				//roidRb.AddForce( impulse * percent, ForceMode2D.Impulse );
+				Satellite sat = col.GetComponent<Satellite>();
+				sat.ApplyDamage( 10.0f * percent, Vector2.zero, pos );
+			}
+		}
+	}
 }

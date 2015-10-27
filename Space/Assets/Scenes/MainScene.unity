@@ -334,15 +334,15 @@ Prefab:
     - target: {fileID: 11433544, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
       propertyPath: Attachments.Array.data[1]
       value: 
-      objectReference: {fileID: 2139622271}
+      objectReference: {fileID: 0}
     - target: {fileID: 11433544, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
       propertyPath: Attachments.Array.data[0]
       value: 
-      objectReference: {fileID: 1475904930}
+      objectReference: {fileID: 0}
     - target: {fileID: 11433544, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
       propertyPath: Attachments.Array.data[3]
       value: 
-      objectReference: {fileID: 1556728414}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
   m_IsPrefabParent: 0
@@ -1017,10 +1017,6 @@ Prefab:
 GameObject:
   m_PrefabParentObject: {fileID: 180004, guid: fd8e5ff145bcee14488d5cb9f4f070e5, type: 2}
   m_PrefabInternal: {fileID: 1418967858}
---- !u!1 &1475904930 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 143290, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
-  m_PrefabInternal: {fileID: 321668951}
 --- !u!1 &1477124215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,10 +1063,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 321668951}
   m_Script: {fileID: 11500000, guid: 94792ed96b7744fbeabf82b25c08037c, type: 3}
---- !u!1 &1556728414 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 185096, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
-  m_PrefabInternal: {fileID: 321668951}
 --- !u!1 &1785643380
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,6 +1293,7 @@ MonoBehaviour:
   - {fileID: 165392, guid: 832b1cfaef2845147bdfdc89cdcc5998, type: 2}
   - {fileID: 119174, guid: 16a204e6da532c144ab8b62e81387f30, type: 2}
   - {fileID: 178922, guid: 9207a46fe21d8784dacc201ba444df8c, type: 2}
+  - {fileID: 193818, guid: 5199c4c1437f3454a9707c3614700e78, type: 2}
 --- !u!4 &2138348070
 Transform:
   m_ObjectHideFlags: 0
@@ -1313,7 +1306,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1802903652}
   m_RootOrder: 1
---- !u!1 &2139622271 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 121178, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
-  m_PrefabInternal: {fileID: 321668951}
