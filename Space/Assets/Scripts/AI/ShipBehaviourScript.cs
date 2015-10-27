@@ -80,7 +80,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 			}
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 15.0)
 			{
-				m_shipScript.AttackTarget(10.0f);
+				m_shipScript.AttackTarget(7.5f);
 			}
 			else
 				m_shipScript.MoveToward(m_shipScript.Target);

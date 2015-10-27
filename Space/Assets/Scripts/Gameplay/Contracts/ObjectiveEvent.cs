@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum ObjectiveType
+{
+	GoTo,
+	KillTarget,
+	TurnInContract,
+	EscortCargo
+}
+
 public class ObjectiveEvent : MonoBehaviour {
 
-	public enum ObjectiveType
-	{
-		GoTo,
-		KillTarget,
-		TurnInContract
-	}
 
 	public GameObject AISpawner;
 	public GameObject spaceStation;
@@ -65,16 +67,21 @@ public class ObjectiveEvent : MonoBehaviour {
 	{
 		type = p_Type;
 
+		GameObject spawner;
 		//Spawn Correct Objective
 		switch(type)
 		{
 			case ObjectiveType.GoTo:
 				break;
 			case ObjectiveType.KillTarget:
-				GameObject spawner = (GameObject) GameObject.Instantiate(AISpawner,transform.position, Quaternion.identity);
+				spawner = (GameObject) GameObject.Instantiate(AISpawner,transform.position, Quaternion.identity);
  				target = spawner.GetComponent<AISpawnerScript>().squadLeader;
 				break;
 			case ObjectiveType.TurnInContract:
+				break;
+			case ObjectiveType.EscortCargo:
+				spawner = (GameObject) GameObject.Instantiate(AISpawner,transform.position, Quaternion.identity);
+				objectivePos = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(1.0f, 1.0f));
 				break;
 		}
 	}
@@ -121,7 +128,12 @@ public class ObjectiveEvent : MonoBehaviour {
 
 	void OnTriggerEnter2D( Collider2D col )
 	{
-		if( col.tag == "Ship" && type != ObjectiveType.KillTarget)
+		if( col.gameObject.name == "Player Ship" && type != ObjectiveType.KillTarget)
+		{
+			//objectiveContract.completed = true;//Make boolean an array for multi-mission contracts
+			CompleteTask();
+		}
+		else if( col.gameObject.name == "CargoShip" && type == ObjectiveType.EscortCargo)
 		{
 			//objectiveContract.completed = true;//Make boolean an array for multi-mission contracts
 			CompleteTask();
