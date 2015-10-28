@@ -14,6 +14,7 @@ public class ContractEditor : EditorWindow
 	public string Description = "";
 	public string TargetImagePath = "";
 	public string TargetShipImagePath = "";
+    public List<ObjectiveType> Objectives = new List<ObjectiveType>();
 
 	private Texture2D TargetImage;
 	private Texture2D TargetShipImage;
@@ -27,6 +28,7 @@ public class ContractEditor : EditorWindow
 	static void Init()
 	{
 		ContractEditor editor = (ContractEditor)EditorWindow.GetWindow(typeof(ContractEditor));
+        editor.minSize = new Vector2(400, 600);
 		editor.Show();
 	}
 
@@ -53,7 +55,11 @@ public class ContractEditor : EditorWindow
 
 		ImagePreviewArea ("Target Image Ship Path", ref TargetShipImagePath, ref TargetShipImage);
 
-		GUILayout.FlexibleSpace();
+        EditorGUILayout.Space();
+
+        ObjectiveArea("Objectives", ref Objectives);
+
+        GUILayout.FlexibleSpace();
 		EditorGUILayout.BeginHorizontal();
 		{
 			GUILayout.FlexibleSpace();
@@ -61,6 +67,7 @@ public class ContractEditor : EditorWindow
 				AddContract();
 		}
 		EditorGUILayout.EndHorizontal();
+
 		GUILayout.Space(6);
 	}
 
@@ -81,6 +88,31 @@ public class ContractEditor : EditorWindow
 		}
 		EditorGUILayout.EndHorizontal();
 	}
+
+    private void ObjectiveArea(string label, ref List<ObjectiveType> list)
+    {
+        int listCount = list.Count;
+        int newCount = EditorGUILayout.IntField("Objective Count", listCount);
+
+        ObjectiveType[] array = new ObjectiveType[newCount];
+        if (listCount != newCount)
+        {
+            if(listCount < newCount)
+                for (int i = 0; i < listCount; i++)
+                    array[i] = list[i];
+        }
+
+        for (int i = 0; i < newCount; i++)
+        {
+            ObjectiveType type = list.ElementAtOrDefault(i);
+
+            type = (ObjectiveType)EditorGUILayout.EnumPopup(type, GUILayout.MaxWidth(150));
+
+            array[i] = type;
+        }
+
+        list = array.ToList();
+    }
 
 	private Texture2D LoadImage(string imagePath)
 	{
@@ -126,7 +158,7 @@ public class ContractEditor : EditorWindow
 			}
 		}
 
-		ContractModel model = new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath);
+		ContractModel model = new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath, Objectives.ToArray());
 
 		if(replace)
 		{
