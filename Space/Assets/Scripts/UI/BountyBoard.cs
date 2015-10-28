@@ -83,14 +83,14 @@ public class BountyBoard : MonoBehaviour {
 
 			Destroy (scrollView.transform.FindChild("contract" + currentSelectedContract).gameObject);
 
-			try
+			if(scrollView.transform.childCount > 1)
 			{
 				string indexString = scrollView.transform.GetChild(1).name;
 				int index = int.Parse(indexString[indexString.Length-1].ToString());
 
 				SetBountyValues (index);
 			}
-			catch(Exception e)
+			else
 			{
 				SetBlankValues();
 			}
