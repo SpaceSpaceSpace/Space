@@ -11,7 +11,7 @@ public class AISpawnerScript : MonoBehaviour {
 	public GameObject AIPrefab;
 	public GameObject squadLeader;
 
-	private int currentAI;
+	//private int currentAI;
 	//private GameObject squadLeader;
 	//
 	//public GameObject SquadLeader
@@ -22,7 +22,7 @@ public class AISpawnerScript : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 
-		currentAI = 0;
+		//currentAI = 0;
 		Vector2 spawnPos;
 		List<GameObject> squad = new List<GameObject>(startAI);
 		for(int i = 0; i < startAI; i++)

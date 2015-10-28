@@ -53,11 +53,10 @@ public class BountyBoard : MonoBehaviour {
 	{
 		for(int i = 0; i < currentContracts.Count; i++)
 		{
-			int _i = i;
 			GameObject button = Instantiate(buttonPrefab) as GameObject;
 			button.name = "contract" + i;
 			button.transform.SetParent(scrollView.transform,false);
-			button.gameObject.GetComponent<Button>().onClick.AddListener(()=>SetBountyValues(_i));
+			button.gameObject.GetComponent<Button>().onClick.AddListener(()=>SetBountyValues(i));
 			button.GetComponentInChildren<Text>().text = currentContracts[i].Name;
 		}
 
@@ -81,7 +80,10 @@ public class BountyBoard : MonoBehaviour {
 
 			GameObject button = scrollView.transform.FindChild ("contract" + currentSelectedContract).gameObject;
 
-			Destroy (scrollView.transform.FindChild("contract" + currentSelectedContract).gameObject);
+			if(button != null)
+			{
+				Destroy (button);
+			}
 
 			if(scrollView.transform.childCount > 1)
 			{
