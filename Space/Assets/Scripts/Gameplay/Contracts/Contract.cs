@@ -83,12 +83,12 @@ public class Contract
 	{
 		GameObject contractObjective1 = (GameObject)GameObject.Instantiate (player.objectivePrefab, objectivePosition, Quaternion.identity);
 		contractObjective1.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
-		contractObjective1.GetComponent<ObjectiveEvent> ().init (ObjectiveEvent.ObjectiveType.KillTarget);
+		contractObjective1.GetComponent<ObjectiveEvent> ().init (ObjectiveType.KillTarget);
 		SetUIMarker (contractObjective1);
 
 		GameObject contractObjective2 = (GameObject)GameObject.Instantiate (player.objectivePrefab, objectivePosition, Quaternion.identity);
 		contractObjective2.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
-		contractObjective2.GetComponent<ObjectiveEvent> ().init (ObjectiveEvent.ObjectiveType.TurnInContract);
+		contractObjective2.GetComponent<ObjectiveEvent> ().init (ObjectiveType.TurnInContract);
 		contractObjective2.SetActive (false);
 
 		contractObjective1.GetComponent<ObjectiveEvent> ().NextObjective = contractObjective2;
