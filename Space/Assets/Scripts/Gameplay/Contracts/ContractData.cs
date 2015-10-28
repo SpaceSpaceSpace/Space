@@ -18,6 +18,35 @@ public class ContractContent : ContractElement
 		this.Title = Title;
         this.Description = Description;
 	}
+
+    //Allows for the conversion from ContractContent to JSON for serialization
+    public static implicit operator JSON(ContractContent contract)
+    {
+        JSON js = new JSON();
+
+        if (contract == null)
+            return js;
+
+        js["Tier"] = contract.Tier;
+        js["Title"] = contract.Title;
+        js["Description"] = contract.Description;
+
+        return js;
+    }
+
+    //Allows for the conversion from JSON to ContractContent for deserialization
+    public static explicit operator ContractContent(JSON js)
+    {
+        checked
+        {
+            int Tier = js.ToInt("Tier");
+            string Title = js.ToString("Title");
+            string Description = js.ToString("Description");
+
+            return new ContractContent(Tier, Title, Description);
+        }
+    }
+
 }
 public class ContractTargetName : ContractElement
 {
@@ -28,6 +57,32 @@ public class ContractTargetName : ContractElement
 		this.Tier = Tier;
 		this.TargetName = TargetName;
 	}
+
+    //Allows for the conversion from ContractTargetName to JSON for serialization
+    public static implicit operator JSON(ContractTargetName contract)
+    {
+        JSON js = new JSON();
+
+        if (contract == null)
+            return js;
+
+        js["Tier"] = contract.Tier;
+        js["TargetName"] = contract.TargetName;
+
+        return js;
+    }
+
+    //Allows for the conversion from JSON to ContractContent for deserialization
+    public static explicit operator ContractTargetName(JSON js)
+    {
+        checked
+        {
+            int Tier = js.ToInt("Tier");
+            string TargetName = js.ToString("TargetName");
+
+            return new ContractTargetName(Tier, TargetName);
+        }
+    }
 }
 public class ContractTargetImage : ContractElement
 {

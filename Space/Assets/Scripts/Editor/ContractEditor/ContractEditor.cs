@@ -28,6 +28,7 @@ public class ContractEditor : EditorWindow
 	static void Init()
 	{
 		ContractEditor editor = (ContractEditor)EditorWindow.GetWindow(typeof(ContractEditor));
+        editor.minSize = new Vector2(400, 600);
 		editor.Show();
 	}
 
