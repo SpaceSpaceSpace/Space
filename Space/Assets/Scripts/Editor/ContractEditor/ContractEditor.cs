@@ -14,7 +14,7 @@ public class ContractEditor : EditorWindow
 	public string Description = "";
 	public string TargetImagePath = "";
 	public string TargetShipImagePath = "";
-    public List<ObjectiveType> ObjectiveTypes = new List<ObjectiveType>();
+    public List<ObjectiveType> Objectives = new List<ObjectiveType>();
 
 	private Texture2D TargetImage;
 	private Texture2D TargetShipImage;
@@ -56,7 +56,7 @@ public class ContractEditor : EditorWindow
 
         EditorGUILayout.Space();
 
-        ObjectiveArea("Objectives", ref ObjectiveTypes);
+        ObjectiveArea("Objectives", ref Objectives);
 
         GUILayout.FlexibleSpace();
 		EditorGUILayout.BeginHorizontal();
@@ -107,7 +107,6 @@ public class ContractEditor : EditorWindow
 
             type = (ObjectiveType)EditorGUILayout.EnumPopup(type, GUILayout.MaxWidth(150));
 
-            Debug.Log(list.Count);
             array[i] = type;
         }
 
@@ -158,7 +157,7 @@ public class ContractEditor : EditorWindow
 			}
 		}
 
-		ContractModel model = new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath);
+		ContractModel model = new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath, Objectives.ToArray());
 
 		if(replace)
 		{
