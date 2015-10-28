@@ -614,7 +614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e3d1f5aac12aec458d2ac5e5cdf4886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitParticleSystem: {fileID: 19822070}
+  hitParticleSystem: {fileID: 19836882}
 --- !u!114 &11458756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3060,6 +3060,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hitParticleSystem
+      value: 
+      objectReference: {fileID: 19836882}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 109514}

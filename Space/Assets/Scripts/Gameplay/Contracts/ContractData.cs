@@ -4,17 +4,19 @@ using WyrmTale;
 
 public abstract class ContractElement
 {
-	public int Tier;
+    public int Tier;
 }
 
-public class ContractTitle : ContractElement
+public class ContractContent : ContractElement
 {
 	public string Title;
+    public string Description;
 
-	public ContractTitle(int Tier, string Title)
+	public ContractContent(int Tier, string Title, string Description)
 	{
 		this.Tier = Tier;
 		this.Title = Title;
+        this.Description = Description;
 	}
 }
 public class ContractTargetName : ContractElement
@@ -25,16 +27,6 @@ public class ContractTargetName : ContractElement
 	{
 		this.Tier = Tier;
 		this.TargetName = TargetName;
-	}
-}
-public class ContractDescription : ContractElement
-{
-	public string Description;
-
-	public ContractDescription(int Tier, string Description)
-	{
-		this.Tier = Tier;
-		this.Description = Description;
 	}
 }
 public class ContractTargetImage : ContractElement
@@ -56,6 +48,22 @@ public class ContractTargetShipImage : ContractElement
 		this.Tier = Tier;
 		this.TargetShipImagePath = TargetShipImagePath;
 	}
+}
+public class ContractRewards : ContractElement
+{
+    public int SpaceBux;
+    //public List<Weapons> RewardWeapons
+
+    public ContractRewards(int Tier, int SpaceBux)
+    {
+        this.Tier = Tier;
+        this.SpaceBux = SpaceBux;
+    }
+}
+
+public class ContractObjective : ContractElement
+{
+
 }
 
 public class ContractModel

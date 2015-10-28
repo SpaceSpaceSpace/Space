@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿sing UnityEngine;
 using System.Collections;
+
+public enum ObjectiveType
+{
+    GoTo,
+    KillTarget,
+    TurnInContract
+}
+
 
 public class ObjectiveEvent : MonoBehaviour
 {
-
-    public enum ObjectiveType
-    {
-        GoTo,
-        KillTarget,
-        TurnInContract
-    }
 
     public GameObject AISpawner;
     public GameObject spaceStation;
