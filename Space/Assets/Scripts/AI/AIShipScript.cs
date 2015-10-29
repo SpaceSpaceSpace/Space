@@ -186,7 +186,6 @@ public class AIShipScript : ShipScript {
 		else if(distance > maxDistance)
 		{
 			Go ();
-
 		}
 	}
 
@@ -344,8 +343,7 @@ public class AIShipScript : ShipScript {
 	public void DetectObstacle()
 	{
 		m_obstacle = false;
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, GetComponent<Rigidbody2D>().velocity, 10.0f);
-
+		RaycastHit2D hit = Physics2D.CircleCast(transform.position, 5.0f, GetComponent<Rigidbody2D>().velocity, 10.0f);
 
 		if(hit && hit.collider.gameObject.tag == "Asteroid")
 		{
