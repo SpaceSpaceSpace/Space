@@ -21,6 +21,12 @@ public class WeaponInfo {
 		get{ return name;}
 	}
 
+	
+	public GameObject SpawnWeapon()
+	{
+		
+	}
+
 	void CreateAttributeDictionary()
 	{
 
