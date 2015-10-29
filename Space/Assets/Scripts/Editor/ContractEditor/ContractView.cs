@@ -14,7 +14,7 @@ public class ContractView : EditorWindow
 	static void Init()
 	{
         ContractView editor = (ContractView)GetWindow(typeof(ContractView));
-        editor.minSize = new Vector2(400, 600);
+        editor.minSize = new Vector2(600, 600);
         ContractData.LoadContracts(ref Contracts, ref ContractTargetImages, ref ContractTargetShipImages);
 		editor.Show();
 	}
@@ -38,9 +38,15 @@ public class ContractView : EditorWindow
 
         GUILayout.Space(12);
         GUILayout.FlexibleSpace();
-
+        GUILayout.Space(6);
         EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Refresh Contracts"))
+        {
+            ContractData.LoadContracts(ref Contracts, ref ContractTargetImages, ref ContractTargetShipImages);
+        }
+
         GUILayout.FlexibleSpace();
+
         if (GUILayout.Button("New Contract"))
         {
             ContractEditor newContractEditor = ContractEditor.Init();
@@ -98,7 +104,11 @@ public class ContractView : EditorWindow
             }
             if (GUILayout.Button("Delete"))
             {
-               //TODO: delete contract
+                if (EditorUtility.DisplayDialog("Deleting Contract", "You can't get this contract back if you delete it. Are you sure you want to delete it?", "Yes I hate this contract"))
+                {
+                    Contracts.Remove(contract);
+                    ContractData.WriteContracts(Contracts);
+                }
             }
             GUILayout.Space(6);
             EditorGUILayout.EndHorizontal();

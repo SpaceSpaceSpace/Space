@@ -2,8 +2,6 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using WyrmTale;
 
 public class ContractEditor : EditorWindow
 {
@@ -26,6 +24,8 @@ public class ContractEditor : EditorWindow
 
     public delegate void OnCloseEvent();
     public OnCloseEvent OnClose;
+
+    private string buttonText = "Add";
 
     [MenuItem("Space/New/Contract/Story Contract")]
     public static ContractEditor Init()
@@ -50,6 +50,8 @@ public class ContractEditor : EditorWindow
         editor.TargetImagePath = existingContract.TargetImagePath;
         editor.TargetShipImagePath = existingContract.TargetShipImagePath;
         editor.Objectives = existingContract.Objectives.ToList();
+
+        editor.buttonText = "Edit";
 
         return editor;
     }
@@ -146,12 +148,6 @@ public class ContractEditor : EditorWindow
         return Resources.Load(imagePath) as Texture2D;
     }
 
-    private void WriteContracts(string contracts)
-    {
-        File.WriteAllText(ContractData.StoryContractsPath + ContractData.StoryContractsName + ContractData.StoryContractsExt, contracts);
-        AssetDatabase.Refresh();
-    }
-
     private void AddContract()
     {
         //Reload contracts
@@ -181,16 +177,7 @@ public class ContractEditor : EditorWindow
             Contracts.Add(model);
         }
 
-        //Explicitly cast the List of ContractModels to an array of JSON objects
-        JSON contractJSON = new JSON();
-        JSON[] contractsListJSON = new JSON[Contracts.Count];
-
-        for (int i = 0; i < Contracts.Count; i++)
-            contractsListJSON[i] = Contracts[i];
-
-        contractJSON["Contracts"] = contractsListJSON;
-
-        WriteContracts(contractJSON.serialized);
+        ContractData.WriteContracts(Contracts);
 
         Close();
     }

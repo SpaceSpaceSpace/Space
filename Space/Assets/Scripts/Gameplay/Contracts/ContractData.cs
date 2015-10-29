@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
 using WyrmTale;
@@ -43,6 +44,21 @@ public class ContractData
             if (targetShipImage != null)
                 ContractTargetShipImages[contract.TargetShipImagePath] = targetShipImage;
         }
+    }
+
+    public static void WriteContracts(List<ContractModel> Contracts)
+    {
+        //Explicitly cast the List of ContractModels to an array of JSON objects
+        JSON contractJSON = new JSON();
+        JSON[] contractsListJSON = new JSON[Contracts.Count];
+
+        for (int i = 0; i < Contracts.Count; i++)
+            contractsListJSON[i] = Contracts[i];
+
+        contractJSON["Contracts"] = contractsListJSON;
+
+        File.WriteAllText(ContractData.StoryContractsPath + ContractData.StoryContractsName + ContractData.StoryContractsExt, contractJSON.serialized);
+        AssetDatabase.Refresh();
     }
 }
 
