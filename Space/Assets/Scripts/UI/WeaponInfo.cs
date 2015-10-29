@@ -1,29 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WeaponInfo {
 
 	private string name;
-	private PlayerShipScript player;
+	WeaponModifier.ModifierNames modifier; 
+	Dictionary<string,float> attributes;
 
-	public WeaponInfo()
-	{
-		name = "Unknown";
-		player = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
-	}
-	public WeaponInfo(string p_Name)
+	public WeaponInfo(string p_Name,WeaponModifier.ModifierNames p_Modifier)
 	{
 		name = p_Name;
-		player = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
+		modifier = p_Modifier;
+
+		//Switch
 	}
 
 	public string Name
 	{
 		get{ return name;}
 	}
-	
-	public PlayerShipScript Player
+
+	void CreateAttributeDictionary()
 	{
-		get{return player;}
+
 	}
 }
