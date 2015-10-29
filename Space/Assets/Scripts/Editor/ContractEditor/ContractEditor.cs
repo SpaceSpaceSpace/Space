@@ -16,6 +16,10 @@ public class ContractEditor : EditorWindow
 	public string TargetShipImagePath = "";
     public List<ObjectiveType> Objectives = new List<ObjectiveType>();
 
+    public List<ContractModel> Contracts = new List<ContractModel>();
+    public Dictionary<string, Texture2D> ContractTargetImages = new Dictionary<string, Texture2D>();
+    public Dictionary<string, Texture2D> ContractTargetShipImages = new Dictionary<string, Texture2D>();
+
 	private Texture2D TargetImage;
 	private Texture2D TargetShipImage;
 
@@ -24,11 +28,14 @@ public class ContractEditor : EditorWindow
 	private const string StoryContractsName = "StoryContracts";
 	private const string StoryContractsExt = ".json";
 
+    private Vector2 scrollPos;
+
 	[MenuItem("Space/New/Contract/Story Contract")]
 	static void Init()
 	{
 		ContractEditor editor = (ContractEditor)EditorWindow.GetWindow(typeof(ContractEditor));
         editor.minSize = new Vector2(400, 600);
+        editor.LoadContracts();
 		editor.Show();
 	}
 
@@ -40,36 +47,93 @@ public class ContractEditor : EditorWindow
 
 	void OnGUI()
 	{
-		SetEditorStyles();
+ 		SetEditorStyles();
 
-		Tier = EditorGUILayout.IntSlider ("Contract Tier", Tier, 1, 10);
+        scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
-		Title = EditorGUILayout.TextField("Title",Title);
-		TargetName = EditorGUILayout.TextField("Target Name",TargetName);
+        for(int i = 0; i < Contracts.Count; i++)
+            DisplayContract(Contracts[i]);
 
-		EditorGUILayout.Space ();
-		EditorGUILayout.LabelField("Description");
-		Description = EditorGUILayout.TextArea(Description, GUILayout.Height(position.height/4));
+        EditorGUILayout.EndScrollView();
 
-		ImagePreviewArea ("Target Image Path", ref TargetImagePath, ref TargetImage);
+        EditorGUILayout.Space();
+        GUILayout.Label("New Contract");
+        NewContractArea();
+	}
 
-		ImagePreviewArea ("Target Image Ship Path", ref TargetShipImagePath, ref TargetShipImage);
+    private void DisplayContract(ContractModel contract)
+    {
+        GUILayout.BeginVertical(EditorStyles.helpBox);
+        {
+            GUILayout.Label("Tier: " + contract.Tier);
+            GUILayout.Label("Title: " + contract.Title);
+            GUILayout.Label("Target Name: " + contract.TargetName);
+            GUILayout.Label("Description: \n" + contract.Description);
+
+            //Try to get prefetched images
+            EditorGUILayout.BeginHorizontal();
+            {
+                EditorGUILayout.BeginVertical();
+                {
+                    string targetImagePath = contract.TargetImagePath;
+
+                    if (ContractTargetImages.ContainsKey(targetImagePath))
+                    {
+                        GUILayout.Label("Target Image - " + targetImagePath);
+                        GUILayout.Label(ContractTargetImages[targetImagePath]);
+                    }
+                }
+                EditorGUILayout.EndVertical();
+
+                EditorGUILayout.BeginVertical();
+                {
+                    string targetShipImagePath = contract.TargetShipImagePath;
+
+                    if (ContractTargetShipImages.ContainsKey(targetShipImagePath))
+                    {
+                        GUILayout.Label("Target Ship Image - " + targetShipImagePath);
+                        GUILayout.Label(ContractTargetShipImages[targetShipImagePath]);
+                    }
+                }
+                EditorGUILayout.EndVertical();
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+        GUILayout.EndVertical();
+
+        GUILayout.Space(12);
+    }
+
+    private void NewContractArea()
+    {
+        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
+
+        Title = EditorGUILayout.TextField("Title", Title);
+        TargetName = EditorGUILayout.TextField("Target Name", TargetName);
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Description");
+        Description = EditorGUILayout.TextArea(Description, GUILayout.Height(position.height / 4));
+
+        ImagePreviewArea("Target Image Path", ref TargetImagePath, ref TargetImage);
+
+        ImagePreviewArea("Target Image Ship Path", ref TargetShipImagePath, ref TargetShipImage);
 
         EditorGUILayout.Space();
 
         ObjectiveArea("Objectives", ref Objectives);
 
         GUILayout.FlexibleSpace();
-		EditorGUILayout.BeginHorizontal();
-		{
-			GUILayout.FlexibleSpace();
-			if(GUILayout.Button("Add"))
-				AddContract();
-		}
-		EditorGUILayout.EndHorizontal();
+        EditorGUILayout.BeginHorizontal();
+        {
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Add"))
+                AddContract();
+        }
+        EditorGUILayout.EndHorizontal();
 
-		GUILayout.Space(6);
-	}
+        GUILayout.Space(6);
+    }
 
 	private void ImagePreviewArea(string label, ref string path, ref Texture2D image)
 	{
@@ -119,7 +183,7 @@ public class ContractEditor : EditorWindow
 		return Resources.Load(imagePath) as Texture2D;
 	}
 
-	private JSON LoadContracts()
+	private void LoadContracts()
 	{
 		string contractsContent = "{}";
 
@@ -130,7 +194,24 @@ public class ContractEditor : EditorWindow
 		JSON js = new JSON();
 		js.serialized = contractsContent;
 
-		return js;
+        JSON[] rawContracts = js.ToArray<JSON>("Contracts");
+
+        Contracts.Clear();
+        foreach (JSON rawContract in rawContracts)
+        {
+            ContractModel contract = (ContractModel)rawContract;
+
+            Contracts.Add(contract);
+
+            //Pool images so we can display them
+            Texture2D targetImage = Resources.Load(contract.TargetImagePath) as Texture2D;
+            Texture2D targetShipImage = Resources.Load(contract.TargetShipImagePath) as Texture2D;
+
+            if(targetImage != null)
+                ContractTargetImages[contract.TargetImagePath] = targetImage;
+            if(targetShipImage != null)
+                ContractTargetShipImages[contract.TargetShipImagePath] = targetShipImage;
+        }
 	}
 
 	private void WriteContracts(string contracts)
@@ -141,16 +222,11 @@ public class ContractEditor : EditorWindow
 
 	private void AddContract()
 	{
-		JSON contractJSON = LoadContracts();
-
-		//Do a bit of deserialization to see if any conflicting contracts exist
-		List<JSON> contracts = contractJSON.ToArray<JSON>("Contracts").ToList();
-
-		bool replace = false;
+        bool replace = false;
 		int index = 0;
-		for(int i = 0; i < contracts.Count; i++)
+		for(int i = 0; i < Contracts.Count; i++)
 		{
-			if(((ContractModel)contracts[i]).Title == Title)
+			if(((ContractModel)Contracts[i]).Title == Title)
 			{
 				replace = true;
 				index = i;
@@ -162,18 +238,26 @@ public class ContractEditor : EditorWindow
 
 		if(replace)
 		{
-			contracts.RemoveAt(index);
-			contracts.Insert (index, model);
+			Contracts.RemoveAt(index);
+			Contracts.Insert (index, model);
 		}
 		else
 		{
-			contracts.Add(model);
+            Contracts.Add(model);
 		}
 
-		contractJSON["Contracts"] = contracts;
-		
+        //Explicitly cast the List of ContractModels to an array of JSON objects
+        JSON contractJSON = new JSON();
+        JSON[] contractsListJSON = new JSON[Contracts.Count];
+
+        for (int i = 0; i < Contracts.Count; i++)
+            contractsListJSON[i] = Contracts[i];
+
+        contractJSON["Contracts"] = contractsListJSON;
+
 		WriteContracts(contractJSON.serialized);
 
-		Close();
-	}
+        //Reload contracts
+        LoadContracts();
+    }
 }
