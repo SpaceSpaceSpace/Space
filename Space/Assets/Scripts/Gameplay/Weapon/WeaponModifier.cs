@@ -9,6 +9,7 @@ public struct WeaponModifier
 		Crappy,
 		Fast,
 		Godly,
+		of_Doom_suffix,
 		NUM_MODIFIERS
 	}
 
@@ -27,4 +28,21 @@ public struct WeaponModifier
 		{ 0.9f, 0.9f, 1.2f, 1.0f },
 		{ 2.0f, 2.0f, 2.0f, 2.0f },
 	};
+
+	public static void GetModifierName( ModifierNames modName, string weaponName, out string outputString )
+	{
+		string name = modName.ToString();
+		bool isPrefix = ( name.IndexOf( "_suffix" ) == -1 );
+		name = name.Replace( "_", " " );
+
+		if( isPrefix )
+		{
+			outputString = name + " " + weaponName;
+		}
+		else
+		{
+			name = name.Replace( " suffix", "" );
+			outputString = weaponName + " " + name;
+		}
+	}
 }

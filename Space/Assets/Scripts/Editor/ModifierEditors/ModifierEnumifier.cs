@@ -7,7 +7,7 @@ public class ModifierEnumifier : MonoBehaviour
 	public const string DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifiers.csv";
 	public const string CODE_PATH = "Assets/Scripts/Gameplay/Weapon/WeaponModifier.cs";
 
-	[MenuItem("Space/Generate Modifier Code")]
+	//[MenuItem("Space/Generate Modifier Code")]
 	static void GenerateFile()
 	{
 		string[,] data;
