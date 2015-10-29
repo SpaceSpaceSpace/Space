@@ -1,12 +1,55 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
 using WyrmTale;
+
+public class ContractData
+{
+    public static string StoryContractsPath = "Assets/Resources/Contracts/";
+    public static string StoryContractsName = "StoryContracts";
+    public static string StoryContractsExt = ".json";
+
+    public static void LoadContracts(ref List<ContractModel> Contracts, ref Dictionary<string, Texture2D> ContractTargetImages, ref Dictionary<string, Texture2D> ContractTargetShipImages)
+    {
+        string contractsContent = "{}";
+
+        try
+        {
+            contractsContent = File.ReadAllText(StoryContractsPath + StoryContractsName + StoryContractsExt);
+        }
+        catch (FileNotFoundException e)
+        {
+            Debug.Log("Exception: " + e.Message + " " + "Creating new JSON");
+        }
+
+        JSON js = new JSON();
+        js.serialized = contractsContent;
+
+        JSON[] rawContracts = js.ToArray<JSON>("Contracts");
+
+        Contracts.Clear();
+        foreach (JSON rawContract in rawContracts)
+        {
+            ContractModel contract = (ContractModel)rawContract;
+
+            Contracts.Add(contract);
+
+            //Pool images so we can display them
+            Texture2D targetImage = Resources.Load(contract.TargetImagePath) as Texture2D;
+            Texture2D targetShipImage = Resources.Load(contract.TargetShipImagePath) as Texture2D;
+
+            if (targetImage != null)
+                ContractTargetImages[contract.TargetImagePath] = targetImage;
+            if (targetShipImage != null)
+                ContractTargetShipImages[contract.TargetShipImagePath] = targetShipImage;
+        }
+    }
+}
 
 public abstract class ContractElement
 {
     public int Tier;
 }
-
 public class ContractContent : ContractElement
 {
 	public string Title;
