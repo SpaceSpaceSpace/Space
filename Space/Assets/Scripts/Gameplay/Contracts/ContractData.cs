@@ -1,21 +1,52 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using WyrmTale;
 
 public abstract class ContractElement
 {
-	public int Tier;
+    public int Tier;
 }
 
-public class ContractTitle : ContractElement
+public class ContractContent : ContractElement
 {
 	public string Title;
+    public string Description;
 
-	public ContractTitle(int Tier, string Title)
+	public ContractContent(int Tier, string Title, string Description)
 	{
 		this.Tier = Tier;
 		this.Title = Title;
+        this.Description = Description;
 	}
+
+    //Allows for the conversion from ContractContent to JSON for serialization
+    public static implicit operator JSON(ContractContent contract)
+    {
+        JSON js = new JSON();
+
+        if (contract == null)
+            return js;
+
+        js["Tier"] = contract.Tier;
+        js["Title"] = contract.Title;
+        js["Description"] = contract.Description;
+
+        return js;
+    }
+
+    //Allows for the conversion from JSON to ContractContent for deserialization
+    public static explicit operator ContractContent(JSON js)
+    {
+        checked
+        {
+            int Tier = js.ToInt("Tier");
+            string Title = js.ToString("Title");
+            string Description = js.ToString("Description");
+
+            return new ContractContent(Tier, Title, Description);
+        }
+    }
+
 }
 public class ContractTargetName : ContractElement
 {
@@ -26,16 +57,32 @@ public class ContractTargetName : ContractElement
 		this.Tier = Tier;
 		this.TargetName = TargetName;
 	}
-}
-public class ContractDescription : ContractElement
-{
-	public string Description;
 
-	public ContractDescription(int Tier, string Description)
-	{
-		this.Tier = Tier;
-		this.Description = Description;
-	}
+    //Allows for the conversion from ContractTargetName to JSON for serialization
+    public static implicit operator JSON(ContractTargetName contract)
+    {
+        JSON js = new JSON();
+
+        if (contract == null)
+            return js;
+
+        js["Tier"] = contract.Tier;
+        js["TargetName"] = contract.TargetName;
+
+        return js;
+    }
+
+    //Allows for the conversion from JSON to ContractContent for deserialization
+    public static explicit operator ContractTargetName(JSON js)
+    {
+        checked
+        {
+            int Tier = js.ToInt("Tier");
+            string TargetName = js.ToString("TargetName");
+
+            return new ContractTargetName(Tier, TargetName);
+        }
+    }
 }
 public class ContractTargetImage : ContractElement
 {
@@ -57,6 +104,28 @@ public class ContractTargetShipImage : ContractElement
 		this.TargetShipImagePath = TargetShipImagePath;
 	}
 }
+public class ContractRewards : ContractElement
+{
+    public int SpaceBux;
+    //public List<Weapons> RewardWeapons
+
+    public ContractRewards(int Tier, int SpaceBux)
+    {
+        this.Tier = Tier;
+        this.SpaceBux = SpaceBux;
+    }
+}
+
+public class ContractObjectives : ContractElement
+{
+    public ObjectiveType[] Objectives;
+
+    public ContractObjectives(int Tier, ObjectiveType[] Objectives)
+    {
+        this.Tier = Tier;
+        this.Objectives = Objectives;
+    }
+}
 
 public class ContractModel
 {
@@ -66,8 +135,9 @@ public class ContractModel
 	public string Description;
 	public string TargetImagePath;
 	public string TargetShipImagePath;
+    public ObjectiveType[] Objectives;
 
-	public ContractModel(int Tier, string Title, string TargetName, string Description, string TargetImagePath, string TargetShipImagePath)
+	public ContractModel(int Tier, string Title, string TargetName, string Description, string TargetImagePath, string TargetShipImagePath, ObjectiveType[] Objectives)
 	{
 		this.Tier = Tier;
 		this.Title = Title;
@@ -75,6 +145,7 @@ public class ContractModel
 		this.Description = Description;
 		this.TargetImagePath = TargetImagePath;
 		this.TargetShipImagePath = TargetShipImagePath;
+        this.Objectives = Objectives;
 	}
 
 	//Allows for the conversion from ContractModel to JSON for serialization
@@ -91,6 +162,7 @@ public class ContractModel
 		js["Description"] = contract.Description;
 		js["TargetImagePath"] = contract.TargetImagePath;
 		js["TargetShipImagePath"] = contract.TargetShipImagePath;
+        js["Objectives"] = contract.Objectives;
 
 		return js;
 	}
@@ -106,8 +178,9 @@ public class ContractModel
 			string Description = js.ToString("Description");
 			string TargetImagePath = js.ToString("TargetImagePath");
 			string TargetShipImagePath = js.ToString("TargetShipImagePath");
+            ObjectiveType[] Objectives = js.ToArray<ObjectiveType>("Objectives");
 
-			return new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath);
+			return new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath, Objectives);
 		}
 	}
 }
