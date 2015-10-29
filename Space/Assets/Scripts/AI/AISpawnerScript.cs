@@ -13,7 +13,10 @@ public class AISpawnerScript : MonoBehaviour {
 
 	private int currentAI;
 	private Transform objective;
+	private List<GameObject> squad;
 
+
+	public List<GameObject> Squad { get { return squad; } set { squad = value; } }
 	public Transform Objective { set { objective = value; } }
 	// Use this for initialization
 	public void Init () {
@@ -41,12 +44,14 @@ public class AISpawnerScript : MonoBehaviour {
 					g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.identity);
 
 				g.GetComponent<AIShipScript>().objective = transform; 
+				g.GetComponent<AIShipScript>().spawner = this;
 				squad.Add(g);
 			}
 			else if (AIPrefab.GetComponent<ShipBehaviourScript>().behaviour == ShipBehaviourScript.Behaviour.Cargo)
 			{
 				g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.identity);
 				g.GetComponent<AIShipScript>().objective = objective;
+				g.GetComponent<AIShipScript>().spawner = this;
 				squad.Add(g);
 			}
 		}
@@ -60,6 +65,7 @@ public class AISpawnerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(squad != null && squad.Count == 0)
+			Destroy(this.gameObject);
 	}
 }

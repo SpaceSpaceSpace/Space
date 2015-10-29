@@ -99,7 +99,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 					m_shipScript.FireWeapon();
 				}
 			}
-			else if(m_shipScript.DistanceTo(m_shipScript.objective.position) > 25.0f)
+			else if(m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
 				m_shipScript.MoveToward(m_shipScript.objective);
 			else
 				m_shipScript.Flock();
@@ -129,7 +129,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 		}
 		else if(m_shipScript.DistanceTo(m_shipScript.Target.position) >10.0f)
 		{
-			if(m_shipScript.DistanceTo(m_shipScript.objective.position) > 25.0f)
+			if(m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
 				m_shipScript.MoveToward(m_shipScript.objective);
 			else
 				m_shipScript.Flock();

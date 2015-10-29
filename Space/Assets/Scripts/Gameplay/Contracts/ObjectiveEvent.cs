@@ -76,6 +76,7 @@ public class ObjectiveEvent : MonoBehaviour {
 			case ObjectiveType.KillTarget:
 				spawner = (GameObject) GameObject.Instantiate(AISpawner,transform.position, Quaternion.identity);
 				spawner.GetComponent<AISpawnerScript>().Init();
+				spawner.transform.parent = transform;
  				target = spawner.GetComponent<AISpawnerScript>().squadLeader;
 				break;
 			case ObjectiveType.TurnInContract:
@@ -108,6 +109,8 @@ public class ObjectiveEvent : MonoBehaviour {
 				transform.position = objectivePos;
 				spawner.GetComponent<AISpawnerScript>().Objective = transform;
 				spawner.GetComponent<AISpawnerScript>().Init();
+				spawner.transform.parent = transform;
+				target = spawner.GetComponent<AISpawnerScript>().Squad[0];
 				break;
 		}
 	}
@@ -138,6 +141,32 @@ public class ObjectiveEvent : MonoBehaviour {
 				{
 					timeToObjUpdate -= Time.deltaTime;
 				    if(timeToObjUpdate <= 0.0f)
+					{
+						transform.position = target.transform.position;
+						timeToObjUpdate = 5.0f;
+					}
+					Color c = gameObject.GetComponentInChildren<SpriteRenderer>().color;
+					float alpha = timeToObjUpdate.Remap(0f,5f,0f,1f);
+					c.a = alpha;
+					gameObject.GetComponentInChildren<SpriteRenderer>().color = c;
+					//Debug.Log(gameObject.GetComponentInChildren<SpriteRenderer>().color.a);
+				}
+				break;
+			case ObjectiveType.EscortCargo:
+				if(target == null)
+				{
+					if(CheckIfNextObjective())
+					{
+						//Set the next objective to active and update the minimap
+						nextObjective.SetActive(true);
+						objectiveContract.SetUIMarker(nextObjective);
+					}
+					CompleteTask();
+				}
+				else
+				{
+					timeToObjUpdate -= Time.deltaTime;
+					if(timeToObjUpdate <= 0.0f)
 					{
 						transform.position = target.transform.position;
 						timeToObjUpdate = 5.0f;

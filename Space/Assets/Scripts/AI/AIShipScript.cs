@@ -16,6 +16,7 @@ public class AIShipScript : ShipScript {
 	public Transform objective;
 	public bool aggro; // is the enemy in combat
 	public Transform obstacleTrans;
+	public AISpawnerScript spawner;
 
 	///
 	/// Private Variables
@@ -24,6 +25,7 @@ public class AIShipScript : ShipScript {
 	private Vector2 m_attackPos; // the position the ship will be aiming for when attacking
 	private float m_wanderAngle;
 	private bool m_obstacle; // is there an obstacle in the way
+	private Vector2 objectiveStartPos;
 
 
 	// Weights for flocking
@@ -38,6 +40,7 @@ public class AIShipScript : ShipScript {
 	// Acessors
 	public Transform Target { get { return m_target; } set { m_target = value; } }
 	public bool Obstacle { get { return m_obstacle; } }
+	public Vector2 ObjectiveStartPos { get { return objectiveStartPos; } }
 	// Use this for initialization
 	void Start () {
 		InitShip();
@@ -51,6 +54,7 @@ public class AIShipScript : ShipScript {
 		aggro = false;
 		m_attackPos = Vector2.zero;
 		obstacleTrans = null;
+		objectiveStartPos = objective.position;
 
 		for(int i = 0; i < squad.Count; i++)
 		{
@@ -62,6 +66,8 @@ public class AIShipScript : ShipScript {
 	// Update is called once per frame
 	void Update () {
 		DetectObstacle();
+		if(spawner != null)
+			spawner.Squad = squad;
 	}
 
 
