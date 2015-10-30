@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 public class ContractView : EditorWindow 
 {
-    private static List<ContractModel> Contracts = new List<ContractModel>();
-    private static Dictionary<string, Texture2D> ContractTargetImages = new Dictionary<string, Texture2D>();
-    private static Dictionary<string, Texture2D> ContractTargetShipImages = new Dictionary<string, Texture2D>();
-
     private Vector2 scrollPos;
 
 	[MenuItem("Space/View/Contract/Story Contract")]
@@ -15,7 +11,7 @@ public class ContractView : EditorWindow
 	{
         ContractView editor = (ContractView)GetWindow(typeof(ContractView));
         editor.minSize = new Vector2(600, 600);
-        ContractData.LoadContracts(ref Contracts, ref ContractTargetImages, ref ContractTargetShipImages);
+        ContractModel.LoadContracts();
 		editor.Show();
 	}
 
@@ -31,8 +27,8 @@ public class ContractView : EditorWindow
 
         scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
-        for(int i = 0; i < Contracts.Count; i++)
-            DisplayContract(Contracts[i]);
+        for(int i = 0; i < ContractModel.Contracts.Count; i++)
+            DisplayContract(ContractModel.Contracts[i]);
 
         EditorGUILayout.EndScrollView();
 
@@ -42,7 +38,7 @@ public class ContractView : EditorWindow
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Refresh Contracts"))
         {
-            ContractData.LoadContracts(ref Contracts, ref ContractTargetImages, ref ContractTargetShipImages);
+            ContractModel.LoadContracts();
         }
 
         GUILayout.FlexibleSpace();
@@ -80,10 +76,10 @@ public class ContractView : EditorWindow
                 {
                     string targetImagePath = contract.TargetImagePath;
 
-                    if (ContractTargetImages.ContainsKey(targetImagePath))
+                    if (ContractModel.ContractTargetImages.ContainsKey(targetImagePath))
                     {
                         GUILayout.Label("Target Image - " + targetImagePath);
-                        GUILayout.Label(ContractTargetImages[targetImagePath]);
+                        GUILayout.Label(ContractModel.ContractTargetImages[targetImagePath]);
                     }
                 }
                 EditorGUILayout.EndVertical();
@@ -92,10 +88,10 @@ public class ContractView : EditorWindow
                 {
                     string targetShipImagePath = contract.TargetShipImagePath;
 
-                    if (ContractTargetShipImages.ContainsKey(targetShipImagePath))
+                    if (ContractModel.ContractTargetShipImages.ContainsKey(targetShipImagePath))
                     {
                         GUILayout.Label("Target Ship Image - " + targetShipImagePath);
-                        GUILayout.Label(ContractTargetShipImages[targetShipImagePath]);
+                        GUILayout.Label(ContractModel.ContractTargetShipImages[targetShipImagePath]);
                     }
                 }
                 EditorGUILayout.EndVertical();
@@ -140,8 +136,8 @@ public class ContractView : EditorWindow
                 {
                     if (EditorUtility.DisplayDialog("Deleting Contract", "You can't get this contract back if you delete it. Are you sure you want to delete it?", "Yes I hate this contract"))
                     {
-                        Contracts.Remove(contract);
-                        ContractData.WriteContracts(Contracts);
+                        ContractModel.Contracts.Remove(contract);
+                        ContractModel.WriteContracts();
                     }
                 }
                 GUILayout.Space(6);
@@ -156,33 +152,33 @@ public class ContractView : EditorWindow
 
     private void ReloadContracts()
     {
-        ContractData.LoadContracts(ref Contracts, ref ContractTargetImages, ref ContractTargetShipImages);
+        ContractModel.LoadContracts();
         Repaint();
     }
 
     private void MoveUp(ContractModel contract)
     {
-        int index = Contracts.IndexOf(contract);
+        int index = ContractModel. Contracts.IndexOf(contract);
         if (index > 0)
         {
-            Contracts.RemoveAt(index);
-            Contracts.Insert(index - 1, contract);
+            ContractModel.Contracts.RemoveAt(index);
+            ContractModel.Contracts.Insert(index - 1, contract);
 
             Repaint();
-            ContractData.WriteContracts(Contracts);
+            ContractModel.WriteContracts();
         }
     }
 
     private void MoveDown(ContractModel contract)
     {
-        int index = Contracts.IndexOf(contract);
-        if (index < Contracts.Count - 1)
+        int index =  ContractModel.Contracts.IndexOf(contract);
+        if (index < ContractModel.Contracts.Count - 1)
         {
-            Contracts.RemoveAt(index);
-            Contracts.Insert(index + 1, contract);
+             ContractModel.Contracts.RemoveAt(index);
+            ContractModel.Contracts.Insert(index + 1, contract);
 
             Repaint();
-            ContractData.WriteContracts(Contracts);
+            ContractModel.WriteContracts();
         }
     }
 }

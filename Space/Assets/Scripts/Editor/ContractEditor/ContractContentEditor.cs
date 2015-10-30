@@ -6,22 +6,35 @@ using System.Linq;
 using System.IO;
 using WyrmTale;
 
-public class ContractContentEditor : EditorWindow
+public class ContractContentEditor : ContractEditorBase
 {
     public int Tier = 1;
     public string Title = "";
     public string Description = "";
 
-    private const string ContractContentPath = "Assets/Resources/Contracts/";
-    private const string ContractContentName = "ContractElements";
-    private const string ContractContentExt = ".json";
-
-    [MenuItem("Space/New/Contract/Contract Content")]
-    static void Init()
+    public static ContractContentEditor Init()
     {
-        ContractContentEditor editor = (ContractContentEditor)EditorWindow.GetWindow(typeof(ContractContentEditor));
+        ContractContentEditor editor = (ContractContentEditor)GetWindow(typeof(ContractContentEditor));
         editor.minSize = new Vector2(400, 200);
         editor.Show();
+
+        return editor;
+    }
+
+    public static ContractContentEditor Init(ContractContent contractContent)
+    {
+        ContractContentEditor editor = (ContractContentEditor)GetWindow(typeof(ContractContentEditor));
+        editor.minSize = new Vector2(400, 200);
+
+        editor.Tier = contractContent.Tier;
+        editor.Title = contractContent.Title;
+        editor.Description = contractContent.Description;
+
+        editor.closeButtonText = "Save";
+
+        editor.Show();
+
+        return editor;
     }
 
     //Sets any specific styles we want on this editor
@@ -46,7 +59,7 @@ public class ContractContentEditor : EditorWindow
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Add"))
+            if (GUILayout.Button(closeButtonText))
                 AddContract();
         }
         EditorGUILayout.EndHorizontal();
@@ -60,7 +73,7 @@ public class ContractContentEditor : EditorWindow
 
         try
         {
-            contractsContent = File.ReadAllText(ContractContentPath + ContractContentName + ContractContentExt);
+            contractsContent = File.ReadAllText(ContractElement.ContractElementPath + ContractElement.ContractElementName + ContractElement.ContractElementExt);
         }
         catch (FileNotFoundException e) { Debug.Log("Exception: " + e.Message + " " + "Creating new JSON"); }
 
@@ -72,7 +85,7 @@ public class ContractContentEditor : EditorWindow
 
     private void WriteContractContent(string contracts)
     {
-        File.WriteAllText(ContractContentPath + ContractContentName + ContractContentExt, contracts);
+        File.WriteAllText(ContractElement.ContractElementPath + ContractElement.ContractElementName + ContractElement.ContractElementExt, contracts);
         AssetDatabase.Refresh();
     }
 
