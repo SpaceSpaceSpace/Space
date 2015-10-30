@@ -2,10 +2,8 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using WyrmTale;
 
-public class ContractEditor : EditorWindow
+public class ContractEditor : ContractEditorBase
 {
     public int Tier = 1;
     public string Title = "";
@@ -18,16 +16,6 @@ public class ContractEditor : EditorWindow
     private Texture2D TargetImage;
     private Texture2D TargetShipImage;
 
-    private const int ImagePreviewSize = 70;
-
-    private static List<ContractModel> Contracts = new List<ContractModel>();
-    private static Dictionary<string, Texture2D> ContractTargetImages = new Dictionary<string, Texture2D>();
-    private static Dictionary<string, Texture2D> ContractTargetShipImages = new Dictionary<string, Texture2D>();
-
-    public delegate void OnCloseEvent();
-    public OnCloseEvent OnClose;
-
-    [MenuItem("Space/New/Contract/Story Contract")]
     public static ContractEditor Init()
     {
         ContractEditor editor = (ContractEditor)GetWindow(typeof(ContractEditor));
@@ -50,6 +38,8 @@ public class ContractEditor : EditorWindow
         editor.TargetImagePath = existingContract.TargetImagePath;
         editor.TargetShipImagePath = existingContract.TargetShipImagePath;
         editor.Objectives = existingContract.Objectives.ToList();
+
+        editor.closeButtonText = "Save";
 
         return editor;
     }
@@ -90,7 +80,7 @@ public class ContractEditor : EditorWindow
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Add"))
+            if (GUILayout.Button(closeButtonText))
                 AddContract();
         }
         EditorGUILayout.EndHorizontal();
@@ -98,70 +88,16 @@ public class ContractEditor : EditorWindow
         GUILayout.Space(6);
     }
 
-    private void ImagePreviewArea(string label, ref string path, ref Texture2D image)
-    {
-        EditorGUILayout.BeginHorizontal();
-        {
-            //Display Target image
-            GUILayout.Label(image, GUILayout.MinHeight(ImagePreviewSize), GUILayout.MaxHeight(ImagePreviewSize), GUILayout.MaxWidth(ImagePreviewSize), GUILayout.MinWidth(ImagePreviewSize));
-
-            string newPath = EditorGUILayout.TextField(label, path);
-            //Check for change
-            if (newPath != path)
-            {
-                path = newPath;
-                image = LoadImage(path);
-            }
-        }
-        EditorGUILayout.EndHorizontal();
-    }
-
-    private void ObjectiveArea(string label, ref List<ObjectiveType> list)
-    {
-        int listCount = list.Count;
-        int newCount = EditorGUILayout.IntField("Objective Count", listCount);
-
-        ObjectiveType[] array = new ObjectiveType[newCount];
-        if (listCount != newCount)
-        {
-            if (listCount < newCount)
-                for (int i = 0; i < listCount; i++)
-                    array[i] = list[i];
-        }
-
-        for (int i = 0; i < newCount; i++)
-        {
-            ObjectiveType type = list.ElementAtOrDefault(i);
-
-            type = (ObjectiveType)EditorGUILayout.EnumPopup(type, GUILayout.MaxWidth(150));
-
-            array[i] = type;
-        }
-
-        list = array.ToList();
-    }
-
-    private Texture2D LoadImage(string imagePath)
-    {
-        return Resources.Load(imagePath) as Texture2D;
-    }
-
-    private void WriteContracts(string contracts)
-    {
-        File.WriteAllText(ContractData.StoryContractsPath + ContractData.StoryContractsName + ContractData.StoryContractsExt, contracts);
-        AssetDatabase.Refresh();
-    }
-
     private void AddContract()
     {
         //Reload contracts
-        ContractData.LoadContracts(ref Contracts, ref ContractTargetImages, ref ContractTargetShipImages);
+        ContractModel.LoadContracts();
 
         bool replace = false;
         int index = 0;
-        for (int i = 0; i < Contracts.Count; i++)
+        for (int i = 0; i < ContractModel.Contracts.Count; i++)
         {
-            if ((Contracts[i]).Title == Title)
+            if ((ContractModel.Contracts[i]).Title == Title)
             {
                 replace = true;
                 index = i;
@@ -173,31 +109,17 @@ public class ContractEditor : EditorWindow
 
         if (replace)
         {
-            Contracts.RemoveAt(index);
-            Contracts.Insert(index, model);
+            ContractModel.Contracts.RemoveAt(index);
+            ContractModel.Contracts.Insert(index, model);
         }
         else
         {
-            Contracts.Add(model);
+            ContractModel.Contracts.Add(model);
         }
 
-        //Explicitly cast the List of ContractModels to an array of JSON objects
-        JSON contractJSON = new JSON();
-        JSON[] contractsListJSON = new JSON[Contracts.Count];
-
-        for (int i = 0; i < Contracts.Count; i++)
-            contractsListJSON[i] = Contracts[i];
-
-        contractJSON["Contracts"] = contractsListJSON;
-
-        WriteContracts(contractJSON.serialized);
+        ContractModel.WriteContracts();
 
         Close();
-    }
-
-    void OnDestroy()
-    {
-        OnClose();
     }
 
 }
