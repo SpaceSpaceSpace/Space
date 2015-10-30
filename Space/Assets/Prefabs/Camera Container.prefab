@@ -369,7 +369,6 @@ GameObject:
   - 20: {fileID: 2012038}
   - 124: {fileID: 12407502}
   - 92: {fileID: 9222272}
-  - 81: {fileID: 8124246}
   m_Layer: 0
   m_Name: Background Particle Camera
   m_TagString: Untagged
@@ -764,13 +763,6 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
   m_StereoMirrorMode: 0
---- !u!81 &8124246
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 198984}
-  m_Enabled: 1
 --- !u!81 &8145776
 AudioListener:
   m_ObjectHideFlags: 1
