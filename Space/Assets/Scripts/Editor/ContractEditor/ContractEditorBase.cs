@@ -63,6 +63,12 @@ public class ContractEditorBase : EditorWindow
         return Resources.Load(imagePath) as Texture2D;
     }
 
+    //Sets any specific styles we want on editors
+    protected void SetEditorStyles()
+    {
+        EditorStyles.textArea.wordWrap = true;
+    }
+
     void OnDestroy()
     {
         if(OnClose != null)

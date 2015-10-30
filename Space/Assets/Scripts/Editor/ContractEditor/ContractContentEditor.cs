@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -35,12 +34,6 @@ public class ContractContentEditor : ContractEditorBase
         editor.Show();
 
         return editor;
-    }
-
-    //Sets any specific styles we want on this editor
-    void SetEditorStyles()
-    {
-        EditorStyles.textArea.wordWrap = true;
     }
 
     void OnGUI()

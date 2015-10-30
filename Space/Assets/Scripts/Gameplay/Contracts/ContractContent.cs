@@ -10,7 +10,7 @@ public class ContractContent : ContractElement
     public string Title;
     public string Description;
 
-    public static List<ContractContent> ContractContents = new List<ContractContent>();
+    public static List<ContractContent> Data = new List<ContractContent>();
 
     public ContractContent()
     {
@@ -70,14 +70,14 @@ public class ContractContent : ContractElement
         }
     }
 
-    public static void LoadContractContents()
+    public static void Load()
     {
-        ContractContents = LoadElements<ContractContent>();
+        Data = LoadElements<ContractContent>();
     }
 
-    public static void WriteContractContents()
+    public static void Write()
     {
-        WriteElement(ContractContents);
+        WriteElement(Data);
     }
 
 }

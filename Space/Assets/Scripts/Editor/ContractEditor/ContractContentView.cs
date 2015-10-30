@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
 
-public class ContractContentView : EditorWindow
+public class ContractContentView : ContractEditorViewBase<ContractContent>
 {    
     private Vector2 scrollPos;
     
@@ -11,14 +10,9 @@ public class ContractContentView : EditorWindow
     {
         ContractContentView editor = (ContractContentView)GetWindow(typeof(ContractContentView));
         editor.minSize = new Vector2(600, 600);
-        ContractContent.LoadContractContents();
+        ContractContent.Load();
+        editor.InitBase();
         editor.Show();
-    }
-    
-    //Sets any specific styles we want on this editor
-    void SetEditorStyles()
-    {
-        EditorStyles.textArea.wordWrap = true;
     }
     
     void OnGUI()
@@ -27,8 +21,8 @@ public class ContractContentView : EditorWindow
     
         scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
     
-        for (int i = 0; i < ContractContent.ContractContents.Count; i++)
-            DisplayContractContent(ContractContent.ContractContents[i]);
+        for (int i = 0; i < ContractContent.Data.Count; i++)
+            DisplayContractContent(ContractContent.Data[i]);
     
         EditorGUILayout.EndScrollView();
     
@@ -38,7 +32,7 @@ public class ContractContentView : EditorWindow
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Refresh Data"))
         {
-            ContractContent.LoadContractContents();
+            ContractContent.Load();
         }
     
         GUILayout.FlexibleSpace();
@@ -59,74 +53,13 @@ public class ContractContentView : EditorWindow
         {    
             GUILayout.Label("Tier: " + contractContent.Tier);
             GUILayout.Label("Title: " + contractContent.Title);
-            GUILayout.Label("Description: \n" + contractContent.Description);    
-    
-            EditorGUILayout.BeginHorizontal();
-            {
-                //Buttons to move contract up and down
-                if (GUILayout.Button("▲"))
-                    MoveUp(contractContent);
-                GUILayout.Space(6);
-    
-                if (GUILayout.Button("▼"))
-                    MoveDown(contractContent);
-                GUILayout.Space(6);
-    
-                GUILayout.FlexibleSpace();
-    
-                //Edit and delete buttons in their own horizontal across the bottom
-                if (GUILayout.Button("Edit"))
-                {
-                    ContractContentEditor newContractEditor = ContractContentEditor.Init(contractContent);
-                    newContractEditor.OnClose = ReloadContent;
-                }
-                if (GUILayout.Button("Delete"))
-                {
-                    if (EditorUtility.DisplayDialog("Deleting Contract Content", "You can't get this back if you delete it. Are you sure you want to delete it?", "Yes I hate this content"))
-                    {
-                        ContractContent.ContractContents.Remove(contractContent);
-                        ContractContent.WriteContractContents();
-                    }
-                }
-                GUILayout.Space(6);
-            }
-            EditorGUILayout.EndHorizontal();
-            GUILayout.Space(6);
+            GUILayout.Label("Description: \n" + contractContent.Description);
+
+            ControlsArea(contractContent);
         }
         GUILayout.EndVertical();
     
         GUILayout.Space(12);
     }
     
-    private void ReloadContent()
-    {
-        ContractContent.LoadContractContents();
-        Repaint();
-    }
-    
-    private void MoveUp(ContractContent contractContent)
-    {
-        int index = ContractContent.ContractContents.IndexOf(contractContent);
-        if (index > 0)
-        {
-            ContractContent.ContractContents.RemoveAt(index);
-            ContractContent.ContractContents.Insert(index - 1, contractContent);
-    
-            Repaint();
-            ContractContent.WriteContractContents();
-        }
-    }
-    
-    private void MoveDown(ContractContent contract)
-    {
-        int index = ContractContent.ContractContents.IndexOf(contract);
-        if (index < ContractContent.ContractContents.Count - 1)
-        {
-            ContractContent.ContractContents.RemoveAt(index);
-            ContractContent.ContractContents.Insert(index + 1, contract);
-
-            Repaint();
-            ContractContent.WriteContractContents();
-        }
-    }
 }
