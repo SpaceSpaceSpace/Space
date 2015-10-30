@@ -61,6 +61,13 @@ public class ContractView : EditorWindow
     {
         GUILayout.BeginVertical(EditorStyles.helpBox);
         {
+            //Controls to move contract up and down
+            EditorGUILayout.BeginHorizontal();
+            {
+                
+            }
+            EditorGUILayout.EndHorizontal();
+
             GUILayout.Label("Tier: " + contract.Tier);
             GUILayout.Label("Title: " + contract.Title);
             GUILayout.Label("Target Name: " + contract.TargetName);
@@ -95,22 +102,50 @@ public class ContractView : EditorWindow
             }
             EditorGUILayout.EndHorizontal();
 
+            //Display objectives
+            if (contract.Objectives.Length > 0)
+            {
+                EditorGUILayout.Space();
+                GUILayout.Label("Objectives:");
+
+                foreach (ObjectiveType objective in contract.Objectives)
+                    GUILayout.Label(objective.ToString());
+            }
+            else
+            {
+                GUILayout.Label("No Objectives :(");
+            }
+
+            
             EditorGUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Edit"))
             {
-                ContractEditor newContractEditor = ContractEditor.Init(contract);
-                newContractEditor.OnClose = ReloadContracts;
-            }
-            if (GUILayout.Button("Delete"))
-            {
-                if (EditorUtility.DisplayDialog("Deleting Contract", "You can't get this contract back if you delete it. Are you sure you want to delete it?", "Yes I hate this contract"))
+                //Buttons to move contract up and down
+                if (GUILayout.Button("▲"))
+                    MoveUp(contract);
+                GUILayout.Space(6);
+
+                if (GUILayout.Button("▼"))
+                    MoveDown(contract);
+                GUILayout.Space(6);
+
+                GUILayout.FlexibleSpace();
+
+                //Edit and delete buttons in their own horizontal across the bottom
+                if (GUILayout.Button("Edit"))
                 {
-                    Contracts.Remove(contract);
-                    ContractData.WriteContracts(Contracts);
+                    ContractEditor newContractEditor = ContractEditor.Init(contract);
+                    newContractEditor.OnClose = ReloadContracts;
                 }
+                if (GUILayout.Button("Delete"))
+                {
+                    if (EditorUtility.DisplayDialog("Deleting Contract", "You can't get this contract back if you delete it. Are you sure you want to delete it?", "Yes I hate this contract"))
+                    {
+                        Contracts.Remove(contract);
+                        ContractData.WriteContracts(Contracts);
+                    }
+                }
+                GUILayout.Space(6);
             }
-            GUILayout.Space(6);
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(6);
         }
@@ -123,5 +158,31 @@ public class ContractView : EditorWindow
     {
         ContractData.LoadContracts(ref Contracts, ref ContractTargetImages, ref ContractTargetShipImages);
         Repaint();
+    }
+
+    private void MoveUp(ContractModel contract)
+    {
+        int index = Contracts.IndexOf(contract);
+        if (index > 0)
+        {
+            Contracts.RemoveAt(index);
+            Contracts.Insert(index - 1, contract);
+
+            Repaint();
+            ContractData.WriteContracts(Contracts);
+        }
+    }
+
+    private void MoveDown(ContractModel contract)
+    {
+        int index = Contracts.IndexOf(contract);
+        if (index < Contracts.Count - 1)
+        {
+            Contracts.RemoveAt(index);
+            Contracts.Insert(index + 1, contract);
+
+            Repaint();
+            ContractData.WriteContracts(Contracts);
+        }
     }
 }

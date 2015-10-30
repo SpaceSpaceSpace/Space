@@ -27,7 +27,6 @@ public class ContractEditor : EditorWindow
 
     private string buttonText = "Add";
 
-    [MenuItem("Space/New/Contract/Story Contract")]
     public static ContractEditor Init()
     {
         ContractEditor editor = (ContractEditor)GetWindow(typeof(ContractEditor));
@@ -92,7 +91,7 @@ public class ContractEditor : EditorWindow
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Add"))
+            if (GUILayout.Button(buttonText))
                 AddContract();
         }
         EditorGUILayout.EndHorizontal();

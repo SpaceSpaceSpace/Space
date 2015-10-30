@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
+using System;
 using WyrmTale;
 
 public class ContractData
@@ -230,14 +231,20 @@ public class ContractModel
 	public static explicit operator ContractModel(JSON js)
 	{
 		checked
-		{
-			int Tier = js.ToInt("Tier");
-			string Title = js.ToString("Title");
-			string TargetName = js.ToString("TargetName");
-			string Description = js.ToString("Description");
-			string TargetImagePath = js.ToString("TargetImagePath");
-			string TargetShipImagePath = js.ToString("TargetShipImagePath");
-            ObjectiveType[] Objectives = js.ToArray<ObjectiveType>("Objectives");
+        {
+            int Tier = js.ToInt("Tier");
+            string Title = js.ToString("Title");
+            string TargetName = js.ToString("TargetName");
+            string Description = js.ToString("Description");
+            string TargetImagePath = js.ToString("TargetImagePath");
+            string TargetShipImagePath = js.ToString("TargetShipImagePath");
+            string[] ObjectiveStrings = js.ToArray<string>("Objectives");
+
+            ObjectiveType[] Objectives = new ObjectiveType[ObjectiveStrings.Length];
+
+            //Convert from JSON strings to enum
+            for (int i = 0; i < ObjectiveStrings.Length; i++)
+                Objectives[i] = (ObjectiveType)Enum.Parse(typeof(ObjectiveType), ObjectiveStrings[i]);       
 
 			return new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath, Objectives);
 		}
