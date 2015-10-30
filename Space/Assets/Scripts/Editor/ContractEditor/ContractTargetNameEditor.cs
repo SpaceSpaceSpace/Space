@@ -5,7 +5,7 @@ using System.Linq;
 using System.IO;
 using WyrmTale;
 
-public class ContractTargetNameEditor : EditorWindow
+public class ContractTargetNameEditor : ContractEditorBase
 {
     public int Tier = 1;
     public string TargetName = "";
@@ -14,12 +14,24 @@ public class ContractTargetNameEditor : EditorWindow
     private const string ContractContentName = "ContractElements";
     private const string ContractContentExt = ".json";
 
-    [MenuItem("Space/New/Contract/Contract Target Name")]
-    static void Init()
+    public static ContractTargetNameEditor Init()
     {
-        ContractTargetNameEditor editor = (ContractTargetNameEditor)EditorWindow.GetWindow(typeof(ContractTargetNameEditor));
+        ContractTargetNameEditor editor = (ContractTargetNameEditor)GetWindow(typeof(ContractTargetNameEditor));
         editor.minSize = new Vector2(300, 100);
         editor.Show();
+
+        return editor;
+    }
+
+    public static ContractTargetNameEditor Init(ContractTargetName targetName)
+    {
+        ContractTargetNameEditor editor = (ContractTargetNameEditor)GetWindow(typeof(ContractTargetNameEditor));
+        editor.minSize = new Vector2(300, 100);
+        editor.Tier = targetName.Tier;
+        editor.TargetName = targetName.TargetName;
+        editor.Show();
+
+        return editor;
     }
 
     //Sets any specific styles we want on this editor
@@ -41,14 +53,14 @@ public class ContractTargetNameEditor : EditorWindow
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Add"))
-                AddContract();
+                AddContractTargetName();
         }
         EditorGUILayout.EndHorizontal();
 
         GUILayout.Space(6);
     }
 
-    private JSON LoadContractContent()
+    private JSON LoadContractTargetNames()
     {
         string contractsContent = "{}";
 
@@ -64,18 +76,18 @@ public class ContractTargetNameEditor : EditorWindow
         return js;
     }
 
-    private void WriteContractContent(string contracts)
+    private void WriteContractTargetNames(string contracts)
     {
         File.WriteAllText(ContractContentPath + ContractContentName + ContractContentExt, contracts);
         AssetDatabase.Refresh();
     }
 
-    private void AddContract()
+    private void AddContractTargetName()
     {
-        JSON contractJSON = LoadContractContent();
+        JSON contractJSON = LoadContractTargetNames();
 
         //Do a bit of deserialization to see if any conflicting contracts exist
-        List<JSON> contractTargetNames = contractJSON.ToArray<JSON>("ContractContents").ToList();
+        List<JSON> contractTargetNames = contractJSON.ToArray<JSON>("ContractTargetNames").ToList();
 
         bool replace = false;
         int index = 0;
@@ -103,7 +115,7 @@ public class ContractTargetNameEditor : EditorWindow
 
         contractJSON["ContractTargetNames"] = contractTargetNames;
 
-        WriteContractContent(contractJSON.serialized);
+        WriteContractTargetNames(contractJSON.serialized);
 
         Close();
     }

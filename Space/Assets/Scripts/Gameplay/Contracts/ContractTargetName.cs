@@ -9,6 +9,14 @@ public class ContractTargetName : ContractElement
 {
     public string TargetName;
 
+    public static List<ContractTargetName> ContractTargetNames = new List<ContractTargetName>();
+
+    public ContractTargetName()
+    {
+        Tier = 1;
+        TargetName = "";
+    }
+
     public ContractTargetName(int Tier, string TargetName)
     {
         this.Tier = Tier;
@@ -17,18 +25,17 @@ public class ContractTargetName : ContractElement
 
     protected override ContractElement FromJSON(JSON js)
     {
-        ContractContent toCopy = (ContractContent)js;
+        ContractTargetName toCopy = (ContractTargetName)js;
         Tier = toCopy.Tier;
+        TargetName = toCopy.TargetName;
 
         return toCopy;
     }
 
     protected override JSON ToJSON()
     {
-        //JSON js = this;
-        //return js;
-
-        return null;
+        JSON js = this;
+        return js;
     }
 
     //Allows for the conversion from ContractTargetName to JSON for serialization
@@ -56,5 +63,16 @@ public class ContractTargetName : ContractElement
             return new ContractTargetName(Tier, TargetName);
         }
     }
+
+    public static void LoadContractTargetNames()
+    {
+        ContractTargetNames = LoadElements<ContractTargetName>();
+    }
+
+    public static void WriteContractTargetNames()
+    {
+        WriteElement(ContractTargetNames);
+    }
+
 
 }

@@ -44,6 +44,7 @@ public abstract class ContractElement
         {
             //Perform a deep copy to the generic type
             T element = (T)Activator.CreateInstance(elementType, new object[] { });
+
             generic.Invoke(element, new object[] { rawElement });
 
             elements.Add(element);

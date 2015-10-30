@@ -36,7 +36,7 @@ public class ContractContentView : EditorWindow
         GUILayout.FlexibleSpace();
         GUILayout.Space(6);
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Refresh Contracts"))
+        if (GUILayout.Button("Refresh Data"))
         {
             ContractContent.LoadContractContents();
         }
@@ -46,7 +46,7 @@ public class ContractContentView : EditorWindow
         if (GUILayout.Button("New Contract Content"))
         {
             ContractContentEditor newContractEditor = ContractContentEditor.Init();
-            newContractEditor.OnClose = ReloadContracts;
+            newContractEditor.OnClose = ReloadContent;
         }
         GUILayout.Space(6);
         EditorGUILayout.EndHorizontal();
@@ -78,7 +78,7 @@ public class ContractContentView : EditorWindow
                 if (GUILayout.Button("Edit"))
                 {
                     ContractContentEditor newContractEditor = ContractContentEditor.Init(contractContent);
-                    newContractEditor.OnClose = ReloadContracts;
+                    newContractEditor.OnClose = ReloadContent;
                 }
                 if (GUILayout.Button("Delete"))
                 {
@@ -98,7 +98,7 @@ public class ContractContentView : EditorWindow
         GUILayout.Space(12);
     }
     
-    private void ReloadContracts()
+    private void ReloadContent()
     {
         ContractContent.LoadContractContents();
         Repaint();
