@@ -16,6 +16,7 @@ public class Satellite : MonoBehaviour {
 	public Vector3 velocity;
 	public Vector3 centerOfOrbit;
 	public float health;
+    public bool invincible;
 
 	private static GameObject m_dustplosion = null;
 	private static GameObject ms_explosion = null;
@@ -27,7 +28,7 @@ public class Satellite : MonoBehaviour {
 			semiMajor = radius.x;
 		else
 			semiMajor = radius.y;
-
+        invincible = false;
 
 		centerOfOrbit = new Vector3 (0.0f, 0.0f, 0.0f);
 		Vector3 toCenter = centerOfOrbit - transform.position;
@@ -74,19 +75,24 @@ public class Satellite : MonoBehaviour {
 		transform.GetComponent<Rigidbody2D> ().AddForce (new Vector2(gravity.x, gravity.y));
 	}
 	public void ApplyDamage(float damage, Vector2 impulse, Vector2 collPosition){
-		health -= damage;
-		Vector3 imp = new Vector3(impulse.x,impulse.y,0.0f);
-		transform.GetComponent<Rigidbody2D>().AddForceAtPosition(imp, collPosition, ForceMode2D.Impulse);
-		if (health <= 0) {
-			if(!artificial){	Split (mass, imp, collPosition); }
-			else {
+        if (!invincible)
+        {
+            health -= damage;
+            Vector3 imp = new Vector3(impulse.x, impulse.y, 0.0f);
+            transform.GetComponent<Rigidbody2D>().AddForceAtPosition(imp, collPosition, ForceMode2D.Impulse);
+            if (health <= 0)
+            {
+                if (!artificial) { Split(mass, imp, collPosition); }
+                else
+                {
 
-				Instantiate(ms_explosion, transform.position, Quaternion.identity);
-				HandleExplosion();
-				Destroy(gameObject);
-			}
+                    Instantiate(ms_explosion, transform.position, Quaternion.identity);
+                    HandleExplosion();
+                    Destroy(gameObject);
+                }
 
-		}
+            }
+        }
 
 	}
 	public void ScaleMass(float m, bool split){
@@ -112,6 +118,7 @@ public class Satellite : MonoBehaviour {
 	}
 	public void Split(float m, Vector3 impulse, Vector2 collPosition)
 	{
+        
 		//Spawn a little dust poof
 		float rotation = Random.Range(0, 360);
 		Vector3 rotVector = new Vector3(0,0,rotation);
@@ -131,25 +138,29 @@ public class Satellite : MonoBehaviour {
 		{
 			Vector3 normalImpulse = Vector3.Normalize(impulse);
 			//spawn asteroids apart from each other based on the location of the collision
-			Vector2 offset1 = new Vector2(m * normalImpulse.x,m *normalImpulse.y);
-			Vector2 offset2 = new Vector2(-m* normalImpulse.x,-m*normalImpulse.y);
-			GameObject split1 = (GameObject)Instantiate(satPrefab,collPosition + offset1,Quaternion.identity);
+			Vector2 offset1 = new Vector2(-m * normalImpulse.x,m *normalImpulse.y);
+			Vector2 offset2 = new Vector2(m* normalImpulse.x,-m*normalImpulse.y);
+            GameObject split1 = (GameObject)Instantiate(satPrefab, new Vector2(transform.position.x, transform.position.y) + offset1, Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(Random.Range(m/4,m/2), true);
-			GameObject split2 = (GameObject)Instantiate(satPrefab1,collPosition + offset2,Quaternion.identity);
+            split1.GetComponent<Satellite>().invincible = true;
+            split1.GetComponent<Satellite>().StartCoroutine("InvincibleTimer");
+			GameObject split2 = (GameObject)Instantiate(satPrefab1, new Vector2(transform.position.x, transform.position.y) + offset2,Quaternion.identity);
 			split2.GetComponent<Satellite>().ScaleMass(Random.Range(m/4,m/2), true);
+            split2.GetComponent<Satellite>().invincible = true;
+            split2.GetComponent<Satellite>().StartCoroutine("InvincibleTimer");
 
 			//add forces that push the splits apart from eachother
 			split1.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(impulse.x * -80.0f,impulse.y* 80.0f), ForceMode2D.Impulse);
 			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(impulse.x* 80.0f,impulse.y* -80.0f), ForceMode2D.Impulse);
 
 			//add some random perpindicular forces so explosions look more asymmetric
-			split1.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(-20,-10) * m,Random.Range(10,20) * m));
-			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(10,20) * m,Random.Range(-20,-10) * m));
+			split1.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(-40,-20) * m,Random.Range(20,40) * m));
+			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(20,40) * m,Random.Range(-40,-20) * m));
 
 			//maintain the current momentum of the asteroid by applying the current velocity to the splits
 			Vector2 currVelocity = gameObject.GetComponent<Rigidbody2D>().velocity;
-			split1.GetComponent<Rigidbody2D>().AddForce(currVelocity, ForceMode2D.Impulse);
-			split2.GetComponent<Rigidbody2D>().AddForce(currVelocity, ForceMode2D.Impulse);
+			split1.GetComponent<Rigidbody2D>().AddForce(currVelocity * m, ForceMode2D.Impulse);
+			split2.GetComponent<Rigidbody2D>().AddForce(currVelocity * m, ForceMode2D.Impulse);
 
 			//spin them a little bit to sell the asymmetry between splits a bit more
 			split1.GetComponent<Rigidbody2D>().AddTorque(Mathf.PI/Random.Range (1,8));
@@ -192,4 +203,9 @@ public class Satellite : MonoBehaviour {
 			}
 		}
 	}
+    public IEnumerator InvincibleTimer()
+    {
+        yield return new WaitForSeconds(1f);
+        invincible = false;
+    }
 }
