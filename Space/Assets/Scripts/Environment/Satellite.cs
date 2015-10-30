@@ -107,6 +107,16 @@ public class Satellite : MonoBehaviour {
 	}
 	public void Split(float m, Vector3 impulse, Vector2 collPosition)
 	{
+		//Spawn a little dust poof
+		float rotation = Random.Range(0, 360);
+		Vector3 rotVector = new Vector3(0,0,rotation);
+		GameObject dust = Instantiate(m_dustplosion,transform.position, Quaternion.Euler(rotVector)) as GameObject;
+		
+		//Set the fade speed of the dust poof to be inversely proportional to the mass of the satellite
+		Explode explosion = dust.GetComponent<Explode>();
+		explosion.FadeSpeed = 1/m;
+		Instantiate(explosion, transform.position, Quaternion.identity);
+
 		//destroy the asteroid if it is too small to split
 		if(mass <  1.0f){
 			Destroy(gameObject);
@@ -128,8 +138,8 @@ public class Satellite : MonoBehaviour {
 			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(impulse.x* 80.0f,impulse.y* -80.0f), ForceMode2D.Impulse);
 
 			//add some random perpindicular forces so explosions look more asymmetric
-			split1.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(-10,-5) * m,Random.Range(5,10) * m));
-			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(5,10) * m,Random.Range(-10,-5) * m));
+			split1.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(-20,-10) * m,Random.Range(10,20) * m));
+			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(10,20) * m,Random.Range(-20,-10) * m));
 
 			//maintain the current momentum of the asteroid by applying the current velocity to the splits
 			Vector2 currVelocity = gameObject.GetComponent<Rigidbody2D>().velocity;
@@ -144,15 +154,7 @@ public class Satellite : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-		//Spawn a little dust poof
-		float rotation = Random.Range(0, 360);
-		Vector3 rotVector = new Vector3(0,0,rotation);
-		GameObject dust = Instantiate(m_dustplosion,transform.position, Quaternion.Euler(rotVector)) as GameObject;
 
-		//Set the fade speed of the dust poof to be inversely proportional to the mass of the satellite
-		Explode explosion = dust.GetComponent<Explode>();
-		explosion.FadeSpeed = 1/m;
-		Instantiate(explosion, transform.position, Quaternion.identity);
 	}
 	private void HandleExplosion()
 	{
