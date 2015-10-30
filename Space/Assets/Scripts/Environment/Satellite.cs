@@ -101,8 +101,13 @@ public class Satellite : MonoBehaviour {
 		//damage asteroids that remain in contact with eachother
 		//if (coll.gameObject.tag == "Asteroid")
 			//ApplyDamage (coll.relativeVelocity.magnitude, Vector2.zero);
-		if(coll.gameObject.tag == "Asteroid")
+		if(coll.gameObject.tag == "Asteroid"){
+			/*need to check if one asteroid is entirely contained in another
+			if so, destroy the smaller asteroid.*/
 			ApplyDamage(.05f,Vector2.zero,coll.transform.position);
+
+		}
+
 		
 	}
 	public void Split(float m, Vector3 impulse, Vector2 collPosition)

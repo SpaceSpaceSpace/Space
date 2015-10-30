@@ -19,11 +19,11 @@ public class OrbitalGenerator : MonoBehaviour {
 
 		generateBelt (24, new Vector2 (90.0f, 90.0f), false);
 		//generateBelt (48, new Vector2 (105.0f, 105.0f), false);
-		generateBelt (24, new Vector2 (120.0f, 120.0f), false);
-		generateBelt (32, new Vector2 (140.0f, 140.0f), false);
-		generateBelt (32, new Vector2 (160.0f, 160.0f), false);
-		generateBelt (48, new Vector2 (180.0f, 180.0f), false);
-		generateBelt (56, new Vector2 (200.0f, 200.0f), false);
+		generateBelt (24, new Vector2 (130.0f, 130.0f), false);
+		generateBelt (32, new Vector2 (170.0f, 170.0f), false);
+		generateBelt (32, new Vector2 (210.0f, 210.0f), false);
+		generateBelt (48, new Vector2 (250.0f, 250.0f), false);
+		generateBelt (56, new Vector2 (290.0f, 290.0f), false);
 
 		//generateBelt (64, new Vector2 (4.0f, 4.0f), false);
 	}
@@ -69,8 +69,8 @@ public class OrbitalGenerator : MonoBehaviour {
 					{
 						float chunkAngle = j * ((Mathf.PI *2)/numOfAsteroids);
 					
-						float chunkX = Mathf.Sin(chunkAngle) * 10.0f;
-						float chunkY = Mathf.Cos(chunkAngle) * 10.0f;
+						float chunkX = Mathf.Sin(chunkAngle) * 16.0f;
+						float chunkY = Mathf.Cos(chunkAngle) * 16.0f;
 					
 						Vector3 pos = new Vector3(chunkX,chunkY,0) + chunkCenter;
 					
