@@ -9,9 +9,7 @@ public class ContractContent : ContractElement
 {
     public string Title;
     public string Description;
-
-    public static List<ContractContent> Data = new List<ContractContent>();
-
+    
     public ContractContent()
     {
         Tier = 1;
@@ -24,22 +22,6 @@ public class ContractContent : ContractElement
         this.Tier = Tier;
         this.Title = Title;
         this.Description = Description;
-    }
-
-    protected override ContractElement FromJSON(JSON js)
-    {
-        ContractContent toCopy = (ContractContent)js;
-        Tier = toCopy.Tier;
-        Title = toCopy.Title;
-        Description = toCopy.Description;
-
-        return toCopy;
-    }
-
-    protected override JSON ToJSON()
-    {
-        JSON js = this;
-        return js;
     }
 
     //Allows for the conversion from ContractContent to JSON for serialization
@@ -68,16 +50,6 @@ public class ContractContent : ContractElement
 
             return new ContractContent(Tier, Title, Description);
         }
-    }
-
-    public static void Load()
-    {
-        Data = LoadElements<ContractContent>();
-    }
-
-    public static void Write()
-    {
-        WriteElement(Data);
     }
 
 }

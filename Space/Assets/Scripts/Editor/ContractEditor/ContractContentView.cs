@@ -1,65 +1,60 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using WyrmTale;
+using System.Linq;
 
 public class ContractContentView : ContractEditorViewBase<ContractContent>
-{    
-    private Vector2 scrollPos;
-    
+{        
     [MenuItem("Space/View/Contract/Contract Content")]
     static void Init()
     {
         ContractContentView editor = (ContractContentView)GetWindow(typeof(ContractContentView));
         editor.minSize = new Vector2(600, 600);
-        ContractContent.Load();
+        editor.LoadData();
         editor.InitBase();
         editor.Show();
     }
-    
-    void OnGUI()
-    {
-        SetEditorStyles();
-    
-        scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
-    
-        for (int i = 0; i < ContractContent.Data.Count; i++)
-            DisplayContractContent(ContractContent.Data[i]);
-    
-        EditorGUILayout.EndScrollView();
-    
-        GUILayout.Space(12);
-        GUILayout.FlexibleSpace();
-        GUILayout.Space(6);
-        EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Refresh Data"))
-        {
-            ContractContent.Load();
-        }
-    
-        GUILayout.FlexibleSpace();
-    
-        if (GUILayout.Button("New Contract Content"))
-        {
-            ContractContentEditor newContractEditor = ContractContentEditor.Init();
-            newContractEditor.OnClose = ReloadContent;
-        }
-        GUILayout.Space(6);
-        EditorGUILayout.EndHorizontal();
-        GUILayout.Space(6);
-    }
-    
-    private void DisplayContractContent(ContractContent contractContent)
+
+    protected override void DisplayData(ContractContent content)
     {
         GUILayout.BeginVertical(EditorStyles.helpBox);
         {    
-            GUILayout.Label("Tier: " + contractContent.Tier);
-            GUILayout.Label("Title: " + contractContent.Title);
-            GUILayout.Label("Description: \n" + contractContent.Description);
+            GUILayout.Label("Tier: " + content.Tier);
+            GUILayout.Label("Title: " + content.Title);
+            GUILayout.Label("Description: \n" + content.Description);
 
-            ControlsArea(contractContent);
+            ControlsArea(content);
         }
         GUILayout.EndVertical();
     
         GUILayout.Space(12);
     }
-    
+
+    protected override void LoadData()
+    {
+        JSON allRawData = ContractUtils.LoadJSONFromFile(ContractElement.ContractElementFilePath);
+        JSON[] rawContracts = allRawData.ToArray<JSON>("ContractContents");
+
+        Data.Clear();
+
+        foreach (JSON rawContract in rawContracts)
+        {
+            ContractContent contract = (ContractContent)rawContract;
+            Data.Add(contract);
+        }
+    }
+
+    protected override void WriteData()
+    {
+        JSON allRawData = ContractUtils.LoadJSONFromFile(ContractElement.ContractElementFilePath);
+        int contractCount = Data.Count;
+
+        JSON[] rawContracts = new JSON[contractCount];
+        for (int i = 0; i < Data.Count; i++)
+            rawContracts[i] = Data[i];
+
+        allRawData["ContractContents"] = rawContracts;
+
+        ContractUtils.WriteJSONToFile(ContractElement.ContractElementFilePath, allRawData);
+    }
 }

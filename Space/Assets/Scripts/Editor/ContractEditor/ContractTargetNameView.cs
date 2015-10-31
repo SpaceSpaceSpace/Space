@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
+using WyrmTale;
 
-public class ContractTargetNameView : EditorWindow
+public class ContractTargetNameView : ContractEditorViewBase<ContractTargetName>
 {
     private Vector2 scrollPos;
 
@@ -11,121 +11,50 @@ public class ContractTargetNameView : EditorWindow
     {
         ContractTargetNameView editor = (ContractTargetNameView)GetWindow(typeof(ContractTargetNameView));
         editor.minSize = new Vector2(600, 600);
-        ContractTargetName.LoadContractTargetNames();
+        editor.LoadData();
+        editor.InitBase();
         editor.Show();
     }
 
-    //Sets any specific styles we want on this editor
-    void SetEditorStyles()
-    {
-        EditorStyles.textArea.wordWrap = true;
-    }
-
-    void OnGUI()
-    {
-        SetEditorStyles();
-
-        scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
-
-        for (int i = 0; i < ContractTargetName.ContractTargetNames.Count; i++)
-            DisplayContractTargetName(ContractTargetName.ContractTargetNames[i]);
-
-        EditorGUILayout.EndScrollView();
-
-        GUILayout.Space(12);
-        GUILayout.FlexibleSpace();
-        GUILayout.Space(6);
-        EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Refresh Data"))
-        {
-            ContractTargetName.LoadContractTargetNames();
-        }
-
-        GUILayout.FlexibleSpace();
-
-        if (GUILayout.Button("New Contract Target Name"))
-        {
-            ContractTargetNameEditor newContractEditor = ContractTargetNameEditor.Init();
-            newContractEditor.OnClose = ReloadContractTargetNames;
-        }
-        GUILayout.Space(6);
-        EditorGUILayout.EndHorizontal();
-        GUILayout.Space(6);
-    }
-
-    private void DisplayContractTargetName(ContractTargetName contractTargetName)
+    protected override void DisplayData(ContractTargetName content)
     {
         GUILayout.BeginVertical(EditorStyles.helpBox);
         {
-            GUILayout.Label("Tier: " + contractTargetName.Tier);
-            GUILayout.Label("Target Name: " + contractTargetName.TargetName);
+            GUILayout.Label("Tier: " + content.Tier);
+            GUILayout.Label("Target Name: " + content.TargetName);
 
-            EditorGUILayout.BeginHorizontal();
-            {
-                //Buttons to move data up and down
-                if (GUILayout.Button("▲"))
-                    MoveUp(contractTargetName);
-                GUILayout.Space(6);
-
-                if (GUILayout.Button("▼"))
-                    MoveDown(contractTargetName);
-                GUILayout.Space(6);
-
-                GUILayout.FlexibleSpace();
-
-                //Edit and delete buttons in their own horizontal across the bottom
-                if (GUILayout.Button("Edit"))
-                {
-                    ContractTargetNameEditor newContractEditor = ContractTargetNameEditor.Init(contractTargetName);
-                    newContractEditor.OnClose = ReloadContractTargetNames;
-                }
-                if (GUILayout.Button("Delete"))
-                {
-                    if (EditorUtility.DisplayDialog("Deleting Contract Target Name", "You can't get this back if you delete it. Are you sure you want to delete it?", "Yes I hate this content"))
-                    {
-                        ContractTargetName.ContractTargetNames.Remove(contractTargetName);
-                        ContractTargetName.WriteContractTargetNames();
-                    }
-                }
-                GUILayout.Space(6);
-            }
-            EditorGUILayout.EndHorizontal();
-            GUILayout.Space(6);
+            ControlsArea(content);
         }
         GUILayout.EndVertical();
 
         GUILayout.Space(12);
     }
 
-    private void ReloadContractTargetNames()
+    protected override void LoadData()
     {
-        ContractTargetName.LoadContractTargetNames();
-        Repaint();
-    }
+        JSON allRawData = ContractUtils.LoadJSONFromFile(ContractElement.ContractElementFilePath);
+        JSON[] rawTargetNames = allRawData.ToArray<JSON>("ContractTargetNames");
 
-    private void MoveUp(ContractTargetName contractTargetName)
-    {
-        int index = ContractTargetName.ContractTargetNames.IndexOf(contractTargetName);
-        if (index > 0)
+        Data.Clear();
+
+        foreach (JSON rawTargetName in rawTargetNames)
         {
-            ContractTargetName.ContractTargetNames.RemoveAt(index);
-            ContractTargetName.ContractTargetNames.Insert(index - 1, contractTargetName);
-
-            Repaint();
-            ContractTargetName.WriteContractTargetNames();
+            ContractTargetName targetName = (ContractTargetName)rawTargetName;
+            Data.Add(targetName);
         }
     }
 
-    private void MoveDown(ContractTargetName contractTargetName)
+    protected override void WriteData()
     {
-        int index = ContractTargetName.ContractTargetNames.IndexOf(contractTargetName);
-        if (index < ContractTargetName.ContractTargetNames.Count - 1)
-        {
-            ContractTargetName.ContractTargetNames.RemoveAt(index);
-            ContractTargetName.ContractTargetNames.Insert(index + 1, contractTargetName);
+        JSON allRawData = ContractUtils.LoadJSONFromFile(ContractElement.ContractElementFilePath);
+        int targetNameCount = Data.Count;
 
-            Repaint();
-            ContractTargetName.WriteContractTargetNames();
-        }
+        JSON[] rawTargetNames = new JSON[targetNameCount];
+        for (int i = 0; i < Data.Count; i++)
+            rawTargetNames[i] = Data[i];
+
+        allRawData["ContractTargetNames"] = rawTargetNames;
+
+        ContractUtils.WriteJSONToFile(ContractElement.ContractElementFilePath, allRawData);
     }
 }

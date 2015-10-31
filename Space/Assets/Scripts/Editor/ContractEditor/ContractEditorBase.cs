@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
-using WyrmTale;
 
-public class ContractEditorBase : EditorWindow
+public abstract class ContractEditorBase : EditorWindow
 {
     public delegate void OnCloseEvent();
     public OnCloseEvent OnClose;

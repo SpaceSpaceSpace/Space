@@ -23,21 +23,6 @@ public class ContractTargetName : ContractElement
         this.TargetName = TargetName;
     }
 
-    protected override ContractElement FromJSON(JSON js)
-    {
-        ContractTargetName toCopy = (ContractTargetName)js;
-        Tier = toCopy.Tier;
-        TargetName = toCopy.TargetName;
-
-        return toCopy;
-    }
-
-    protected override JSON ToJSON()
-    {
-        JSON js = this;
-        return js;
-    }
-
     //Allows for the conversion from ContractTargetName to JSON for serialization
     public static implicit operator JSON(ContractTargetName contract)
     {
@@ -63,16 +48,4 @@ public class ContractTargetName : ContractElement
             return new ContractTargetName(Tier, TargetName);
         }
     }
-
-    public static void LoadContractTargetNames()
-    {
-        ContractTargetNames = LoadElements<ContractTargetName>();
-    }
-
-    public static void WriteContractTargetNames()
-    {
-        WriteElement(ContractTargetNames);
-    }
-
-
 }

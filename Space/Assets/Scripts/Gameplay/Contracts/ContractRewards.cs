@@ -15,20 +15,4 @@ public class ContractRewards : ContractElement
         this.Tier = Tier;
         this.SpaceBux = SpaceBux;
     }
-
-    protected override ContractElement FromJSON(JSON js)
-    {
-        ContractContent toCopy = (ContractContent)js;
-        Tier = toCopy.Tier;
-
-        return toCopy;
-    }
-
-    protected override JSON ToJSON()
-    {
-        //JSON js = this;
-        //return js;
-
-        return null;
-    }
 }

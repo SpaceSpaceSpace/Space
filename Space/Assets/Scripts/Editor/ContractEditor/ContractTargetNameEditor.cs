@@ -34,12 +34,6 @@ public class ContractTargetNameEditor : ContractEditorBase
         return editor;
     }
 
-    //Sets any specific styles we want on this editor
-    void SetEditorStyles()
-    {
-        EditorStyles.textArea.wordWrap = true;
-    }
-
     void OnGUI()
     {
         SetEditorStyles();
@@ -53,41 +47,21 @@ public class ContractTargetNameEditor : ContractEditorBase
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Add"))
-                AddContractTargetName();
+                AddContractTargetName(new ContractTargetName(Tier, TargetName));
         }
         EditorGUILayout.EndHorizontal();
 
         GUILayout.Space(6);
     }
 
-    private JSON LoadContractTargetNames()
+    private void AddContractTargetName(ContractTargetName targetName)
     {
-        string contractsContent = "{}";
+        string filepath = ContractElement.ContractElementFilePath;
 
-        try
-        {
-            contractsContent = File.ReadAllText(ContractContentPath + ContractContentName + ContractContentExt);
-        }
-        catch (FileNotFoundException e) { Debug.Log("Exception: " + e.Message + " " + "Creating new JSON"); }
-
-        JSON js = new JSON();
-        js.serialized = contractsContent;
-
-        return js;
-    }
-
-    private void WriteContractTargetNames(string contracts)
-    {
-        File.WriteAllText(ContractContentPath + ContractContentName + ContractContentExt, contracts);
-        AssetDatabase.Refresh();
-    }
-
-    private void AddContractTargetName()
-    {
-        JSON contractJSON = LoadContractTargetNames();
+        JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
 
         //Do a bit of deserialization to see if any conflicting contracts exist
-        List<JSON> contractTargetNames = contractJSON.ToArray<JSON>("ContractTargetNames").ToList();
+        List<JSON> contractTargetNames = elementJSON.ToArray<JSON>("ContractTargetNames").ToList();
 
         bool replace = false;
         int index = 0;
@@ -113,9 +87,9 @@ public class ContractTargetNameEditor : ContractEditorBase
             contractTargetNames.Add(model);
         }
 
-        contractJSON["ContractTargetNames"] = contractTargetNames;
+        elementJSON["ContractTargetNames"] = contractTargetNames;
 
-        WriteContractTargetNames(contractJSON.serialized);
+        ContractUtils.WriteJSONToFile(filepath, elementJSON);
 
         Close();
     }
