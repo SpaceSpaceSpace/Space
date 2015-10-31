@@ -186,7 +186,6 @@ public class AIShipScript : ShipScript {
 		else if(distance > maxDistance)
 		{
 			Go ();
-
 		}
 	}
 
@@ -277,9 +276,9 @@ public class AIShipScript : ShipScript {
 	public bool CanSeeTarget(Transform targetTrans)
 	{
 		float targetDist = Vector2.Distance(targetTrans.position, transform.position);
-		if(targetDist > 15.0f)
+		if(targetDist > 20.0f)
 			return false;
-
+		
 		// if there is something on top of the weapon, don't fire
 		foreach(Collider2D col in Physics2D.OverlapPointAll(transform.position))
 		{
@@ -289,6 +288,7 @@ public class AIShipScript : ShipScript {
 
 		// if the player is the first thing in front of the enemy
 		RaycastHit2D hit = Physics2D.Raycast(transform.position, targetTrans.position - transform.position, 15.0f);
+
 		if(hit && hit.collider.gameObject.transform == targetTrans)
 			return true;
 
@@ -343,8 +343,7 @@ public class AIShipScript : ShipScript {
 	public void DetectObstacle()
 	{
 		m_obstacle = false;
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, GetComponent<Rigidbody2D>().velocity, 10.0f);
-
+		RaycastHit2D hit = Physics2D.CircleCast(transform.position, 5.0f, GetComponent<Rigidbody2D>().velocity, 10.0f);
 
 		if(hit && hit.collider.gameObject.tag == "Asteroid")
 		{

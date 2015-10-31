@@ -80,7 +80,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 			}
 			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 15.0)
 			{
-				m_shipScript.AttackTarget(10.0f);
+				m_shipScript.AttackTarget(7.5f);
 			}
 			else
 				m_shipScript.MoveToward(m_shipScript.Target);
@@ -90,21 +90,20 @@ public class ShipBehaviourScript : MonoBehaviour {
 		// If the leader is alive, and the player is not near
 		else
 		{
-			if(m_shipScript.DistanceTo(m_shipScript.objective.position) > 25.0f)
-				m_shipScript.MoveToward(m_shipScript.objective);
-			else
-				m_shipScript.Flock();
-			m_shipScript.aggro = false;
-
 			if(m_shipScript.Obstacle)
 			{
 				m_shipScript.Stop();
 				m_shipScript.FaceTarget(m_shipScript.obstacleTrans.position);
-				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 10 && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
+				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 15.0f && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
 				{
 					m_shipScript.FireWeapon();
 				}
 			}
+			else if(m_shipScript.DistanceTo(m_shipScript.objective.position) > 25.0f)
+				m_shipScript.MoveToward(m_shipScript.objective);
+			else
+				m_shipScript.Flock();
+			m_shipScript.aggro = false;
 		}
 	}
 
@@ -140,7 +139,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 			{
 				m_shipScript.Stop();
 				m_shipScript.FaceTarget(m_shipScript.obstacleTrans.position);
-				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 10 && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
+				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45 && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
 				{
 					m_shipScript.FireWeapon();
 				}
@@ -155,13 +154,18 @@ public class ShipBehaviourScript : MonoBehaviour {
 			m_shipScript.Stop();
 		else
 		{
+			m_shipScript.FaceTarget(m_shipScript.objective.position);
+
 			int index = m_shipScript.squad.IndexOf(this.gameObject);
+
 			if(index != 0)
 				m_shipScript.Chase(5.0f, 4.0f, m_shipScript.squad[index - 1].transform);
 			else
 			{
 				if(m_shipScript.DistanceTo(m_shipScript.squad[1].transform.position) < 5.0f)
+				{
 					m_shipScript.MoveForward();
+				}
 			}
 		}
 
