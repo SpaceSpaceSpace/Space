@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEditor;
+using System.Collections.Generic;
+using System.Linq;
+using WyrmTale;
 
 public class ContractTargetShipImageForm : ContractFormBase {
 
@@ -26,5 +29,53 @@ public class ContractTargetShipImageForm : ContractFormBase {
         editor.Show();
 
         return editor;
+    }
+
+    void OnGUI()
+    {
+        SetEditorStyles();
+
+        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
+
+        ImagePreviewArea("Target Ship Image", ref TargetShipImagePath, ref TargetShipImage);
+
+        GUILayout.FlexibleSpace();
+        EditorGUILayout.BeginHorizontal();
+        {
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button(closeButtonText))
+                AddContractTargetShipImage(new ContractTargetShipImage(Tier, TargetShipImagePath));
+        }
+        EditorGUILayout.EndHorizontal();
+
+        GUILayout.Space(6);
+    }
+
+    private void AddContractTargetShipImage(ContractTargetShipImage targetShipImage)
+    {
+        string filepath = ContractElement.ContractElementFilePath;
+
+        JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
+
+        //Do a bit of deserialization to see if any conflicting contracts exist
+        List<JSON> contractTargetShipImages = elementJSON.ToArray<JSON>("ContractTargetShipImages").ToList();
+
+        ContractTargetShipImage model = new ContractTargetShipImage(Tier, TargetShipImagePath);
+
+        if (replacementIndex >= 0)
+        {
+            contractTargetShipImages.RemoveAt(replacementIndex);
+            contractTargetShipImages.Insert(replacementIndex, model);
+        }
+        else
+        {
+            contractTargetShipImages.Add(model);
+        }
+
+        elementJSON["ContractTargetShipImages"] = contractTargetShipImages;
+
+        ContractUtils.WriteJSONToFile(filepath, elementJSON);
+
+        Close();
     }
 }
