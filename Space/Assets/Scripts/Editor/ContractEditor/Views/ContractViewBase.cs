@@ -21,7 +21,7 @@ public abstract class ContractViewBase<T> : EditorWindow
         editorType = Type.GetType(type.ToString() + "Form");
 
         EditorInitMethod = editorType.GetMethod("Init", new Type[] { });
-        EditorInitWithObjectMethod = editorType.GetMethod("Init", new Type[] { type });
+        EditorInitWithObjectMethod = editorType.GetMethod("Init", new Type[] { type, typeof(int) });
     }
 
     protected void SetEditorStyles()
@@ -117,7 +117,8 @@ public abstract class ContractViewBase<T> : EditorWindow
             //Edit and delete buttons in their own horizontal across the bottom
             if (GUILayout.Button("Edit"))
             {
-                ContractFormBase genericEditor = EditorInitWithObjectMethod.Invoke(null, new object[] { content }) as ContractFormBase;
+                int index = Data.IndexOf(content);
+                ContractFormBase genericEditor = EditorInitWithObjectMethod.Invoke(null, new object[] { content, index }) as ContractFormBase;
 
                 genericEditor.OnClose = ReloadContent;
             }

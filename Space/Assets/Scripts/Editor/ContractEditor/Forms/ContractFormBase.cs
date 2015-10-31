@@ -11,6 +11,7 @@ public abstract class ContractFormBase : EditorWindow
     protected const int ImagePreviewSize = 70;
 
     protected string closeButtonText = "Add";
+    protected int replacementIndex = -1;
 
     protected void ImagePreviewArea(string label, ref string path, ref Texture2D image)
     {

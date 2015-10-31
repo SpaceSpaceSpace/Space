@@ -20,12 +20,13 @@ public class ContractForm : ContractFormBase
     {
         ContractForm editor = (ContractForm)GetWindow(typeof(ContractForm));
         editor.minSize = new Vector2(400, 600);
+        editor.replacementIndex = -1;
         editor.Show();
 
         return editor;
     }
 
-    public static ContractForm Init(ContractModel existingContract)
+    public static ContractForm Init(ContractModel existingContract, int replacementIndex)
     {
         ContractForm editor = (ContractForm)GetWindow(typeof(ContractForm));
         editor.minSize = new Vector2(400, 600);
@@ -39,6 +40,7 @@ public class ContractForm : ContractFormBase
         editor.TargetShipImagePath = existingContract.TargetShipImagePath;
         editor.Objectives = existingContract.Objectives.ToList();
 
+        editor.replacementIndex = -1;
         editor.closeButtonText = "Save";
 
         return editor;
@@ -87,24 +89,12 @@ public class ContractForm : ContractFormBase
         //Reload contracts
         ContractModel.LoadContracts();
 
-        bool replace = false;
-        int index = 0;
-        for (int i = 0; i < ContractModel.Contracts.Count; i++)
-        {
-            if ((ContractModel.Contracts[i]).Title == Title)
-            {
-                replace = true;
-                index = i;
-                break;
-            }
-        }
-
         ContractModel model = new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath, Objectives.ToArray());
 
-        if (replace)
+        if (replacementIndex >= 0)
         {
-            ContractModel.Contracts.RemoveAt(index);
-            ContractModel.Contracts.Insert(index, model);
+            ContractModel.Contracts.RemoveAt(replacementIndex);
+            ContractModel.Contracts.Insert(replacementIndex, model);
         }
         else
         {

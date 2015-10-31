@@ -16,12 +16,13 @@ public class ContractContentForm : ContractFormBase
     {
         ContractContentForm editor = (ContractContentForm)GetWindow(typeof(ContractContentForm));
         editor.minSize = new Vector2(400, 200);
+        editor.replacementIndex = -1;
         editor.Show();
 
         return editor;
     }
 
-    public static ContractContentForm Init(ContractContent contractContent)
+    public static ContractContentForm Init(ContractContent contractContent, int replacementIndex)
     {
         ContractContentForm editor = (ContractContentForm)GetWindow(typeof(ContractContentForm));
         editor.minSize = new Vector2(400, 200);
@@ -30,6 +31,7 @@ public class ContractContentForm : ContractFormBase
         editor.Title = contractContent.Title;
         editor.Description = contractContent.Description;
 
+        editor.replacementIndex = replacementIndex;
         editor.closeButtonText = "Save";
 
         editor.Show();
@@ -70,22 +72,10 @@ public class ContractContentForm : ContractFormBase
         //Do a bit of deserialization to see if any conflicting contracts exist
         List<JSON> contractContents = elementJSON.ToArray<JSON>("ContractContents").ToList();
 
-        bool replace = false;
-        int index = 0;
-        for (int i = 0; i < contractContents.Count; i++)
+        if (replacementIndex >= 0)
         {
-            if (((ContractModel)contractContents[i]).Title == content.Title)
-            {
-                replace = true;
-                index = i;
-                break;
-            }
-        }
-
-        if (replace)
-        {
-            contractContents.RemoveAt(index);
-            contractContents.Insert(index, content);
+            contractContents.RemoveAt(replacementIndex);
+            contractContents.Insert(replacementIndex, content);
         }
         else
         {

@@ -2,17 +2,19 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using WyrmTale;
 
-public class ContractTargetNameForm : ContractFormBase
-{
-    public int Tier = 1;
-    public string TargetName = "";
+public class ContractTargetImageForm : ContractFormBase {
 
-    public static ContractTargetNameForm Init()
+    public int Tier = 1;
+    public string TargetImagePath = "";
+
+    private Texture2D TargetImage;
+
+    [MenuItem("Space/Test")]
+    public static ContractTargetImageForm Init()
     {
-        ContractTargetNameForm editor = (ContractTargetNameForm)GetWindow(typeof(ContractTargetNameForm));
+        ContractTargetImageForm editor = (ContractTargetImageForm)GetWindow(typeof(ContractTargetImageForm));
         editor.minSize = new Vector2(300, 100);
         editor.replacementIndex = -1;
         editor.Show();
@@ -20,14 +22,14 @@ public class ContractTargetNameForm : ContractFormBase
         return editor;
     }
 
-    public static ContractTargetNameForm Init(ContractTargetName targetName, int replacementIndex)
+    public static ContractTargetImageForm Init(ContractTargetImage targetImage, int replacementIndex)
     {
-        ContractTargetNameForm editor = (ContractTargetNameForm)GetWindow(typeof(ContractTargetNameForm));
+        ContractTargetImageForm editor = (ContractTargetImageForm)GetWindow(typeof(ContractTargetImageForm));
         editor.minSize = new Vector2(300, 100);
-        editor.Tier = targetName.Tier;
-        editor.TargetName = targetName.TargetName;
-        editor.closeButtonText = "Save";
+        editor.Tier = targetImage.Tier;
+        editor.TargetImagePath = targetImage.TargetImagePath;
         editor.replacementIndex = replacementIndex;
+        editor.closeButtonText = "Save";
         editor.Show();
 
         return editor;
@@ -39,30 +41,30 @@ public class ContractTargetNameForm : ContractFormBase
 
         Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
 
-        TargetName = EditorGUILayout.TextField("Target Name", TargetName);
+        ImagePreviewArea("Target Image", ref TargetImagePath, ref TargetImage);
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddContractTargetName(new ContractTargetName(Tier, TargetName));
+                AddContractTargetImage(new ContractTargetImage(Tier, TargetImagePath));
         }
         EditorGUILayout.EndHorizontal();
 
         GUILayout.Space(6);
     }
 
-    private void AddContractTargetName(ContractTargetName targetName)
+    private void AddContractTargetImage(ContractTargetImage targetImage)
     {
         string filepath = ContractElement.ContractElementFilePath;
 
         JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
 
         //Do a bit of deserialization to see if any conflicting contracts exist
-        List<JSON> contractTargetNames = elementJSON.ToArray<JSON>("ContractTargetNames").ToList();
+        List<JSON> contractTargetNames = elementJSON.ToArray<JSON>("ContractTargetImages").ToList();
 
-        ContractTargetName model = new ContractTargetName(Tier, TargetName);
+        ContractTargetImage model = new ContractTargetImage(Tier, TargetImagePath);
 
         if (replacementIndex >= 0)
         {
