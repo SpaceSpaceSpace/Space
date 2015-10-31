@@ -7,7 +7,7 @@ public class ContractTargetShipImageView : ContractViewBase<ContractTargetShipIm
 {
     List<Texture2D> Textures = new List<Texture2D>();
 
-    [MenuItem("Space/View/Contract/Contract Target Ship Image")]
+    [MenuItem("Space/View/Contract/Target Ship Image")]
     static void Init()
     {
         ContractTargetShipImageView editor = (ContractTargetShipImageView)GetWindow(typeof(ContractTargetShipImageView));

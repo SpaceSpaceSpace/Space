@@ -6,7 +6,7 @@ public class ContractTargetNameView : ContractViewBase<ContractTargetName>
 {
     private Vector2 scrollPos;
 
-    [MenuItem("Space/View/Contract/Contract Target Name")]
+    [MenuItem("Space/View/Contract/Target Name")]
     static void Init()
     {
         ContractTargetNameView editor = (ContractTargetNameView)GetWindow(typeof(ContractTargetNameView));
