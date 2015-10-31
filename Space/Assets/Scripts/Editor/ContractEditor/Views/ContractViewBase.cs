@@ -48,8 +48,8 @@ public abstract class ContractViewBase<T> : EditorWindow
 
         GUILayout.Space(12);
         GUILayout.FlexibleSpace();
-        GUILayout.Space(6);
         EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(6);
         if (GUILayout.Button("Refresh Data"))
         {
             LoadData();

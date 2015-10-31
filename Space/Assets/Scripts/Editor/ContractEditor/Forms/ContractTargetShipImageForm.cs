@@ -59,17 +59,15 @@ public class ContractTargetShipImageForm : ContractFormBase {
 
         //Do a bit of deserialization to see if any conflicting contracts exist
         List<JSON> contractTargetShipImages = elementJSON.ToArray<JSON>("ContractTargetShipImages").ToList();
-
-        ContractTargetShipImage model = new ContractTargetShipImage(Tier, TargetShipImagePath);
-
+        
         if (replacementIndex >= 0)
         {
             contractTargetShipImages.RemoveAt(replacementIndex);
-            contractTargetShipImages.Insert(replacementIndex, model);
+            contractTargetShipImages.Insert(replacementIndex, targetShipImage);
         }
         else
         {
-            contractTargetShipImages.Add(model);
+            contractTargetShipImages.Add(targetShipImage);
         }
 
         elementJSON["ContractTargetShipImages"] = contractTargetShipImages;

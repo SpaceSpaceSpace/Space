@@ -11,7 +11,6 @@ public class ContractTargetImageForm : ContractFormBase {
 
     private Texture2D TargetImage;
 
-    [MenuItem("Space/Test")]
     public static ContractTargetImageForm Init()
     {
         ContractTargetImageForm editor = (ContractTargetImageForm)GetWindow(typeof(ContractTargetImageForm));
@@ -64,16 +63,14 @@ public class ContractTargetImageForm : ContractFormBase {
         //Do a bit of deserialization to see if any conflicting contracts exist
         List<JSON> contractTargetImages = elementJSON.ToArray<JSON>("ContractTargetImages").ToList();
 
-        ContractTargetImage model = new ContractTargetImage(Tier, TargetImagePath);
-
         if (replacementIndex >= 0)
         {
             contractTargetImages.RemoveAt(replacementIndex);
-            contractTargetImages.Insert(replacementIndex, model);
+            contractTargetImages.Insert(replacementIndex, targetImage);
         }
         else
         {
-            contractTargetImages.Add(model);
+            contractTargetImages.Add(targetImage);
         }
 
         elementJSON["ContractTargetImages"] = contractTargetImages;
