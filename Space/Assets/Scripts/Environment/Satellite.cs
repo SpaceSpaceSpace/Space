@@ -88,7 +88,7 @@ public class Satellite : MonoBehaviour {
 
                     Instantiate(ms_explosion, transform.position, Quaternion.identity);
                     HandleExplosion();
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                 }
 
             }
@@ -174,8 +174,8 @@ public class Satellite : MonoBehaviour {
 	}
 	private void HandleExplosion()
 	{
-		float blastRadius = 10.0f;
-		float blastForce = 10.0f;
+		float blastRadius = mass;
+		float blastForce = 2f*mass;
 		Collider2D[] hitColliders = Physics2D.OverlapCircleAll( transform.position, blastRadius );
 		
 		foreach( Collider2D col in hitColliders )
@@ -202,6 +202,7 @@ public class Satellite : MonoBehaviour {
 				sat.ApplyDamage( 10.0f * percent, Vector2.zero, pos );
 			}
 		}
+        
 	}
     public IEnumerator InvincibleTimer()
     {
