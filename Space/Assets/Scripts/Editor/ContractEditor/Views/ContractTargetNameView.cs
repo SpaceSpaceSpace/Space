@@ -1,59 +1,59 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using WyrmTale;
-using System.Linq;
 
-public class ContractContentView : ContractEditorViewBase<ContractContent>
-{        
-    [MenuItem("Space/View/Contract/Contract Content")]
+public class ContractTargetNameView : ContractViewBase<ContractTargetName>
+{
+    private Vector2 scrollPos;
+
+    [MenuItem("Space/View/Contract/Contract Target Name")]
     static void Init()
     {
-        ContractContentView editor = (ContractContentView)GetWindow(typeof(ContractContentView));
+        ContractTargetNameView editor = (ContractTargetNameView)GetWindow(typeof(ContractTargetNameView));
         editor.minSize = new Vector2(600, 600);
         editor.LoadData();
         editor.InitBase();
         editor.Show();
     }
 
-    protected override void DisplayData(ContractContent content)
+    protected override void DisplayData(ContractTargetName content)
     {
         GUILayout.BeginVertical(EditorStyles.helpBox);
-        {    
+        {
             GUILayout.Label("Tier: " + content.Tier);
-            GUILayout.Label("Title: " + content.Title);
-            GUILayout.Label("Description: \n" + content.Description);
+            GUILayout.Label("Target Name: " + content.TargetName);
 
             ControlsArea(content);
         }
         GUILayout.EndVertical();
-    
+
         GUILayout.Space(12);
     }
 
     protected override void LoadData()
     {
         JSON allRawData = ContractUtils.LoadJSONFromFile(ContractElement.ContractElementFilePath);
-        JSON[] rawContracts = allRawData.ToArray<JSON>("ContractContents");
+        JSON[] rawTargetNames = allRawData.ToArray<JSON>("ContractTargetNames");
 
         Data.Clear();
 
-        foreach (JSON rawContract in rawContracts)
+        foreach (JSON rawTargetName in rawTargetNames)
         {
-            ContractContent contract = (ContractContent)rawContract;
-            Data.Add(contract);
+            ContractTargetName targetName = (ContractTargetName)rawTargetName;
+            Data.Add(targetName);
         }
     }
 
     protected override void WriteData()
     {
         JSON allRawData = ContractUtils.LoadJSONFromFile(ContractElement.ContractElementFilePath);
-        int contractCount = Data.Count;
+        int targetNameCount = Data.Count;
 
-        JSON[] rawContracts = new JSON[contractCount];
+        JSON[] rawTargetNames = new JSON[targetNameCount];
         for (int i = 0; i < Data.Count; i++)
-            rawContracts[i] = Data[i];
+            rawTargetNames[i] = Data[i];
 
-        allRawData["ContractContents"] = rawContracts;
+        allRawData["ContractTargetNames"] = rawTargetNames;
 
         ContractUtils.WriteJSONToFile(ContractElement.ContractElementFilePath, allRawData);
     }

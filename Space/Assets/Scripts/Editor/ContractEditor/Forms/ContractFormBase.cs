@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
-public abstract class ContractEditorBase : EditorWindow
+public abstract class ContractFormBase : EditorWindow
 {
     public delegate void OnCloseEvent();
     public OnCloseEvent OnClose;
@@ -11,6 +11,7 @@ public abstract class ContractEditorBase : EditorWindow
     protected const int ImagePreviewSize = 70;
 
     protected string closeButtonText = "Add";
+    protected int replacementIndex = -1;
 
     protected void ImagePreviewArea(string label, ref string path, ref Texture2D image)
     {

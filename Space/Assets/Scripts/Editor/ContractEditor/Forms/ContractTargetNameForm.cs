@@ -5,30 +5,29 @@ using System.Linq;
 using System.IO;
 using WyrmTale;
 
-public class ContractTargetNameEditor : ContractEditorBase
+public class ContractTargetNameForm : ContractFormBase
 {
     public int Tier = 1;
     public string TargetName = "";
 
-    private const string ContractContentPath = "Assets/Resources/Contracts/";
-    private const string ContractContentName = "ContractElements";
-    private const string ContractContentExt = ".json";
-
-    public static ContractTargetNameEditor Init()
+    public static ContractTargetNameForm Init()
     {
-        ContractTargetNameEditor editor = (ContractTargetNameEditor)GetWindow(typeof(ContractTargetNameEditor));
+        ContractTargetNameForm editor = (ContractTargetNameForm)GetWindow(typeof(ContractTargetNameForm));
         editor.minSize = new Vector2(300, 100);
+        editor.replacementIndex = -1;
         editor.Show();
 
         return editor;
     }
 
-    public static ContractTargetNameEditor Init(ContractTargetName targetName)
+    public static ContractTargetNameForm Init(ContractTargetName targetName, int replacementIndex)
     {
-        ContractTargetNameEditor editor = (ContractTargetNameEditor)GetWindow(typeof(ContractTargetNameEditor));
+        ContractTargetNameForm editor = (ContractTargetNameForm)GetWindow(typeof(ContractTargetNameForm));
         editor.minSize = new Vector2(300, 100);
         editor.Tier = targetName.Tier;
         editor.TargetName = targetName.TargetName;
+        editor.closeButtonText = "Save";
+        editor.replacementIndex = replacementIndex;
         editor.Show();
 
         return editor;
@@ -46,7 +45,7 @@ public class ContractTargetNameEditor : ContractEditorBase
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Add"))
+            if (GUILayout.Button(closeButtonText))
                 AddContractTargetName(new ContractTargetName(Tier, TargetName));
         }
         EditorGUILayout.EndHorizontal();
@@ -63,24 +62,12 @@ public class ContractTargetNameEditor : ContractEditorBase
         //Do a bit of deserialization to see if any conflicting contracts exist
         List<JSON> contractTargetNames = elementJSON.ToArray<JSON>("ContractTargetNames").ToList();
 
-        bool replace = false;
-        int index = 0;
-        for (int i = 0; i < contractTargetNames.Count; i++)
-        {
-            if (((ContractModel)contractTargetNames[i]).TargetName == TargetName)
-            {
-                replace = true;
-                index = i;
-                break;
-            }
-        }
-
         ContractTargetName model = new ContractTargetName(Tier, TargetName);
 
-        if (replace)
+        if (replacementIndex >= 0)
         {
-            contractTargetNames.RemoveAt(index);
-            contractTargetNames.Insert(index, model);
+            contractTargetNames.RemoveAt(replacementIndex);
+            contractTargetNames.Insert(replacementIndex, model);
         }
         else
         {
