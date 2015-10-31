@@ -5,7 +5,7 @@ using System.Linq;
 using System.IO;
 using WyrmTale;
 
-public class ContractTargetNameEditor : EditorWindow
+public class ContractTargetNameEditor : ContractEditorBase
 {
     public int Tier = 1;
     public string TargetName = "";
@@ -14,18 +14,24 @@ public class ContractTargetNameEditor : EditorWindow
     private const string ContractContentName = "ContractElements";
     private const string ContractContentExt = ".json";
 
-    [MenuItem("Space/New/Contract/Contract Target Name")]
-    static void Init()
+    public static ContractTargetNameEditor Init()
     {
-        ContractTargetNameEditor editor = (ContractTargetNameEditor)EditorWindow.GetWindow(typeof(ContractTargetNameEditor));
+        ContractTargetNameEditor editor = (ContractTargetNameEditor)GetWindow(typeof(ContractTargetNameEditor));
         editor.minSize = new Vector2(300, 100);
         editor.Show();
+
+        return editor;
     }
 
-    //Sets any specific styles we want on this editor
-    void SetEditorStyles()
+    public static ContractTargetNameEditor Init(ContractTargetName targetName)
     {
-        EditorStyles.textArea.wordWrap = true;
+        ContractTargetNameEditor editor = (ContractTargetNameEditor)GetWindow(typeof(ContractTargetNameEditor));
+        editor.minSize = new Vector2(300, 100);
+        editor.Tier = targetName.Tier;
+        editor.TargetName = targetName.TargetName;
+        editor.Show();
+
+        return editor;
     }
 
     void OnGUI()
@@ -41,41 +47,21 @@ public class ContractTargetNameEditor : EditorWindow
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Add"))
-                AddContract();
+                AddContractTargetName(new ContractTargetName(Tier, TargetName));
         }
         EditorGUILayout.EndHorizontal();
 
         GUILayout.Space(6);
     }
 
-    private JSON LoadContractContent()
+    private void AddContractTargetName(ContractTargetName targetName)
     {
-        string contractsContent = "{}";
+        string filepath = ContractElement.ContractElementFilePath;
 
-        try
-        {
-            contractsContent = File.ReadAllText(ContractContentPath + ContractContentName + ContractContentExt);
-        }
-        catch (FileNotFoundException e) { Debug.Log("Exception: " + e.Message + " " + "Creating new JSON"); }
-
-        JSON js = new JSON();
-        js.serialized = contractsContent;
-
-        return js;
-    }
-
-    private void WriteContractContent(string contracts)
-    {
-        File.WriteAllText(ContractContentPath + ContractContentName + ContractContentExt, contracts);
-        AssetDatabase.Refresh();
-    }
-
-    private void AddContract()
-    {
-        JSON contractJSON = LoadContractContent();
+        JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
 
         //Do a bit of deserialization to see if any conflicting contracts exist
-        List<JSON> contractTargetNames = contractJSON.ToArray<JSON>("ContractContents").ToList();
+        List<JSON> contractTargetNames = elementJSON.ToArray<JSON>("ContractTargetNames").ToList();
 
         bool replace = false;
         int index = 0;
@@ -101,9 +87,9 @@ public class ContractTargetNameEditor : EditorWindow
             contractTargetNames.Add(model);
         }
 
-        contractJSON["ContractTargetNames"] = contractTargetNames;
+        elementJSON["ContractTargetNames"] = contractTargetNames;
 
-        WriteContractContent(contractJSON.serialized);
+        ContractUtils.WriteJSONToFile(filepath, elementJSON);
 
         Close();
     }

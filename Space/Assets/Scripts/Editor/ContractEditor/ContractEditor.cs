@@ -44,12 +44,6 @@ public class ContractEditor : ContractEditorBase
         return editor;
     }
 
-    //Sets any specific styles we want on this editor
-    void SetEditorStyles()
-    {
-        EditorStyles.textArea.wordWrap = true;
-    }
-
     void OnGUI()
     {
         SetEditorStyles();
@@ -81,14 +75,14 @@ public class ContractEditor : ContractEditorBase
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddContract();
+                AddData();
         }
         EditorGUILayout.EndHorizontal();
 
         GUILayout.Space(6);
     }
 
-    private void AddContract()
+    private void AddData()
     {
         //Reload contracts
         ContractModel.LoadContracts();

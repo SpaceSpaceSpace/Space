@@ -9,26 +9,18 @@ public class ContractTargetName : ContractElement
 {
     public string TargetName;
 
+    public static List<ContractTargetName> ContractTargetNames = new List<ContractTargetName>();
+
+    public ContractTargetName()
+    {
+        Tier = 1;
+        TargetName = "";
+    }
+
     public ContractTargetName(int Tier, string TargetName)
     {
         this.Tier = Tier;
         this.TargetName = TargetName;
-    }
-
-    protected override ContractElement FromJSON(JSON js)
-    {
-        ContractContent toCopy = (ContractContent)js;
-        Tier = toCopy.Tier;
-
-        return toCopy;
-    }
-
-    protected override JSON ToJSON()
-    {
-        //JSON js = this;
-        //return js;
-
-        return null;
     }
 
     //Allows for the conversion from ContractTargetName to JSON for serialization
@@ -56,5 +48,4 @@ public class ContractTargetName : ContractElement
             return new ContractTargetName(Tier, TargetName);
         }
     }
-
 }

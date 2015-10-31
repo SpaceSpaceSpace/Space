@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using WyrmTale;
+using System;
 
 public class ContractContentEditor : ContractEditorBase
 {
@@ -37,12 +37,6 @@ public class ContractContentEditor : ContractEditorBase
         return editor;
     }
 
-    //Sets any specific styles we want on this editor
-    void SetEditorStyles()
-    {
-        EditorStyles.textArea.wordWrap = true;
-    }
-
     void OnGUI()
     {
         SetEditorStyles();
@@ -60,47 +54,27 @@ public class ContractContentEditor : ContractEditorBase
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddContract();
+                AddContract(new ContractContent(Tier, Title, Description));
         }
         EditorGUILayout.EndHorizontal();
 
         GUILayout.Space(6);
     }
 
-    private JSON LoadContractContent()
+    protected void AddContract(ContractContent content)
     {
-        string contractsContent = "{}";
+        string filepath = ContractElement.ContractElementFilePath;
 
-        try
-        {
-            contractsContent = File.ReadAllText(ContractElement.ContractElementPath + ContractElement.ContractElementName + ContractElement.ContractElementExt);
-        }
-        catch (FileNotFoundException e) { Debug.Log("Exception: " + e.Message + " " + "Creating new JSON"); }
-
-        JSON js = new JSON();
-        js.serialized = contractsContent;
-
-        return js;
-    }
-
-    private void WriteContractContent(string contracts)
-    {
-        File.WriteAllText(ContractElement.ContractElementPath + ContractElement.ContractElementName + ContractElement.ContractElementExt, contracts);
-        AssetDatabase.Refresh();
-    }
-
-    private void AddContract()
-    {
-        JSON contractJSON = LoadContractContent();
+        JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
 
         //Do a bit of deserialization to see if any conflicting contracts exist
-        List<JSON> contractContents = contractJSON.ToArray<JSON>("ContractContents").ToList();
+        List<JSON> contractContents = elementJSON.ToArray<JSON>("ContractContents").ToList();
 
         bool replace = false;
         int index = 0;
         for (int i = 0; i < contractContents.Count; i++)
         {
-            if (((ContractModel)contractContents[i]).Title == Title)
+            if (((ContractModel)contractContents[i]).Title == content.Title)
             {
                 replace = true;
                 index = i;
@@ -108,21 +82,19 @@ public class ContractContentEditor : ContractEditorBase
             }
         }
 
-        ContractContent model = new ContractContent(Tier, Title, Description);
-
         if (replace)
         {
             contractContents.RemoveAt(index);
-            contractContents.Insert(index, model);
+            contractContents.Insert(index, content);
         }
         else
         {
-            contractContents.Add(model);
+            contractContents.Add(content);
         }
 
-        contractJSON["ContractContents"] = contractContents;
+        elementJSON["ContractContents"] = contractContents;
 
-        WriteContractContent(contractJSON.serialized);
+        ContractUtils.WriteJSONToFile(filepath, elementJSON);
 
         Close();
     }
