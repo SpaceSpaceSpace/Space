@@ -5,7 +5,7 @@ using System.Linq;
 using System.IO;
 using WyrmTale;
 
-public class ContractTargetNameEditor : ContractEditorBase
+public class ContractTargetNameForm : ContractFormBase
 {
     public int Tier = 1;
     public string TargetName = "";
@@ -14,18 +14,18 @@ public class ContractTargetNameEditor : ContractEditorBase
     private const string ContractContentName = "ContractElements";
     private const string ContractContentExt = ".json";
 
-    public static ContractTargetNameEditor Init()
+    public static ContractTargetNameForm Init()
     {
-        ContractTargetNameEditor editor = (ContractTargetNameEditor)GetWindow(typeof(ContractTargetNameEditor));
+        ContractTargetNameForm editor = (ContractTargetNameForm)GetWindow(typeof(ContractTargetNameForm));
         editor.minSize = new Vector2(300, 100);
         editor.Show();
 
         return editor;
     }
 
-    public static ContractTargetNameEditor Init(ContractTargetName targetName)
+    public static ContractTargetNameForm Init(ContractTargetName targetName)
     {
-        ContractTargetNameEditor editor = (ContractTargetNameEditor)GetWindow(typeof(ContractTargetNameEditor));
+        ContractTargetNameForm editor = (ContractTargetNameForm)GetWindow(typeof(ContractTargetNameForm));
         editor.minSize = new Vector2(300, 100);
         editor.Tier = targetName.Tier;
         editor.TargetName = targetName.TargetName;

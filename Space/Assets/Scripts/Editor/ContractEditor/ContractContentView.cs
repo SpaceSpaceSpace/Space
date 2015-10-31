@@ -3,7 +3,7 @@ using UnityEditor;
 using WyrmTale;
 using System.Linq;
 
-public class ContractContentView : ContractEditorViewBase<ContractContent>
+public class ContractContentView : ContractViewBase<ContractContent>
 {        
     [MenuItem("Space/View/Contract/Contract Content")]
     static void Init()

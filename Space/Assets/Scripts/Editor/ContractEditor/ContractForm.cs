@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 
-public class ContractEditor : ContractEditorBase
+public class ContractForm : ContractFormBase
 {
     public int Tier = 1;
     public string Title = "";
@@ -16,18 +16,18 @@ public class ContractEditor : ContractEditorBase
     private Texture2D TargetImage;
     private Texture2D TargetShipImage;
 
-    public static ContractEditor Init()
+    public static ContractForm Init()
     {
-        ContractEditor editor = (ContractEditor)GetWindow(typeof(ContractEditor));
+        ContractForm editor = (ContractForm)GetWindow(typeof(ContractForm));
         editor.minSize = new Vector2(400, 600);
         editor.Show();
 
         return editor;
     }
 
-    public static ContractEditor Init(ContractModel existingContract)
+    public static ContractForm Init(ContractModel existingContract)
     {
-        ContractEditor editor = (ContractEditor)GetWindow(typeof(ContractEditor));
+        ContractForm editor = (ContractForm)GetWindow(typeof(ContractForm));
         editor.minSize = new Vector2(400, 600);
         editor.Show();
 

@@ -6,24 +6,24 @@ using System.IO;
 using WyrmTale;
 using System;
 
-public class ContractContentEditor : ContractEditorBase
+public class ContractContentForm : ContractFormBase
 {
     public int Tier = 1;
     public string Title = "";
     public string Description = "";
 
-    public static ContractContentEditor Init()
+    public static ContractContentForm Init()
     {
-        ContractContentEditor editor = (ContractContentEditor)GetWindow(typeof(ContractContentEditor));
+        ContractContentForm editor = (ContractContentForm)GetWindow(typeof(ContractContentForm));
         editor.minSize = new Vector2(400, 200);
         editor.Show();
 
         return editor;
     }
 
-    public static ContractContentEditor Init(ContractContent contractContent)
+    public static ContractContentForm Init(ContractContent contractContent)
     {
-        ContractContentEditor editor = (ContractContentEditor)GetWindow(typeof(ContractContentEditor));
+        ContractContentForm editor = (ContractContentForm)GetWindow(typeof(ContractContentForm));
         editor.minSize = new Vector2(400, 200);
 
         editor.Tier = contractContent.Tier;

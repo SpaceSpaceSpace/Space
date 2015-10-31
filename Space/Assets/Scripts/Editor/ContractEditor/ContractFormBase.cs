@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
-public abstract class ContractEditorBase : EditorWindow
+public abstract class ContractFormBase : EditorWindow
 {
     public delegate void OnCloseEvent();
     public OnCloseEvent OnClose;

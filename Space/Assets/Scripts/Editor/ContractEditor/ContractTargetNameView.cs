@@ -2,7 +2,7 @@
 using UnityEditor;
 using WyrmTale;
 
-public class ContractTargetNameView : ContractEditorViewBase<ContractTargetName>
+public class ContractTargetNameView : ContractViewBase<ContractTargetName>
 {
     private Vector2 scrollPos;
 
