@@ -5,34 +5,20 @@ public struct WeaponModifier
 {
 	public enum ModifierNames
 	{
-		DEFAULT,
-		Crappy,
-		Fast,
-		Godly,
-		of_Doom_suffix,
-
+\ModifierNames\
 		NUM_MODIFIERS,
-
+\AltModifierNames\
 	}
 
 	public enum Stats
 	{
-		Damage,
-		Accuracy,
-		Fire_Rate,
-		Range,
-
+\StatNames\
 		NUM_STATS,
-
+\AltStatNames\
 	}
 
 	public static readonly float[,] modifiers = {
-		{ 1.0f, 1.0f, 1.0f, 1.0f },
-		{ 0.8f, 0.8f, 0.8f, 0.8f },
-		{ 0.9f, 0.9f, 1.2f, 1.0f },
-		{ 2.0f, 2.0f, 2.0f, 2.0f },
-		{ 1.5f, 0.7f, 1.0f, 1.0f },
-
+\StatValues\
 	};
 
 	public static void GetModifierName( ModifierNames modName, string weaponName, out string outputString )

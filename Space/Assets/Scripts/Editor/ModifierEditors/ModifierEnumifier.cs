@@ -5,9 +5,10 @@ using System.IO;
 public class ModifierEnumifier : MonoBehaviour
 {
 	public const string DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifiers.csv";
+	public const string TEMPLATE_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifier.txt";
 	public const string CODE_PATH = "Assets/Scripts/Gameplay/Weapon/WeaponModifier.cs";
 
-	//[MenuItem("Space/Generate Modifier Code")]
+	[ MenuItem( "Space/Generate Modifier Code" ) ]
 	static void GenerateFile()
 	{
 		string[,] data;
@@ -60,82 +61,72 @@ public class ModifierEnumifier : MonoBehaviour
 			return;
 		}
 
-		int dataWidth = data.GetLength( 0 );
-		int dataHeight = data.GetLength( 1 );
-
-		/*for( int i = 0; i < dataWidth; i++ )
+		if( !File.Exists( TEMPLATE_PATH ) )
 		{
-			for( int j = 0; j < dataHeight; j++ )
+			print( "ERROR: Could not find WeaponModifier template" );
+			return;
+		}
+
+		int rows = data.GetLength( 0 );
+		int columns = data.GetLength( 1 );
+
+		/*for( int i = 0; i < rows; i++ )
+		{
+			for( int j = 0; j < columns; j++ )
 			{
 				print( data[ i, j ] );
 			}
 		}*/
 
+		/*
+		 * [r,c]	col1	col2	col3	col4
+		 * row1		mods	stat1 	stat2	stat3
+		 * row2		mod1	stat1	stat2	stat3
+		 * row3		mod2	stat1	stat2	stat3
+		 * 
+		 */
+
 		print( "Writing Code File..." );
-		
-		StreamWriter sw = new StreamWriter( CODE_PATH );
-		// Warning people not to edit the file
-		sw.WriteLine( "// =====================================================" );
-		sw.WriteLine( "// =====!!! This file was generated. No touchy. !!!=====" );
-		sw.WriteLine( "// =====================================================" );
 
-		// Buckle your pants
-		sw.WriteLine( "public struct WeaponModifier" );
-		sw.WriteLine( "{" );
+		string code = File.ReadAllText( TEMPLATE_PATH );
 
-		// Modifiers enum declaration
-		sw.WriteLine( "\tpublic enum ModifierNames" );
-		sw.WriteLine( "\t{" );
-
-		// Inserts the first element of each row, starting with the second row
-		for( int i = 1; i < dataHeight; i++ )
+		// Write in the modifier names
+		string modifierNames = "";
+		for( int i = 1; i < rows; i++ )
 		{
-			sw.WriteLine( "\t\t" + data[ i, 0 ] + "," );
+			modifierNames += "\t\t" + data[ i, 0 ] + ",\n";
 		}
+		code = code.Replace( "\\ModifierNames\\", modifierNames );
 
-		// Add in a final enumerator for a length property
-		sw.WriteLine( "\t\tNUM_MODIFIERS" );
-		sw.WriteLine( "\t}" );
+		// Not using yet
+		code = code.Replace( "\\AltModifierNames\\", "" );
 
-		sw.Write( "\n" );
-
-		// Stats enum declaration
-		sw.WriteLine( "\tpublic enum Stats" );
-		sw.WriteLine( "\t{" );
-
-		// Inserts the elements from the first row, starting with the second element
-		for( int i = 1; i < dataWidth; i++ )
+		// Write in the stats
+		string statNames = "";
+		for( int i = 1; i < columns; i++ )
 		{
-			sw.WriteLine( "\t\t" + data[ 0, i ] + "," );
+			statNames += "\t\t" + data[ 0, i ] + ",\n";
 		}
+		code = code.Replace( "\\StatNames\\", statNames );
 
-		// Add in a final enumerator for a length property
-		sw.WriteLine( "\t\tNUM_STATS" );
-		sw.WriteLine( "\t}" );
+		// Not using yet
+		code = code.Replace( "\\AltStatNames\\", "" );
 
-		sw.Write( "\n" );
-
-		// Modifier lookup table declaration
-		sw.Write( "\tpublic static readonly float[,] modifiers = {" );
-
-		for( int i = 1; i < dataWidth; i++ )
+		// Write in the stat values
+		string statValues = "";
+		for( int i = 1; i < rows; i++ )
 		{
-			// Write each array of stats
-			sw.Write( "\n\t\t{ " );
-			for( int j = 1; j < dataHeight - 1; j++ )
+			statValues += "\t\t{ ";
+			for( int j = 1; j < columns - 1; j++ )
 			{
-				sw.Write( data[ i, j ] + ", " );
+				statValues += data[ i, j ] + ", ";
 			}
-
-			sw.Write( data[ i, dataHeight - 1 ] + " }," );
+			
+			statValues += data[ i, columns - 1 ] + " },\n";
 		}
+		code = code.Replace( "\\StatValues\\", statValues );
 
-		sw.WriteLine( "\n\t};" );
-
-		sw.WriteLine( "}" );
-
-		// And done
-		sw.Close();
+		File.WriteAllText( CODE_PATH, code );
 		print( "Finished writing file to " + CODE_PATH );
 	}
 }
