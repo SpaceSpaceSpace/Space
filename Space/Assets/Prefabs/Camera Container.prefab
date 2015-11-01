@@ -1056,7 +1056,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 50
+    maxNumParticles: 10
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -2109,7 +2109,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 50
+    maxNumParticles: 10
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -6336,7 +6336,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 50
+    maxNumParticles: 10
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -7157,7 +7157,7 @@ ParticleSystem:
   randomSeed: 0
   looping: 1
   prewarm: 1
-  playOnAwake: 1
+  playOnAwake: 0
   moveWithTransform: 0
   InitialModule:
     enabled: 1
@@ -7389,7 +7389,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 50
+    maxNumParticles: 10
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -9500,7 +9500,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 50
+    maxNumParticles: 10
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -10553,7 +10553,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 50
+    maxNumParticles: 10
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -12664,7 +12664,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 50
+    maxNumParticles: 10
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -13717,7 +13717,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 50
+    maxNumParticles: 10
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -15828,7 +15828,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 50
+    maxNumParticles: 10
   ShapeModule:
     serializedVersion: 2
     enabled: 1
