@@ -9,18 +9,14 @@ public class AISpawnerScript : MonoBehaviour {
 	public float range;
 
 	public GameObject AIPrefab;
-	public Sprite leaderSprite;
+	public GameObject squadLeader;
 
 	private int currentAI;
-	private GameObject squadLeader;
+	private Transform objective;
 
-	public GameObject SquadLeader
-	{
-		get{return squadLeader;}
-	}
-
+	public Transform Objective { set { objective = value; } }
 	// Use this for initialization
-	void Awake () {
+	public void Init () {
 
 		currentAI = 0;
 		Vector2 spawnPos;
@@ -32,19 +28,27 @@ public class AISpawnerScript : MonoBehaviour {
 
 			spawnPos = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 			spawnPos = (spawnPos * distance) + (Vector2)transform.position;
-			GameObject g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.identity); 
-			if(i == 0)
+			GameObject g = null;
+			// Check which kind of ships are loaded into this spawner, may be changed to switch statement later
+			if(AIPrefab.GetComponent<ShipBehaviourScript>().behaviour == ShipBehaviourScript.Behaviour.Grunt)
 			{
-				g.GetComponent<ShipBehaviourScript>().behaviour = ShipBehaviourScript.Behaviour.Leader;
-				g.GetComponent<SpriteRenderer>().sprite = leaderSprite;
-				g.transform.FindChild("Blip").GetComponent<SpriteRenderer>().color = Color.yellow;
-				squadLeader = g;
-			}
-			else
-				g.GetComponent<ShipBehaviourScript>().behaviour = ShipBehaviourScript.Behaviour.Grunt;
+				if(i == 0)
+				{
+					g = (GameObject)GameObject.Instantiate(squadLeader, spawnPos, Quaternion.identity);
+					squadLeader = g;
+				}
+				else
+					g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.identity);
 
-			g.GetComponent<AIShipScript>().objective = transform; 
-			squad.Add(g);
+				g.GetComponent<AIShipScript>().objective = transform; 
+				squad.Add(g);
+			}
+			else if (AIPrefab.GetComponent<ShipBehaviourScript>().behaviour == ShipBehaviourScript.Behaviour.Cargo)
+			{
+				g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.identity);
+				g.GetComponent<AIShipScript>().objective = objective;
+				squad.Add(g);
+			}
 		}
 
 		for(int i = 0; i < squad.Count; i++)

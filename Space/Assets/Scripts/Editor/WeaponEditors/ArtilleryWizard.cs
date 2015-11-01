@@ -4,7 +4,7 @@ using System.Collections;
 
 public class ArtilleryWizard : WizardMaster
 {	
-	public int ProjectilesPerShot = 1;
+	/*public int ProjectilesPerShot = 1;
 	public float ProjectileSpeed = 15;
 	public float ProjectileLifetime = 4;
 	
@@ -71,5 +71,5 @@ public class ArtilleryWizard : WizardMaster
 		newWindow.AttackPower = AttackPower;
 		newWindow.ShieldPiercing = ShieldPiercing;
 		newWindow.Accuracy = Accuracy; 
-	}
+	}*/
 }

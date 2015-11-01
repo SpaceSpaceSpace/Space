@@ -73,7 +73,7 @@ public class Satellite : MonoBehaviour {
 	public void ApplyDamage(float damage, Vector2 impulse){
 		health -= damage;
 		Vector3 imp = new Vector3(impulse.x,impulse.y,0.0f);
-		transform.GetComponent<Rigidbody2D>().AddForce(imp, ForceMode2D.Impulse);
+		transform.GetComponent<Rigidbody2D>().AddForce(imp*10.0f, ForceMode2D.Impulse);
 		if (health <= 0) {
 			/*GameObject split1 = (GameObject) Instantiate(satPrefab, transform.position, Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(mass/2);
@@ -87,32 +87,39 @@ public class Satellite : MonoBehaviour {
 		mass = m;
 		transform.localScale = new Vector3 (m, m, 1);
 		transform.GetComponent<Rigidbody2D> ().mass = mass * 75.0f;
-		if(split){		health = 2.5f * m;}
-		else { health = 5.0f * m;}
+		if(split){		health = 10.0f * m;}
+		else { health = 20.0f * m;}
 	}
 	public void OnCollisionStay2D(Collision2D coll) {
+		//damage asteroids that remain in contact with eachother
 		if (coll.gameObject.tag == "Asteroid")
-			ApplyDamage (.05f, Vector2.zero);
+			ApplyDamage (coll.relativeVelocity.magnitude, Vector2.zero);
 		
 	}
 	public void Split(float m, Vector3 impulse)
 	{
-
+		//destroy the asteroid if it is too small to split
 		if(mass <  1.0f){
 			Destroy(gameObject);
 		}
+		//otherwise, split it
 		else
 		{
+			//spawn asteroids apart from each other
 			Vector3 offset1 = new Vector3(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f),0.0f);
 			Vector3 offset2 = new Vector3(Random.Range(-1.0f,1.0f),Random.Range(-1.0f,1.0f),0.0f);
 			GameObject split1 = (GameObject)Instantiate(satPrefab,transform.position + offset1,Quaternion.identity);
 			split1.GetComponent<Satellite>().ScaleMass(m/2, true);
 			GameObject split2 = (GameObject)Instantiate(satPrefab,transform.position + offset2,Quaternion.identity);
 			split2.GetComponent<Satellite>().ScaleMass(m/2, true);
+
+			//add forces that push them apart and in the direction of impact
 			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x * 20.0f,impulse.y* 20.0f), ForceMode2D.Impulse);
 			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(impulse.x* 20.0f,impulse.y* 20.0f), ForceMode2D.Impulse);
 			split1.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-50,0),Random.Range(-50,0)));
 			split2.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0,50),Random.Range(0,50)));
+
+			//destroy the parent asteroid gameobject
 			Destroy(gameObject);
 		}
 
@@ -124,7 +131,7 @@ public class Satellite : MonoBehaviour {
 		//Set the fade speed of the dust poof to be inversely proportional to the mass of the satellite
 		Explode explosion = dust.GetComponent<Explode>();
 		explosion.FadeSpeed = 1/m;
-
+		Instantiate(explosion, transform.position, Quaternion.identity);
 	}
 
 }

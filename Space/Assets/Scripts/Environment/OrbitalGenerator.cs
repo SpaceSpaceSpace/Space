@@ -19,12 +19,13 @@ public class OrbitalGenerator : MonoBehaviour {
 		//generateBelt (60, new Vector2 (85.0f, 85.0f), false);
 		//generateBelt (60, new Vector2 (90.0f, 90.0f), false);
 		//generateBelt (70, new Vector2 (95.0f, 95.0f), false);
-		generateBelt (20, new Vector2 (90.0f, 90.0f), false);
-		//generateBelt (50, new Vector2 (100.0f, 100.0f), false);
-		generateBelt (24, new Vector2 (120.0f, 120.0f), false);
-		generateBelt (24, new Vector2 (160.0f, 160.0f), false);
-		//generateBelt (65, new Vector2 (130.0f, 130.0f), false);
-		generateBelt (24, new Vector2 (200.0f, 200.0f), false);
+		generateBelt (32, new Vector2 (90.0f, 90.0f), false);
+		generateBelt (36, new Vector2 (105.0f, 105.0f), false);
+		generateBelt (36, new Vector2 (120.0f, 120.0f), false);
+		generateBelt (48, new Vector2 (140.0f, 140.0f), false);
+		generateBelt (56, new Vector2 (160.0f, 160.0f), false);
+		generateBelt (48, new Vector2 (180.0f, 180.0f), false);
+		generateBelt (64, new Vector2 (200.0f, 200.0f), false);
 
 		//generateBelt (64, new Vector2 (4.0f, 4.0f), false);
 	}

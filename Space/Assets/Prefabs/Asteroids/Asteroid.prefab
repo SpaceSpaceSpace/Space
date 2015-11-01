@@ -46,6 +46,7 @@ GameObject:
   - 50: {fileID: 5011414}
   - 60: {fileID: 6021112}
   - 114: {fileID: 11477560}
+  - 114: {fileID: 11426898}
   m_Layer: 0
   m_Name: Asteroid
   m_TagString: Asteroid
@@ -114,37 +115,61 @@ PolygonCollider2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 181978}
   m_Enabled: 1
-  m_Material: {fileID: 6200000, guid: 695af6ad59bfe8140a7d517f2ee09560, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   m_Points:
     m_Paths:
-    - - {x: .61500001, y: -.275000006}
-      - {x: .644999981, y: -.194999993}
-      - {x: .654999971, y: -.135000005}
-      - {x: .654999971, y: .165000007}
-      - {x: .644999981, y: .254999995}
-      - {x: .605000019, y: .324999988}
-      - {x: .455000013, y: .485000014}
-      - {x: .234999999, y: .595000029}
-      - {x: .215000004, y: .63499999}
-      - {x: .165000007, y: .654999971}
-      - {x: -.0949999988, y: .654999971}
-      - {x: -.284999996, y: .61500001}
-      - {x: -.414999992, y: .455000013}
-      - {x: -.504999995, y: .344999999}
-      - {x: -.555000007, y: .284999996}
-      - {x: -.574999988, y: .174999997}
-      - {x: -.654999971, y: .115000002}
-      - {x: -.654999971, y: -.204999998}
-      - {x: -.625, y: -.245000005}
-      - {x: -.405000001, y: -.545000017}
-      - {x: -.314999998, y: -.605000019}
-      - {x: -.174999997, y: -.654999971}
-      - {x: .224999994, y: -.654999971}
-      - {x: .314999998, y: -.61500001}
-      - {x: .504999995, y: -.425000012}
+    - - {x: .550000012, y: -.764999986}
+      - {x: .870000005, y: -.694999993}
+      - {x: .899999976, y: -.685000002}
+      - {x: .899999976, y: .0350000001}
+      - {x: .870000005, y: .125}
+      - {x: .829999983, y: .234999999}
+      - {x: .699999988, y: .574999988}
+      - {x: .680000007, y: .665000021}
+      - {x: .620000005, y: .714999974}
+      - {x: .370000005, y: .774999976}
+      - {x: .200000003, y: .814999998}
+      - {x: 0, y: .855000019}
+      - {x: -.0900000036, y: .875}
+      - {x: -.579999983, y: .875}
+      - {x: -.610000014, y: .86500001}
+      - {x: -.660000026, y: .845000029}
+      - {x: -.74000001, y: .754999995}
+      - {x: -.800000012, y: .644999981}
+      - {x: -.860000014, y: .36500001}
+      - {x: -.899999976, y: .125}
+      - {x: -.899999976, y: -.0549999997}
+      - {x: -.889999986, y: -.0649999976}
+      - {x: -.560000002, y: -.294999987}
+      - {x: -.5, y: -.36500001}
+      - {x: -.449999988, y: -.435000002}
+      - {x: -.209999993, y: -.774999976}
+      - {x: -.129999995, y: -.875}
+      - {x: .0299999993, y: -.875}
+      - {x: .300000012, y: -.814999998}
+      - {x: .460000008, y: -.785000026}
+--- !u!114 &11426898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 074361089f77a364780863bff6f7606c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExpandSpeed: 3
+  FadeSpeed: .600000024
+  MinExplosions: 1
+  MaxExplosions: 4
+  MinSpeed: .100000001
+  MaxSpeed: 2
+  ExplosionSprites:
+  - {fileID: 21300000, guid: f8ad867c2b2290d45b84f77eb376452f, type: 3}
 --- !u!114 &11455930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1312,6 +1337,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: ExplosionSprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_AngularDrag
       value: 0
       objectReference: {fileID: 0}
@@ -1348,6 +1377,27 @@ Prefab:
       propertyPath: satPrefab1
       value: 
       objectReference: {fileID: 164504, guid: 79521eb4c06e0a6479b6f006cece5731, type: 2}
+    - target: {fileID: 0}
+      propertyPath: ExpandSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: FadeSpeed
+      value: .600000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ExplosionSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: f8ad867c2b2290d45b84f77eb376452f,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReflectionProbeUsage
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 181978}

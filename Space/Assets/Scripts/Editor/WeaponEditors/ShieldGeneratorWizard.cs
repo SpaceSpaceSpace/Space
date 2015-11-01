@@ -4,7 +4,7 @@ using System.Collections;
 
 public class ShieldGeneratorWizard : WizardMaster
 {
-	public float ShieldAmount = 10.0f;
+	/*public float ShieldAmount = 10.0f;
 	
 	public float Cooldown = 0.8f;
 	
@@ -54,5 +54,5 @@ public class ShieldGeneratorWizard : WizardMaster
 		newWindow.Cooldown = Cooldown;
 
 		newWindow.LifeTime = LifeTime;
-	}
+	}*/
 }

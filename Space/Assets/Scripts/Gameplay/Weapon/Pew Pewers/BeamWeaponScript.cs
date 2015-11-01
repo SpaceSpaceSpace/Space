@@ -4,21 +4,27 @@
 public class BeamWeaponScript : WeaponScript
 {
 	public float beamRange = 15.0f;
-	public float damage = 10;
-	public float rateOfDamage = 1.0f;
-	public float beamWidth = 0.01f;
-	
+
+	private LayerMask m_layerMask;
 	private float m_beamSpriteSize;
 	private GameObject m_beam;
+	private Collider2D m_ownCollider;
 	 
 	void Start ()
 	{
 		m_soundSystem = GetComponent<SoundSystemScript>();
-		m_beam = (GameObject)Instantiate( projectilePrefab.gameObject, transform.position, Quaternion.identity );
+		m_beam = (GameObject)Instantiate( projectilePrefab, fireFromPoint.position, Quaternion.identity );
 		m_beam.transform.parent = transform;
 		m_beam.SetActive( false );
+	
+		SpriteRenderer beamSR = m_beam.GetComponent<SpriteRenderer>();
+		beamSR.sortingOrder = GetComponent<SpriteRenderer>().sortingOrder - 1;
 		
 		m_beamSpriteSize = m_beam.GetComponent<Renderer>().bounds.size.x;
+
+		m_layerMask = ~( 1 << LayerMask.NameToLayer( "Projectiles" ) );
+
+		m_ownCollider = transform.parent.GetComponent<Collider2D>();
 	}
 	
 	public override void Fire()
@@ -35,16 +41,25 @@ public class BeamWeaponScript : WeaponScript
 		}
 		
 		// Doing a raycast jobbie
-		RaycastHit2D hit = Physics2D.Raycast( transform.position, transform.up, beamRange );
+		RaycastHit2D[] hits = Physics2D.RaycastAll( fireFromPoint.position, transform.up, beamRange, m_layerMask );
+		//RaycastHit2D hit = Physics2D.Raycast( fireFromPoint.position, transform.up, beamRange, m_layerMask );
 		
 		float distance = beamRange;
-		
-		if( hit.collider != null )
+
+		for( int i = 0; i < hits.Length; i++ )
 		{
-			// If the raycast hit something, set the distance to the distance to that something
-			distance = Vector2.Distance( hit.point, (Vector2)transform.position );
-			
-			HandleHit( hit );
+			if( hits[ i ].collider != m_ownCollider )
+			{
+				// If the raycast hit something, set the distance to the distance to that something
+				distance = Vector2.Distance( hits[ i ].point, (Vector2)fireFromPoint.position );
+				
+				HandleHit( hits[ i ] );
+				break;
+			}
+			else
+			{
+				print( "hit " + i + " was self" );
+			}
 		}
 		
 		// Scale the beam to the distance
@@ -57,7 +72,7 @@ public class BeamWeaponScript : WeaponScript
 		m_soundSystem.StopPlaying();
 		m_beam.SetActive( false );
 	}
-	
+
 	public override void ToggleActive()
 	{
 		base.ToggleActive();
@@ -78,7 +93,6 @@ public class BeamWeaponScript : WeaponScript
 		if( go.tag == "Ship" )
 		{
 			ShipScript ship = go.GetComponent<ShipScript>();
-			//Vector2 dir = ( hit.point - (Vector2)transform.position ).normalized;
 			ship.TakeHit( dir, hit.point );
 			
 			ship.ApplyDamage( damage * Time.deltaTime );

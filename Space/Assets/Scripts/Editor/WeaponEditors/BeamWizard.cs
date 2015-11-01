@@ -4,7 +4,7 @@ using System.Collections;
 
 public class BeamWizard : WizardMaster
 {
-	public float ProjectileSpeed = 10;
+	/*public float ProjectileSpeed = 10;
 	
 	public float RateOfDamage = 0.5f;
 	public float AttackPower = 0.4f;
@@ -66,5 +66,5 @@ public class BeamWizard : WizardMaster
 		newWindow.Cooldown = Cooldown;
 		
 		newWindow.BeamWidth = BeamWidth;
-	}
+	}*/
 }
