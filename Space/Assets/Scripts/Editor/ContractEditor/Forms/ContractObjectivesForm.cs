@@ -2,17 +2,16 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using WyrmTale;
 
-public class ContractTargetNameForm : ContractFormBase
-{
+public class ContractObjectivesForm : ContractFormBase
+{ 
     public int Tier = 1;
-    public string TargetName = "";
+    public List<ObjectiveType> Objectives = new List<ObjectiveType>();
 
-    public static ContractTargetNameForm Init()
+    public static ContractObjectivesForm Init()
     {
-        ContractTargetNameForm editor = (ContractTargetNameForm)GetWindow(typeof(ContractTargetNameForm));
+        ContractObjectivesForm editor = (ContractObjectivesForm)GetWindow(typeof(ContractObjectivesForm));
         editor.minSize = new Vector2(300, 100);
         editor.replacementIndex = -1;
         editor.Show();
@@ -20,14 +19,14 @@ public class ContractTargetNameForm : ContractFormBase
         return editor;
     }
 
-    public static ContractTargetNameForm Init(ContractTargetName targetName, int replacementIndex)
+    public static ContractObjectivesForm Init(ContractObjectives objectives, int replacementIndex)
     {
-        ContractTargetNameForm editor = (ContractTargetNameForm)GetWindow(typeof(ContractTargetNameForm));
+        ContractObjectivesForm editor = (ContractObjectivesForm)GetWindow(typeof(ContractObjectivesForm));
         editor.minSize = new Vector2(300, 100);
-        editor.Tier = targetName.Tier;
-        editor.TargetName = targetName.TargetName;
-        editor.closeButtonText = "Save";
+        editor.Tier = objectives.Tier;
+        editor.Objectives = objectives.Objectives.ToList();
         editor.replacementIndex = replacementIndex;
+        editor.closeButtonText = "Save";
         editor.Show();
 
         return editor;
@@ -39,40 +38,40 @@ public class ContractTargetNameForm : ContractFormBase
 
         Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
 
-        TargetName = EditorGUILayout.TextField("Target Name", TargetName);
+        ObjectiveArea("Objectives", ref Objectives);
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddContractTargetName(new ContractTargetName(Tier, TargetName));
+                AddContractTargetImage(new ContractObjectives(Tier, Objectives.ToArray()));
         }
         EditorGUILayout.EndHorizontal();
 
         GUILayout.Space(6);
     }
 
-    private void AddContractTargetName(ContractTargetName targetName)
+    private void AddContractTargetImage(ContractObjectives objectives)
     {
         string filepath = ContractElement.ContractElementFilePath;
 
         JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
 
         //Do a bit of deserialization to see if any conflicting contracts exist
-        List<JSON> contractTargetNames = elementJSON.ToArray<JSON>("ContractTargetNames").ToList();
+        List<JSON> contractObjectives = elementJSON.ToArray<JSON>("ContractObjectives").ToList();
 
         if (replacementIndex >= 0)
         {
-            contractTargetNames.RemoveAt(replacementIndex);
-            contractTargetNames.Insert(replacementIndex, targetName);
+            contractObjectives.RemoveAt(replacementIndex);
+            contractObjectives.Insert(replacementIndex, objectives);
         }
         else
         {
-            contractTargetNames.Add(targetName);
+            contractObjectives.Add(objectives);
         }
 
-        elementJSON["ContractTargetNames"] = contractTargetNames;
+        elementJSON["ContractObjectives"] = contractObjectives;
 
         ContractUtils.WriteJSONToFile(filepath, elementJSON);
 

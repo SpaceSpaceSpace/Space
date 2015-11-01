@@ -15,7 +15,7 @@ public class ContractTargetImage : ContractElement
         this.TargetImagePath = TargetImagePath;
     }
 
-    //Allows for the conversion from ContractTargetName to JSON for serialization
+    //Allows for the conversion from ContractTargetImage to JSON for serialization
     public static implicit operator JSON(ContractTargetImage contract)
     {
         JSON js = new JSON();
@@ -29,7 +29,7 @@ public class ContractTargetImage : ContractElement
         return js;
     }
 
-    //Allows for the conversion from JSON to ContractContent for deserialization
+    //Allows for the conversion from JSON to ContractTargetImage for deserialization
     public static explicit operator ContractTargetImage(JSON js)
     {
         checked
