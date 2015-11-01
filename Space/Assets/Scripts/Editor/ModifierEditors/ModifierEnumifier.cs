@@ -5,7 +5,9 @@ using System.IO;
 public class ModifierEnumifier : MonoBehaviour
 {
 	public const string DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifiers.csv";
-	public const string TEMPLATE_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifier.txt";
+	public const string TEMPLATE_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifierTemplate.txt";
+	public const string WEP_TYPE_DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponTypeData.txt";
+	public const string STAT_ALIAS_DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/StatAliasData.txt";
 	public const string CODE_PATH = "Assets/Scripts/Gameplay/Weapon/WeaponModifier.cs";
 
 	[ MenuItem( "Space/Generate Modifier Code" ) ]
@@ -18,38 +20,51 @@ public class ModifierEnumifier : MonoBehaviour
 
 	private static void LoadAndParseData( out string[,] data )
 	{
-		if( File.Exists( DATA_PATH ) )
+		string[] dataStr;
+		ReadLines( DATA_PATH, out dataStr );
+
+		if( dataStr == null )
 		{
-			string[] dataStr = File.ReadAllLines( DATA_PATH );
-			string[] lineData = dataStr[ 0 ].Split( ',' );
+			data = null;
+			return;
+		}
 
-			int numLines = dataStr.Length;
-			int numIndices = lineData.Length;
+		string[] lineData = dataStr[ 0 ].Split( ',' );
 
-			data = new string[ numLines, numIndices ];
+		int numLines = dataStr.Length;
+		int numIndices = lineData.Length;
 
-			for( int i = 0; i < numLines; i++ )
+		data = new string[ numLines, numIndices ];
+
+		for( int i = 0; i < numLines; i++ )
+		{
+			lineData = dataStr[ i ].Split( ',' );
+			for( int j = 0; j < numIndices; j++ )
 			{
-				lineData = dataStr[ i ].Split( ',' );
-				for( int j = 0; j < numIndices; j++ )
+				if( j < lineData.Length )
 				{
-					if( j < lineData.Length )
-					{
-						data[ i, j ] = lineData[ j ];
-					}
-					else
-					{
-						print( "ERROR: Data missing at line " + i + "m index " + j );
-						data = null;
-						return;
-					}
+					data[ i, j ] = lineData[ j ];
+				}
+				else
+				{
+					print( "ERROR: Data missing at line " + i + "m index " + j );
+					data = null;
+					return;
 				}
 			}
 		}
+	}
+
+	private static void ReadLines( string path, out string[] dataStr )
+	{
+		if( File.Exists( path ) )
+		{
+			dataStr = File.ReadAllLines( path );
+		}
 		else
 		{
-			print( "ERROR: Couldn't find data file." );
-			data = null;
+			print( "Could not find file at path " + path );
+			dataStr = null;
 		}
 	}
 
@@ -77,7 +92,6 @@ public class ModifierEnumifier : MonoBehaviour
 				print( data[ i, j ] );
 			}
 		}*/
-
 		/*
 		 * [r,c]	col1	col2	col3	col4
 		 * row1		mods	stat1 	stat2	stat3
@@ -98,8 +112,24 @@ public class ModifierEnumifier : MonoBehaviour
 		}
 		code = code.Replace( "\\ModifierNames\\", modifierNames );
 
-		// Not using yet
-		code = code.Replace( "\\AltModifierNames\\", "" );
+		// Write in Type data
+		string[] dataStr;
+		ReadLines( WEP_TYPE_DATA_PATH, out dataStr );
+
+		string typeData = "";
+		if( dataStr != null )
+		{
+			typeData += "\n";
+			for( int i = 1; i < dataStr.Length; i++ )
+			{
+				typeData += "\t\t" + dataStr[ i ] + ",\n";
+			}
+		}
+		else
+		{
+			print( "WARNING: Failed to load WeaponTypeData" );
+		}
+		code = code.Replace( "\\AltModifierNames\\", typeData );
 
 		// Write in the stats
 		string statNames = "";
@@ -109,8 +139,23 @@ public class ModifierEnumifier : MonoBehaviour
 		}
 		code = code.Replace( "\\StatNames\\", statNames );
 
-		// Not using yet
-		code = code.Replace( "\\AltStatNames\\", "" );
+		// Write in Stat aliases
+		ReadLines( STAT_ALIAS_DATA_PATH, out dataStr );
+		
+		string aliasData = "";
+		if( dataStr != null )
+		{
+			aliasData += "\n";
+			for( int i = 1; i < dataStr.Length; i++ )
+			{
+				aliasData += "\t\t" + dataStr[ i ] + ",\n";
+			}
+		}
+		else
+		{
+			print( "WARNING: Failed to load aliasData" );
+		}
+		code = code.Replace( "\\AltStatNames\\", aliasData );
 
 		// Write in the stat values
 		string statValues = "";
