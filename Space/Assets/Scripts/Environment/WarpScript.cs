@@ -18,7 +18,6 @@ public class WarpScript : MonoBehaviour {
 	// This will eventually open the warp UI, for now just warps to space station
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		Debug.Log ("Out of Bounds!");
 		WarpToStation ();
 	}
 
