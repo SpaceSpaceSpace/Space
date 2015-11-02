@@ -11,18 +11,14 @@ public class AISpawnerScript : MonoBehaviour {
 	public GameObject AIPrefab;
 	public GameObject squadLeader;
 
-	//private int currentAI;
-	//private GameObject squadLeader;
-	//
-	//public GameObject SquadLeader
-	//{
-	//	get{return squadLeader;}
-	//}
+	private int currentAI;
+	private Transform objective;
 
+	public Transform Objective { set { objective = value; } }
 	// Use this for initialization
-	void Awake () {
+	public void Init () {
 
-		//currentAI = 0;
+		currentAI = 0;
 		Vector2 spawnPos;
 		List<GameObject> squad = new List<GameObject>(startAI);
 		for(int i = 0; i < startAI; i++)
@@ -50,6 +46,7 @@ public class AISpawnerScript : MonoBehaviour {
 			else if (AIPrefab.GetComponent<ShipBehaviourScript>().behaviour == ShipBehaviourScript.Behaviour.Cargo)
 			{
 				g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.identity);
+				g.GetComponent<AIShipScript>().objective = objective;
 				squad.Add(g);
 			}
 		}

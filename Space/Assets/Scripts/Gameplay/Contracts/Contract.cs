@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Contract
 {
 	public bool completed;
-	private Vector3 objectivePosition;
+	public Vector3 objectivePosition;
 	private string description;
 	//private string targetImagePath;
 	//private Image targetImage;

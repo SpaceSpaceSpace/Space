@@ -33,6 +33,7 @@ GameObject:
   - 58: {fileID: 5893930}
   - 82: {fileID: 8291992}
   - 114: {fileID: 11478866}
+  - 114: {fileID: 11493360}
   m_Layer: 9
   m_Name: CargoShip
   m_TagString: Ship
@@ -83,7 +84,6 @@ GameObject:
   - 4: {fileID: 495084}
   - 198: {fileID: 19830108}
   - 199: {fileID: 19946698}
-  - 114: {fileID: 11492744}
   m_Layer: 9
   m_Name: HitPS
   m_TagString: Untagged
@@ -323,17 +323,18 @@ MonoBehaviour:
   objective: {fileID: 0}
   aggro: 0
   obstacleTrans: {fileID: 0}
---- !u!114 &11492744
+--- !u!114 &11493360
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183582}
+  m_GameObject: {fileID: 133512}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e3d1f5aac12aec458d2ac5e5cdf4886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitParticleSystem: {fileID: 19830108}
 --- !u!198 &19830108
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -2586,6 +2587,10 @@ Prefab:
       propertyPath: maxMoveSpeed
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hitParticleSystem
+      value: 
+      objectReference: {fileID: 19830108}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 133512}
