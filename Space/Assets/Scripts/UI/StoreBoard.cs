@@ -19,7 +19,13 @@ public class StoreBoard : MonoBehaviour {
 
 	void OnEnable()
 	{
+		currentWeapons = new List<WeaponInfo> ();
 
+		GameObject g = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponManager.Weapons.LASER_MACHINE_GUN);
+
+		currentWeapons.Add (g.GetComponent<WeaponScript> ().ToInfo());
+
+		PopulateButtons ();
 	}
 
 	private void PopulateButtons()
@@ -76,6 +82,7 @@ public class StoreBoard : MonoBehaviour {
 	public void SetStoreValues(int index)
 	{
 		currentSelectedWeapon = index;
+		Debug.Log (currentWeapons [currentSelectedWeapon].attributes.Values.Count);
 		//Dictionary<string,string> values = currentContracts [index].GetContractDetails ();
 
 		//SetName (values ["Name"]);
