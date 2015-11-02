@@ -65,7 +65,7 @@ public struct WeaponModifier
 
 	};
 
-	public static void GetModifierName( ModifierNames modName, string weaponName, out string outputString )
+	public static void GetModifiedName( ModifierNames modName, string weaponName, out string outputString )
 	{
 		if( modName == ModifierNames.DEFAULT )
 		{

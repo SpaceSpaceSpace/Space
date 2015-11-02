@@ -8,17 +8,18 @@ public class WeaponInfo {
 	WeaponModifier.ModifierNames modifier; 
 	Dictionary<string,float> attributes;
 
-	public WeaponInfo(string p_Name,WeaponModifier.ModifierNames p_Modifier)
+	public WeaponInfo(WeaponManager.Weapons weaponType, WeaponModifier.ModifierNames p_Modifier)
 	{
-		name = p_Name;
+		GameObject prefab = GameMaster.WeaponMngr.GetWeaponPrefab( weaponType );
+		WeaponModifier.GetModifiedName( p_Modifier, prefab.name, out name );
 		modifier = p_Modifier;
 
-		//Switch
+		attributes = new Dictionary<string, float>();
 	}
 
 	public string Name
 	{
-		get{ return name;}
+		get{ return name; }
 	}
 
 	
@@ -27,8 +28,8 @@ public class WeaponInfo {
 		return null;
 	}
 
-	void CreateAttributeDictionary()
+	public void AddAttribute( string key, float value )
 	{
-
+		attributes.Add( key, value );
 	}
 }

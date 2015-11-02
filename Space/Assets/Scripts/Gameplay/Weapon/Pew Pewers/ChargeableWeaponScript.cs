@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 // 'Hold to charge, release to fire' weapon
-public class ChargeableWeaponScript : WeaponScript
+public class ChargeableWeaponScript //: WeaponScript
 {
-	private float m_chargeTime;
+	/*private float m_chargeTime;
 	
 	public override void Fire()
 	{
@@ -21,5 +21,5 @@ public class ChargeableWeaponScript : WeaponScript
 		}
 		
 		m_chargeTime = 0f;
-	}
+	}*/
 }
