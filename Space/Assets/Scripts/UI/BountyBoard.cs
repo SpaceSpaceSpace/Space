@@ -53,10 +53,11 @@ public class BountyBoard : MonoBehaviour {
 	{
 		for(int i = 0; i < currentContracts.Count; i++)
 		{
+			int _i = i;
 			GameObject button = Instantiate(buttonPrefab) as GameObject;
 			button.name = i.ToString();
 			button.transform.SetParent(scrollView.transform,false);
-			button.gameObject.GetComponent<Button>().onClick.AddListener(()=>SetBountyValues(i));
+			button.gameObject.GetComponent<Button>().onClick.AddListener(()=>SetBountyValues(_i));
 			button.GetComponentInChildren<Text>().text = currentContracts[i].Name;
 		}
 
