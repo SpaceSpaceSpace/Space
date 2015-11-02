@@ -14,6 +14,7 @@ public class GameMaster : MonoBehaviour {
 	public static GameMaster Master;
 	public static GameState CurrentGameState = GameState.Flying;
 	public static PlayerData playerData;
+	public static WeaponManager WeaponMngr;
 
 	public string PlanetName = "Planet1";
 
@@ -24,13 +25,14 @@ public class GameMaster : MonoBehaviour {
 		{
 			DontDestroyOnLoad(gameObject);
 			Master = this;
+
+			playerData = transform.GetComponent<PlayerData> ();
+			WeaponMngr = GetComponent<WeaponManager>();
 		}
 		else if(Master != this)
 		{
 			Destroy(gameObject);
 		}
-
-		playerData = transform.GetComponent<PlayerData> ();
 	}
 
 	void Update () {

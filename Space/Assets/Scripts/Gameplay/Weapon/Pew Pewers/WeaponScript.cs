@@ -5,6 +5,16 @@ using System.Collections;
 // Also the base class for other derrived weapons
 public abstract class WeaponScript : MonoBehaviour
 {
+	public enum WeaponType
+	{
+		SHOOTY_KILLY,
+		SCATTER_SHOT,
+		MISSLE_LAUNCHER,
+		MINE_LAUNCHER,
+		BEAM,
+		NUM_WEAPON_TYPES
+	}
+
 	///
 	/// Public members to be assigned in the Inpector
 	///
@@ -15,6 +25,7 @@ public abstract class WeaponScript : MonoBehaviour
 
 	public float damage = 10.0f;
 
+	public WeaponType weaponType = WeaponType.SHOOTY_KILLY;
 	public WeaponModifier.ModifierNames modifier = WeaponModifier.ModifierNames.DEFAULT;
 
 	///

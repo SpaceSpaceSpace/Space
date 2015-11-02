@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 // 'Imma firin' mah layzah' weapon
 public class BeamWeaponScript : WeaponScript
@@ -56,10 +56,6 @@ public class BeamWeaponScript : WeaponScript
 				HandleHit( hits[ i ] );
 				break;
 			}
-			else
-			{
-				print( "hit " + i + " was self" );
-			}
 		}
 		
 		// Scale the beam to the distance
@@ -97,11 +93,11 @@ public class BeamWeaponScript : WeaponScript
 			
 			ship.ApplyDamage( damage * Time.deltaTime );
 		}
-		else if( go.tag == "Asteroid" )
+		else if( go.tag == "Asteroid" || go.tag == "Satellite" )
 		{
 			// Do same sort of thing as with Ship
 			Satellite sat = go.GetComponent<Satellite>();
-			sat.ApplyDamage(damage, dir);
+			sat.ApplyDamage(damage, dir, hit.point, true);
 		}
 	}
 }

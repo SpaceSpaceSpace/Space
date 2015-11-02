@@ -7,15 +7,15 @@ public class HangarScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		player = (GameObject)GameObject.Find ("Player Ship");
+		player = GameObject.Find ("Player Ship");
 	}
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
 		// Hangar UI
-		GameObject level = (GameObject)GameObject.Find("Planet1");
+		GameObject level = GameObject.Find("Planet1");
 		
-		GameObject warpMngr = (GameObject)GameObject.Find("Warp Manager");
+		GameObject warpMngr = GameObject.Find("Warp Manager");
 		WarpScript warpScript = warpMngr.GetComponent<WarpScript>();
 		
 		if(level != null)

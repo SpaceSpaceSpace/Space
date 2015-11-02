@@ -108,6 +108,9 @@ PlayerSettings:
   APKExpansionFiles: 0
   preloadShaders: 0
   StripUnusedMeshComponents: 0
+  VertexChannelCompressionMask:
+    serializedVersion: 2
+    m_Bits: 238
   iPhoneSdkVersion: 988
   iPhoneTargetOSVersion: 22
   uIPrerenderedIcon: 0
@@ -162,8 +165,8 @@ PlayerSettings:
     m_Icons:
     - serializedVersion: 2
       m_Icon: {fileID: 0}
-      m_Width: 128
-      m_Height: 128
+      m_Width: 5504
+      m_Height: 5504
   m_BuildTargetBatching: []
   m_BuildTargetGraphicsAPIs: []
   webPlayerTemplate: APPLICATION:Default
@@ -238,6 +241,8 @@ PlayerSettings:
   ps4SdkOverride: 
   ps4BGMPath: 
   ps4ShareFilePath: 
+  ps4ShareOverlayImagePath: 
+  ps4PrivacyGuardImagePath: 
   ps4NPtitleDatPath: 
   ps4RemotePlayKeyAssignment: -1
   ps4RemotePlayKeyMappingDir: 
