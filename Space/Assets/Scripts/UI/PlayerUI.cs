@@ -21,7 +21,7 @@ public class PlayerUI : MonoBehaviour
 
 		if( playerShield != null )
 		{
-			shieldCicle.fillAmount = playerShield.ShieldAmount.Remap(0f,playerShield.maxShieldAmount,.6f,.9f);
+			shieldCicle.fillAmount = playerShield.ShieldAmount.Remap(0f,playerShield.maxShieldAmount,0f,1f);
 			m_playerShield = playerShield;
 		}
 		else
@@ -49,6 +49,6 @@ public class PlayerUI : MonoBehaviour
 
 	private void UpdateShield()
 	{
-		shieldCicle.fillAmount = m_playerShield.ShieldAmount.Remap (0f, m_playerShield.maxShieldAmount, .6f, .9f);;
+		shieldCicle.fillAmount = m_playerShield.ShieldAmount.Remap (0f, m_playerShield.maxShieldAmount, 0f, 1f);;
 	}
 }

@@ -117,7 +117,7 @@ MonoBehaviour:
   artificial: 0
   inOrbit: 0
   mass: 0
-  satPrefab: {fileID: 189850}
+  satPrefab: {fileID: 113986, guid: d5e2b9d7d9af3a24f9fd58d3cd9a815b, type: 2}
   satPrefab1: {fileID: 157994, guid: cdf5b7a1346f1954f99cbded1430779d, type: 2}
   radius: {x: 0, y: 0}
   splitForce: 0
@@ -186,7 +186,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: satPrefab
       value: 
-      objectReference: {fileID: 189850}
+      objectReference: {fileID: 113986, guid: d5e2b9d7d9af3a24f9fd58d3cd9a815b, type: 2}
     - target: {fileID: 0}
       propertyPath: satPrefab1
       value: 
