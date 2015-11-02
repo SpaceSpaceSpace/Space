@@ -154,8 +154,8 @@ public class Satellite : MonoBehaviour {
 			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(impulse.x* 80.0f,impulse.y* -80.0f), ForceMode2D.Impulse);
 
 			//add some random perpindicular forces so explosions look more asymmetric
-			split1.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(-40,-20) * m,Random.Range(20,40) * m));
-			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(20,40) * m,Random.Range(-40,-20) * m));
+			split1.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(-80,-40) * m,Random.Range(40,80) * m));
+			split2.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.Range(40,80) * m,Random.Range(-80,-40) * m));
 
 			//maintain the current momentum of the asteroid by applying the current velocity to the splits
 			Vector2 currVelocity = gameObject.GetComponent<Rigidbody2D>().velocity;

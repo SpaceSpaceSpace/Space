@@ -75,7 +75,7 @@ public class ProjectileScript : MonoBehaviour
 			ship.TakeHit( Vector2.zero, hitPos );
 			ship.ApplyDamage( m_damage, m_shieldPenetration );
 		}
-		else if( col.tag == "Asteroid" )
+		else if( col.tag == "Asteroid" || col.tag == "Satellite")
 		{
 			// Do same sort of thing as with Ship
 			Satellite sat = col.GetComponent<Satellite>();
