@@ -30,7 +30,7 @@ GameObject:
   - 60: {fileID: 6039566}
   m_Layer: 0
   m_Name: Satellite
-  m_TagString: Asteroid
+  m_TagString: Satellite
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185824}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.3768311, y: 119.57534, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 408416}
@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193818}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.3768311, y: -119.57534, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 406242}
@@ -132,6 +132,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   centerOfOrbit: {x: 0, y: 0, z: 0}
   health: 0
+  invincible: 0
 --- !u!212 &21217742
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -197,7 +198,15 @@ Prefab:
       objectReference: {fileID: 6200000, guid: 695af6ad59bfe8140a7d517f2ee09560, type: 2}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: Asteroid
+      value: Satellite
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

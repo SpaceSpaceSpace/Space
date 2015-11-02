@@ -88,7 +88,7 @@ public class Satellite : MonoBehaviour {
 
                     Instantiate(ms_explosion, transform.position, Quaternion.identity);
                     HandleExplosion();
-                    gameObject.SetActive(false);
+                    Destroy(gameObject);
                 }
 
             }
@@ -107,7 +107,7 @@ public class Satellite : MonoBehaviour {
 		//damage asteroids that remain in contact with eachother
 		//if (coll.gameObject.tag == "Asteroid")
 			//ApplyDamage (coll.relativeVelocity.magnitude, Vector2.zero);
-		if(coll.gameObject.tag == "Asteroid"){
+		if(coll.gameObject.tag == "Asteroid" || coll.gameObject.tag == "Satellite"){
 			/*need to check if one asteroid is entirely contained in another
 			if so, destroy the smaller asteroid.*/
 			ApplyDamage(.05f,Vector2.zero,coll.transform.position);
@@ -174,8 +174,8 @@ public class Satellite : MonoBehaviour {
 	}
 	private void HandleExplosion()
 	{
-		float blastRadius = mass;
-		float blastForce = 2f*mass;
+		float blastRadius = 16.0f;
+		float blastForce = 50f*mass;
 		Collider2D[] hitColliders = Physics2D.OverlapCircleAll( transform.position, blastRadius );
 		
 		foreach( Collider2D col in hitColliders )
@@ -192,7 +192,7 @@ public class Satellite : MonoBehaviour {
 			{
 				ShipScript ship = col.GetComponent<ShipScript>();
 				ship.TakeHit( impulse * percent, pos );
-				ship.ApplyDamage( 10.0f * percent, 0.0f );
+				ship.ApplyDamage( 20.0f * mass * percent, 0.0f );
 			}
 			else if( col.tag == "Asteroid" )
 			{
