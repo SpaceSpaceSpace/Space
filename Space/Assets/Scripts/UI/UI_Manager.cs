@@ -35,7 +35,7 @@ public class UI_Manager : MonoBehaviour {
 
 	public void DisplayStoreBoard(bool active)
 	{
-		storeBoard.GetComponent<BountyBoard> ().DestroyButtons ();
+		storeBoard.GetComponent<StoreBoard> ().DestroyButtons ();
 		storeBoard.SetActive (active);
 		
 		if(active)

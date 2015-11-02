@@ -26,10 +26,11 @@ public class StoreBoard : MonoBehaviour {
 	{
 		for(int i = 0; i < currentWeapons.Count; i++)
 		{
+			int _i = i;
 			GameObject button = Instantiate(buttonPrefab) as GameObject;
-			button.name = "currentWeapons" + i;
+			button.name = i.ToString();
 			button.transform.SetParent(scrollView.transform,false);
-			button.gameObject.GetComponent<Button>().onClick.AddListener(()=>SetStoreValues(i));
+			button.gameObject.GetComponent<Button>().onClick.AddListener(()=>SetStoreValues(_i));
 			button.GetComponentInChildren<Text>().text = currentWeapons[i].Name;
 		}
 
@@ -51,7 +52,7 @@ public class StoreBoard : MonoBehaviour {
 		{
 			//GameMaster.playerData.AcceptContract (currentWeapons[currentSelectedWeapon]);
 
-			GameObject button = scrollView.transform.FindChild ("contract" + currentSelectedWeapon).gameObject;
+			GameObject button = scrollView.transform.FindChild (currentSelectedWeapon.ToString()).gameObject;
 
 			if(button != null)
 			{
@@ -61,7 +62,7 @@ public class StoreBoard : MonoBehaviour {
 			if(scrollView.transform.childCount > 1)
 			{
 				string indexString = scrollView.transform.GetChild(1).name;
-				int index = int.Parse(indexString[indexString.Length-1].ToString());
+				int index = int.Parse(indexString);
 
 				SetStoreValues (index);
 			}

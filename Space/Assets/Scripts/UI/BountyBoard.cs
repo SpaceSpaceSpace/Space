@@ -79,7 +79,7 @@ public class BountyBoard : MonoBehaviour {
 		{
 			GameMaster.playerData.AcceptContract (currentContracts[currentSelectedContract]);
 
-			GameObject button = scrollView.transform.FindChild ("'" + currentSelectedContract + "'").gameObject;
+			GameObject button = scrollView.transform.FindChild (currentSelectedContract.ToString()).gameObject;
 
 			if(button != null)
 			{

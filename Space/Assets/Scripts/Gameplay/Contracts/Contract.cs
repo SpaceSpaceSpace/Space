@@ -101,7 +101,7 @@ public class Contract
 	{
 		GameObject oMarker =  player.ObjectiveMarker;
 
-		if(!oMarker.activeSelf)
+		if(oMarker != null && !oMarker.activeSelf)
 		{
 			oMarker.SetActive(true);
 		}
