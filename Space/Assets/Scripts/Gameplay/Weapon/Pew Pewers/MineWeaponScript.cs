@@ -14,6 +14,7 @@ public class MineWeaponScript : WeaponScript
 	{
 		m_mineProj = projectilePrefab.GetComponent<MineProjectileScript>();
 		Init();
+		ToInfo();
 	}
 
 	public override void Fire()
@@ -31,6 +32,28 @@ public class MineWeaponScript : WeaponScript
 
 	public override void OnRelease()
 	{
+	}
+
+	public override WeaponInfo ToInfo()
+	{
+		WeaponInfo info = new WeaponInfo( WeaponManager.Weapons.MINE_LAUNCHER, modifier );
+		info.AddAttribute( "Damage", damage );
+		info.AddAttribute( "Fire Rate", fireTime );
+		info.AddAttribute( "Projectile Speed", projectileSpeed );
+		return info;
+	}
+
+	protected override void ApplyModifier()
+	{
+		if( modifier == WeaponModifier.ModifierNames.DEFAULT )
+		{
+			// Early return
+			return;
+		}
+		
+		damage *= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
+		projectileSpeed *= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.MINE_SPEED );
+		fireTime /= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.FIRE_RATE );
 	}
 
 	private void FireMine()
