@@ -8,12 +8,11 @@ public class BeamWeaponScript : WeaponScript
 	private LayerMask m_layerMask;
 	private float m_beamSpriteSize;
 	private GameObject m_beam;
-	private Collider2D m_ownCollider;
 	 
 	void Start ()
 	{
 		m_soundSystem = GetComponent<SoundSystemScript>();
-		m_beam = (GameObject)Instantiate( projectilePrefab, fireFromPoint.position, Quaternion.identity );
+		m_beam = (GameObject)Instantiate( projectilePrefab, transform.position, Quaternion.identity );
 		m_beam.transform.parent = transform;
 		m_beam.SetActive( false );
 	
@@ -22,44 +21,27 @@ public class BeamWeaponScript : WeaponScript
 		
 		m_beamSpriteSize = m_beam.GetComponent<Renderer>().bounds.size.x;
 
-		m_layerMask = ~( 1 << LayerMask.NameToLayer( "Projectiles" ) );
-
-		m_ownCollider = transform.parent.GetComponent<Collider2D>();
+		m_layerMask = LayerMask.NameToLayer( "Projectiles" );
 	}
 	
 	public override void Fire()
 	{
-		if( !m_active )
-		{
-			// Early return
-			return;
-		}
-
 		if( !m_soundSystem.IsPlaying() )
 		{
 			m_soundSystem.PlayLooping( fireSoundName );
 		}
 		
 		// Doing a raycast jobbie
-		RaycastHit2D[] hits = Physics2D.RaycastAll( fireFromPoint.position, transform.up, beamRange, m_layerMask );
-		//RaycastHit2D hit = Physics2D.Raycast( fireFromPoint.position, transform.up, beamRange, m_layerMask );
+		RaycastHit2D hit = Physics2D.Raycast( transform.position, transform.up, beamRange, m_layerMask );
 		
 		float distance = beamRange;
-
-		for( int i = 0; i < hits.Length; i++ )
+		
+		if( hit.collider != null )
 		{
-			if( hits[ i ].collider != m_ownCollider )
-			{
-				// If the raycast hit something, set the distance to the distance to that something
-				distance = Vector2.Distance( hits[ i ].point, (Vector2)fireFromPoint.position );
-				
-				HandleHit( hits[ i ] );
-				break;
-			}
-			else
-			{
-				print( "hit " + i + " was self" );
-			}
+			// If the raycast hit something, set the distance to the distance to that something
+			distance = Vector2.Distance( hit.point, (Vector2)transform.position );
+			
+			HandleHit( hit );
 		}
 		
 		// Scale the beam to the distance
