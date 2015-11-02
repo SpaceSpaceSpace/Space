@@ -23,7 +23,7 @@ TagManager:
   - Ships
   - RadarAndInGame
   - Projectiles
-  - Background
+  - 
   - 
   - 
   - 
@@ -46,7 +46,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Background
-    uniqueID: 238169493
     locked: 0

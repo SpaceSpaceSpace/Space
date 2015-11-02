@@ -5,7 +5,7 @@ public class PlayerUI : MonoBehaviour
 {
 	public GameObject PlayerUIObject;
 	public Image healthCicle;
-	public Image shieldCicle;
+	public Slider shieldBar;
 
 	private PlayerShipScript playerShip;
 	private ShieldScript m_playerShield;
@@ -21,16 +21,16 @@ public class PlayerUI : MonoBehaviour
 
 		if( playerShield != null )
 		{
-			shieldCicle.fillAmount = playerShield.ShieldAmount.Remap(0f,playerShield.maxShieldAmount,0f,1f);
+			shieldBar.maxValue = playerShield.maxShieldAmount;
+			shieldBar.value = playerShield.ShieldAmount;
 			m_playerShield = playerShield;
 		}
 		else
 		{
-			shieldCicle.gameObject.SetActive( false );
+			shieldBar.gameObject.SetActive( false );
 		}
 	}
 
-	//TODO Remove this
 	void Update()
 	{
 		if(GameMaster.CurrentGameState != GameState.Flying)
@@ -49,6 +49,6 @@ public class PlayerUI : MonoBehaviour
 
 	private void UpdateShield()
 	{
-		shieldCicle.fillAmount = m_playerShield.ShieldAmount.Remap (0f, m_playerShield.maxShieldAmount, 0f, 1f);;
+		shieldBar.value = m_playerShield.ShieldAmount;
 	}
 }
