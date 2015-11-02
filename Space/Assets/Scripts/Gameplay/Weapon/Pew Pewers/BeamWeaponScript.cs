@@ -81,6 +81,18 @@ public class BeamWeaponScript : WeaponScript
 			}
 		}
 	}
+
+	protected override void ApplyModifier()
+	{
+		if( modifier == WeaponModifier.ModifierNames.DEFAULT )
+		{
+			// Early return
+			return;
+		}
+
+		damage *= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
+		beamRange *= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BEAM_RANGE );
+	}
 	
 	private void HandleHit( RaycastHit2D hit )
 	{

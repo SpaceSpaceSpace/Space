@@ -33,6 +33,19 @@ public class MineWeaponScript : WeaponScript
 	{
 	}
 
+	protected override void ApplyModifier()
+	{
+		if( modifier == WeaponModifier.ModifierNames.DEFAULT )
+		{
+			// Early return
+			return;
+		}
+		
+		damage *= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
+		projectileSpeed *= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.MINE_SPEED );
+		fireTime /= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.FIRE_RATE );
+	}
+
 	private void FireMine()
 	{	
 		MineProjectileScript projectile = (MineProjectileScript)Instantiate( m_mineProj, 
