@@ -7,6 +7,7 @@ public class UI_Manager : MonoBehaviour {
 	public GameObject bountyBoard;
 	public GameObject storeBoard;
 	public GameObject gameOverScreen;
+	public GameObject spaceStationUI;
 	public GameObject spaceStation;
 	public PlayerShipScript player;
 
@@ -14,6 +15,22 @@ public class UI_Manager : MonoBehaviour {
 	void Start () {
 		instance = this;
 		SetAllScreensToInactive ();
+	}
+
+	public void DisplaySpaceStationUI(bool active)
+	{
+		spaceStationUI.SetActive (active);
+		
+		if(active)
+		{
+			player.Dock();
+			player.transform.position = spaceStation.transform.position;
+			player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+		}
+		else
+		{
+			player.Undock();
+		}
 	}
 
 	public void DisplayBountyBoard(bool active)
@@ -68,14 +85,17 @@ public class UI_Manager : MonoBehaviour {
 				GameMaster.CurrentGameState = GameState.MainMenu;
 				Application.LoadLevel("MainMenu");
 				break;
-					
+			case GameState.Customization:
+				GameMaster.CurrentGameState = GameState.Customization;
+				break;
 		}
 	}
 
-	private void SetAllScreensToInactive()
+	public void SetAllScreensToInactive()
 	{
 		bountyBoard.SetActive (false);
 		gameOverScreen.SetActive (false);
 		storeBoard.SetActive (false);
+		spaceStationUI.SetActive (false);
 	}
 }
