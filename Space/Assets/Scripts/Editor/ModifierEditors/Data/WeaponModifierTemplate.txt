@@ -1,0 +1,51 @@
+// =====================================================
+// =====!!! This file was generated. No touchy. !!!=====
+// =====================================================
+public struct WeaponModifier
+{
+	public enum ModifierNames
+	{
+\ModifierNames\
+		NUM_MODIFIERS,
+\AltModifierNames\
+	}
+
+	public enum Stats
+	{
+\StatNames\
+		NUM_STATS,
+\AltStatNames\
+	}
+
+	public static readonly float[,] modifiers = {
+\StatValues\
+	};
+
+	public static void GetModifierName( ModifierNames modName, string weaponName, out string outputString )
+	{
+		if( modName == ModifierNames.DEFAULT )
+		{
+			outputString = weaponName;
+			return;
+		}
+		
+		string name = modName.ToString();
+		bool isPrefix = ( name.IndexOf( "_suffix" ) == -1 );
+		name = name.Replace( "_", " " );
+
+		if( isPrefix )
+		{
+			outputString = name + " " + weaponName;
+		}
+		else
+		{
+			name = name.Replace( " suffix", "" );
+			outputString = weaponName + " " + name;
+		}
+	}
+	
+	public static float GetModifierValue( ModifierNames modName, Stats stat )
+	{
+		return modifiers[ (int)modName, (int)stat ];
+	}
+}

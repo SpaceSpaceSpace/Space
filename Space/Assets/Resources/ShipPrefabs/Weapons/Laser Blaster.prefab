@@ -143,12 +143,13 @@ MonoBehaviour:
   fireFromPoint: {fileID: 474558}
   fireSoundName: Laser_Bolt
   damage: 10
+  weaponType: 0
+  modifier: 0
   fireTime: .100000001
   maxSpreadAngle: 15
-  modifier: 1
   projectileSpeed: 10
   projectileLifeTime: 2
-  m_projectilePool: []
+  projectilesPerShot: 1
 --- !u!114 &11468172
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,6 +197,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: damage
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: modifier
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
