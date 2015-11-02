@@ -16,7 +16,7 @@ public class WeaponManager : MonoBehaviour
 
 	public GameObject[] weaponPrefabs;
 
-	public GameObject GetWeaponPrefab( WeaponScript.WeaponType type )
+	public GameObject GetWeaponPrefab( Weapons type )
 	{
 		if( (int)type < (int)Weapons.NUM_WEAPONS )
 		{

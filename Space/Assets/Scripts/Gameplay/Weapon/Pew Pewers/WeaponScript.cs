@@ -40,6 +40,8 @@ public abstract class WeaponScript : MonoBehaviour
 	public abstract void Fire();
 	public abstract void OnRelease();
 
+	public abstract WeaponInfo ToInfo();
+
 	public virtual void ToggleActive()
 	{
 		m_active = !m_active;

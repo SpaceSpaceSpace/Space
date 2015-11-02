@@ -46,6 +46,16 @@ public class ProjectileWeaponScript : WeaponScript
 		// Do some stuff
 	}
 
+	public override WeaponInfo ToInfo()
+	{
+		WeaponInfo info = new WeaponInfo( WeaponManager.Weapons.MINE_LAUNCHER, modifier );
+		info.AddAttribute( "Damage", damage );
+		info.AddAttribute( "Fire Rate", fireTime );
+		info.AddAttribute( "Projectile Speed", projectileSpeed );
+		info.AddAttribute( "Accuracy", 1 - ( maxSpreadAngle / 360 ) );
+		return info;
+	}
+
 	protected override void ApplyModifier()
 	{
 		if( modifier == WeaponModifier.ModifierNames.DEFAULT )

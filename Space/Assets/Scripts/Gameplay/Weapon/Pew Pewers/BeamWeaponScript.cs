@@ -69,6 +69,14 @@ public class BeamWeaponScript : WeaponScript
 		m_beam.SetActive( false );
 	}
 
+	public override WeaponInfo ToInfo()
+	{
+		WeaponInfo info = new WeaponInfo( WeaponManager.Weapons.MINE_LAUNCHER, modifier );
+		info.AddAttribute( "Damage", damage );
+		info.AddAttribute( "Range", beamRange );
+		return info;
+	}
+
 	public override void ToggleActive()
 	{
 		base.ToggleActive();
