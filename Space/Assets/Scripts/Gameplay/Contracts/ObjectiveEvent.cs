@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum ObjectiveType
+{
+	GoTo,
+	KillTarget,
+	TurnInContract,
+	EscortCargo
+}
+
 public class ObjectiveEvent : MonoBehaviour {
 
-	public enum ObjectiveType
-	{
-		GoTo,
-		KillTarget,
-		TurnInContract
-	}
 
 	public GameObject AISpawner;
 	public GameObject spaceStation;
@@ -65,16 +67,47 @@ public class ObjectiveEvent : MonoBehaviour {
 	{
 		type = p_Type;
 
+		GameObject spawner;
 		//Spawn Correct Objective
 		switch(type)
 		{
 			case ObjectiveType.GoTo:
 				break;
 			case ObjectiveType.KillTarget:
-				GameObject spawner = (GameObject) GameObject.Instantiate(AISpawner,transform.position, Quaternion.identity);
- 				target = spawner.GetComponent<AISpawnerScript>().SquadLeader;
+				spawner = (GameObject) GameObject.Instantiate(AISpawner,transform.position, Quaternion.identity);
+				spawner.GetComponent<AISpawnerScript>().Init();
+ 				target = spawner.GetComponent<AISpawnerScript>().squadLeader;
 				break;
 			case ObjectiveType.TurnInContract:
+				break;
+			case ObjectiveType.EscortCargo:
+				Vector2 spawnPos = new Vector2(Random.Range(-20.0f, 20.0f), Random.Range(-20.0f, 20.0f));
+				spawner = (GameObject) GameObject.Instantiate(AISpawner,spawnPos, Quaternion.identity);
+				float xPos = Random.Range(0.01f, 2.0f);
+				float yPos = Random.Range(0.01f, 2.0f);
+				if(Random.Range(-1.0f, 1.0f) > 0.0f)
+				{
+					xPos = Mathf.Ceil(xPos);
+					// Get xPos to be equal to 1 or 2
+					xPos -= 1.0f;
+					if(xPos == 0.0f)
+						xPos = -1.0f;
+					yPos -= 1.0f;
+				}
+				else
+				{
+					yPos = Mathf.Ceil(yPos);
+					// Get yPos to be equal to 1 or 2
+					yPos -= 1.0f;
+					if(yPos == 0.0f)
+						yPos = -1.0f;
+					xPos -= 1.0f;
+				}
+
+				Vector2 objectivePos = new Vector2(xPos, yPos) * 350.0f;
+				transform.position = objectivePos;
+				spawner.GetComponent<AISpawnerScript>().Objective = transform;
+				spawner.GetComponent<AISpawnerScript>().Init();
 				break;
 		}
 	}
@@ -121,7 +154,12 @@ public class ObjectiveEvent : MonoBehaviour {
 
 	void OnTriggerEnter2D( Collider2D col )
 	{
-		if( col.tag == "Ship" && type != ObjectiveType.KillTarget)
+		if( col.gameObject.name == "Player Ship" && type != ObjectiveType.KillTarget)
+		{
+			//objectiveContract.completed = true;//Make boolean an array for multi-mission contracts
+			CompleteTask();
+		}
+		else if( col.gameObject.name == "CargoShip" && type == ObjectiveType.EscortCargo)
 		{
 			//objectiveContract.completed = true;//Make boolean an array for multi-mission contracts
 			CompleteTask();

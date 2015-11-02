@@ -43,14 +43,18 @@ MonoBehaviour:
   startAI: 10
   range: 100
   AIPrefab: {fileID: 109514, guid: 0f51e57af72cf0f4ea33ef487a02587e, type: 2}
-  leaderSprite: {fileID: 0}
+  squadLeader: {fileID: 122626, guid: 5895cbf96b97c5648a2ca29bab5b419f, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: squadLeader
+      value: 
+      objectReference: {fileID: 122626, guid: 5895cbf96b97c5648a2ca29bab5b419f, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 160422}
