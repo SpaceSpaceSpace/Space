@@ -20,6 +20,7 @@ public class ProjectileWeaponScript : WeaponScript
 		m_canFire = true;
 		m_currProjectile = 0;
 		Init();
+		ApplyModifier();
 		SpawnProjectiles();
 	}
 	
@@ -43,6 +44,38 @@ public class ProjectileWeaponScript : WeaponScript
 	public override void OnRelease()
 	{
 		// Do some stuff
+	}
+
+	public override WeaponInfo ToInfo()
+	{
+		WeaponInfo info = new WeaponInfo( WeaponManager.Weapons.MINE_LAUNCHER, modifier );
+		info.AddAttribute( "Damage", damage );
+		info.AddAttribute( "Fire Rate", fireTime );
+		info.AddAttribute( "Projectile Speed", projectileSpeed );
+		info.AddAttribute( "Accuracy", 1 - ( maxSpreadAngle / 360 ) );
+		return info;
+	}
+
+	protected override void ApplyModifier()
+	{
+		if( modifier == WeaponModifier.ModifierNames.DEFAULT )
+		{
+			// Early return
+			return;
+		}
+
+		if( weaponType == WeaponType.SCATTER_SHOT )
+		{
+			int bonusProjectiles = (int)WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BONUS_PROJECTILES );
+			m_numProjectiles += bonusProjectiles;
+		}
+		else
+		{
+			damage *= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
+		}
+
+		maxSpreadAngle /= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.ACCURACY );
+		fireTime /= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.FIRE_RATE );
 	}
 	
 	private void FireProjectile()
