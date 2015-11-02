@@ -3,25 +3,45 @@ using System.Collections;
 
 public class HangarScript : MonoBehaviour {
 
-	public GameObject hangerPrefab;
+	public GameObject player;
 
 	// Use this for initialization
 	void Start () {
-	
+		player = (GameObject)GameObject.Find ("Player Ship");
 	}
 
-	void CallHangar()
+	void OnTriggerEnter2D(Collider2D coll)
 	{
-		// Disable User Controls Momentarily for Docking
-		// Instantiate Hangar off-screen
-		// Dock Ship with Hangar
-		// Warp / Customize UI (Hangar UI)
+		// Hangar UI
+		GameObject level = (GameObject)GameObject.Find("Planet1");
+		
+		GameObject warpMngr = (GameObject)GameObject.Find("Warp Manager");
+		WarpScript warpScript = warpMngr.GetComponent<WarpScript>();
+		
+		if(level != null)
+		{
+			print( "to planet 2" );
+			warpScript.WarpToPlanet("Planet2");
+		}
+		else
+		{
+			print( "to planet 1" );
+			warpScript.WarpToPlanet("Planet1");
+		}
+	}
+
+	void GoToPlayer()
+	{
+		// Seek code for Hangar to drift toward player
+		//gameObject.transform.LookAt (player.transform.position);
+
+		gameObject.transform.position += (player.transform.position - transform.position) * 1.0f * Time.deltaTime;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		// Check for player input of H(?) for hanger
-		// If button is held down, instantiate radial timer
-		// Once button is held long enough, CallHanger()
+
+		// Seeking code call
+		GoToPlayer ();
 	}
 }

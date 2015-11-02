@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 119dbe228c50245a78b525991dd455d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hangarPrefab: {fileID: 180004, guid: 29bc09e89ae934c69a496c37e5c739b2, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

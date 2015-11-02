@@ -3,6 +3,8 @@ using System.Collections;
 
 public class WarpScript : MonoBehaviour {
 
+	public GameObject hangarPrefab;
+
 	// Use this for initialization
 	void Start () {
 		GameObject levelObj = Resources.Load ( "Sectors/" + GameMaster.Master.PlanetName ) as GameObject;
@@ -19,6 +21,13 @@ public class WarpScript : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll)
 	{
 		WarpToStation ();
+	}
+
+	public void CallHangar()
+	{
+		// Spawns the hangar off to the right of the screen
+		float pointOffscreenX = Camera.main.ViewportToWorldPoint (new Vector3 (1.0f, 0.0f, 0.0f)).x;
+		GameObject.Instantiate (hangarPrefab, new Vector3 (pointOffscreenX * 1.1f, 0.0f, 0.0f), Quaternion.identity);
 	}
 
 	void WarpToStation()
