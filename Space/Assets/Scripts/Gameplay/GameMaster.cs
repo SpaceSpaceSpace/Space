@@ -15,6 +15,8 @@ public class GameMaster : MonoBehaviour {
 	public static GameState CurrentGameState = GameState.Flying;
 	public static PlayerData playerData;
 
+	public string PlanetName = "Planet1";
+
 	void Awake ()
 	{
 		//There can be only one
