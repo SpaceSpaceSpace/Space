@@ -7,7 +7,9 @@ public class SpaceStation : InteractableScript {
 
 	public override void OnInteract ()
 	{
-		UI_Manager.instance.DisplayBountyBoard (true);
+		//UI_Manager.instance.DisplayBountyBoard (true);
+		//UI_Manager.instance.DisplayStoreBoard (true);
+		UI_Manager.instance.DisplaySpaceStationUI (true);
 	}
 	 
 	//NOTE - Contracts do not get removed when they're turned in
