@@ -15,19 +15,33 @@ public class ContractObjectives : ContractElement
         this.Objectives = Objectives;
     }
 
-    protected override ContractElement FromJSON(JSON js)
+    //Allows for the conversion from ContractTargetShipImage to JSON for serialization
+    public static implicit operator JSON(ContractObjectives objectives)
     {
-        ContractContent toCopy = (ContractContent)js;
-        Tier = toCopy.Tier;
+        JSON js = new JSON();
 
-        return toCopy;
+        if (objectives == null)
+            return js;
+
+        js["Tier"] = objectives.Tier;
+        js["Objectives"] = objectives.Objectives;
+
+        return js;
     }
 
-    protected override JSON ToJSON()
+    //Allows for the conversion from JSON to ContractTargetShipImage for deserialization
+    public static explicit operator ContractObjectives(JSON js)
     {
-        //JSON js = this;
-        //return js;
+        checked
+        {
+            int Tier = js.ToInt("Tier");
+            string[] objectiveStrings = js.ToArray<string>("Objectives");
 
-        return null;
+            ObjectiveType[] Objectives = new ObjectiveType[objectiveStrings.Length];
+            for (int i = 0; i < objectiveStrings.Length; i++)
+                Objectives[i] = (ObjectiveType)Enum.Parse(typeof(ObjectiveType), objectiveStrings[i]);
+
+            return new ContractObjectives(Tier, Objectives);
+        }
     }
 }

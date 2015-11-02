@@ -45,7 +45,7 @@ public class ContractView : EditorWindow
 
         if (GUILayout.Button("New Contract"))
         {
-            ContractEditor newContractEditor = ContractEditor.Init();
+            ContractForm newContractEditor = ContractForm.Init();
             newContractEditor.OnClose = ReloadContracts;
         }
         GUILayout.Space(6);
@@ -129,7 +129,8 @@ public class ContractView : EditorWindow
                 //Edit and delete buttons in their own horizontal across the bottom
                 if (GUILayout.Button("Edit"))
                 {
-                    ContractEditor newContractEditor = ContractEditor.Init(contract);
+                    int index = ContractModel.Contracts.IndexOf(contract);
+                    ContractForm newContractEditor = ContractForm.Init(contract, index);
                     newContractEditor.OnClose = ReloadContracts;
                 }
                 if (GUILayout.Button("Delete"))

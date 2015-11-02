@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
-using WyrmTale;
 
-public class ContractEditorBase : EditorWindow
+public abstract class ContractFormBase : EditorWindow
 {
     public delegate void OnCloseEvent();
     public OnCloseEvent OnClose;
@@ -14,6 +11,7 @@ public class ContractEditorBase : EditorWindow
     protected const int ImagePreviewSize = 70;
 
     protected string closeButtonText = "Add";
+    protected int replacementIndex = -1;
 
     protected void ImagePreviewArea(string label, ref string path, ref Texture2D image)
     {
@@ -61,6 +59,12 @@ public class ContractEditorBase : EditorWindow
     protected Texture2D LoadImage(string imagePath)
     {
         return Resources.Load(imagePath) as Texture2D;
+    }
+
+    //Sets any specific styles we want on editors
+    protected void SetEditorStyles()
+    {
+        EditorStyles.textArea.wordWrap = true;
     }
 
     void OnDestroy()

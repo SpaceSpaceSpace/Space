@@ -15,19 +15,29 @@ public class ContractTargetImage : ContractElement
         this.TargetImagePath = TargetImagePath;
     }
 
-    protected override ContractElement FromJSON(JSON js)
+    //Allows for the conversion from ContractTargetImage to JSON for serialization
+    public static implicit operator JSON(ContractTargetImage contract)
     {
-        ContractContent toCopy = (ContractContent)js;
-        Tier = toCopy.Tier;
+        JSON js = new JSON();
 
-        return toCopy;
+        if (contract == null)
+            return js;
+
+        js["Tier"] = contract.Tier;
+        js["TargetImagePath"] = contract.TargetImagePath;
+
+        return js;
     }
 
-    protected override JSON ToJSON()
+    //Allows for the conversion from JSON to ContractTargetImage for deserialization
+    public static explicit operator ContractTargetImage(JSON js)
     {
-        //JSON js = this;
-        //return js;
+        checked
+        {
+            int Tier = js.ToInt("Tier");
+            string TargetImagePath = js.ToString("TargetImagePath");
 
-        return null;
+            return new ContractTargetImage(Tier, TargetImagePath);
+        }
     }
 }

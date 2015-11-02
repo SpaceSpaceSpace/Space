@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 // 'Imma firin' mah layzah' weapon
 public class BeamWeaponScript : WeaponScript
@@ -55,10 +55,6 @@ public class BeamWeaponScript : WeaponScript
 				
 				HandleHit( hits[ i ] );
 				break;
-			}
-			else
-			{
-				print( "hit " + i + " was self" );
 			}
 		}
 		
