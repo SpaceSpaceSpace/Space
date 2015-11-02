@@ -74,7 +74,7 @@ public class Satellite : MonoBehaviour {
 		Vector3 gravity = GRAVITATION_MAGNITUDE * toCenter / (radius * radius);
 		transform.GetComponent<Rigidbody2D> ().AddForce (new Vector2(gravity.x, gravity.y));
 	}
-	public void ApplyDamage(float damage, Vector2 impulse, Vector2 collPosition){
+	public void ApplyDamage(float damage, Vector2 impulse, Vector2 collPosition, bool fromLaser){
         if (!invincible)
         {
             health -= damage;
@@ -82,7 +82,7 @@ public class Satellite : MonoBehaviour {
             transform.GetComponent<Rigidbody2D>().AddForceAtPosition(imp, collPosition, ForceMode2D.Impulse);
             if (health <= 0)
             {
-                if (!artificial) { Split(mass, imp, collPosition); }
+                if (!artificial) { Split(mass, imp, collPosition, fromLaser); }
                 else
                 {
 
@@ -110,13 +110,13 @@ public class Satellite : MonoBehaviour {
 		if(coll.gameObject.tag == "Asteroid" || coll.gameObject.tag == "Satellite"){
 			/*need to check if one asteroid is entirely contained in another
 			if so, destroy the smaller asteroid.*/
-			ApplyDamage(.05f,Vector2.zero,coll.transform.position);
+			ApplyDamage(.05f,Vector2.zero,coll.transform.position, false);
 
 		}
 
 		
 	}
-	public void Split(float m, Vector3 impulse, Vector2 collPosition)
+	public void Split(float m, Vector3 impulse, Vector2 collPosition, bool fromLaser)
 	{
         
 		//Spawn a little dust poof
@@ -166,9 +166,15 @@ public class Satellite : MonoBehaviour {
 			split1.GetComponent<Rigidbody2D>().AddTorque(Mathf.PI/Random.Range (1,8));
 			split2.GetComponent<Rigidbody2D>().AddTorque(Mathf.PI/Random.Range (1,8));
 
+			if(!fromLaser)
+			{
+				HandleAsteroidSplitExplosion();
+			}
+
 			//destroy the parent asteroid gameobject
 			Destroy(gameObject);
 		}
+        
 
 
 	}
@@ -199,11 +205,43 @@ public class Satellite : MonoBehaviour {
 				//Rigidbody2D roidRb = col.GetComponent<Rigidbody2D>();
 				//roidRb.AddForce( impulse * percent, ForceMode2D.Impulse );
 				Satellite sat = col.GetComponent<Satellite>();
-				sat.ApplyDamage( 10.0f * percent, Vector2.zero, pos );
+				sat.ApplyDamage( 10.0f * percent, Vector2.zero, pos, false );
 			}
 		}
         
 	}
+    private void HandleAsteroidSplitExplosion()
+    {
+        float blastRadius = mass * 2f;
+        float blastForce = 40f * mass;
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, blastRadius);
+
+        foreach (Collider2D col in hitColliders)
+        {
+            Vector3 pos = col.transform.position;
+            Vector2 impulse = pos - transform.position;
+
+            impulse /= impulse.magnitude;
+            impulse *= blastForce;
+
+            float percent = (blastRadius - Vector3.Distance(pos, transform.position)) / blastRadius;
+
+            if (col.tag == "Ship")
+            {
+                ShipScript ship = col.GetComponent<ShipScript>();
+                ship.TakeHit(impulse * percent, pos);
+                ship.ApplyDamage(5.0f * mass * percent, 0.0f);
+            }
+            else if (col.tag == "Satellite")
+            {
+                //Rigidbody2D roidRb = col.GetComponent<Rigidbody2D>();
+                //roidRb.AddForce( impulse * percent, ForceMode2D.Impulse );
+                Satellite sat = col.GetComponent<Satellite>();
+                sat.ApplyDamage(10.0f * percent, Vector2.zero, pos, false);
+            }
+        }
+
+    }
     public IEnumerator InvincibleTimer()
     {
         yield return new WaitForSeconds(1f);

@@ -79,7 +79,7 @@ public class ProjectileScript : MonoBehaviour
 		{
 			// Do same sort of thing as with Ship
 			Satellite sat = col.GetComponent<Satellite>();
-			sat.ApplyDamage( m_damage, Vector2.zero, hitPos );
+			sat.ApplyDamage( m_damage, Vector2.zero, hitPos, false );
 		}
 		DisableProjectile();
 	}
