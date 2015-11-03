@@ -107,7 +107,7 @@ public class Satellite : MonoBehaviour {
 		//damage asteroids that remain in contact with eachother
 		//if (coll.gameObject.tag == "Asteroid")
 			//ApplyDamage (coll.relativeVelocity.magnitude, Vector2.zero);
-		if(coll.gameObject.tag == "Asteroid" || coll.gameObject.tag == "Satellite"){
+		if(coll.gameObject.tag == "Asteroid" || coll.gameObject.tag == "Satellite" || coll.gameObject.tag == "sAsteroid"){
 			/*need to check if one asteroid is entirely contained in another
 			if so, destroy the smaller asteroid.*/
 			ApplyDamage(.05f,Vector2.zero,coll.transform.position, false);
@@ -200,12 +200,12 @@ public class Satellite : MonoBehaviour {
 				ship.TakeHit( impulse * percent, pos );
 				ship.ApplyDamage( 20.0f * mass * percent, 0.0f );
 			}
-			else if( col.tag == "Asteroid" )
+			else if( col.tag == "Asteroid" || col.tag == "sAsteroid")
 			{
 				//Rigidbody2D roidRb = col.GetComponent<Rigidbody2D>();
 				//roidRb.AddForce( impulse * percent, ForceMode2D.Impulse );
 				Satellite sat = col.GetComponent<Satellite>();
-				sat.ApplyDamage( 10.0f * percent, Vector2.zero, pos, false );
+				sat.ApplyDamage( 10.0f * percent, impulse, pos, false );
 			}
 		}
         
@@ -229,15 +229,15 @@ public class Satellite : MonoBehaviour {
             if (col.tag == "Ship")
             {
                 ShipScript ship = col.GetComponent<ShipScript>();
-                ship.TakeHit(impulse * percent, pos);
-                ship.ApplyDamage(5.0f * mass * percent, 0.0f);
+                ship.TakeHit(impulse/2 * percent, pos);
+                ship.ApplyDamage(1.0f * mass * percent, 0.0f);
             }
-            else if (col.tag == "Satellite")
+			else if (col.tag == "Satellite" || col.tag == "sAsteroid" && col.gameObject != gameObject)
             {
                 //Rigidbody2D roidRb = col.GetComponent<Rigidbody2D>();
                 //roidRb.AddForce( impulse * percent, ForceMode2D.Impulse );
                 Satellite sat = col.GetComponent<Satellite>();
-                sat.ApplyDamage(10.0f * percent, Vector2.zero, pos, false);
+                sat.ApplyDamage(0, impulse * 2 * percent, pos, false);
             }
         }
 
