@@ -8,8 +8,8 @@ public class Contract
 	public bool completed;
 	public Vector3 objectivePosition;
 	private string description;
-	private string targetImagePath;
-	private Image targetImage;
+	//private string targetImagePath;
+	//private Image targetImage;
 	private string targetShipImagePath;
 	private Image targetShipImage;
 	private string name;
@@ -24,8 +24,8 @@ public class Contract
 		completed = false;
 		objectivePosition = new Vector3 (Random.Range(-100,100), Random.Range(-25,25), 0);
 		description = "Go here!";
-		targetImagePath = "Image Directory";
-		targetShipImagePath = "ShipImage Directory";
+		//targetImagePath = "Image Directory";
+		//targetShipImagePath = "ShipImage Directory";
 		name = "Unknown";
 		title = "Unknown Title";
 		reward = "0 Space Dollars";
@@ -37,8 +37,8 @@ public class Contract
 		contractObjectives = new List<GameObject> ();
 		completed = false;
 		objectivePosition = new Vector3 (Random.Range(-100,100), Random.Range(-100,100), 0);
-		targetImagePath = "Image Directory";
-		targetShipImagePath = "ShipImage Directory";
+		//targetImagePath = "Image Directory";
+		//targetShipImagePath = "ShipImage Directory";
 		name = p_Name;
 		title = p_Title;
 		description = p_Description;
@@ -70,7 +70,7 @@ public class Contract
 
 	public void CompleteContractObjective(GameObject completedObjective)
 	{
-		contractObjectives.Remove (completedObjective); //UPDATE UI
+		contractObjectives.Remove (completedObjective);
 
 		if(contractObjectives.Count == 0)
 		{
@@ -101,7 +101,7 @@ public class Contract
 	{
 		GameObject oMarker =  player.ObjectiveMarker;
 
-		if(!oMarker.activeSelf)
+		if(oMarker != null && !oMarker.activeSelf)
 		{
 			oMarker.SetActive(true);
 		}

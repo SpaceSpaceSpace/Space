@@ -18,6 +18,14 @@ public class InteractScript : MonoBehaviour
 			}
 		}
 
+		if (Input.GetButtonDown ("Warp") && GameMaster.CurrentGameState == GameState.Flying) 
+		{
+			GameObject warpMngr = (GameObject)GameObject.Find("Warp Manager");
+			WarpScript warpScript = warpMngr.GetComponent<WarpScript>();
+
+			warpScript.CallHangar();
+		}
+
 		//TEMPORARY -- This functionality will be replaced with the Space Station UI
 		if(Input.GetKeyDown (KeyCode.E) && GameMaster.CurrentGameState != GameState.Customization)
 		{

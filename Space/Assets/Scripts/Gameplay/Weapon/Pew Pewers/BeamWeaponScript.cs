@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 // 'Imma firin' mah layzah' weapon
 public class BeamWeaponScript : WeaponScript
@@ -56,10 +56,6 @@ public class BeamWeaponScript : WeaponScript
 				HandleHit( hits[ i ] );
 				break;
 			}
-			else
-			{
-				print( "hit " + i + " was self" );
-			}
 		}
 		
 		// Scale the beam to the distance
@@ -71,6 +67,14 @@ public class BeamWeaponScript : WeaponScript
 	{
 		m_soundSystem.StopPlaying();
 		m_beam.SetActive( false );
+	}
+
+	public override WeaponInfo ToInfo()
+	{
+		WeaponInfo info = new WeaponInfo( WeaponManager.Weapons.MINE_LAUNCHER, modifier );
+		info.AddAttribute( "Damage", damage );
+		info.AddAttribute( "Range", beamRange );
+		return info;
 	}
 
 	public override void ToggleActive()
@@ -85,6 +89,18 @@ public class BeamWeaponScript : WeaponScript
 			}
 		}
 	}
+
+	protected override void ApplyModifier()
+	{
+		if( modifier == WeaponModifier.ModifierNames.DEFAULT )
+		{
+			// Early return
+			return;
+		}
+
+		damage *= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
+		beamRange *= WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BEAM_RANGE );
+	}
 	
 	private void HandleHit( RaycastHit2D hit )
 	{
@@ -97,11 +113,11 @@ public class BeamWeaponScript : WeaponScript
 			
 			ship.ApplyDamage( damage * Time.deltaTime );
 		}
-		else if( go.tag == "Asteroid" )
+		else if( go.tag == "Asteroid" || go.tag == "Satellite" || go.tag == "sAsteroid" )
 		{
 			// Do same sort of thing as with Ship
 			Satellite sat = go.GetComponent<Satellite>();
-			sat.ApplyDamage(damage, dir);
+			sat.ApplyDamage(damage, dir, hit.point, true);
 		}
 	}
 }
