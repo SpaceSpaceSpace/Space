@@ -29,7 +29,7 @@ public class Contract
 		name = "Unknown";
 		title = "Unknown Title";
 		reward = "0 Space Dollars";
-		player = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
+        player = PlayerShipScript.player;
 	}
 
 	public Contract(string p_Name, string p_Description, string p_Title, string p_Reward)
@@ -43,8 +43,8 @@ public class Contract
 		title = p_Title;
 		description = p_Description;
 		reward = p_Reward;
-		player = GameObject.Find ("Player Ship").GetComponent<PlayerShipScript>();
-	}
+		player = PlayerShipScript.player;
+    }
 
 	public string Name
 	{
