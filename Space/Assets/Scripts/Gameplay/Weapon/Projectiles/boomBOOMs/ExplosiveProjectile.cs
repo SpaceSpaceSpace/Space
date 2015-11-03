@@ -78,12 +78,12 @@ public class ExplosiveProjectile : ProjectileScript
 				ship.TakeHit( impulse * percent, pos );
 				ship.ApplyDamage( m_damage * percent, m_shieldPenetration );
 			}
-			else if( col.tag == "Asteroid" )
+			else if( col.tag == "Asteroid" || col.tag == "Satellite" || col.tag == "sAsteroid")
 			{
 				//Rigidbody2D roidRb = col.GetComponent<Rigidbody2D>();
 				//roidRb.AddForce( impulse * percent, ForceMode2D.Impulse );
 				Satellite sat = col.GetComponent<Satellite>();
-				sat.ApplyDamage( m_damage * percent, Vector2.zero );
+				sat.ApplyDamage( m_damage * percent, Vector2.zero, pos, false );
 			}
 		}
 	}
