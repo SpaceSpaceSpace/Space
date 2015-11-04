@@ -267,8 +267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f70e8629a545a4aa04cbd2afcc3696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ship: {fileID: 0}
-  WeaponToggles: {fileID: 0}
 --- !u!114 &11499044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -293,6 +291,9 @@ MonoBehaviour:
   - {fileID: 165392, guid: 832b1cfaef2845147bdfdc89cdcc5998, type: 2}
   - {fileID: 119174, guid: 16a204e6da532c144ab8b62e81387f30, type: 2}
   - {fileID: 178922, guid: 9207a46fe21d8784dacc201ba444df8c, type: 2}
+  - {fileID: 178922, guid: 9207a46fe21d8784dacc201ba444df8c, type: 2}
+  satellitePrefabs:
+  - {fileID: 193818, guid: 5199c4c1437f3454a9707c3614700e78, type: 2}
 --- !u!212 &21277470
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -378,6 +379,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: asteroidPrefabs.Array.size
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Offset.x
       value: 350

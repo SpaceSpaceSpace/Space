@@ -496,6 +496,10 @@ Prefab:
       propertyPath: Attachments.Array.data[3]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 127228, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07c03f46058f04b0d84e1c014d17700a, type: 2}
   m_IsPrefabParent: 0
@@ -951,6 +955,10 @@ Prefab:
     - target: {fileID: 22458040, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 186708, guid: 01f8c8f6ae2354b188e5b9696a0799ed, type: 2}
+      propertyPath: m_TagString
+      value: SectorBounds
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01f8c8f6ae2354b188e5b9696a0799ed, type: 2}
