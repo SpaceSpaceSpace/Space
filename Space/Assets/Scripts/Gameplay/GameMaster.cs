@@ -16,6 +16,8 @@ public class GameMaster : MonoBehaviour {
 	public static PlayerData playerData;
 	public static WeaponManager WeaponMngr;
 
+	public string PlanetName = "Planet1";
+
 	void Awake ()
 	{
 		//There can be only one

@@ -3,13 +3,19 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Customize : MonoBehaviour {
-
-    public PlayerShipScript ship;
-    public ToggleGroup WeaponToggles;
-
-	private bool customizing = false;
+public class Customize : MonoBehaviour
+{ 
+    private ToggleGroup WeaponToggles;
+    private PlayerShipScript ship;
+    private bool customizing = false;
 	private float oldCameraSize;
+
+    //TODO: FUCK THIS SHIT
+    void Start()
+    {
+        WeaponToggles = GameObject.Find("Weapons Panel").GetComponent<ToggleGroup>();
+        WeaponToggles.gameObject.SetActive(false);
+    }
 
 	void Update()
 	{

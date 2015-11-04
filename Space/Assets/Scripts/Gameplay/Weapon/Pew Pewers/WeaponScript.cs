@@ -34,19 +34,23 @@ public abstract class WeaponScript : MonoBehaviour
 	protected SoundSystemScript m_soundSystem;
 	protected bool m_active = true;
 
-	public virtual void ToggleActive()
-	{
-		m_active = !m_active;
-	}
-
-	protected void Init()
-	{
-		m_soundSystem = GetComponent<SoundSystemScript>();
-	}
-	
 	///
 	/// Public Methods
 	///
 	public abstract void Fire();
 	public abstract void OnRelease();
+
+	public abstract WeaponInfo ToInfo();
+
+	public virtual void ToggleActive()
+	{
+		m_active = !m_active;
+	}
+	
+	protected void Init()
+	{
+		m_soundSystem = GetComponent<SoundSystemScript>();
+	}
+
+	protected abstract void ApplyModifier();
 }
