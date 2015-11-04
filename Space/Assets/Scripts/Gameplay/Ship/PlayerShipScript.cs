@@ -5,11 +5,9 @@ using System.Collections.Generic;
 public class PlayerShipScript : ShipScript
 {
 	public static PlayerShipScript player = null;
-	public GameObject objectivePrefab;
 	
 	public List<Vector2> AttachmentPoints = new List<Vector2>();
 	public List<GameObject> Attachments = new List<GameObject>();
-	
 	
 	public GameObject objectiveMarker;
 	
