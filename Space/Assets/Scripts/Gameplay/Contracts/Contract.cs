@@ -81,6 +81,8 @@ public class Contract
 	//Eventually will spawn objectives based off contract
 	public void SpawnContract(PlayerShipScript player)
 	{
+        Debug.Log(GameObject.Find("Player Ship"));
+
 		GameObject contractObjective1 = (GameObject)GameObject.Instantiate (player.objectivePrefab, objectivePosition, Quaternion.identity);
 		contractObjective1.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
 		contractObjective1.GetComponent<ObjectiveEvent> ().init (ObjectiveType.KillTarget);
