@@ -13,17 +13,15 @@ public class AISpawnerScript : MonoBehaviour {
 
 	private int currentAI;
 	private Transform objective;
-	private List<GameObject> squad;
 
-
-	public List<GameObject> Squad { get { return squad; } set { squad = value; } }
+	public List<GameObject> squad;
 	public Transform Objective { set { objective = value; } }
 	// Use this for initialization
 	public void Init () {
 
 		currentAI = 0;
 		Vector2 spawnPos;
-		List<GameObject> squad = new List<GameObject>(startAI);
+		squad = new List<GameObject>(startAI);
 		for(int i = 0; i < startAI; i++)
 		{
 			float distance = Random.Range(0.0f, range);

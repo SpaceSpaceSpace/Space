@@ -110,7 +110,7 @@ public class ObjectiveEvent : MonoBehaviour {
 				spawner.GetComponent<AISpawnerScript>().Objective = transform;
 				spawner.GetComponent<AISpawnerScript>().Init();
 				spawner.transform.parent = transform;
-				target = spawner.GetComponent<AISpawnerScript>().Squad[0];
+				target = spawner.GetComponent<AISpawnerScript>().squad[0];
 				break;
 		}
 	}
@@ -153,30 +153,7 @@ public class ObjectiveEvent : MonoBehaviour {
 				}
 				break;
 			case ObjectiveType.EscortCargo:
-				if(target == null)
-				{
-					if(CheckIfNextObjective())
-					{
-						//Set the next objective to active and update the minimap
-						nextObjective.SetActive(true);
-						objectiveContract.SetUIMarker(nextObjective);
-					}
-					CompleteTask();
-				}
-				else
-				{
-					timeToObjUpdate -= Time.deltaTime;
-					if(timeToObjUpdate <= 0.0f)
-					{
-						transform.position = target.transform.position;
-						timeToObjUpdate = 5.0f;
-					}
-					Color c = gameObject.GetComponentInChildren<SpriteRenderer>().color;
-					float alpha = timeToObjUpdate.Remap(0f,5f,0f,1f);
-					c.a = alpha;
-					gameObject.GetComponentInChildren<SpriteRenderer>().color = c;
-					//Debug.Log(gameObject.GetComponentInChildren<SpriteRenderer>().color.a);
-				}
+				
 				break;
 		}
 	}

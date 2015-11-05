@@ -27,6 +27,10 @@ public class AIShipScript : ShipScript {
 	private bool m_obstacle; // is there an obstacle in the way
 	private Vector2 objectiveStartPos;
 
+	private float[] m_weapRange;
+	private float[] m_weapSpread;
+	private float[] m_weapSpeed;
+	private float[] m_weapLifeSpan;
 
 	// Weights for flocking
 	private const float ALIGNMENT = 4.0f;
@@ -41,13 +45,15 @@ public class AIShipScript : ShipScript {
 	public Transform Target { get { return m_target; } set { m_target = value; } }
 	public bool Obstacle { get { return m_obstacle; } }
 	public Vector2 ObjectiveStartPos { get { return objectiveStartPos; } }
+	public float[] WeapRange { get { return m_weapRange; } }
+	public float[] WeapSpread { get { return m_weapSpread; } }
 	// Use this for initialization
 	void Start () {
 		InitShip();
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce);
 
-		player = GameObject.Find("Player Ship").transform;
-		m_target = GameObject.Find("Player Ship").transform; // Find the player, will likely change
+		player = PlayerShipScript.player.transform;
+		m_target = player; // Find the player, will likely change
 		m_wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
 		Go ();
@@ -55,6 +61,34 @@ public class AIShipScript : ShipScript {
 		m_attackPos = Vector2.zero;
 		obstacleTrans = null;
 		objectiveStartPos = objective.position;
+
+
+
+		// set up variables for weapons
+		m_weapRange = new float[m_weapons.Length];
+		m_weapSpeed = new float[m_weapons.Length];
+		m_weapSpread = new float[m_weapons.Length];
+		m_weapLifeSpan = new float[m_weapons.Length];
+		for(int i = 0; i < m_weapons.Length;i++)
+		{
+			switch(m_weapons[i].weaponType)
+			{
+			case WeaponScript.WeaponType.SCATTER_SHOT:
+			case WeaponScript.WeaponType.SHOOTY_KILLY:
+				ProjectileWeaponScript pScript = GetComponentInChildren<ProjectileWeaponScript>();
+				m_weapSpeed[i] = pScript.projectileSpeed;
+				m_weapLifeSpan[i] = pScript.projectileLifeTime;
+				m_weapSpread[i] = pScript.maxSpreadAngle;
+				break;
+			case WeaponScript.WeaponType.BEAM:
+				BeamWeaponScript bScript = GetComponentInChildren<BeamWeaponScript>();
+				m_weapLifeSpan[i] = -1;
+				m_weapSpread[i] = 0;
+				m_weapSpeed[i] = -1;
+				m_weapRange[i] = bScript.beamRange;
+				break;
+			}
+		}
 
 		for(int i = 0; i < squad.Count; i++)
 		{
@@ -66,8 +100,14 @@ public class AIShipScript : ShipScript {
 	// Update is called once per frame
 	void Update () {
 		DetectObstacle();
-		if(spawner != null)
-			spawner.Squad = squad;
+		// calculate the weapon range
+		Vector2 velocity = GetComponent<Rigidbody2D>().velocity;
+		float rangePercent = Vector2.Dot(transform.up,velocity.normalized);
+		for(int i = 0; i < m_weapons.Length;i++)
+		{
+			if(m_weapLifeSpan[i] != -1)
+				m_weapRange[i] = (m_weapSpeed[i] + (velocity.magnitude * rangePercent)) * m_weapLifeSpan[i];
+		}
 	}
 
 
@@ -133,6 +173,7 @@ public class AIShipScript : ShipScript {
 
 	public void AttackTarget(float maxDistance)
 	{
+		maxDistance = m_weapRange[0];
 		if(m_attackPos == Vector2.zero)
 		{
 			float xPos = Random.Range(-maxDistance, maxDistance);
@@ -151,28 +192,43 @@ public class AIShipScript : ShipScript {
 			m_thrust.Accelerate = false;
 			FaceTarget(m_target.position);
 			m_attackPos = Vector2.zero;
-			if(AngleToTarget(m_target.position) < 10.0f && CanSeeTarget(m_target))
+			for(int i = 0; i < m_weapons.Length;i++)
 			{
-				FireWeapon();
+				if(AngleToTarget(m_target.position) < m_weapSpread[i] && CanSeeTarget(m_target))
+				{
+					FireWeapon();
+				}
 			}
 		}
 
 
 	}
 
-	public bool CheckAggro(float distance)
+	public bool CheckAggro(float distance, string[] targets)
 	{
-		if(DistanceTo(Target.position) < distance)
+		for(int i = 0; i < targets.Length;i++)
 		{
-			aggro = true;
-			return true;
-		}
-		else
-			aggro = false;
-		foreach(GameObject g in squad)
-		{
-			if(g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
-				return true;
+			Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, distance);
+			foreach(Collider2D c in col)
+			{
+				foreach(string s in targets)
+				{
+					if(c.gameObject.name.Contains(s))
+					{
+						aggro = true;
+						return true;
+					}
+					else
+						aggro = false;
+
+				}
+			}
+			foreach(GameObject g in squad)
+			{
+				if(g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
+					return true;
+			}
+
 		}
 		return false;
 
@@ -214,7 +270,9 @@ public class AIShipScript : ShipScript {
 	{
 		for(int i = 0; i < m_weapons.Length; i++)
 		{
+
 			m_weapons[i].Fire();
+
 		}
 	}
 
