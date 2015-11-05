@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerData : MonoBehaviour {
+public class PlayerData : MonoBehaviour
+{
 	
 	public List<Contract> playerContracts = new List<Contract>();
 	public PlayerShipScript player;
@@ -11,6 +12,6 @@ public class PlayerData : MonoBehaviour {
 	public void AcceptContract(Contract contract)
 	{
 		playerContracts.Add (contract);
-		contract.SpawnContract (player);
+		contract.SpawnContract ();
 	}
 }

@@ -118,7 +118,7 @@ public class ObjectiveEvent : MonoBehaviour
     private void CompleteTask()
     {
         objectiveContract.CompleteContractObjective(this.gameObject);
-        objectiveContract.Player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(this.gameObject);
+        PlayerShipScript.player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(this.gameObject);
         GameObject.Destroy(this.gameObject);
     }
 
