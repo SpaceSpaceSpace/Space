@@ -171,7 +171,7 @@ public class AIShipScript : ShipScript {
 	}
 
 
-	public void AttackTarget(float maxDistance)
+	public void AttackTarget(float maxDistance, string[] friends)
 	{
 		maxDistance = m_weapRange[0];
 		if(m_attackPos == Vector2.zero)
@@ -194,7 +194,7 @@ public class AIShipScript : ShipScript {
 			m_attackPos = Vector2.zero;
 			for(int i = 0; i < m_weapons.Length;i++)
 			{
-				if(AngleToTarget(m_target.position) < m_weapSpread[i] && CanSeeTarget(m_target))
+				if(AngleToTarget(m_target.position) < m_weapSpread[i] && CanSeeTarget(m_target, friends))
 				{
 					FireWeapon();
 				}
@@ -337,7 +337,7 @@ public class AIShipScript : ShipScript {
 
 	}
 
-	public bool CanSeeTarget(Transform targetTrans)
+	public bool CanSeeTarget(Transform targetTrans, string[] friends)
 	{
 		float targetDist = Vector2.Distance(targetTrans.position, transform.position);
 		if(targetDist > 20.0f)
@@ -350,11 +350,28 @@ public class AIShipScript : ShipScript {
 				return false;
 		}
 
-		// if the player is the first thing in front of the enemy
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, targetTrans.position - transform.position, 15.0f);
+		Vector2 circleStart = transform.position + transform.up * 50.0f;
+		RaycastHit2D[] hits = Physics2D.CircleCastAll(circleStart, 50.0f, transform.up, 15.0f);
 
+		for(int i = 0; i < hits.Length; i++)
+		{
+			foreach(string s in friends)
+			{
+				// if a friend is in the way, don't shoot
+				if(hits[i].collider.gameObject.name.Contains(s) && AngleToTarget(hits[i].collider.gameObject.transform.position) < m_weapSpread[0])
+				{
+					return false;
+				}
+			}
+		}
+
+		// if the target is the first thing
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, targetTrans.position - transform.position, 15.0f);
+		
 		if(hit && hit.collider.gameObject.transform == targetTrans)
 			return true;
+
+
 
 		return false;
 	}
