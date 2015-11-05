@@ -113,7 +113,7 @@ public class BeamWeaponScript : WeaponScript
 			
 			ship.ApplyDamage( damage * Time.deltaTime );
 		}
-		else if( go.tag == "Asteroid" || go.tag == "Satellite" )
+		else if( go.tag == "Asteroid" || go.tag == "Satellite" || go.tag == "sAsteroid" )
 		{
 			// Do same sort of thing as with Ship
 			Satellite sat = go.GetComponent<Satellite>();

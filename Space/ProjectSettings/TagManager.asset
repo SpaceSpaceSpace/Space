@@ -10,6 +10,8 @@ TagManager:
   - Contract
   - Objective
   - Asteroid
+  - Satellite
+  - SectorBounds
   layers:
   - Default
   - TransparentFX
