@@ -16,7 +16,7 @@ public class Contract
 	private string title;
 	private string reward;
 	private List<GameObject> contractObjectives;
-	private PlayerShipScript player;
+    private GameObject objectivePrefab;
 
 	public Contract()
 	{
@@ -29,7 +29,7 @@ public class Contract
 		name = "Unknown";
 		title = "Unknown Title";
 		reward = "0 Space Dollars";
-        player = PlayerShipScript.player;
+        objectivePrefab = Resources.Load("Objective") as GameObject;
 	}
 
 	public Contract(string p_Name, string p_Description, string p_Title, string p_Reward)
@@ -43,17 +43,12 @@ public class Contract
 		title = p_Title;
 		description = p_Description;
 		reward = p_Reward;
-		player = PlayerShipScript.player;
+        objectivePrefab = Resources.Load("Objective") as GameObject;
     }
 
 	public string Name
 	{
 		get{ return name;}
-	}
-
-	public PlayerShipScript Player
-	{
-		get{return player;}
 	}
 
 	public Dictionary<string,string> GetContractDetails()
@@ -79,14 +74,14 @@ public class Contract
 	}
 
 	//Eventually will spawn objectives based off contract
-	public void SpawnContract(PlayerShipScript player)
+	public void SpawnContract()
 	{
-		GameObject contractObjective1 = (GameObject)GameObject.Instantiate (player.objectivePrefab, objectivePosition, Quaternion.identity);
+		GameObject contractObjective1 = (GameObject)GameObject.Instantiate (objectivePrefab, objectivePosition, Quaternion.identity);
 		contractObjective1.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
 		contractObjective1.GetComponent<ObjectiveEvent> ().init (ObjectiveType.KillTarget);
 		SetUIMarker (contractObjective1);
 
-		GameObject contractObjective2 = (GameObject)GameObject.Instantiate (player.objectivePrefab, objectivePosition, Quaternion.identity);
+		GameObject contractObjective2 = (GameObject)GameObject.Instantiate (objectivePrefab, objectivePosition, Quaternion.identity);
 		contractObjective2.GetComponent<ObjectiveEvent> ().ObjectiveContract = this;
 		contractObjective2.GetComponent<ObjectiveEvent> ().init (ObjectiveType.TurnInContract);
 		contractObjective2.SetActive (false);
@@ -99,7 +94,7 @@ public class Contract
 
 	public void SetUIMarker(GameObject contractObjective)
 	{
-		GameObject oMarker =  player.ObjectiveMarker;
+		GameObject oMarker = PlayerShipScript.player.ObjectiveMarker;
 
 		if(oMarker != null && !oMarker.activeSelf)
 		{
