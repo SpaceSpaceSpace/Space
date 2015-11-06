@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class Explosion : MonoBehaviour {
-
+	
 	[HideInInspector]
-	public float ExpandSpeed = 5.0f;
+	public float SpriteRadius = 2.0f;
 	[HideInInspector]
 	public float FadeSpeed = 1.0f;
 	[HideInInspector]
@@ -23,6 +23,8 @@ public class Explosion : MonoBehaviour {
 
 	private Vector2 direction;
 	private float speed;
+
+	bool m_doneFading = false;
 	
 	void Start () 
 	{
@@ -36,28 +38,43 @@ public class Explosion : MonoBehaviour {
 		float y = Random.Range(-1f, 1f);
 		direction = new Vector2(x, y).normalized;
 		speed = Random.Range(MinSpeed, MaxSpeed);
+
+		StartCoroutine(Explode());
 	}
-	
+
+	IEnumerator Explode()
+	{
+		float elapsedTime = 0;
+
+		while(elapsedTime < FadeSpeed)
+		{
+			m_scale = Mathf.Lerp(m_scale, SpriteRadius, elapsedTime);
+			m_transparency = Mathf.Lerp(m_transparency, 0, elapsedTime);
+
+			//Set transparency
+			m_color.a = m_transparency;
+			m_material.color = m_color;
+
+			//Set Scale
+			transform.localScale = new Vector3(m_scale,m_scale,1);
+
+			//Add to time
+			elapsedTime += (Time.deltaTime / FadeSpeed);
+			
+			yield return null;
+		}
+
+		m_doneFading = true;
+		yield return null;
+	}
+
 	void Update () 
 	{
-		float dt = Time.deltaTime;
-		
-		//Increment scale and transparency
-		m_scale += ExpandSpeed * dt;
-		m_transparency -= FadeSpeed * dt;
-		
-		//Set scale
-		transform.localScale = new Vector3(m_scale, m_scale, 1);
-		
-		//Set transparency
-		m_color.a = m_transparency;
-		m_material.color = m_color;
-
 		//Apply velocity
-		transform.position += (Vector3)(direction * speed * dt);
+		transform.position += (Vector3)(direction * speed * Time.deltaTime);
 
 		//Finished when object will no longer be visible
-		if(m_transparency <= 0)
+		if(m_doneFading)
 			Destroy(gameObject);
 	}
 }

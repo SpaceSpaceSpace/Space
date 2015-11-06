@@ -85,8 +85,6 @@ public class Satellite : MonoBehaviour {
                 if (!artificial) { Split(mass, imp, collPosition, fromLaser); }
                 else
                 {
-
-                    Instantiate(ms_explosion, transform.position, Quaternion.identity);
                     HandleExplosion();
                     Destroy(gameObject);
                 }
@@ -114,7 +112,7 @@ public class Satellite : MonoBehaviour {
 
 		}
 
-		
+
 	}
 	public void Split(float m, Vector3 impulse, Vector2 collPosition, bool fromLaser)
 	{
@@ -123,11 +121,13 @@ public class Satellite : MonoBehaviour {
 		float rotation = Random.Range(0, 360);
 		Vector3 rotVector = new Vector3(0,0,rotation);
 		GameObject dust = Instantiate(m_dustplosion,transform.position, Quaternion.Euler(rotVector)) as GameObject;
-		
+
 		//Set the fade speed of the dust poof to be inversely proportional to the mass of the satellite
 		Explode explosion = dust.GetComponent<Explode>();
-        float inverseMass = 1 / m;
-        explosion.FadeSpeed = inverseMass;
+		explosion.ParticleRadius = m * 10;
+		explosion.ParticleCount = (int)(m * 10);
+		explosion.SpriteRadius = m * 2;
+        explosion.FadeSpeed = 3.0f;
         Instantiate(explosion, transform.position, Quaternion.identity);
 
 		//destroy the asteroid if it is too small to split
@@ -139,7 +139,6 @@ public class Satellite : MonoBehaviour {
 		{
             Vector2 colToCenter = ((Vector2)transform.position - collPosition).normalized;
             Vector2 colToCenterPerp = new Vector2(colToCenter.y, colToCenter.x * -1);
-
 
             //spawn asteroids apart from each other based on the location of the collision
             float split1Mass = Random.Range(m / 4, m / 2);
@@ -196,7 +195,14 @@ public class Satellite : MonoBehaviour {
 		float blastRadius = 16.0f;
 		float blastForce = 50f*mass;
 		Collider2D[] hitColliders = Physics2D.OverlapCircleAll( transform.position, blastRadius );
-		
+
+		//Setup explosion to throw particles around based on blast radius
+		Explode explode = ms_explosion.GetComponent<Explode>();
+		explode.ParticleRadius = blastRadius * 10;
+		explode.SpriteRadius = mass;
+
+		Instantiate(ms_explosion, transform.position, Quaternion.identity);
+
 		foreach( Collider2D col in hitColliders )
 		{
 			Vector3 pos = col.transform.position;
