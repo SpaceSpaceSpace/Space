@@ -7,9 +7,9 @@ using WyrmTale;
 
 public class ContractObjectives : ContractElement
 {
-    public ObjectiveType[] Objectives;
+    public Objective[] Objectives;
 
-    public ContractObjectives(int Tier, ObjectiveType[] Objectives)
+    public ContractObjectives(int Tier, Objective[] Objectives)
     {
         this.Tier = Tier;
         this.Objectives = Objectives;
@@ -35,11 +35,7 @@ public class ContractObjectives : ContractElement
         checked
         {
             int Tier = js.ToInt("Tier");
-            string[] objectiveStrings = js.ToArray<string>("Objectives");
-
-            ObjectiveType[] Objectives = new ObjectiveType[objectiveStrings.Length];
-            for (int i = 0; i < objectiveStrings.Length; i++)
-                Objectives[i] = (ObjectiveType)Enum.Parse(typeof(ObjectiveType), objectiveStrings[i]);
+            Objective[] Objectives = js.ToArray<Objective>("Objectives");
 
             return new ContractObjectives(Tier, Objectives);
         }

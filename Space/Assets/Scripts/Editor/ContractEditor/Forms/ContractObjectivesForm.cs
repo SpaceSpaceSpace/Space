@@ -7,7 +7,7 @@ using WyrmTale;
 public class ContractObjectivesForm : ContractFormBase
 { 
     public int Tier = 1;
-    public List<ObjectiveType> Objectives = new List<ObjectiveType>();
+    public List<Objective> Objectives = new List<Objective>();
 
     public static ContractObjectivesForm Init()
     {

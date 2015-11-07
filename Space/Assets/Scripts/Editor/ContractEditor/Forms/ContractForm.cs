@@ -11,7 +11,7 @@ public class ContractForm : ContractFormBase
     public string Description = "";
     public string TargetImagePath = "";
     public string TargetShipImagePath = "";
-    public List<ObjectiveType> Objectives = new List<ObjectiveType>();
+    public List<Objective> Objectives = new List<Objective>();
 
     private Texture2D TargetImage;
     private Texture2D TargetShipImage;

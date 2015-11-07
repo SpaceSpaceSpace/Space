@@ -13,7 +13,7 @@ public class ContractModel
     public string Description;
     public string TargetImagePath;
     public string TargetShipImagePath;
-    public ObjectiveType[] Objectives;
+    public Objective[] Objectives;
 
     public static string StoryContractsPath = "Assets/Resources/Contracts/";
     public static string StoryContractsName = "StoryContracts";
@@ -23,7 +23,7 @@ public class ContractModel
     public static Dictionary<string, Texture2D> ContractTargetImages = new Dictionary<string, Texture2D>();
     public static Dictionary<string, Texture2D> ContractTargetShipImages = new Dictionary<string, Texture2D>();
 
-    public ContractModel(int Tier, string Title, string TargetName, string Description, string TargetImagePath, string TargetShipImagePath, ObjectiveType[] Objectives)
+    public ContractModel(int Tier, string Title, string TargetName, string Description, string TargetImagePath, string TargetShipImagePath, Objective[] Objectives)
     {
         this.Tier = Tier;
         this.Title = Title;
@@ -115,13 +115,7 @@ public class ContractModel
             string Description = js.ToString("Description");
             string TargetImagePath = js.ToString("TargetImagePath");
             string TargetShipImagePath = js.ToString("TargetShipImagePath");
-            string[] ObjectiveStrings = js.ToArray<string>("Objectives");
-
-            ObjectiveType[] Objectives = new ObjectiveType[ObjectiveStrings.Length];
-
-            //Convert from JSON strings to enum
-            for (int i = 0; i < ObjectiveStrings.Length; i++)
-                Objectives[i] = (ObjectiveType)Enum.Parse(typeof(ObjectiveType), ObjectiveStrings[i]);
+            Objective[] Objectives = js.ToArray<Objective>("Objectives");
 
             return new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath, Objectives);
         }
