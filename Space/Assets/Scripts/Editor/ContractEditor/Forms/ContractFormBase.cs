@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine;
 using UnityEditor;
 
@@ -31,12 +32,17 @@ public abstract class ContractFormBase : EditorWindow
         EditorGUILayout.EndHorizontal();
     }
 
-    protected void ObjectiveArea(string label, ref List<ObjectiveType> list)
+    protected void ObjectivesArea(string label, ref List<Objective> list)
     {
+        Type[] ObjectiveTypes = GetAllObjectiveTypes();
+        string[] ObjectiveStrings = GetAllObjectiveStrings();
+        List<string> ObjectiveStringList = ObjectiveStrings.ToList();
+        
         int listCount = list.Count;
         int newCount = EditorGUILayout.IntField("Objective Count", listCount);
 
-        ObjectiveType[] array = new ObjectiveType[newCount];
+        Objective[] array = new Objective[newCount];
+
         if (listCount != newCount)
         {
             if (listCount < newCount)
@@ -46,11 +52,28 @@ public abstract class ContractFormBase : EditorWindow
 
         for (int i = 0; i < newCount; i++)
         {
-            ObjectiveType type = list.ElementAtOrDefault(i);
+            EditorGUILayout.BeginHorizontal();
 
-            type = (ObjectiveType)EditorGUILayout.EnumPopup(type, GUILayout.MaxWidth(150));
+            Objective objective = list.ElementAtOrDefault(i);
+            if (objective == null)
+                objective = new ObjectiveGoTo();
 
-            array[i] = type;
+            //Dropdown for the objective type
+            Type objectiveType = objective.GetType();
+            int currentTypeIndex = ObjectiveStringList.IndexOf(objectiveType.ToString());
+
+            int newIndex = EditorGUILayout.Popup(currentTypeIndex, ObjectiveStrings);
+            if (newIndex != currentTypeIndex)
+            {
+                objectiveType = (ObjectiveTypes[newIndex]);
+                objective = (Objective)Activator.CreateInstance(objectiveType);
+            }
+
+            ObjectiveArea(ref objective, objectiveType);
+
+            array[i] = objective;
+
+            EditorGUILayout.EndHorizontal();
         }
 
         list = array.ToList();
@@ -66,6 +89,44 @@ public abstract class ContractFormBase : EditorWindow
     {
         EditorStyles.textArea.wordWrap = true;
     }
+    
+    //GUI layout for a specific objective
+    private void ObjectiveArea(ref Objective objective, Type derivedType)
+    {
+        if (derivedType == typeof(ObjectiveGoTo))
+        {
+            objective.Position = EditorGUILayout.Vector3Field("", objective.Position);
+        }
+        if (derivedType == typeof(ObjectiveKillTarget))
+        {
+            ObjectiveKillTarget obj = (ObjectiveKillTarget)objective;
+            Debug.Log(obj.GuardCount);
+            obj.GuardCount = EditorGUILayout.IntField("Guards", obj.GuardCount);
+            objective = obj;
+        }
+    }
+
+    private Type[] GetAllObjectiveTypes()
+    {
+        Type[] types = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+                        from assemblyType in domainAssembly.GetTypes()
+                        where typeof(Objective).IsAssignableFrom(assemblyType)
+                        select assemblyType).ToArray();
+
+        return types;
+    }
+
+    private string[] GetAllObjectiveStrings()
+    {
+        Type[] types = GetAllObjectiveTypes();
+
+        string[] strings = new string[types.Length];
+        for (int i = 1; i < strings.Length; i++)
+            strings[i] = types[i].ToString();
+
+        return strings;
+    }
+
 
     void OnDestroy()
     {
