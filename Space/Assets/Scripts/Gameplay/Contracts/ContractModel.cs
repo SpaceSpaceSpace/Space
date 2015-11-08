@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
 using System;
@@ -82,7 +81,6 @@ public class ContractModel
         contractJSON["Contracts"] = contractsListJSON;
 
         File.WriteAllText(StoryContractsPath + StoryContractsName + StoryContractsExt, contractJSON.serialized);
-        AssetDatabase.Refresh();
     }
 
     //Allows for the conversion from ContractModel to JSON for serialization

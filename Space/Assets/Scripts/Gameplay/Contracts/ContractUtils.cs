@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using UnityEngine;
-using UnityEditor;
 using WyrmTale;
 
 public class ContractUtils
@@ -24,6 +23,5 @@ public class ContractUtils
     public static void WriteJSONToFile(string filepath, JSON js)
     {
         File.WriteAllText(filepath, js.serialized);
-        AssetDatabase.Refresh();
     }
 }
