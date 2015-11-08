@@ -20,7 +20,6 @@ public class ProjectileWeaponScript : WeaponScript
 		m_canFire = true;
 		m_currProjectile = 0;
 		Init();
-		ApplyModifier();
 		SpawnProjectiles();
 	}
 	
@@ -48,11 +47,47 @@ public class ProjectileWeaponScript : WeaponScript
 
 	public override WeaponInfo ToInfo()
 	{
-		WeaponInfo info = new WeaponInfo( WeaponManager.Weapons.MINE_LAUNCHER, modifier );
+		WeaponInfo info = new WeaponInfo( weaponType, modifier );
 		info.AddAttribute( "Damage", damage );
 		info.AddAttribute( "Fire Rate", fireTime );
 		info.AddAttribute( "Projectile Speed", projectileSpeed );
 		info.AddAttribute( "Accuracy", 1 - ( maxSpreadAngle / 360 ) );
+
+		if( weaponType == WeaponType.SCATTER_SHOT )
+		{
+			info.AddAttribute( "Projectiles", projectilesPerShot );
+		}
+
+		return info;
+	}
+
+	public override WeaponInfo ToInfo( WeaponModifier.ModifierNames mod )
+	{
+		float moddedDamage = damage * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
+		float moddedFireRate = fireTime / WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.FIRE_RATE );
+		float moddedAccuracy = maxSpreadAngle / WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.ACCURACY );
+
+		WeaponInfo info = new WeaponInfo( weaponType, modifier );
+
+		if( weaponType != WeaponType.SCATTER_SHOT )
+		{
+			info.AddAttribute( "Damage", moddedDamage );
+		}
+		else
+		{
+			info.AddAttribute( "Damage", damage );
+		}
+
+		info.AddAttribute( "Fire Rate", moddedFireRate );
+		info.AddAttribute( "Projectile Speed", projectileSpeed );
+		info.AddAttribute( "Accuracy", 1 - ( moddedAccuracy / 360 ) );
+		
+		if( weaponType == WeaponType.SCATTER_SHOT )
+		{
+			int bonusProjectiles = (int)WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BONUS_PROJECTILES );
+			info.AddAttribute( "Projectiles", projectilesPerShot + bonusProjectiles );
+		}
+		
 		return info;
 	}
 
@@ -67,7 +102,7 @@ public class ProjectileWeaponScript : WeaponScript
 		if( weaponType == WeaponType.SCATTER_SHOT )
 		{
 			int bonusProjectiles = (int)WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BONUS_PROJECTILES );
-			m_numProjectiles += bonusProjectiles;
+			projectilesPerShot += bonusProjectiles;
 		}
 		else
 		{
