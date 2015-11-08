@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de070a919647411d9c25654b6e4001b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 126896, guid: 14263b854b21c4a17939088eaa154868, type: 2}
+  projectilePrefab: {fileID: 126896, guid: 91f56fec2e607469795c60474760b702, type: 2}
   fireFromPoint: {fileID: 421026}
   fireSoundName: Laser_Bolt
   damage: 5
@@ -185,7 +185,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 62331e9f1cffea54ba32051554d6cf42, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 693118d88c4ea49cbb9f5f3d9f67cf86, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -214,6 +214,15 @@ Prefab:
       propertyPath: modifier
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 693118d88c4ea49cbb9f5f3d9f67cf86,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 126896, guid: 91f56fec2e607469795c60474760b702, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 191334}
