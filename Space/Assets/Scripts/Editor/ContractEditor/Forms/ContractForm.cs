@@ -70,7 +70,7 @@ public class ContractForm : ContractFormBase
 
         EditorGUILayout.Space();
 
-        ObjectiveArea("Objectives", ref Objectives);
+        ObjectivesArea("Objectives", ref Objectives);
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();

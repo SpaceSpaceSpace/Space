@@ -38,7 +38,7 @@ public class ContractObjectivesForm : ContractFormBase
 
         Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
 
-        ObjectiveArea("Objectives", ref Objectives);
+        ObjectivesArea("Objectives", ref Objectives);
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();

@@ -20,7 +20,7 @@ public abstract class Objective
     public abstract void HitObjective(Collider2D collider);
 
     protected abstract JSON ToJSON();
-    protected abstract Objective FromJSON(JSON js);
+    protected abstract void FromJSON(JSON js);
 
     public static implicit operator JSON(Objective objective)
     {
@@ -33,10 +33,29 @@ public abstract class Objective
         checked
         {
             //Deserialize objective type from JSON
+            string type = js.ToString("Type");
+            Objective objective;
 
-            //Objective obj = new Objective();
-            //obj.FromJSON(js);
-            return new ObjectiveGoTo();
+            switch (type)
+            {
+                case "GoTo":
+                    objective = new ObjectiveGoTo();
+                break;
+                case "TurnInContract":
+                    objective = new ObjectiveTurnInContract();
+                    break;
+                case "KillTarget":
+                    objective = new ObjectiveKillTarget();
+                    break;
+                case "EscortCargo":
+                    objective = new ObjectiveEscortCargo();
+                    break;
+                default:
+                    objective = new ObjectiveGoTo();
+                    break;
+            }
+            objective.FromJSON(js);
+            return objective;
         }
     }
 }

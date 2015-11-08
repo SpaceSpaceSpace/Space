@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using WyrmTale;
 
-public class ObjectiveKillTarget : Objective {
+public class ObjectiveKillTarget : Objective
+{
+    public int GuardCount = 4;
 
     private GameObject target;
     private static GameObject AISpawner = null;
@@ -32,8 +34,11 @@ public class ObjectiveKillTarget : Objective {
             AISpawner = Resources.Load("AISpawner") as GameObject;
 
         GameObject spawner = (GameObject)GameObject.Instantiate(AISpawner, Position, Quaternion.identity);
-        spawner.GetComponent<AISpawnerScript>().Init();
-        target = spawner.GetComponent<AISpawnerScript>().squadLeader;
+        AISpawnerScript aiSpawnerScript = spawner.GetComponent<AISpawnerScript>();
+        aiSpawnerScript.startAI = GuardCount + 1;
+        aiSpawnerScript.maxAI = GuardCount + 1;
+        aiSpawnerScript.Init();
+        target = aiSpawnerScript.squadLeader;
     }
 
     public override void ObjectiveUpdate()
@@ -63,10 +68,22 @@ public class ObjectiveKillTarget : Objective {
 
     protected override JSON ToJSON()
     {
-        return new JSON();
+        JSON js = new JSON();
+        js["Type"] = "KillTarget";
+        js["PositionX"] = Position.x;
+        js["PositionY"] = Position.y;
+        js["Completed"] = completed;
+        js["GuardCount"] = GuardCount;
+        js["Sector"] = 1;
+
+        return js;
     }
-    protected override Objective FromJSON(JSON js)
+    protected override void FromJSON(JSON js)
     {
-        return new ObjectiveKillTarget();
+        GuardCount = js.ToInt("GuardCount");
+        completed = js.ToBoolean("Completed");
+        float x = js.ToFloat("PositionX");
+        float y = js.ToFloat("PositionY");
+        Position = new Vector2(x, y);
     }
 }

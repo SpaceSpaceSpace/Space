@@ -5,12 +5,10 @@ public class ObjectiveTurnInContract : Objective
 {
     Transform store;
 
-    public ObjectiveTurnInContract()
+    public override void SetupObjective(GameObject objectiveManager)
     {
         store = GameObject.Find("SpaceStore").transform;
     }
-
-    public override void SetupObjective(GameObject objectiveManager) { }
 
     public override void ObjectiveUpdate()
     {
@@ -25,11 +23,20 @@ public class ObjectiveTurnInContract : Objective
 
     protected override JSON ToJSON()
     {
-        return new JSON();
-        //throw new NotImplementedException();
+        JSON js = new JSON();
+        js["Type"] = "TurnInContract";
+        js["PositionX"] = Position.x;
+        js["PositionY"] = Position.y;
+        js["Completed"] = completed;
+        js["Sector"] = 1;
+
+        return js;
     }
-    protected override Objective FromJSON(JSON js)
+    protected override void FromJSON(JSON js)
     {
-        return new ObjectiveGoTo();
+        completed = js.ToBoolean("Completed");
+        float x = js.ToFloat("PositionX");
+        float y = js.ToFloat("PositionY");
+        Position = new Vector2(x, y);
     }
 }

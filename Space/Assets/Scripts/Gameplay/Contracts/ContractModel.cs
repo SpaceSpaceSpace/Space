@@ -99,7 +99,7 @@ public class ContractModel
         js["Description"] = contract.Description;
         js["TargetImagePath"] = contract.TargetImagePath;
         js["TargetShipImagePath"] = contract.TargetShipImagePath;
-        js["Objectives"] = contract.Objectives;
+        js["Objectives"] = Array.ConvertAll(contract.Objectives, item => (JSON)item);
 
         return js;
     }
@@ -115,7 +115,8 @@ public class ContractModel
             string Description = js.ToString("Description");
             string TargetImagePath = js.ToString("TargetImagePath");
             string TargetShipImagePath = js.ToString("TargetShipImagePath");
-            Objective[] Objectives = js.ToArray<Objective>("Objectives");
+            JSON[] rawObjectives = js.ToArray<JSON>("Objectives");
+            Objective[] Objectives = Array.ConvertAll(rawObjectives, item => (Objective)item);
 
             return new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath, Objectives);
         }

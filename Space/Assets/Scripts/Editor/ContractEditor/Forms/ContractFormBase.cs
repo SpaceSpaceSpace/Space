@@ -4,14 +4,6 @@ using System;
 using UnityEngine;
 using UnityEditor;
 
-//public enum ObjectiveType
-//{
-//    GoTo,
-//    KillTarget,
-//    TurnInContract,
-//    EscortCargo
-//}
-
 public abstract class ContractFormBase : EditorWindow
 {
     public delegate void OnCloseEvent();
@@ -21,18 +13,6 @@ public abstract class ContractFormBase : EditorWindow
 
     protected string closeButtonText = "Add";
     protected int replacementIndex = -1;
-
-    private string[] GetAllObjectiveTypes()
-    {
-        Type type = Type.GetType("Objective");
-        Type[] types = type.GetInterfaces();
-
-        string[] objectiveTypes = new string[types.Length];
-        for (int i = 0; i < types.Length; i++)
-            objectiveTypes[i] = types[i].ToString();
-
-        return objectiveTypes;
-    }
 
     protected void ImagePreviewArea(string label, ref string path, ref Texture2D image)
     {
@@ -52,8 +32,12 @@ public abstract class ContractFormBase : EditorWindow
         EditorGUILayout.EndHorizontal();
     }
 
-    protected void ObjectiveArea(string label, ref List<Objective> list)
+    protected void ObjectivesArea(string label, ref List<Objective> list)
     {
+        Type[] ObjectiveTypes = GetAllObjectiveTypes();
+        string[] ObjectiveStrings = GetAllObjectiveStrings();
+        List<string> ObjectiveStringList = ObjectiveStrings.ToList();
+        
         int listCount = list.Count;
         int newCount = EditorGUILayout.IntField("Objective Count", listCount);
 
@@ -66,15 +50,31 @@ public abstract class ContractFormBase : EditorWindow
                     array[i] = list[i];
         }
 
-        //for (int i = 0; i < newCount; i++)
-        //{
-        //    Objective objective = list.ElementAtOrDefault(i);
-        //
-        //
-        //    ObjectiveType type = (ObjectiveType)EditorGUILayout.EnumPopup(type, GUILayout.MaxWidth(150));
-        //
-        //    array[i] = type;
-        //}
+        for (int i = 0; i < newCount; i++)
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            Objective objective = list.ElementAtOrDefault(i);
+            if (objective == null)
+                objective = new ObjectiveGoTo();
+
+            //Dropdown for the objective type
+            Type objectiveType = objective.GetType();
+            int currentTypeIndex = ObjectiveStringList.IndexOf(objectiveType.ToString());
+
+            int newIndex = EditorGUILayout.Popup(currentTypeIndex, ObjectiveStrings);
+            if (newIndex != currentTypeIndex)
+            {
+                objectiveType = (ObjectiveTypes[newIndex]);
+                objective = (Objective)Activator.CreateInstance(objectiveType);
+            }
+
+            ObjectiveArea(ref objective, objectiveType);
+
+            array[i] = objective;
+
+            EditorGUILayout.EndHorizontal();
+        }
 
         list = array.ToList();
     }
@@ -89,6 +89,44 @@ public abstract class ContractFormBase : EditorWindow
     {
         EditorStyles.textArea.wordWrap = true;
     }
+    
+    //GUI layout for a specific objective
+    private void ObjectiveArea(ref Objective objective, Type derivedType)
+    {
+        if (derivedType == typeof(ObjectiveGoTo))
+        {
+            objective.Position = EditorGUILayout.Vector3Field("", objective.Position);
+        }
+        if (derivedType == typeof(ObjectiveKillTarget))
+        {
+            ObjectiveKillTarget obj = (ObjectiveKillTarget)objective;
+            Debug.Log(obj.GuardCount);
+            obj.GuardCount = EditorGUILayout.IntField("Guards", obj.GuardCount);
+            objective = obj;
+        }
+    }
+
+    private Type[] GetAllObjectiveTypes()
+    {
+        Type[] types = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+                        from assemblyType in domainAssembly.GetTypes()
+                        where typeof(Objective).IsAssignableFrom(assemblyType)
+                        select assemblyType).ToArray();
+
+        return types;
+    }
+
+    private string[] GetAllObjectiveStrings()
+    {
+        Type[] types = GetAllObjectiveTypes();
+
+        string[] strings = new string[types.Length];
+        for (int i = 1; i < strings.Length; i++)
+            strings[i] = types[i].ToString();
+
+        return strings;
+    }
+
 
     void OnDestroy()
     {

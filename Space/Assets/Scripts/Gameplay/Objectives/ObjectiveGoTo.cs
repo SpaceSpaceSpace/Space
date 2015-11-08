@@ -30,10 +30,20 @@ public class ObjectiveGoTo : Objective
 
     protected override JSON ToJSON()
     {
-        return new JSON();
+        JSON js = new JSON();
+        js["Type"] = "GoTo";
+        js["PositionX"] = Position.x;
+        js["PositionY"] = Position.y;
+        js["Completed"] = completed;
+        js["Sector"] = 1;
+
+        return js;
     }
-    protected override Objective FromJSON(JSON js)
+    protected override void FromJSON(JSON js)
     {
-        return new ObjectiveGoTo();
+        completed = js.ToBoolean("Completed");
+        float x = js.ToFloat("PositionX");
+        float y = js.ToFloat("PositionY");
+        Position = new Vector2(x, y);
     }
 }
