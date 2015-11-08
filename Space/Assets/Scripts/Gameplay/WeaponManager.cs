@@ -3,28 +3,17 @@ using System.Collections;
 
 public class WeaponManager : MonoBehaviour
 {
-	public enum Weapons
-	{
-		LASER_MACHINE_GUN,
-		LASER_SNIPER,
-		LASER_SHOTGUN,
-		BEAM,
-		MISSILE_LAUNCHER,
-		MINE_LAUNCHER,
-		NUM_WEAPONS
-	}
-
 	public GameObject[] weaponPrefabs;
 
-	public GameObject GetWeaponPrefab( Weapons type )
+	public GameObject GetWeaponPrefab( WeaponScript.WeaponType type )
 	{
-		if( (int)type < (int)Weapons.NUM_WEAPONS )
+		if( (int)type < (int)WeaponScript.WeaponType.NUM_WEAPONS )
 		{
 			return weaponPrefabs[ (int)type ];
 		}
 		else
 		{
-			return weaponPrefabs[ (int)Weapons.LASER_MACHINE_GUN ];
+			return weaponPrefabs[ (int)WeaponScript.WeaponType.LASER_MACHINE_GUN ];
 		}
 	}
 }
