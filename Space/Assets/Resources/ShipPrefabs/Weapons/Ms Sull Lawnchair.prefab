@@ -154,7 +154,7 @@ MonoBehaviour:
   fireFromPoint: {fileID: 495250}
   fireSoundName: Laser_Bolt
   damage: 100
-  weaponType: 2
+  weaponType: 4
   modifier: 0
   fireTime: 1
   maxSpreadAngle: 0
@@ -200,7 +200,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: weaponType
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
