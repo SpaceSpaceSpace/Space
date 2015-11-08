@@ -8,12 +8,13 @@ public class StoreBoard : MonoBehaviour {
 
 	public Text targetName;
 	public Text title;
-	public Text description;
 	public Text reward;
 	public Image portrait;
 	public Image shipImage;
 	public GameObject scrollView;
 	public GameObject buttonPrefab;
+	public GameObject statLocation;
+	public GameObject statPrefab;
 	private List<WeaponInfo> currentWeapons;
 	private int currentSelectedWeapon;
 
@@ -22,8 +23,10 @@ public class StoreBoard : MonoBehaviour {
 		currentWeapons = new List<WeaponInfo> ();
 
 		GameObject g = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponManager.Weapons.LASER_MACHINE_GUN);
-
 		currentWeapons.Add (g.GetComponent<WeaponScript> ().ToInfo());
+
+		GameObject g2 = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponManager.Weapons.LASER_SHOTGUN);
+		currentWeapons.Add (g2.GetComponent<WeaponScript> ().ToInfo());
 
 		PopulateButtons ();
 	}
@@ -81,14 +84,23 @@ public class StoreBoard : MonoBehaviour {
 
 	public void SetStoreValues(int index)
 	{
-		currentSelectedWeapon = index;
-		Debug.Log (currentWeapons [currentSelectedWeapon].attributes.Values.Count);
-		//Dictionary<string,string> values = currentContracts [index].GetContractDetails ();
+		foreach(Transform t in statLocation.transform)
+		{
+			Destroy(t.gameObject);
+		}
 
-		//SetName (values ["Name"]);
-		//SetTitle (values ["Title"]);
-		//SetDescription (values ["Description"]);
-		//SetReward (values ["Reward"]);
+		currentSelectedWeapon = index;
+
+		targetName.text = currentWeapons [currentSelectedWeapon].Name;
+
+		foreach(KeyValuePair<string,float> key in currentWeapons[currentSelectedWeapon].attributes)
+		{
+			GameObject stat = Instantiate(statPrefab);
+			stat.transform.SetParent(statLocation.transform,false);
+			Text[] textObjects = stat.GetComponentsInChildren<Text>();
+			textObjects[0].text = key.Key;
+			textObjects[1].text = key.Value.ToString();
+		}
 	}
 
 	private void SetBlankValues()
@@ -96,7 +108,6 @@ public class StoreBoard : MonoBehaviour {
 		currentSelectedWeapon = -1;
 		SetName ("-----");
 		SetTitle ("-----");
-		SetDescription ("-----");
 		SetReward("-----");
 	}
 
@@ -108,11 +119,6 @@ public class StoreBoard : MonoBehaviour {
 	public void SetTitle(string p_Title)
 	{
 		title.text = p_Title;
-	}
-
-	public void SetDescription(string p_Des)
-	{
-		description.text = p_Des;
 	}
 
 	public void SetReward(string p_Reward)
