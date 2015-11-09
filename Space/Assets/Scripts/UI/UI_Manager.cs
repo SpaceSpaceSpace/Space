@@ -9,13 +9,14 @@ public class UI_Manager : MonoBehaviour
     public GameObject storeBoard;
     public GameObject gameOverScreen;
     public GameObject spaceStationUI;
-    public GameObject spaceStation;
+    public GameObject spaceStationObject;
     public PlayerShipScript player;
 
     // Use this for initialization
     void Start()
     {
         instance = this;
+		spaceStationObject = GameObject.Find ("SpaceStore");
         SetAllScreensToInactive();
     }
 
@@ -26,12 +27,14 @@ public class UI_Manager : MonoBehaviour
         if (active)
         {
             player.Dock();
-            player.transform.position = spaceStation.transform.position;
+			player.transform.position = spaceStationObject.transform.position;
+			player.transform.SetParent(spaceStationUI.transform);
             player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         }
         else
         {
             player.Undock();
+			player.transform.SetParent(null);
         }
     }
 
@@ -43,7 +46,7 @@ public class UI_Manager : MonoBehaviour
         if (active)
         {
             player.Dock();
-            player.transform.position = spaceStation.transform.position;
+			player.transform.position = spaceStationObject.transform.position;
             player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         }
         else
@@ -60,7 +63,7 @@ public class UI_Manager : MonoBehaviour
         if (active)
         {
             player.Dock();
-            player.transform.position = spaceStation.transform.position;
+			player.transform.position = spaceStationObject.transform.position;
             player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         }
         else
