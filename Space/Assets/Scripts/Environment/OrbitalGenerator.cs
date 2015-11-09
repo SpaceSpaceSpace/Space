@@ -11,12 +11,15 @@ public class OrbitalGenerator : MonoBehaviour {
 	//public int numChunks;
 	public int objectCount = 0;
 
+	public GameObject currentSector;
+
 	public GameObject[] asteroidPrefabs = new GameObject[9];
     public GameObject[] satellitePrefabs = new GameObject[2];
 
 	// Use this for initialization
 	void Start () {
 
+		currentSector = GameObject.Find ("Warp Manager").GetComponent<WarpScript> ().currentPlanet;
 
 		generateBelt (24, new Vector2 (90.0f, 90.0f), true);
 		//generateBelt (48, new Vector2 (105.0f, 105.0f), false);
@@ -40,6 +43,7 @@ public class OrbitalGenerator : MonoBehaviour {
 
 		GameObject obj = (GameObject)Instantiate(objectPrefab,pos,Quaternion.identity);
 		obj.GetComponent<Satellite> ().ScaleMass (Random.Range (1, 12), false);
+		obj.transform.SetParent (currentSector.transform);
 	}
 
 	/// <summary>
@@ -96,7 +100,9 @@ public class OrbitalGenerator : MonoBehaviour {
                 prefabGenerated.GetComponent<Satellite> ().ScaleMass (Random.Range (.5f, 8f), false);
                 //prefabGenerated.GetComponent<Satellite>().SetCenterOfOrbit(centerPoint);
                 prefabGenerated.transform.parent = beltMaster.transform;
-				
+
+				beltMaster.transform.SetParent(currentSector.transform);
+
 				objectCount++;
 			
 			}

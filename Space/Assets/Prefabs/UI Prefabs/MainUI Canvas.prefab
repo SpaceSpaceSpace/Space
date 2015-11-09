@@ -4476,6 +4476,7 @@ MonoBehaviour:
   storeBoard: {fileID: 143614}
   gameOverScreen: {fileID: 103602}
   spaceStationUI: {fileID: 189364}
+  weaponToggles: {fileID: 130788}
   player: {fileID: 0}
   weaponDockUI: {fileID: 11432670}
 --- !u!114 &11485262
