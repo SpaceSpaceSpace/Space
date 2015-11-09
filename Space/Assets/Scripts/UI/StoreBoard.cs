@@ -22,11 +22,15 @@ public class StoreBoard : MonoBehaviour {
 	{
 		currentWeapons = new List<WeaponInfo> ();
 
-		GameObject g = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponManager.Weapons.LASER_MACHINE_GUN);
-		currentWeapons.Add (g.GetComponent<WeaponScript> ().ToInfo());
+		for(int i = 0; i < 5; i++)
+		{
+			GameObject g = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponScript.WeaponType.LASER_MACHINE_GUN);
+			WeaponModifier.ModifierNames modifier = (WeaponModifier.ModifierNames) UnityEngine.Random.Range((int)WeaponModifier.ModifierNames.PROJ_WEP_START, (int)WeaponModifier.ModifierNames.PROJ_WEP_END);
+			currentWeapons.Add (g.GetComponent<WeaponScript> ().ToInfo (modifier));
+		}
 
-		GameObject g2 = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponManager.Weapons.LASER_SHOTGUN);
-		currentWeapons.Add (g2.GetComponent<WeaponScript> ().ToInfo());
+		//GameObject g2 = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponScript.WeaponType.MISSILE_LAUNCHER);
+		//currentWeapons.Add (g2.GetComponent<WeaponScript> ().ToInfo(WeaponModifier.ModifierNames.));
 
 		PopulateButtons ();
 	}
