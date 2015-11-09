@@ -107,8 +107,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 497308}
+  - 114: {fileID: 11424354}
   m_Layer: 0
-  m_Name: Planet2
+  m_Name: "Nek\u2019tan Prime"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -217,6 +218,18 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 7.4000001, y: 6.90999985}
+--- !u!114 &11424354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e0072e704f63444fb03450646fada85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpaceStore: {fileID: 11467336}
 --- !u!114 &11436950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -394,6 +407,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Size.y
       value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Name
+      value: "Nek\u2019tan Prime"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

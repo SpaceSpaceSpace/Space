@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WarpScript : MonoBehaviour {
-
+public class WarpScript : MonoBehaviour
+{
 	public GameObject hangarPrefab;
 
 	// Use this for initialization
 	void Start () {
-		GameObject levelObj = Resources.Load ( "Sectors/" + GameMaster.Master.PlanetName ) as GameObject;
+        GameObject levelObj = GameMaster.Sectors[GameMaster.Master.PlanetName].gameObject;
 		GameObject planet = Instantiate (levelObj);
 		planet.name = GameMaster.Master.PlanetName;
 	}
