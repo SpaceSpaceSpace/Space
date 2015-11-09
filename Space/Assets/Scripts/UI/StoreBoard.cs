@@ -22,10 +22,12 @@ public class StoreBoard : MonoBehaviour {
 	{
 		currentWeapons = new List<WeaponInfo> ();
 
-		for(int i = 0; i < 5; i++)
+		for(int i = 0; i < 8; i++)
 		{
-			GameObject g = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponScript.WeaponType.BEAM);
-			WeaponModifier.ModifierNames modifier = (WeaponModifier.ModifierNames) UnityEngine.Random.Range((int)WeaponModifier.ModifierNames.PROJ_WEP_START, (int)WeaponModifier.ModifierNames.PROJ_WEP_END);
+			WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) UnityEngine.Random.Range(0,(int)WeaponScript.WeaponType.NUM_WEAPONS);
+
+			GameObject g = GameMaster.WeaponMngr.GetWeaponPrefab (weapon);
+			WeaponModifier.ModifierNames modifier = (WeaponModifier.ModifierNames) UnityEngine.Random.Range((int)WeaponModifier.PROJ_WEP_START, (int)WeaponModifier.PROJ_WEP_END);
 			currentWeapons.Add (g.GetComponent<WeaponScript> ().ToInfo (modifier));
 
 			Debug.Log("Name: " + modifier);
