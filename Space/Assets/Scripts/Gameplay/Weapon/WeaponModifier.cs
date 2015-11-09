@@ -21,18 +21,18 @@ public struct WeaponModifier
 
 		NUM_MODIFIERS,
 
-		PROJ_WEP_START = Crappy,
-		PROJ_WEP_END = Abundant,
-		SCATTER_WEP_START = PROJ_WEP_END,
-		SCATTER_WEP_END = Big_Boom_Boom,
-		MISSILE_WEP_START = PROJ_WEP_START,
-		MISSILE_WEP_END = PROJ_WEP_END,
-		MINE_WEP_START = SCATTER_WEP_END,
-		MINE_WEP_END = Blaarg,
-		BEAM_WEP_START = MINE_WEP_END,
-		BEAM_WEP_END = NUM_MODIFIERS,
-
 	}
+
+	public const int PROJ_WEP_START = (int)ModifierNames.Crappy;
+	public const int PROJ_WEP_END = (int)ModifierNames.Abundant;
+	public const int SCATTER_WEP_START = PROJ_WEP_END;
+	public const int SCATTER_WEP_END = (int)ModifierNames.Big_Boom_Boom;
+	public const int MISSILE_WEP_START = PROJ_WEP_START;
+	public const int MISSILE_WEP_END = PROJ_WEP_END;
+	public const int MINE_WEP_START = SCATTER_WEP_END;
+	public const int MINE_WEP_END = (int)ModifierNames.Blaarg;
+	public const int BEAM_WEP_START = MINE_WEP_END;
+	public const int BEAM_WEP_END = (int)ModifierNames.NUM_MODIFIERS;
 
 	public enum Stats
 	{
