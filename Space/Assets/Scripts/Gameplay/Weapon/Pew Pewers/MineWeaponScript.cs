@@ -44,11 +44,11 @@ public class MineWeaponScript : WeaponScript
 
 	public override WeaponInfo ToInfo( WeaponModifier.ModifierNames mod )
 	{
-		float moddedDamage = damage * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
-		float moddedSpeed = projectileSpeed * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.MINE_SPEED );
-		float moddedFireRate = fireTime / WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.FIRE_RATE );
+		float moddedDamage = damage * WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.DAMAGE );
+		float moddedSpeed = projectileSpeed * WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.MINE_SPEED );
+		float moddedFireRate = fireTime / WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.FIRE_RATE );
 
-		WeaponInfo info = new WeaponInfo( weaponType, modifier );
+		WeaponInfo info = new WeaponInfo( weaponType, mod );
 		info.AddAttribute( "Damage", moddedDamage );
 		info.AddAttribute( "Fire Rate", moddedFireRate );
 		info.AddAttribute( "Projectile Speed", moddedSpeed );

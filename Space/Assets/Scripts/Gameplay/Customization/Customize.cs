@@ -65,6 +65,7 @@ public class Customize : MonoBehaviour
 		WeaponToggles.gameObject.SetActive(false);
 
 		customizing = false;
+		UI_Manager.instance.UpdateWeaponDockUI ();
 	}
 
 	private void CenterShip()

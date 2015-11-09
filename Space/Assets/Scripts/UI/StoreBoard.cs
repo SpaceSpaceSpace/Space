@@ -8,18 +8,36 @@ public class StoreBoard : MonoBehaviour {
 
 	public Text targetName;
 	public Text title;
-	public Text description;
 	public Text reward;
 	public Image portrait;
 	public Image shipImage;
 	public GameObject scrollView;
 	public GameObject buttonPrefab;
+	public GameObject statLocation;
+	public GameObject statPrefab;
 	private List<WeaponInfo> currentWeapons;
 	private int currentSelectedWeapon;
 
 	void OnEnable()
 	{
+		currentWeapons = new List<WeaponInfo> ();
 
+		for(int i = 0; i < 8; i++)
+		{
+			WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) UnityEngine.Random.Range(0,(int)WeaponScript.WeaponType.NUM_WEAPONS);
+
+			GameObject g = GameMaster.WeaponMngr.GetWeaponPrefab (weapon);
+			WeaponModifier.ModifierNames modifier = (WeaponModifier.ModifierNames) UnityEngine.Random.Range((int)WeaponModifier.PROJ_WEP_START, (int)WeaponModifier.PROJ_WEP_END);
+			currentWeapons.Add (g.GetComponent<WeaponScript> ().ToInfo (modifier));
+
+			Debug.Log("Name: " + modifier);
+			Debug.Log("Casted: " + (int)modifier);
+		}
+
+		//GameObject g2 = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponScript.WeaponType.MISSILE_LAUNCHER);
+		//currentWeapons.Add (g2.GetComponent<WeaponScript> ().ToInfo(WeaponModifier.ModifierNames.));
+
+		PopulateButtons ();
 	}
 
 	private void PopulateButtons()
@@ -75,13 +93,23 @@ public class StoreBoard : MonoBehaviour {
 
 	public void SetStoreValues(int index)
 	{
-		currentSelectedWeapon = index;
-		//Dictionary<string,string> values = currentContracts [index].GetContractDetails ();
+		foreach(Transform t in statLocation.transform)
+		{
+			Destroy(t.gameObject);
+		}
 
-		//SetName (values ["Name"]);
-		//SetTitle (values ["Title"]);
-		//SetDescription (values ["Description"]);
-		//SetReward (values ["Reward"]);
+		currentSelectedWeapon = index;
+
+		targetName.text = currentWeapons [currentSelectedWeapon].Name;
+
+		foreach(KeyValuePair<string,float> key in currentWeapons[currentSelectedWeapon].attributes)
+		{
+			GameObject stat = Instantiate(statPrefab);
+			stat.transform.SetParent(statLocation.transform,false);
+			Text[] textObjects = stat.GetComponentsInChildren<Text>();
+			textObjects[0].text = key.Key;
+			textObjects[1].text = key.Value.ToString();
+		}
 	}
 
 	private void SetBlankValues()
@@ -89,7 +117,6 @@ public class StoreBoard : MonoBehaviour {
 		currentSelectedWeapon = -1;
 		SetName ("-----");
 		SetTitle ("-----");
-		SetDescription ("-----");
 		SetReward("-----");
 	}
 
@@ -101,11 +128,6 @@ public class StoreBoard : MonoBehaviour {
 	public void SetTitle(string p_Title)
 	{
 		title.text = p_Title;
-	}
-
-	public void SetDescription(string p_Des)
-	{
-		description.text = p_Des;
 	}
 
 	public void SetReward(string p_Reward)

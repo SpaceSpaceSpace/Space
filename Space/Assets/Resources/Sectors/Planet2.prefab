@@ -10,8 +10,8 @@ GameObject:
   - 4: {fileID: 470324}
   - 212: {fileID: 21256262}
   - 61: {fileID: 6155368}
-  - 114: {fileID: 11456998}
   - 114: {fileID: 11482686}
+  - 114: {fileID: 11467336}
   m_Layer: 10
   m_Name: SpaceStore
   m_TagString: Interactable
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709512a488201da459ec3cbcf69c9a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11456998
+--- !u!114 &11467336
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -252,9 +252,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 146290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c786afdbba68e4a679098142760039f1, type: 3}
+  m_Script: {fileID: 11500000, guid: f9f7ab0e186591e43b29cadf564ebab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerShip: {fileID: 0}
 --- !u!114 &11480152
 MonoBehaviour:
   m_ObjectHideFlags: 1
