@@ -9,6 +9,7 @@ public class UI_Manager : MonoBehaviour
     public GameObject storeBoard;
     public GameObject gameOverScreen;
     public GameObject spaceStationUI;
+	public GameObject weaponToggles;
 	public PlayerShipScript player;
 	public WeaponDock weaponDockUI;
 
