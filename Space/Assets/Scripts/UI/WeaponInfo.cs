@@ -6,7 +6,7 @@ public class WeaponInfo {
 
 	private string name;
 	WeaponModifier.ModifierNames modifier; 
-	Dictionary<string,float> attributes;
+	public Dictionary<string,float> attributes;
 
 	public WeaponInfo(WeaponScript.WeaponType weaponType, WeaponModifier.ModifierNames p_Modifier)
 	{
@@ -21,7 +21,6 @@ public class WeaponInfo {
 	{
 		get{ return name; }
 	}
-
 	
 	public GameObject SpawnWeapon()
 	{
