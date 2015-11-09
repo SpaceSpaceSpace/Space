@@ -63,11 +63,11 @@ public class ProjectileWeaponScript : WeaponScript
 
 	public override WeaponInfo ToInfo( WeaponModifier.ModifierNames mod )
 	{
-		float moddedDamage = damage * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
-		float moddedFireRate = fireTime / WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.FIRE_RATE );
-		float moddedAccuracy = maxSpreadAngle / WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.ACCURACY );
+		float moddedDamage = damage * WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.DAMAGE );
+		float moddedFireRate = fireTime / WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.FIRE_RATE );
+		float moddedAccuracy = maxSpreadAngle / WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.ACCURACY );
 
-		WeaponInfo info = new WeaponInfo( weaponType, modifier );
+		WeaponInfo info = new WeaponInfo( weaponType, mod );
 
 		if( weaponType != WeaponType.SCATTER_SHOT )
 		{
@@ -84,7 +84,7 @@ public class ProjectileWeaponScript : WeaponScript
 		
 		if( weaponType == WeaponType.SCATTER_SHOT )
 		{
-			int bonusProjectiles = (int)WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BONUS_PROJECTILES );
+			int bonusProjectiles = (int)WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.BONUS_PROJECTILES );
 			info.AddAttribute( "Projectiles", projectilesPerShot + bonusProjectiles );
 		}
 		

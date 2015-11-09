@@ -1,9 +1,4 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Collections.Generic;
-using System.IO;
-using System;
-using WyrmTale;
+﻿using WyrmTale;
 
 public class ContractRewards : ContractElement
 {
