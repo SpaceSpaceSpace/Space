@@ -12,7 +12,7 @@ public class BeamWeaponScript : WeaponScript
 	 
 	void Start ()
 	{
-		m_soundSystem = GetComponent<SoundSystemScript>();
+		Init();
 		m_beam = (GameObject)Instantiate( projectilePrefab, fireFromPoint.position, Quaternion.identity );
 		m_beam.transform.parent = transform;
 		m_beam.SetActive( false );
@@ -71,9 +71,19 @@ public class BeamWeaponScript : WeaponScript
 
 	public override WeaponInfo ToInfo()
 	{
-		WeaponInfo info = new WeaponInfo( WeaponManager.Weapons.MINE_LAUNCHER, modifier );
+		WeaponInfo info = new WeaponInfo( weaponType, modifier );
 		info.AddAttribute( "Damage", damage );
 		info.AddAttribute( "Range", beamRange );
+		return info;
+	}
+
+	public override WeaponInfo ToInfo( WeaponModifier.ModifierNames mod )
+	{
+		float moddedDamage = damage * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
+		float moddedRange = beamRange * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BEAM_RANGE );
+		WeaponInfo info = new WeaponInfo( weaponType, modifier );
+		info.AddAttribute( "Damage", moddedDamage );
+		info.AddAttribute( "Range", moddedRange );
 		return info;
 	}
 

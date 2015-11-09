@@ -154,7 +154,7 @@ MonoBehaviour:
   fireFromPoint: {fileID: 470828}
   fireSoundName: Laser_Beam
   damage: 1
-  weaponType: 4
+  weaponType: 3
   modifier: 0
   beamRange: 15
 --- !u!212 &21236458
@@ -196,7 +196,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: weaponType
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: modifier

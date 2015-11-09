@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
 using System;
@@ -13,7 +12,7 @@ public class ContractModel
     public string Description;
     public string TargetImagePath;
     public string TargetShipImagePath;
-    public ObjectiveType[] Objectives;
+    public Objective[] Objectives;
 
     public static string StoryContractsPath = "Assets/Resources/Contracts/";
     public static string StoryContractsName = "StoryContracts";
@@ -23,7 +22,7 @@ public class ContractModel
     public static Dictionary<string, Texture2D> ContractTargetImages = new Dictionary<string, Texture2D>();
     public static Dictionary<string, Texture2D> ContractTargetShipImages = new Dictionary<string, Texture2D>();
 
-    public ContractModel(int Tier, string Title, string TargetName, string Description, string TargetImagePath, string TargetShipImagePath, ObjectiveType[] Objectives)
+    public ContractModel(int Tier, string Title, string TargetName, string Description, string TargetImagePath, string TargetShipImagePath, Objective[] Objectives)
     {
         this.Tier = Tier;
         this.Title = Title;
@@ -82,7 +81,6 @@ public class ContractModel
         contractJSON["Contracts"] = contractsListJSON;
 
         File.WriteAllText(StoryContractsPath + StoryContractsName + StoryContractsExt, contractJSON.serialized);
-        AssetDatabase.Refresh();
     }
 
     //Allows for the conversion from ContractModel to JSON for serialization
@@ -99,7 +97,7 @@ public class ContractModel
         js["Description"] = contract.Description;
         js["TargetImagePath"] = contract.TargetImagePath;
         js["TargetShipImagePath"] = contract.TargetShipImagePath;
-        js["Objectives"] = contract.Objectives;
+        js["Objectives"] = Array.ConvertAll(contract.Objectives, item => (JSON)item);
 
         return js;
     }
@@ -115,13 +113,8 @@ public class ContractModel
             string Description = js.ToString("Description");
             string TargetImagePath = js.ToString("TargetImagePath");
             string TargetShipImagePath = js.ToString("TargetShipImagePath");
-            string[] ObjectiveStrings = js.ToArray<string>("Objectives");
-
-            ObjectiveType[] Objectives = new ObjectiveType[ObjectiveStrings.Length];
-
-            //Convert from JSON strings to enum
-            for (int i = 0; i < ObjectiveStrings.Length; i++)
-                Objectives[i] = (ObjectiveType)Enum.Parse(typeof(ObjectiveType), ObjectiveStrings[i]);
+            JSON[] rawObjectives = js.ToArray<JSON>("Objectives");
+            Objective[] Objectives = Array.ConvertAll(rawObjectives, item => (Objective)item);
 
             return new ContractModel(Tier, Title, TargetName, Description, TargetImagePath, TargetShipImagePath, Objectives);
         }

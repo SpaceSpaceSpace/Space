@@ -8,7 +8,7 @@ public class WeaponInfo {
 	WeaponModifier.ModifierNames modifier; 
 	public Dictionary<string,float> attributes;
 
-	public WeaponInfo(WeaponManager.Weapons weaponType, WeaponModifier.ModifierNames p_Modifier)
+	public WeaponInfo(WeaponScript.WeaponType weaponType, WeaponModifier.ModifierNames p_Modifier)
 	{
 		GameObject prefab = GameMaster.WeaponMngr.GetWeaponPrefab( weaponType );
 		WeaponModifier.GetModifiedName( p_Modifier, prefab.name, out name );

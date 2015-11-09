@@ -21,8 +21,8 @@ public class ContractObjectivesView : ContractViewBase<ContractObjectives> {
             GUILayout.Label("Tier: " + content.Tier);
             GUILayout.Label("Objectives:");
 
-            foreach (ObjectiveType objective in content.Objectives)
-                GUILayout.Label(objective.ToString());
+            foreach (Objective objective in content.Objectives)
+                GUILayout.Label(objective.GetType().ToString());
             
             ControlsArea(content);
         }

@@ -7,7 +7,7 @@ using WyrmTale;
 public class ContractObjectivesForm : ContractFormBase
 { 
     public int Tier = 1;
-    public List<ObjectiveType> Objectives = new List<ObjectiveType>();
+    public List<Objective> Objectives = new List<Objective>();
 
     public static ContractObjectivesForm Init()
     {
@@ -38,7 +38,7 @@ public class ContractObjectivesForm : ContractFormBase
 
         Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
 
-        ObjectiveArea("Objectives", ref Objectives);
+        ObjectivesArea("Objectives", ref Objectives);
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();

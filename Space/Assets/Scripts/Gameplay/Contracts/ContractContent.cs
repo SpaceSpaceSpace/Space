@@ -1,8 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
-using System.Collections.Generic;
-using System.IO;
-using System;
 using WyrmTale;
 
 public class ContractContent : ContractElement
