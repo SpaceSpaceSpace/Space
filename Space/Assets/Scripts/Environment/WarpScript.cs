@@ -20,7 +20,8 @@ public class WarpScript : MonoBehaviour {
 	// This will eventually open the warp UI, for now just warps to space station
 	void OnCollisionEnter2D(Collision2D coll)
 	{
-		WarpToStation ();
+        if(coll.collider.gameObject == PlayerShipScript.player.gameObject)
+            WarpToStation ();
 	}
 
 	public void CallHangar()
@@ -37,7 +38,8 @@ public class WarpScript : MonoBehaviour {
 
 		StartCoroutine ("WarpWaitTime");
 
-		playerShip.transform.position = spaceStation.transform.position;
+        if(playerShip != null && spaceStation != null)
+            playerShip.transform.position = spaceStation.transform.position;
 	}
 
 	IEnumerator WarpWaitTime()

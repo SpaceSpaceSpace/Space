@@ -21,7 +21,7 @@ public class BountyBoard : MonoBehaviour {
 	{
 		currentContracts = new List<Contract> ();
 
-		/*
+        /*
 		for(int i = 0; i < 10; i++)
 		{
 			Contract contract = new Contract();

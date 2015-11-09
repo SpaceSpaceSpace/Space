@@ -232,7 +232,7 @@ MonoBehaviour:
   startAI: 5
   range: 10
   AIPrefab: {fileID: 109514, guid: 0f51e57af72cf0f4ea33ef487a02587e, type: 2}
-  leaderSprite: {fileID: 21300000, guid: 1bec9324f7e99bb4eb09025483f9d4b8, type: 3}
+  squadLeader: {fileID: 0}
 --- !u!114 &11446130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,6 +279,8 @@ MonoBehaviour:
   - {fileID: 165392, guid: 832b1cfaef2845147bdfdc89cdcc5998, type: 2}
   - {fileID: 119174, guid: 16a204e6da532c144ab8b62e81387f30, type: 2}
   - {fileID: 178922, guid: 9207a46fe21d8784dacc201ba444df8c, type: 2}
+  satellitePrefabs:
+  - {fileID: 193818, guid: 5199c4c1437f3454a9707c3614700e78, type: 2}
 --- !u!114 &11482686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -290,8 +292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f70e8629a545a4aa04cbd2afcc3696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ship: {fileID: 0}
-  WeaponToggles: {fileID: 0}
 --- !u!212 &21256262
 SpriteRenderer:
   m_ObjectHideFlags: 1

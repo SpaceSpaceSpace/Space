@@ -11,7 +11,8 @@ public class OrbitalGenerator : MonoBehaviour {
 	//public int numChunks;
 	public int objectCount = 0;
 
-	public GameObject[] asteroidPrefabs = new GameObject[10];
+	public GameObject[] asteroidPrefabs = new GameObject[9];
+    public GameObject[] satellitePrefabs = new GameObject[2];
 
 	// Use this for initialization
 	void Start () {
@@ -49,85 +50,58 @@ public class OrbitalGenerator : MonoBehaviour {
 	/// <param name="artificial">If set to <c>true</c> satellites span, if <c>false</c> asteroids spawn.</param>
 	public void generateBelt(int numChunks, Vector2 radius, bool artificial)
 	{
-		if(!artificial)
+        string beltName;
+        GameObject[] prefabs;
+
+        if (artificial)
+        {
+            beltName = "Satellite Belt";
+            prefabs = satellitePrefabs;
+        }
+        else
+        {
+            beltName = "Asteroid Belt";
+            prefabs = asteroidPrefabs;
+        }
+
+		GameObject beltMaster = new GameObject ();
+		beltMaster.name = beltName;
+		
+		for(int i = 0; i < numChunks; i++)
 		{
-			GameObject beltMaster = new GameObject ();
-			beltMaster.name = "Asteroid Belt";
+			float angle = i * ((Mathf.PI *2)/numChunks);
 			
-				for(int i = 0; i < numChunks; i++)
-				{
-					float angle = i * ((Mathf.PI *2)/numChunks);
+			float x = Mathf.Sin(angle) * radius.x;
+			float y = Mathf.Cos(angle) * radius.y;
+			
+			Vector3 chunkCenter = new Vector3(x,y,0) + centerPoint.position;
 				
-					float x = Mathf.Sin(angle) * radius.x;
-					float y = Mathf.Cos(angle) * radius.y;
-				
-					Vector3 chunkCenter = new Vector3(x,y,0) + centerPoint.position;
-					
-					int numOfAsteroids = Random.Range(2,4);
-				
-					for(int j = 0; j < numOfAsteroids; j++)
-					{
-						float chunkAngle = j * ((Mathf.PI *2)/numOfAsteroids);
-					
-						float chunkX = Mathf.Sin(chunkAngle) * 16.0f;
-						float chunkY = Mathf.Cos(chunkAngle) * 16.0f;
-					
-						Vector3 pos = new Vector3(chunkX,chunkY,0) + chunkCenter;
-					
-						int randomSpriteNum = Random.Range (1, 9);
-					
-						GameObject asteroidGenerated = (GameObject) Instantiate(asteroidPrefabs[randomSpriteNum],pos,Quaternion.identity);
-					
-						asteroidGenerated.GetComponent<Satellite>().artificial = artificial;
-						asteroidGenerated.GetComponent<Satellite>().radius = radius;
-						asteroidGenerated.GetComponent<Satellite> ().ScaleMass (Random.Range (.5f, 8f), false);
-						//asteroidGenerated.GetComponent<Satellite>().SetCenterOfOrbit(centerPoint);
-						asteroidGenerated.transform.parent = beltMaster.transform;
-					
-						objectCount++;
-				
-					}
-				}
-			}
-			else
+			int numOfAsteroids = Random.Range(2,4);
+			
+			for(int j = 0; j < numOfAsteroids; j++)
 			{
-				GameObject beltMaster = new GameObject ();
-				beltMaster.name = "Satellite Belt";
-				for(int i = 0; i < numChunks; i++)
-				{
-					float angle = i * ((Mathf.PI *2)/numChunks);
-					
-					float x = Mathf.Sin(angle) * radius.x;
-					float y = Mathf.Cos(angle) * radius.y;
-					
-					Vector3 chunkCenter = new Vector3(x,y,0) + centerPoint.position;
-					
-					int numOfAsteroids = Random.Range(2,4);
-					
-					for(int j = 0; j < numOfAsteroids; j++)
-					{
-						float chunkAngle = j * ((Mathf.PI *2)/numOfAsteroids);
-						
-						float chunkX = Mathf.Sin(chunkAngle) * 10.0f;
-						float chunkY = Mathf.Cos(chunkAngle) * 10.0f;
-						
-						Vector3 pos = new Vector3(chunkX,chunkY,0) + chunkCenter;
-						
-						int spriteNum = 9; //9 is the artificial satellite
-						
-						GameObject asteroidGenerated = (GameObject) Instantiate(asteroidPrefabs[spriteNum],pos,Quaternion.identity);
-						
-						asteroidGenerated.GetComponent<Satellite>().artificial = artificial;
-						asteroidGenerated.GetComponent<Satellite>().radius = radius;
-						asteroidGenerated.GetComponent<Satellite> ().ScaleMass (Random.Range (.5f, 8f), false);
-						//asteroidGenerated.GetComponent<Satellite>().SetCenterOfOrbit(centerPoint);
-						asteroidGenerated.transform.parent = beltMaster.transform;
-						
-						objectCount++;
-					}
-				}
+				float chunkAngle = j * ((Mathf.PI *2)/numOfAsteroids);
+				
+				float chunkX = Mathf.Sin(chunkAngle) * 16.0f;
+				float chunkY = Mathf.Cos(chunkAngle) * 16.0f;
+				
+				Vector3 pos = new Vector3(chunkX,chunkY,0) + chunkCenter;
+				
+				int randomSpriteNum = Random.Range (0, prefabs.Length - 1);
+				
+				GameObject prefabGenerated = (GameObject) Instantiate(prefabs[randomSpriteNum],pos,Quaternion.identity);
+
+                prefabGenerated.GetComponent<Satellite>().artificial = artificial;
+                prefabGenerated.GetComponent<Satellite>().radius = radius;
+                prefabGenerated.GetComponent<Satellite> ().ScaleMass (Random.Range (.5f, 8f), false);
+                //prefabGenerated.GetComponent<Satellite>().SetCenterOfOrbit(centerPoint);
+                prefabGenerated.transform.parent = beltMaster.transform;
+				
+				objectCount++;
+			
 			}
 		}
-
 	}
+
+}
 

@@ -104,8 +104,8 @@ public class ContractView : EditorWindow
                 EditorGUILayout.Space();
                 GUILayout.Label("Objectives:");
 
-                foreach (ObjectiveType objective in contract.Objectives)
-                    GUILayout.Label(objective.ToString());
+                foreach (Objective objective in contract.Objectives)
+                    GUILayout.Label(objective.GetType().ToString());
             }
             else
             {

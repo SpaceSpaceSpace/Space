@@ -104,9 +104,8 @@ public class ShipScript : MonoBehaviour
 	protected void HandleCollision( Collision2D collision )
 	{
 		if (collision.collider.tag == "SectorBounds") 
-		{
 			return;
-		}
+		
 		ApplyDamage( collision.relativeVelocity.magnitude * collision.rigidbody.mass * 0.02f );
 	}
 
