@@ -9,8 +9,10 @@ public class UI_Manager : MonoBehaviour
     public GameObject storeBoard;
     public GameObject gameOverScreen;
     public GameObject spaceStationUI;
-    public GameObject spaceStationObject;
-    public PlayerShipScript player;
+	public PlayerShipScript player;
+	public WeaponDock weaponDockUI;
+
+    private GameObject spaceStationObject;
 
     // Use this for initialization
     void Start()
@@ -19,7 +21,6 @@ public class UI_Manager : MonoBehaviour
 		spaceStationObject = GameObject.Find ("SpaceStore");
         SetAllScreensToInactive();
     }
-
 	
 	void Update()
 	{
@@ -80,6 +81,11 @@ public class UI_Manager : MonoBehaviour
 			GameMaster.CurrentGameState = GameState.Station;
         }
     }
+
+	public void UpdateWeaponDockUI()
+	{
+		weaponDockUI.UpdateWeaponDockUI ();
+	}
 
     public void ChangeUIStateWithButtonClick(int state)
     {

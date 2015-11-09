@@ -505,6 +505,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 22450124}
   - 114: {fileID: 11427508}
+  - 114: {fileID: 11432670}
   m_Layer: 5
   m_Name: Weapon Dock
   m_TagString: Untagged
@@ -2851,6 +2852,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 0
   m_FillOrigin: 0
+--- !u!114 &11432670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb625510dd98e34fa8f581eb2d8fb3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
 --- !u!114 &11433510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3393,7 +3406,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -4051,7 +4064,7 @@ MonoBehaviour:
   portrait: {fileID: 0}
   shipImage: {fileID: 0}
   scrollView: {fileID: 104502}
-  buttonPrefab: {fileID: 114684, guid: 7b90b5c25d9cb884b845511d9758bdc9, type: 2}
+  buttonPrefab: {fileID: 114684, guid: b44139e9f57a2244d8e7a9eacc841f51, type: 2}
   statLocation: {fileID: 139610}
   statPrefab: {fileID: 105418, guid: 7aeca145941fb0d43b90a8562128c927, type: 2}
 --- !u!114 &11472208
@@ -4461,8 +4474,8 @@ MonoBehaviour:
   storeBoard: {fileID: 143614}
   gameOverScreen: {fileID: 103602}
   spaceStationUI: {fileID: 189364}
-  spaceStationObject: {fileID: 0}
   player: {fileID: 0}
+  weaponDockUI: {fileID: 11432670}
 --- !u!114 &11485262
 MonoBehaviour:
   m_ObjectHideFlags: 1
