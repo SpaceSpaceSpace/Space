@@ -2864,6 +2864,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  textPrefab: {fileID: 134506, guid: c0741ecac0020ad4ea0cd1b5e0579c4b, type: 2}
+  weaponAttachments: 0
 --- !u!114 &11433510
 MonoBehaviour:
   m_ObjectHideFlags: 1
