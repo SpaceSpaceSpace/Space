@@ -260,11 +260,19 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11432670, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
+    - target: {fileID: 11488586, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1065487575}
+    - target: {fileID: 11426514, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1065487575}
+    - target: {fileID: 11484656, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
       propertyPath: player
       value: 
       objectReference: {fileID: 1493654551}
-    - target: {fileID: 11484656, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
+    - target: {fileID: 11432670, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
       propertyPath: player
       value: 
       objectReference: {fileID: 1493654551}
@@ -1036,6 +1044,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01f8c8f6ae2354b188e5b9696a0799ed, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1065487575 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11460186, guid: 01f8c8f6ae2354b188e5b9696a0799ed,
+    type: 2}
+  m_PrefabInternal: {fileID: 1065487574}
+  m_Script: {fileID: 11500000, guid: 119dbe228c50245a78b525991dd455d7, type: 3}
 --- !u!1 &1090060364 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 145040, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
