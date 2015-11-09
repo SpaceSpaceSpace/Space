@@ -20,21 +20,30 @@ public class UI_Manager : MonoBehaviour
         SetAllScreensToInactive();
     }
 
+	
+	void Update()
+	{
+		if(GameMaster.CurrentGameState == GameState.Station)
+		{
+			player.transform.position = spaceStationObject.transform.position;
+		}
+	}
+
     public void DisplaySpaceStationUI(bool active)
     {
         spaceStationUI.SetActive(active);
+		GameMaster.CurrentGameState = GameState.Station;
 
         if (active)
         {
             player.Dock();
 			player.transform.position = spaceStationObject.transform.position;
-			player.transform.SetParent(spaceStationUI.transform);
             player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         }
         else
         {
+			GameMaster.CurrentGameState = GameState.Flying;
             player.Undock();
-			player.transform.SetParent(null);
         }
     }
 
@@ -51,7 +60,7 @@ public class UI_Manager : MonoBehaviour
         }
         else
         {
-            player.Undock();
+			GameMaster.CurrentGameState = GameState.Station;
         }
     }
 
@@ -68,7 +77,7 @@ public class UI_Manager : MonoBehaviour
         }
         else
         {
-            player.Undock();
+			GameMaster.CurrentGameState = GameState.Station;
         }
     }
 
