@@ -7,7 +7,9 @@ public enum GameState
 	Flying,
 	Station,
 	Customization,
-	GameOver
+	GameOver,
+	Pause,
+	H
 }
 
 public class GameMaster : MonoBehaviour {

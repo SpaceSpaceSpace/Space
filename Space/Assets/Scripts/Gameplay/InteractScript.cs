@@ -25,7 +25,26 @@ public class InteractScript : MonoBehaviour
 
 			warpScript.CallHangar();
 		}
-
+		if (Input.GetButtonDown ("Pause") && GameMaster.CurrentGameState != GameState.Pause) 
+		{
+			//pause the game
+		}
+		if ((Input.GetButtonDown ("Pause") || Input.GetKeyDown(KeyCode.Escape)) && GameMaster.CurrentGameState == GameState.Pause) 
+		{
+			//unpause the game
+		}
+		if (Input.GetButtonDown ("Help") && GameMaster.CurrentGameState == GameState.Customization) 
+		{
+			//show the customization help
+		}
+		if (Input.GetButtonDown ("Help") && GameMaster.CurrentGameState == GameState.Flying) 
+		{
+			//show the general help
+		}
+		if ((Input.GetButtonDown ("Help") || Input.GetKeyDown(KeyCode.Escape)) && GameMaster.CurrentGameState == GameState.H) 
+		{
+			//return the game from a help screen to gameplay
+		}
 		//TEMPORARY -- This functionality will be replaced with the Space Station UI
 		if(Input.GetKeyDown (KeyCode.E) && GameMaster.CurrentGameState != GameState.Customization)
 		{
