@@ -16,18 +16,8 @@ public class HangarScript : MonoBehaviour {
 		GameObject level = GameObject.Find("Planet1");
 		
 		GameObject warpMngr = GameObject.Find("Warp Manager");
-		WarpScript warpScript = warpMngr.GetComponent<WarpScript>();
-		
-		if(level != null)
-		{
-			print( "to planet 2" );
-			warpScript.WarpToPlanet("Planet2");
-		}
-		else
-		{
-			print( "to planet 1" );
-			warpScript.WarpToPlanet("Planet1");
-		}
+
+		UI_Manager.instance.DisplayHangerUI (true);
 	}
 
 	void GoToPlayer()
