@@ -428,16 +428,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 443366, guid: c71a27634a5356e458aaa30f3a1dd945, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11486672, guid: c71a27634a5356e458aaa30f3a1dd945, type: 2}
       propertyPath: player
       value: 
       objectReference: {fileID: 1493654551}
-    - target: {fileID: 11415500, guid: c71a27634a5356e458aaa30f3a1dd945, type: 2}
-      propertyPath: PlanetName
-      value: Stan C8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c71a27634a5356e458aaa30f3a1dd945, type: 2}
   m_IsPrefabParent: 0

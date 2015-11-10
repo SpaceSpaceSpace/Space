@@ -24,4 +24,14 @@ public class ContractUtils
     {
         File.WriteAllText(filepath, js.serialized);
     }
+
+    public static Contract GetRandomContract(int Tier)
+    {
+        Contract contract = new Contract();
+
+        //Get Random contract content
+
+
+        return contract;
+    }
 }
