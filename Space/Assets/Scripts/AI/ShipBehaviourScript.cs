@@ -244,6 +244,9 @@ public class ShipBehaviourScript : MonoBehaviour {
 
 	public void Rescue()
 	{
-
+		if(m_shipScript.CheckAggro(15.0f, new string[1] {"Player Ship"}))
+		{
+			m_shipScript.Chase(5.0f, 4.0f, PlayerShipScript.player.transform);
+		}
 	}
 }

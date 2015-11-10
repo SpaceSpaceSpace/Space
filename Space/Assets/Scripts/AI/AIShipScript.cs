@@ -53,11 +53,7 @@ public class AIShipScript : ShipScript {
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce);
 
 		player = PlayerShipScript.player.transform;
-<<<<<<< HEAD
-		m_target = player; // Find the player, will likely change
-=======
-		m_target = PlayerShipScript.player.transform; // Find the player, will likely change
->>>>>>> db868ad4ff3090304219b2a57c92a2603c89f4cd
+		m_target = player;
 		m_wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
 		Go ();
@@ -78,7 +74,7 @@ public class AIShipScript : ShipScript {
 			switch(m_weapons[i].weaponType)
 			{
 			case WeaponScript.WeaponType.SCATTER_SHOT:
-			case WeaponScript.WeaponType.SHOOTY_KILLY:
+			case WeaponScript.WeaponType.LASER_MACHINE_GUN:
 				ProjectileWeaponScript pScript = GetComponentInChildren<ProjectileWeaponScript>();
 				m_weapSpeed[i] = pScript.projectileSpeed;
 				m_weapLifeSpan[i] = pScript.projectileLifeTime;
@@ -219,6 +215,7 @@ public class AIShipScript : ShipScript {
 				{
 					if(c.gameObject.name.Contains(s))
 					{
+						m_target = c.gameObject.transform;
 						aggro = true;
 						return true;
 					}
@@ -355,7 +352,7 @@ public class AIShipScript : ShipScript {
 		}
 
 		Vector2 circleStart = transform.position + transform.up * 50.0f;
-		RaycastHit2D[] hits = Physics2D.CircleCastAll(circleStart, 50.0f, transform.up, 15.0f);
+		RaycastHit2D[] hits = Physics2D.CircleCastAll(circleStart, 20.0f, transform.up, 15.0f);
 
 		for(int i = 0; i < hits.Length; i++)
 		{

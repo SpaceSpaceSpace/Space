@@ -11,7 +11,7 @@ public class AISpawnerScript : MonoBehaviour {
 	public GameObject AIPrefab;
 	public GameObject squadLeader;
 
-	private int currentAI;
+	//private int currentAI;
 	private Transform objective;
 
 	public List<GameObject> squad;
@@ -19,7 +19,7 @@ public class AISpawnerScript : MonoBehaviour {
 	// Use this for initialization
 	public void Init () {
 
-		currentAI = 0;
+		//currentAI = 0;
 		Vector2 spawnPos;
 		squad = new List<GameObject>(startAI);
 		for(int i = 0; i < startAI; i++)
