@@ -21,6 +21,7 @@ public class ContractForm : ContractFormBase
         ContractForm editor = (ContractForm)GetWindow(typeof(ContractForm));
         editor.minSize = new Vector2(400, 600);
         editor.replacementIndex = -1;
+        editor.InternalInit();
         editor.Show();
 
         return editor;
@@ -30,6 +31,7 @@ public class ContractForm : ContractFormBase
     {
         ContractForm editor = (ContractForm)GetWindow(typeof(ContractForm));
         editor.minSize = new Vector2(400, 600);
+        editor.InternalInit();
         editor.Show();
 
         editor.Tier = existingContract.Tier;

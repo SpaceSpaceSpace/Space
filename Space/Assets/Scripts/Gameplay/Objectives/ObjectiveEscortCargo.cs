@@ -65,18 +65,11 @@ public class ObjectiveEscortCargo : Objective
     {
         JSON js = new JSON();
         js["Type"] = "EscortCargo";
-        js["PositionX"] = Position.x;
-        js["PositionY"] = Position.y;
-        js["Completed"] = completed;
-        js["Sector"] = 1;
 
         return js;
     }
     protected override void FromJSON(JSON js)
     {
-        completed = js.ToBoolean("Completed");
-        float x = js.ToFloat("PositionX");
-        float y = js.ToFloat("PositionY");
-        Position = new Vector2(x, y);
+        
     }
 }

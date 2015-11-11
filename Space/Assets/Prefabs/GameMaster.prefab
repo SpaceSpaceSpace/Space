@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11415500}
   - 114: {fileID: 11486672}
   - 114: {fileID: 11475970}
+  - 114: {fileID: 11496210}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -41,6 +42,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1645f77fe2897c34db8d0eaeb15f5ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlanetName: Stan C8
 --- !u!114 &11475970
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -56,7 +58,6 @@ MonoBehaviour:
   - {fileID: 170288, guid: dc7efc3b5b4c247c88c57e64fe8c3edd, type: 2}
   - {fileID: 170288, guid: 9d4aed43e88e349578d0c66d99666934, type: 2}
   - {fileID: 191334, guid: a98296dd114c04e458524bf944b3919c, type: 2}
-  - {fileID: 0}
   - {fileID: 140432, guid: d56ffed45605e416aa295ce595b09666, type: 2}
   - {fileID: 183774, guid: ec7f0137618464363ad1c2ec794037ae, type: 2}
   - {fileID: 162006, guid: d4aaeda03190945dbb4c6c60329d58a2, type: 2}
@@ -72,6 +73,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+--- !u!114 &11496210
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2418f961600ad54ba1ef47878541614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

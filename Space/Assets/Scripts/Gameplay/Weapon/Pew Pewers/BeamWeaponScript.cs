@@ -81,7 +81,7 @@ public class BeamWeaponScript : WeaponScript
 	{
 		float moddedDamage = damage * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
 		float moddedRange = beamRange * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BEAM_RANGE );
-		WeaponInfo info = new WeaponInfo( weaponType, modifier );
+		WeaponInfo info = new WeaponInfo( weaponType, mod );
 		info.AddAttribute( "Damage", moddedDamage );
 		info.AddAttribute( "Range", moddedRange );
 		return info;

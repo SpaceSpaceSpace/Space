@@ -21,30 +21,27 @@ public class BountyBoard : MonoBehaviour {
 	{
 		currentContracts = new List<Contract> ();
 
-        /*
-		for(int i = 0; i < 10; i++)
-		{
-			Contract contract = new Contract();
-			currentContracts.Add(contract);
-		}
-		*/
-
-		currentContracts.Add (new Contract ("Joeba da Butt", "A warrant has been put out for the destruction of $name, The $title. This criminal has been found guilty of crimes against space. Their destruction of dozens of space mines have killed thousands. Kill this target and return to $thissector for reward.",
-		                                  "Space Slug Gangsta", "190,000 Grappels"));
-		currentContracts.Add (new Contract ("Fart Face McGee", "He terrorized a sub-intelligent species, teach him a lesson",
-		                                    "Galatic Gangster", "80,000 Space Dollars"));
-		currentContracts.Add (new Contract ("Hokun the Broad", "You must hunt down this monster gangster and his crew",
-		                                    "Crimepunk", "19,000 Space Dollars"));
-		currentContracts.Add (new Contract ("Gadarble", "A bounty has been put on the head of The $title $name. This criminal has been found guilty of antennae mutilation across the galaxy. Target is dangerous: do not take alive.",
-		                                    "Space Slug Gangsta", "15,000 Space Dollars"));
-		currentContracts.Add (new Contract ("Skinface", "New, evolving life has been found in $randomsector. This new species must be protected under the Galactic Code. However, The $title $name has been caught rampantly destroying and torturing this new race. Target must be liquidated.",
-		                                    "Eyebrow Waggler", "12,500 Space Dollars"));
-
 		for(int i = 0; i < 5; i++)
 		{
-			Contract contract = new Contract();
-			currentContracts.Add(contract);
+			currentContracts.Add(ContractUtils.GetRandomContract(1));
 		}
+	
+		//currentContracts.Add (new Contract ("Joeba da Butt", "A warrant has been put out for the destruction of $name, The $title. This criminal has been found guilty of crimes against space. Their destruction of dozens of space mines have killed thousands. Kill this target and return to $thissector for reward.",
+		//                                  "Space Slug Gangsta", "190,000 Grappels"));
+		//currentContracts.Add (new Contract ("Fart Face McGee", "He terrorized a sub-intelligent species, teach him a lesson",
+		//                                    "Galatic Gangster", "80,000 Space Dollars"));
+		//currentContracts.Add (new Contract ("Hokun the Broad", "You must hunt down this monster gangster and his crew",
+		//                                    "Crimepunk", "19,000 Space Dollars"));
+		//currentContracts.Add (new Contract ("Gadarble", "A bounty has been put on the head of The $title $name. This criminal has been found guilty of antennae mutilation across the galaxy. Target is dangerous: do not take alive.",
+		//                                    "Space Slug Gangsta", "15,000 Space Dollars"));
+		//currentContracts.Add (new Contract ("Skinface", "New, evolving life has been found in $randomsector. This new species must be protected under the Galactic Code. However, The $title $name has been caught rampantly destroying and torturing this new race. Target must be liquidated.",
+		//                                    "Eyebrow Waggler", "12,500 Space Dollars"));
+
+		//for(int i = 0; i < 5; i++)
+		//{
+		//	Contract contract = new Contract();
+		//	currentContracts.Add(contract);
+		//}
 
 		PopulateButtons ();
 	}

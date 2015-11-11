@@ -9,28 +9,42 @@ public class UI_Manager : MonoBehaviour
     public GameObject storeBoard;
     public GameObject gameOverScreen;
     public GameObject spaceStationUI;
-    public GameObject spaceStation;
-    public PlayerShipScript player;
+	public GameObject weaponToggles;
+	public PlayerShipScript player;
+	public WeaponDock weaponDockUI;
+
+    private GameObject spaceStationObject;
 
     // Use this for initialization
     void Start()
     {
         instance = this;
+		spaceStationObject = GameObject.Find ("SpaceStore");
         SetAllScreensToInactive();
     }
+	
+	void Update()
+	{
+		if(GameMaster.CurrentGameState == GameState.Station)
+		{
+			player.transform.position = spaceStationObject.transform.position;
+		}
+	}
 
     public void DisplaySpaceStationUI(bool active)
     {
         spaceStationUI.SetActive(active);
+		GameMaster.CurrentGameState = GameState.Station;
 
         if (active)
         {
             player.Dock();
-            player.transform.position = spaceStation.transform.position;
+			player.transform.position = spaceStationObject.transform.position;
             player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         }
         else
         {
+			GameMaster.CurrentGameState = GameState.Flying;
             player.Undock();
         }
     }
@@ -43,12 +57,12 @@ public class UI_Manager : MonoBehaviour
         if (active)
         {
             player.Dock();
-            player.transform.position = spaceStation.transform.position;
+			player.transform.position = spaceStationObject.transform.position;
             player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         }
         else
         {
-            player.Undock();
+			GameMaster.CurrentGameState = GameState.Station;
         }
     }
 
@@ -60,14 +74,19 @@ public class UI_Manager : MonoBehaviour
         if (active)
         {
             player.Dock();
-            player.transform.position = spaceStation.transform.position;
+			player.transform.position = spaceStationObject.transform.position;
             player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         }
         else
         {
-            player.Undock();
+			GameMaster.CurrentGameState = GameState.Station;
         }
     }
+
+	public void UpdateWeaponDockUI()
+	{
+		weaponDockUI.UpdateWeaponDockUI ();
+	}
 
     public void ChangeUIStateWithButtonClick(int state)
     {

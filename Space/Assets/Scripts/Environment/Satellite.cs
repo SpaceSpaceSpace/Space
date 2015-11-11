@@ -198,7 +198,7 @@ public class Satellite : MonoBehaviour {
 
 		//Setup explosion to throw particles around based on blast radius
 		Explode explode = ms_explosion.GetComponent<Explode>();
-		explode.ParticleRadius = blastRadius * 10;
+		explode.ParticleRadius = blastRadius;
 		explode.SpriteRadius = mass;
 
 		Instantiate(ms_explosion, transform.position, Quaternion.identity);

@@ -44,6 +44,7 @@ public class WeaponPopulator : MonoBehaviour {
             Image background = button.AddComponent<Image>();
             background.sprite = ButtonBackground;
             background.type = Image.Type.Sliced;
+			background.preserveAspect = true;
 
             Toggle toggle = button.AddComponent<Toggle>();
             toggle.group = WeaponToggleGroup;
@@ -67,11 +68,13 @@ public class WeaponPopulator : MonoBehaviour {
             //Create weapon image
             GameObject wepImage = new GameObject();
             Image wepImageComp = wepImage.AddComponent<Image>();
+			wepImageComp.preserveAspect = true;
+			wepImage.transform.Rotate(new Vector3(0f,0f,90f));
             wepImageComp.sprite = wepSprite;
             wepImage.name = wepName + "ButtonImage";
 
             RectTransform weaponImageRectTrans = wepImage.GetComponent<RectTransform>();
-            weaponImageRectTrans.sizeDelta = new Vector2(ButtonWidth - 25, ButtonHeight - 25);
+            weaponImageRectTrans.sizeDelta = new Vector2(ButtonWidth - 10, ButtonHeight - 10);
 
             buttonRectTrans.SetParent(panelRectTrans);
             buttonRectTrans.position = pos;

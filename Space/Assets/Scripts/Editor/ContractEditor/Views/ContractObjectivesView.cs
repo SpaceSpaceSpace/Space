@@ -22,7 +22,9 @@ public class ContractObjectivesView : ContractViewBase<ContractObjectives> {
             GUILayout.Label("Objectives:");
 
             foreach (Objective objective in content.Objectives)
-                GUILayout.Label(objective.GetType().ToString());
+            {
+                GUILayout.Label(objective.GetType().ToString() + " - " + objective.sector.name);
+            }
             
             ControlsArea(content);
         }
