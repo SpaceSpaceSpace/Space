@@ -5,11 +5,11 @@ using WyrmTale;
 public class ContractManager : MonoBehaviour
 {
     //Arrays of lists to store data in
-    List<ContractContent>[] Contents = new List<ContractContent>[10];
-    List<ContractTargetName>[] TargetNames = new List<ContractTargetName>[10];
-    List<ContractTargetImage>[] TargetImages = new List<ContractTargetImage>[10];
-    List<ContractTargetShipImage>[] TargetShipImages = new List<ContractTargetShipImage>[10];
-    List<ContractObjectives>[] Objectives = new List<ContractObjectives>[10];
+    public static List<ContractContent>[] Contents = new List<ContractContent>[10];
+    public static List<ContractTargetName>[] TargetNames = new List<ContractTargetName>[10];
+    public static List<ContractTargetImage>[] TargetImages = new List<ContractTargetImage>[10];
+    public static List<ContractTargetShipImage>[] TargetShipImages = new List<ContractTargetShipImage>[10];
+    public static List<ContractObjectives>[] Objectives = new List<ContractObjectives>[10];
 
     JSON elements;
 
