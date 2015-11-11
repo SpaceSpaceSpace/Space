@@ -157,6 +157,8 @@ public class PlayerShipScript : ShipScript
 			if ( Input.GetKeyDown( "" + ( i + 1 ) ) )
 			{
 				m_weapons[ i ].ToggleActive();
+
+				UI_Manager.instance.weaponDockUI.GetComponent<WeaponDock>().ToggleWeaponColor(i);
 			}
 		}
 	}

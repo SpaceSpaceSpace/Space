@@ -15,6 +15,11 @@ public class UI_Manager : MonoBehaviour
 	public WeaponDock weaponDockUI;
 
     private GameObject spaceStationObject;
+	public GameObject SpaceStationObject
+	{
+		set{spaceStationObject = value;}
+		get{return spaceStationObject;}
+	}
 
     // Use this for initialization
     void Start()
