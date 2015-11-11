@@ -14,6 +14,7 @@ public class ContractObjectivesForm : ContractFormBase
         ContractObjectivesForm editor = (ContractObjectivesForm)GetWindow(typeof(ContractObjectivesForm));
         editor.minSize = new Vector2(300, 100);
         editor.replacementIndex = -1;
+        editor.InternalInit();
         editor.Show();
 
         return editor;
@@ -27,6 +28,7 @@ public class ContractObjectivesForm : ContractFormBase
         editor.Objectives = objectives.Objectives.ToList();
         editor.replacementIndex = replacementIndex;
         editor.closeButtonText = "Save";
+        editor.InternalInit();
         editor.Show();
 
         return editor;
@@ -45,14 +47,14 @@ public class ContractObjectivesForm : ContractFormBase
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddContractTargetImage(new ContractObjectives(Tier, Objectives.ToArray()));
+                AddObjectives(new ContractObjectives(Tier, Objectives.ToArray()));
         }
         EditorGUILayout.EndHorizontal();
 
         GUILayout.Space(6);
     }
 
-    private void AddContractTargetImage(ContractObjectives objectives)
+    private void AddObjectives(ContractObjectives objectives)
     {
         string filepath = ContractElement.ContractElementFilePath;
 

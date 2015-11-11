@@ -105,7 +105,7 @@ public class ContractView : EditorWindow
                 GUILayout.Label("Objectives:");
 
                 foreach (Objective objective in contract.Objectives)
-                    GUILayout.Label(objective.GetType().ToString());
+                    GUILayout.Label(objective.GetType().ToString() + " - " + objective.sector.name);
             }
             else
             {

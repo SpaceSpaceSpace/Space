@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WarpScript : MonoBehaviour {
-
+public class WarpScript : MonoBehaviour
+{
 	public GameObject hangarPrefab;
 	public GameObject currentPlanet;
 
