@@ -72,7 +72,8 @@ public class ContractForm : ContractFormBase
 
         EditorGUILayout.Space();
 
-        ObjectivesArea("Objectives", ref Objectives);
+        EditorGUILayout.LabelField("Objectives");
+        ObjectivesArea(ref Objectives);
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();
