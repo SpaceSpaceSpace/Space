@@ -3,21 +3,23 @@ using WyrmTale;
 
 public class ObjectiveTurnInContract : Objective
 {
-    Transform store;
+    GameObject store;
 
     public override void SetupObjective(GameObject objectiveManager)
     {
-        if(sector != null)
-            store = sector.SpaceStore.transform;
+        //if(sector != null)
+        //    store = sector.SpaceStore.gameObject;
+        //
+        //Debug.Log(store);
 
         //TODO: Make this unnecessary
         if (store == null)
-            store = GameObject.Find("SpaceStore").transform;
+            store = GameObject.Find("SpaceStore");
     }
 
     public override void ObjectiveUpdate()
     {
-        Position = store.position;
+        Position = store.transform.position;
     }
 
     public override void HitObjective(Collider2D collider)

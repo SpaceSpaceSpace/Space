@@ -36,7 +36,7 @@ public abstract class ContractFormBase : EditorWindow
         EditorGUILayout.EndHorizontal();
     }
 
-    protected void ObjectivesArea(string label, ref List<Objective> list)
+    protected void ObjectivesArea(ref List<Objective> list)
     {
         Type[] ObjectiveTypes = GetAllObjectiveTypes();
         string[] ObjectiveStrings = GetAllObjectiveStrings();
