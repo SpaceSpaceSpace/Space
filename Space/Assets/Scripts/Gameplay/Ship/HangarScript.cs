@@ -13,21 +13,11 @@ public class HangarScript : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D coll)
 	{
 		// Hangar UI
-		GameObject level = GameObject.Find("Stan C8");
+		GameObject level = GameObject.Find("Planet1");
 		
 		GameObject warpMngr = GameObject.Find("Warp Manager");
-		WarpScript warpScript = warpMngr.GetComponent<WarpScript>();
-		
-		if(level != null)
-		{
-			print( "to planet 2" );
-			warpScript.WarpToPlanet("Nek'tan Prime");
-		}
-		else
-		{
-			print( "to planet 1" );
-			warpScript.WarpToPlanet("Stan C8");
-		}
+
+		UI_Manager.instance.DisplayHangerUI (true);
 	}
 
 	void GoToPlayer()

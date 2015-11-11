@@ -13,7 +13,7 @@ public class Customize : MonoBehaviour
     //TODO: FUCK THIS SHIT
     void Start()
     {
-        WeaponToggles = GameObject.Find("Weapons Panel").GetComponent<ToggleGroup>();
+		WeaponToggles = UI_Manager.instance.weaponToggles.GetComponent<ToggleGroup>();
         WeaponToggles.gameObject.SetActive(false);
     }
 
