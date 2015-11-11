@@ -53,7 +53,7 @@ public class AIShipScript : ShipScript {
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce);
 
 		player = PlayerShipScript.player.transform;
-		//m_target = player;
+		m_target = player;
 		m_wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
 		Go ();
