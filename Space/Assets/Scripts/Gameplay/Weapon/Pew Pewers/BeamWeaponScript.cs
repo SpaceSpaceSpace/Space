@@ -79,8 +79,8 @@ public class BeamWeaponScript : WeaponScript
 
 	public override WeaponInfo ToInfo( WeaponModifier.ModifierNames mod )
 	{
-		float moddedDamage = damage * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
-		float moddedRange = beamRange * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BEAM_RANGE );
+		float moddedDamage = damage * WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.DAMAGE );
+		float moddedRange = beamRange * WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.BEAM_RANGE );
 		WeaponInfo info = new WeaponInfo( weaponType, mod );
 		info.AddAttribute( "Damage", moddedDamage );
 		info.AddAttribute( "Range", moddedRange );
