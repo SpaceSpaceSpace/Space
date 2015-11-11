@@ -7,7 +7,7 @@ public class PlayerShipScript : ShipScript
 	public static PlayerShipScript player = null;
 	
 	public List<Vector2> AttachmentPoints = new List<Vector2>();
-	public List<GameObject> Attachments = new List<GameObject>();
+	public List<WeaponScript> Attachments = new List<WeaponScript>();
 	
 	public GameObject objectiveMarker;
 	
@@ -152,13 +152,16 @@ public class PlayerShipScript : ShipScript
 	// Checks if any of the number keys were pressed to toggle weapons
 	private void SetActiveWeapons()
 	{
-		for ( int i = 0; i < m_weapons.Length; i++ )
+		for ( int i = 0; i < Attachments.Count; i++ )
 		{
 			if ( Input.GetKeyDown( "" + ( i + 1 ) ) )
 			{
-				m_weapons[ i ].ToggleActive();
+				if(Attachments[i] != null)
+				{
+					Attachments[ i ].ToggleActive();
 
-				UI_Manager.instance.weaponDockUI.GetComponent<WeaponDock>().ToggleWeaponColor(i);
+					UI_Manager.instance.weaponDockUI.GetComponent<WeaponDock>().ToggleWeaponColor(i);
+				}
 			}
 		}
 	}
