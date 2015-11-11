@@ -9,7 +9,8 @@ public enum GameState
 	Customization,
 	GameOver,
 	Pause,
-	H
+	H,
+	CHelp
 }
 
 public class GameMaster : MonoBehaviour {
