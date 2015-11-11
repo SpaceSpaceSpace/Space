@@ -4,6 +4,12 @@ public class ContractTargetImage : ContractElement
 {
     public string TargetImagePath;
 
+    public ContractTargetImage()
+    {
+        this.Tier = 1;
+        this.TargetImagePath = "";
+    }
+
     public ContractTargetImage(int Tier, string TargetImagePath)
     {
         this.Tier = Tier;

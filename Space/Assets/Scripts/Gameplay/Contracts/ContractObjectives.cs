@@ -5,6 +5,12 @@ public class ContractObjectives : ContractElement
 {
     public Objective[] Objectives;
 
+    public ContractObjectives()
+    {
+        this.Tier = 1;
+        this.Objectives = new Objective[1];
+    }
+
     public ContractObjectives(int Tier, Objective[] Objectives)
     {
         this.Tier = Tier;

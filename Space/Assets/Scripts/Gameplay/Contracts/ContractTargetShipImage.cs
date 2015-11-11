@@ -4,6 +4,12 @@ public class ContractTargetShipImage : ContractElement
 {
     public string TargetShipImagePath;
 
+    public ContractTargetShipImage()
+    {
+        this.Tier = 1;
+        this.TargetShipImagePath = "";
+    }
+
     public ContractTargetShipImage(int Tier, string TargetShipImagePath)
     {
         this.Tier = Tier;

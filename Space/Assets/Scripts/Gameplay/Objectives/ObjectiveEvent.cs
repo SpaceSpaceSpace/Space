@@ -62,7 +62,8 @@ public class ObjectiveEvent : MonoBehaviour
 
         if (PlayerShipScript.player)
         {
-            objectiveContract.CompleteContractObjective(gameObject);
+            ObjectiveEvent objectiveEvent = gameObject.GetComponent<ObjectiveEvent>();
+            objectiveContract.CompleteContractObjective(objectiveEvent.objective);
             PlayerShipScript.player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(gameObject);
         }
 

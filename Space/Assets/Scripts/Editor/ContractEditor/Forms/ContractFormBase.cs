@@ -14,6 +14,10 @@ public abstract class ContractFormBase : EditorWindow
     protected string closeButtonText = "Add";
     protected int replacementIndex = -1;
 
+    //For the objectives 
+    private static Dictionary<string, Sector> sectors;
+    private static string[] sectorNames;
+
     protected void ImagePreviewArea(string label, ref string path, ref Texture2D image)
     {
         EditorGUILayout.BeginHorizontal();
@@ -56,13 +60,13 @@ public abstract class ContractFormBase : EditorWindow
 
             Objective objective = list.ElementAtOrDefault(i);
             if (objective == null)
-                objective = new ObjectiveGoTo();
+                objective = new ObjectiveTurnInContract();
 
             //Dropdown for the objective type
             Type objectiveType = objective.GetType();
             int currentTypeIndex = ObjectiveStringList.IndexOf(objectiveType.ToString());
 
-            int newIndex = EditorGUILayout.Popup(currentTypeIndex, ObjectiveStrings);
+            int newIndex = EditorGUILayout.Popup(currentTypeIndex, ObjectiveStrings, GUILayout.Width(150));
             if (newIndex != currentTypeIndex)
             {
                 objectiveType = (ObjectiveTypes[newIndex]);
@@ -84,6 +88,26 @@ public abstract class ContractFormBase : EditorWindow
         return Resources.Load(imagePath) as Texture2D;
     }
 
+    protected void InternalInit()
+    {
+        //Load the sectors into memory for the objectives area
+        if (sectors == null)
+        {
+            sectors = new Dictionary<string, Sector>();
+
+            Sector[] sectorArray = Resources.LoadAll<Sector>("Sectors/");
+            sectorNames = new string[sectorArray.Length];
+
+            for(int i = 0; i < sectorArray.Length; i++)
+            {
+                Sector s = sectorArray[i];
+
+                sectors[s.name] = s;
+                sectorNames[i] = s.name;
+            }
+        }
+    }
+
     //Sets any specific styles we want on editors
     protected void SetEditorStyles()
     {
@@ -93,17 +117,33 @@ public abstract class ContractFormBase : EditorWindow
     //GUI layout for a specific objective
     private void ObjectiveArea(ref Objective objective, Type derivedType)
     {
-        if (derivedType == typeof(ObjectiveGoTo))
+        EditorGUILayout.BeginVertical();
+
+        //If the objective has no given sector, we default to 0, otherwise get the proper index
+        int sectorNameIndex = 0;
+        if (objective.sector)
+            sectorNameIndex = Array.IndexOf(sectorNames, objective.sector.name);
+        else 
+            objective.sector = sectors[sectorNames[0]]; //Set default sector
+
+        //if a new sector is selected, find it by name in the dictionary and set the proper sector
+        int newSectorNameIndex = EditorGUILayout.Popup("Sector", sectorNameIndex, sectorNames);
+        if (sectorNameIndex != newSectorNameIndex)
         {
-            objective.Position = EditorGUILayout.Vector3Field("", objective.Position);
-        }
+            string sectorName = sectorNames[newSectorNameIndex];
+            objective.sector = sectors[sectorName];
+        }       
+
         if (derivedType == typeof(ObjectiveKillTarget))
         {
             ObjectiveKillTarget obj = (ObjectiveKillTarget)objective;
-            Debug.Log(obj.GuardCount);
             obj.GuardCount = EditorGUILayout.IntField("Guards", obj.GuardCount);
             objective = obj;
         }
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.EndVertical();
     }
 
     private Type[] GetAllObjectiveTypes()
