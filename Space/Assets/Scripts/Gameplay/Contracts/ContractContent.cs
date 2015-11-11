@@ -1,23 +1,30 @@
-﻿using UnityEngine;
+﻿using System;
 using WyrmTale;
 
 public class ContractContent : ContractElement
 {
     public string Title;
     public string Description;
+    public Objective[] Objectives;
     
     public ContractContent()
     {
         Tier = 1;
         Title = "";
         Description = "";
+        Objectives = new Objective[2];
+
+        //Default objectives to kill target
+        Objectives[0] = new ObjectiveKillTarget();
+        Objectives[1] = new ObjectiveTurnInContract();
     }
 
-    public ContractContent(int Tier, string Title, string Description)
+    public ContractContent(int Tier, string Title, string Description, Objective[] Objectives)
     {
         this.Tier = Tier;
         this.Title = Title;
         this.Description = Description;
+        this.Objectives = Objectives;
     }
 
     //Allows for the conversion from ContractContent to JSON for serialization
@@ -31,6 +38,7 @@ public class ContractContent : ContractElement
         js["Tier"] = contract.Tier;
         js["Title"] = contract.Title;
         js["Description"] = contract.Description;
+        js["Objectives"] = Array.ConvertAll(contract.Objectives, item => (JSON)item);
 
         return js;
     }
@@ -43,8 +51,10 @@ public class ContractContent : ContractElement
             int Tier = js.ToInt("Tier");
             string Title = js.ToString("Title");
             string Description = js.ToString("Description");
+            JSON[] rawObjectives = js.ToArray<JSON>("Objectives");
+            Objective[] Objectives = Array.ConvertAll(rawObjectives, item => (Objective)item);
 
-            return new ContractContent(Tier, Title, Description);
+            return new ContractContent(Tier, Title, Description, Objectives);
         }
     }
 

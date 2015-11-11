@@ -163,6 +163,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   centerOfOrbit: {x: 0, y: 0, z: 0}
   health: 0
+  invincible: 0
 --- !u!114 &11457606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -419,7 +420,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 1000
+    maxNumParticles: 1
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -438,7 +439,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 30
+      scalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:

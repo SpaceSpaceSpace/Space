@@ -140,9 +140,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074361089f77a364780863bff6f7606c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ParticleRadius: 16
-  ParticleCount: 80
-  SpriteRadius: 2.1905508
+  ParticleRadius: 160
+  ParticleCount: 200
+  SpriteRadius: 2.42293072
   FadeSpeed: 2
   MinExplosions: 1
   MaxExplosions: 2
@@ -1261,6 +1261,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: CollisionModule.enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ParticleCount
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ParticleRadius
+      value: 160
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
