@@ -22,7 +22,8 @@ public class ShipBehaviourScript : MonoBehaviour {
 		Grunt,
 		Leader,
 		Cargo,
-		Cop
+		Cop,
+		Rescue
 	}
 
 	public Behaviour behaviour; // to be defined in the inspector
@@ -56,7 +57,8 @@ public class ShipBehaviourScript : MonoBehaviour {
 		if(!PlayerShipScript.player.Alive)
 			return;
 
-		if(Mathf.Abs(transform.position.x) > 350.0f || Mathf.Abs(transform.position.y) > 350.0f)
+		// if you reach the edge of the sector, return, unless it's a cargo ship
+		if(!(behaviour == Behaviour.Cargo) && (Mathf.Abs(transform.position.x) > 350.0f || Mathf.Abs(transform.position.y) > 350.0f))
 		{
 			m_shipScript.FaceTarget(Vector2.zero);
 			m_shipScript.MoveForward();
@@ -126,7 +128,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 					m_shipScript.FireWeapon();
 				}
 			}
-			else if(m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
+			else if(m_shipScript.objective != null && m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
 			{
 				if(m_shipScript.objective != null)
 					m_shipScript.MoveToward(m_shipScript.objective);
@@ -139,7 +141,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 
 	public void Leader()
 	{
-		// if the player is not near
+		// if the player is near
 		if(m_shipScript.CheckAggro(20.0f, enemies))
 		{
 			if(m_shipScript.Obstacle)
@@ -157,9 +159,9 @@ public class ShipBehaviourScript : MonoBehaviour {
 			else
 				m_shipScript.MoveToward(m_shipScript.Target);
 		}
-		else if(m_shipScript.DistanceTo(m_shipScript.Target.position) >10.0f)
+		else
 		{
-			if(m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
+			if(m_shipScript.objective != null && m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
 			{
 				if(m_shipScript.objective != null)
 					m_shipScript.MoveToward(m_shipScript.objective);
@@ -216,7 +218,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 					m_shipScript.FireWeapon();
 				}
 			}
-			else if(m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
+			else if(m_shipScript.objective != null && m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
 			{
 				if(m_shipScript.objective != null)
 					m_shipScript.MoveToward(m_shipScript.objective);

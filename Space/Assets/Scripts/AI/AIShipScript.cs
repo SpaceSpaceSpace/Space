@@ -53,14 +53,15 @@ public class AIShipScript : ShipScript {
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce);
 
 		player = PlayerShipScript.player.transform;
-		m_target = player;
+		m_target = null;
 		m_wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
 		Go ();
 		aggro = false;
 		m_attackPos = Vector2.zero;
 		obstacleTrans = null;
-		objectiveStartPos = objective.position;
+		if(objective != null)
+			objectiveStartPos = objective.position;
 
 
 
@@ -143,19 +144,63 @@ public class AIShipScript : ShipScript {
 
 	public void SelectTarget(string[] targets)
 	{
-		//if(!m_target && aggro)
-		//{
-		//	Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, distance);
-		//	foreach(Collider2D c in col)
-		//	{
-		//		foreach(string s in targets)
-		//		{
-		//			if(c.gameObject.name.contains(s))
-		//			{
-		//			}
-		//		}
-		//	}
-		//}
+		List<GameObject> potTargets = new List<GameObject>(); // potential targets
+		List<string> potNames = new List<string>(); // the names of the potentials targets
+		bool potPlayer = false; // is the player a potential target
+		if(m_target == null)
+		{
+			float checkDistance = 30.0f;
+			while(potTargets.Count == 0)
+			{
+				// Get all potential targets
+				Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, checkDistance);
+				foreach(Collider2D c in col)
+				{
+					foreach(string s in targets)
+					{
+						if(c.gameObject.name.Contains(s))
+						{
+							if(s == "Player Ship")
+								potPlayer = true;
+							potTargets.Add(c.gameObject);
+							potNames.Add(s); // using s instead of teh actual name to easier search for it in the list
+						}
+					}
+				}
+				// if no targets are found, increase the radius to search
+				checkDistance += 10.0f;
+			}
+
+			// select a random target if the player is not among them
+			if(!potPlayer)
+			{
+				int index = Random.Range(0, potTargets.Count - 1);
+				m_target = potTargets[index].transform;
+			}
+			// if there is a player, but no cops, target the player
+			else if(!potNames.Contains("CopShip"))
+			{
+				m_target = PlayerShipScript.player.transform;
+			}
+			// if there is a player and cops, only target the player or cops
+			else
+			{
+				// only choose from player and cops to target
+				for(int i = 0; i < potNames.Count;i++)
+				{
+					if(potNames[i] == "Player Ship" || potNames[i] == "CopShip")
+					{
+						potTargets.RemoveAt(i);
+						potNames.RemoveAt(i);
+					}
+				}
+
+				// select a random target from the remaining potential targets
+				int index = Random.Range(0, potTargets.Count - 1);
+				m_target = potTargets[index].transform;
+			}
+		}
+
 	}
 
 	// Flee directly from the target
@@ -235,6 +280,7 @@ public class AIShipScript : ShipScript {
 				{
 					if(c.gameObject.name.Contains(s))
 					{
+						SelectTarget(targets);
 						aggro = true;
 						return true;
 					}
@@ -246,7 +292,10 @@ public class AIShipScript : ShipScript {
 			foreach(GameObject g in squad)
 			{
 				if(g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
+				{
+					SelectTarget(targets);
 					return true;
+				}
 			}
 
 		}
@@ -496,8 +545,7 @@ public class AIShipScript : ShipScript {
 		float time =  Mathf.Abs(predictDist / speed); // and use it to determine the amount of time that will take
 		// And now we have the predicted position by advancing the target's position by the time 
 		Vector2 predictPos = (Vector2)target.position + (targetVel * time); 
-
-		Debug.DrawLine(transform.position, predictPos);
+	
 
 		return predictPos;
 	}
