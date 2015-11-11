@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using System;
 
 public class StoreBoard : MonoBehaviour {
 
@@ -24,14 +23,17 @@ public class StoreBoard : MonoBehaviour {
 
 		for(int i = 0; i < 8; i++)
 		{
-			WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) UnityEngine.Random.Range(0,(int)WeaponScript.WeaponType.NUM_WEAPONS);
+			WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) Random.Range(0, (int)WeaponScript.WeaponType.NUM_WEAPONS);
 
 			GameObject g = GameMaster.WeaponMngr.GetWeaponPrefab (weapon);
-			WeaponModifier.ModifierNames modifier = (WeaponModifier.ModifierNames) UnityEngine.Random.Range((int)WeaponModifier.PROJ_WEP_START, (int)WeaponModifier.PROJ_WEP_END);
-			currentWeapons.Add (g.GetComponent<WeaponScript> ().ToInfo (modifier));
 
-			Debug.Log("Name: " + modifier);
-			Debug.Log("Casted: " + (int)modifier);
+			int start = 0;
+			int end = 0;
+
+			GameMaster.WeaponMngr.GetModifierRangeForWeapon( weapon, out start, out end );
+
+			WeaponModifier.ModifierNames modifier = (WeaponModifier.ModifierNames)Random.Range( start, end );
+			currentWeapons.Add (g.GetComponent<WeaponScript> ().ToInfo (modifier));
 		}
 
 		//GameObject g2 = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponScript.WeaponType.MISSILE_LAUNCHER);
