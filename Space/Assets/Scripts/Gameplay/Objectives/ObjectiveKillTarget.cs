@@ -70,20 +70,12 @@ public class ObjectiveKillTarget : Objective
     {
         JSON js = new JSON();
         js["Type"] = "KillTarget";
-        js["PositionX"] = Position.x;
-        js["PositionY"] = Position.y;
-        js["Completed"] = completed;
         js["GuardCount"] = GuardCount;
-        js["Sector"] = 1;
 
         return js;
     }
     protected override void FromJSON(JSON js)
     {
         GuardCount = js.ToInt("GuardCount");
-        completed = js.ToBoolean("Completed");
-        float x = js.ToFloat("PositionX");
-        float y = js.ToFloat("PositionY");
-        Position = new Vector2(x, y);
     }
 }

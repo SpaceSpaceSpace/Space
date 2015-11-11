@@ -8,6 +8,7 @@ public class SpaceStation : InteractableScript
 
     public override void OnInteract()
     {
+		UI_Manager.instance.SpaceStationObject = gameObject;
         UI_Manager.instance.DisplaySpaceStationUI(true);
     }
 
