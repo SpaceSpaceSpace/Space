@@ -56,8 +56,8 @@ public class AttachmentPoint : MonoBehaviour {
 				//If the ship has an attachment here we should remove it
 				if(ship.Attachments[Index] != null)
 				{
-					GameObject currentAttachment = ship.Attachments[Index];
-					Destroy(currentAttachment);
+					WeaponScript currentAttachment = ship.Attachments[Index];
+					Destroy(currentAttachment.gameObject);
 				}
 
 				//Now add the selected attachment to the ships' attached Weapons dictionary and instantiate it
@@ -66,7 +66,7 @@ public class AttachmentPoint : MonoBehaviour {
 
 				attachmentTransform.position = new Vector3(pointPos.x, pointPos.y, ship.transform.position.z - .1f);
 				attachmentTransform.SetParent(ship.transform);
-				ship.Attachments[Index] = attachmentClone;
+				ship.Attachments[Index] = attachmentClone.GetComponent<WeaponScript>();
 
 				//Don't let this happen again until the mouse is lifted
 				attaching = true;
@@ -75,7 +75,7 @@ public class AttachmentPoint : MonoBehaviour {
 			//If it's right mouse button, clear
 			else if(Input.GetMouseButtonDown(1) && !attaching)
 			{
-				GameObject currentAttachment = ship.Attachments[Index];
+				WeaponScript currentAttachment = ship.Attachments[Index];
 				if(currentAttachment != null)
 					Destroy(currentAttachment);
 

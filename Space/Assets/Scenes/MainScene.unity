@@ -37,6 +37,9 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+--- !u!127 &3
+LevelGameManager:
+  m_ObjectHideFlags: 0
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -65,7 +68,6 @@ LightmapSettings:
     m_TextureCompression: 1
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
-    m_ReflectionCompression: 2
   m_LightmapSnapshot: {fileID: 0}
   m_RuntimeCPUUsage: 25
 --- !u!196 &5
@@ -268,6 +270,14 @@ Prefab:
       propertyPath: player
       value: 
       objectReference: {fileID: 1493654551}
+    - target: {fileID: 11426514, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1065487575}
+    - target: {fileID: 11488586, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1065487575}
     - target: {fileID: 22452068, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
       propertyPath: m_AnchorMin.y
       value: 1
@@ -532,7 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 1997211142, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ForceModuleActive: 0
+  m_AllowActivationOnStandalone: 0
 --- !u!114 &613041951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,7 +560,7 @@ MonoBehaviour:
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: .5
-  m_ForceModuleActive: 0
+  m_AllowActivationOnMobileDevice: 0
 --- !u!114 &613041952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,6 +973,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01f8c8f6ae2354b188e5b9696a0799ed, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1065487575 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11460186, guid: 01f8c8f6ae2354b188e5b9696a0799ed,
+    type: 2}
+  m_PrefabInternal: {fileID: 1065487574}
+  m_Script: {fileID: 11500000, guid: 119dbe228c50245a78b525991dd455d7, type: 3}
 --- !u!1 &1090060364 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 145040, guid: 3218ff15e24a3294793c94b7c4b6ddaa, type: 2}
