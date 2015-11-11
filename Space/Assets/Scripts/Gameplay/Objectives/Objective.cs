@@ -6,6 +6,10 @@ public abstract class Objective
 {
     //The place that the objective takes place at
     public Vector2 Position;
+
+    //The Sector the objective takes place in
+    public Sector sector;
+
     public bool Completed {
         get { return completed; }
     }
@@ -24,7 +28,16 @@ public abstract class Objective
 
     public static implicit operator JSON(Objective objective)
     {
-        return objective.ToJSON();
+        // Type specific JSON
+        JSON js = objective.ToJSON();
+
+        // Generic JSON
+        js["PositionX"] = objective.Position.x;
+        js["PositionY"] = objective.Position.y;
+        js["Completed"] = objective.completed;
+        js["SectorName"] = objective.sector.name;
+
+        return js;
     }
 
     //Allows for the conversion from JSON to ContractTargetShipImage for deserialization
@@ -36,11 +49,9 @@ public abstract class Objective
             string type = js.ToString("Type");
             Objective objective;
 
+            //Type specific JSON
             switch (type)
             {
-                case "GoTo":
-                    objective = new ObjectiveGoTo();
-                break;
                 case "TurnInContract":
                     objective = new ObjectiveTurnInContract();
                     break;
@@ -51,10 +62,26 @@ public abstract class Objective
                     objective = new ObjectiveEscortCargo();
                     break;
                 default:
-                    objective = new ObjectiveGoTo();
+                    objective = new ObjectiveTurnInContract();
                     break;
             }
             objective.FromJSON(js);
+
+            //Generic JSON
+            objective.completed = js.ToBoolean("Completed");
+            float x = js.ToFloat("PositionX");
+            float y = js.ToFloat("PositionY");
+            objective.Position = new Vector2(x, y);
+
+            string sectorName = js.ToString("SectorName");
+
+            //If we're in the editor we can't access the sector names loaded in the ContractFormBase reliably
+            //In the application we'll get them from the GameMaster
+            if (Application.isEditor)
+                objective.sector = Resources.Load<Sector>("Sectors/" + sectorName);
+            else
+                objective.sector = GameMaster.Sectors[sectorName];
+
             return objective;
         }
     }

@@ -16,6 +16,7 @@ public class AIShipScript : ShipScript {
 	public Transform objective;
 	public bool aggro; // is the enemy in combat
 	public Transform obstacleTrans;
+	public AISpawnerScript spawner;
 
 	///
 	/// Private Variables
@@ -24,7 +25,12 @@ public class AIShipScript : ShipScript {
 	private Vector2 m_attackPos; // the position the ship will be aiming for when attacking
 	private float m_wanderAngle;
 	private bool m_obstacle; // is there an obstacle in the way
+	private Vector2 objectiveStartPos;
 
+	private float[] m_weapRange;
+	private float[] m_weapSpread;
+	private float[] m_weapSpeed;
+	private float[] m_weapLifeSpan;
 
 	// Weights for flocking
 	private const float ALIGNMENT = 4.0f;
@@ -38,19 +44,51 @@ public class AIShipScript : ShipScript {
 	// Acessors
 	public Transform Target { get { return m_target; } set { m_target = value; } }
 	public bool Obstacle { get { return m_obstacle; } }
+	public Vector2 ObjectiveStartPos { get { return objectiveStartPos; } }
+	public float[] WeapRange { get { return m_weapRange; } }
+	public float[] WeapSpread { get { return m_weapSpread; } }
 	// Use this for initialization
 	void Start () {
 		InitShip();
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce);
 
 		player = PlayerShipScript.player.transform;
-		m_target = PlayerShipScript.player.transform; // Find the player, will likely change
+		m_target = player;
 		m_wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
 		Go ();
 		aggro = false;
 		m_attackPos = Vector2.zero;
 		obstacleTrans = null;
+		objectiveStartPos = objective.position;
+
+
+
+		// set up variables for weapons
+		m_weapRange = new float[m_weapons.Length];
+		m_weapSpeed = new float[m_weapons.Length];
+		m_weapSpread = new float[m_weapons.Length];
+		m_weapLifeSpan = new float[m_weapons.Length];
+		for(int i = 0; i < m_weapons.Length;i++)
+		{
+			switch(m_weapons[i].weaponType)
+			{
+			case WeaponScript.WeaponType.SCATTER_SHOT:
+			case WeaponScript.WeaponType.LASER_MACHINE_GUN:
+				ProjectileWeaponScript pScript = GetComponentInChildren<ProjectileWeaponScript>();
+				m_weapSpeed[i] = pScript.projectileSpeed;
+				m_weapLifeSpan[i] = pScript.projectileLifeTime;
+				m_weapSpread[i] = pScript.maxSpreadAngle;
+				break;
+			case WeaponScript.WeaponType.BEAM:
+				BeamWeaponScript bScript = GetComponentInChildren<BeamWeaponScript>();
+				m_weapLifeSpan[i] = -1;
+				m_weapSpread[i] = 0;
+				m_weapSpeed[i] = -1;
+				m_weapRange[i] = bScript.beamRange;
+				break;
+			}
+		}
 
 		for(int i = 0; i < squad.Count; i++)
 		{
@@ -62,6 +100,14 @@ public class AIShipScript : ShipScript {
 	// Update is called once per frame
 	void Update () {
 		DetectObstacle();
+		// calculate the weapon range
+		Vector2 velocity = GetComponent<Rigidbody2D>().velocity;
+		float rangePercent = Vector2.Dot(transform.up,velocity.normalized);
+		for(int i = 0; i < m_weapons.Length;i++)
+		{
+			if(m_weapLifeSpan[i] != -1)
+				m_weapRange[i] = (m_weapSpeed[i] + (velocity.magnitude * rangePercent)) * m_weapLifeSpan[i];
+		}
 	}
 
 
@@ -95,6 +141,23 @@ public class AIShipScript : ShipScript {
 			m_thrust.Accelerate = true;
 	}
 
+	public void SelectTarget(string[] targets)
+	{
+		//if(!m_target && aggro)
+		//{
+		//	Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, distance);
+		//	foreach(Collider2D c in col)
+		//	{
+		//		foreach(string s in targets)
+		//		{
+		//			if(c.gameObject.name.contains(s))
+		//			{
+		//			}
+		//		}
+		//	}
+		//}
+	}
+
 	// Flee directly from the target
 	public void MoveAwayFrom(Transform target)
 	{
@@ -125,8 +188,14 @@ public class AIShipScript : ShipScript {
 	}
 
 
-	public void AttackTarget(float maxDistance)
+	public void AttackTarget(float maxDistance, string[] friends)
 	{
+		maxDistance = 0;
+		for(int i = 0; i < m_weapons.Length;i++)
+		{
+			if(m_weapRange[i] > maxDistance)
+				maxDistance = m_weapRange[i];
+		}
 		if(m_attackPos == Vector2.zero)
 		{
 			float xPos = Random.Range(-maxDistance, maxDistance);
@@ -145,28 +214,41 @@ public class AIShipScript : ShipScript {
 			m_thrust.Accelerate = false;
 			FaceTarget(m_target.position);
 			m_attackPos = Vector2.zero;
-			if(AngleToTarget(m_target.position) < 10.0f && CanSeeTarget(m_target))
+			for(int i = 0; i < m_weapons.Length;i++)
 			{
-				FireWeapon();
+				if(AngleToTarget(m_target.position) < m_weapSpread[i] && CanSeeTarget(m_target, friends))
+				{
+					FireWeapon();
+				}
 			}
 		}
-
-
 	}
 
-	public bool CheckAggro(float distance)
+	public bool CheckAggro(float distance, string[] targets)
 	{
-		if(DistanceTo(Target.position) < distance)
+		for(int i = 0; i < targets.Length;i++)
 		{
-			aggro = true;
-			return true;
-		}
-		else
-			aggro = false;
-		foreach(GameObject g in squad)
-		{
-			if(g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
-				return true;
+			Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, distance);
+			foreach(Collider2D c in col)
+			{
+				foreach(string s in targets)
+				{
+					if(c.gameObject.name.Contains(s))
+					{
+						aggro = true;
+						return true;
+					}
+					else
+						aggro = false;
+
+				}
+			}
+			foreach(GameObject g in squad)
+			{
+				if(g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
+					return true;
+			}
+
 		}
 		return false;
 
@@ -208,7 +290,9 @@ public class AIShipScript : ShipScript {
 	{
 		for(int i = 0; i < m_weapons.Length; i++)
 		{
+
 			m_weapons[i].Fire();
+
 		}
 	}
 
@@ -273,7 +357,7 @@ public class AIShipScript : ShipScript {
 
 	}
 
-	public bool CanSeeTarget(Transform targetTrans)
+	public bool CanSeeTarget(Transform targetTrans, string[] friends)
 	{
 		float targetDist = Vector2.Distance(targetTrans.position, transform.position);
 		if(targetDist > 20.0f)
@@ -286,11 +370,28 @@ public class AIShipScript : ShipScript {
 				return false;
 		}
 
-		// if the player is the first thing in front of the enemy
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, targetTrans.position - transform.position, 15.0f);
+		Vector2 circleStart = transform.position + transform.up * 50.0f;
+		RaycastHit2D[] hits = Physics2D.CircleCastAll(circleStart, 20.0f, transform.up, 15.0f);
 
+		for(int i = 0; i < hits.Length; i++)
+		{
+			foreach(string s in friends)
+			{
+				// if a friend is in the way, don't shoot
+				if(hits[i].collider.gameObject.name.Contains(s) && AngleToTarget(hits[i].collider.gameObject.transform.position) < m_weapSpread[0])
+				{
+					return false;
+				}
+			}
+		}
+
+		// if the target is the first thing
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, targetTrans.position - transform.position, 15.0f);
+		
 		if(hit && hit.collider.gameObject.transform == targetTrans)
 			return true;
+
+
 
 		return false;
 	}
@@ -345,7 +446,9 @@ public class AIShipScript : ShipScript {
 		m_obstacle = false;
 		RaycastHit2D hit = Physics2D.CircleCast(transform.position, 5.0f, GetComponent<Rigidbody2D>().velocity, 10.0f);
 
-		if(hit && hit.collider.gameObject.tag == "Asteroid")
+		if(hit && (hit.collider.gameObject.tag == "Asteroid" 
+		           || hit.collider.gameObject.tag == "Satellite"
+		           || hit.collider.gameObject.tag == "SAsteroid"))
 		{
 			m_obstacle = true;
 			obstacleTrans = hit.collider.gameObject.transform;
