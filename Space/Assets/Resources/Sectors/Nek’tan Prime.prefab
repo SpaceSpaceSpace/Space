@@ -283,6 +283,7 @@ MonoBehaviour:
   centerPoint: {fileID: 489288}
   satPrefab: {fileID: 181978, guid: 1446bd89413b7814f9696b4fc11f7425, type: 2}
   objectCount: 0
+  currentSector: {fileID: 0}
   asteroidPrefabs:
   - {fileID: 181978, guid: 1446bd89413b7814f9696b4fc11f7425, type: 2}
   - {fileID: 104800, guid: de7fe8dd0745df943ae2d3fd29f1214f, type: 2}
@@ -382,7 +383,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: -101
-  m_Sprite: {fileID: 21300000, guid: 21be39fe9111a4ac38ea4d8aae160f25, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c58e0e725f0a14e75b0c35f34ae4be62, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -394,7 +395,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 21be39fe9111a4ac38ea4d8aae160f25,
+      objectReference: {fileID: 21300000, guid: c58e0e725f0a14e75b0c35f34ae4be62,
         type: 3}
     - target: {fileID: 0}
       propertyPath: m_Offset.x
