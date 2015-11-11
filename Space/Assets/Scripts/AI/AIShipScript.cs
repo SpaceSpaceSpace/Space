@@ -53,7 +53,7 @@ public class AIShipScript : ShipScript {
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce);
 
 		player = PlayerShipScript.player.transform;
-		m_target = player;
+		//m_target = player;
 		m_wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
 		Go ();
@@ -141,6 +141,23 @@ public class AIShipScript : ShipScript {
 			m_thrust.Accelerate = true;
 	}
 
+	public void SelectTarget(string[] targets)
+	{
+		//if(!m_target && aggro)
+		//{
+		//	Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, distance);
+		//	foreach(Collider2D c in col)
+		//	{
+		//		foreach(string s in targets)
+		//		{
+		//			if(c.gameObject.name.contains(s))
+		//			{
+		//			}
+		//		}
+		//	}
+		//}
+	}
+
 	// Flee directly from the target
 	public void MoveAwayFrom(Transform target)
 	{
@@ -173,7 +190,12 @@ public class AIShipScript : ShipScript {
 
 	public void AttackTarget(float maxDistance, string[] friends)
 	{
-		maxDistance = m_weapRange[0];
+		maxDistance = 0;
+		for(int i = 0; i < m_weapons.Length;i++)
+		{
+			if(m_weapRange[i] > maxDistance)
+				maxDistance = m_weapRange[i];
+		}
 		if(m_attackPos == Vector2.zero)
 		{
 			float xPos = Random.Range(-maxDistance, maxDistance);
@@ -200,8 +222,6 @@ public class AIShipScript : ShipScript {
 				}
 			}
 		}
-
-
 	}
 
 	public bool CheckAggro(float distance, string[] targets)
@@ -215,7 +235,6 @@ public class AIShipScript : ShipScript {
 				{
 					if(c.gameObject.name.Contains(s))
 					{
-						m_target = c.gameObject.transform;
 						aggro = true;
 						return true;
 					}
@@ -427,7 +446,9 @@ public class AIShipScript : ShipScript {
 		m_obstacle = false;
 		RaycastHit2D hit = Physics2D.CircleCast(transform.position, 5.0f, GetComponent<Rigidbody2D>().velocity, 10.0f);
 
-		if(hit && hit.collider.gameObject.tag == "Asteroid")
+		if(hit && (hit.collider.gameObject.tag == "Asteroid" 
+		           || hit.collider.gameObject.tag == "Satellite"
+		           || hit.collider.gameObject.tag == "SAsteroid"))
 		{
 			m_obstacle = true;
 			obstacleTrans = hit.collider.gameObject.transform;
