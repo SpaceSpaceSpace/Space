@@ -11,14 +11,17 @@ public class AISpawnerScript : MonoBehaviour {
 	public GameObject AIPrefab;
 	public GameObject squadLeader;
 
+	//private int currentAI;
 	private Transform objective;
 
+	public List<GameObject> squad;
 	public Transform Objective { set { objective = value; } }
 	// Use this for initialization
 	public void Init () {
 
+		//currentAI = 0;
 		Vector2 spawnPos;
-		List<GameObject> squad = new List<GameObject>(startAI);
+		squad = new List<GameObject>(startAI);
 		for(int i = 0; i < startAI; i++)
 		{
 			float distance = Random.Range(0.0f, range);
@@ -39,12 +42,14 @@ public class AISpawnerScript : MonoBehaviour {
 					g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.identity);
 
 				g.GetComponent<AIShipScript>().objective = transform; 
+				g.GetComponent<AIShipScript>().spawner = this;
 				squad.Add(g);
 			}
 			else if (AIPrefab.GetComponent<ShipBehaviourScript>().behaviour == ShipBehaviourScript.Behaviour.Cargo)
 			{
 				g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.identity);
 				g.GetComponent<AIShipScript>().objective = objective;
+				g.GetComponent<AIShipScript>().spawner = this;
 				squad.Add(g);
 			}
 		}
@@ -58,6 +63,7 @@ public class AISpawnerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(squad != null && squad.Count == 0)
+			Destroy(this.gameObject);
 	}
 }
