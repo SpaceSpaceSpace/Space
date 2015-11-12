@@ -72,7 +72,7 @@ public class PlayerShipScript : ShipScript
 		m_cameraTransform.position = transform.position;
 		
 		//Don't fire or move if we're docked or dead
-		if(!m_docked && m_alive)
+		if(!m_docked && m_alive && GameMaster.CurrentGameState != GameState.Warping)
 		{
 			// Giving input to the thrust 
 			m_thrust.Accelerate = ( Input.GetAxis( "Vertical" ) > 0 );
