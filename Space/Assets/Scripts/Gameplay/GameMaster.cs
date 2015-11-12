@@ -5,10 +5,10 @@ public enum GameState
 {
 	MainMenu,
 	Flying,
-	Warping,
 	Station,
 	Customization,
-	GameOver
+	GameOver,
+	Warping
 }
 
 public class GameMaster : MonoBehaviour {
