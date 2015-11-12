@@ -113,8 +113,6 @@ public class ShipBehaviourScript : MonoBehaviour {
 			}
 			else
 				m_shipScript.MoveToward(m_shipScript.Target);
-
-
 		}
 		// If the player is not near
 		else
@@ -235,7 +233,8 @@ public class ShipBehaviourScript : MonoBehaviour {
 			m_shipScript.Stop();
 		else
 		{
-			m_shipScript.FaceTarget(m_shipScript.objective.position);
+			if(m_shipScript.objective != null)
+				m_shipScript.FaceTarget(m_shipScript.objective.position);
 
 			int index = m_shipScript.squad.IndexOf(this.gameObject);
 			if(index != 0)
@@ -244,7 +243,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 			{
 
 				if((m_shipScript.squad.Count == 1 || m_shipScript.DistanceTo(m_shipScript.squad[1].transform.position) < 5.0f) && 
-				    m_shipScript.DistanceTo(PlayerShipScript.player.transform.position) < 10.0f)
+				    m_shipScript.DistanceTo(PlayerShipScript.player.transform.position) < 17.5f)
 				{
 					m_shipScript.MoveForward();
 				}
@@ -252,6 +251,9 @@ public class ShipBehaviourScript : MonoBehaviour {
 					m_shipScript.Stop();
 			}
 		}
+
+		if(Mathf.Abs(transform.position.x) > 400 || Mathf.Abs(transform.position.y) > 400)
+			Destroy(this.gameObject);
 	}
 
 	public void Rescue()

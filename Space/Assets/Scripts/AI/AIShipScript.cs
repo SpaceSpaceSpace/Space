@@ -163,7 +163,7 @@ public class AIShipScript : ShipScript {
 							if(s == "Player Ship")
 								potPlayer = true;
 							potTargets.Add(c.gameObject);
-							potNames.Add(s); // using s instead of teh actual name to easier search for it in the list
+							potNames.Add(s); // using s instead of the actual name to easier search for it in the list
 						}
 					}
 				}
@@ -280,6 +280,12 @@ public class AIShipScript : ShipScript {
 				{
 					if(c.gameObject.name.Contains(s))
 					{
+						// if the current target is a cargo ship or rescue ship, and the player or cops are in aggro range, change targets
+						if(m_target != null && (m_target.name == "CargoShip" || m_target.name == "RescueShip") 
+						   && (s == "Player Ship" || s == "CopShip"))
+						{
+							m_target = null;
+						}
 						SelectTarget(targets);
 						aggro = true;
 						return true;
@@ -493,14 +499,18 @@ public class AIShipScript : ShipScript {
 	public void DetectObstacle()
 	{
 		m_obstacle = false;
-		RaycastHit2D hit = Physics2D.CircleCast(transform.position, 5.0f, GetComponent<Rigidbody2D>().velocity, 10.0f);
+		RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, 2.0f, GetComponent<Rigidbody2D>().velocity, 10.0f);
 
-		if(hit && (hit.collider.gameObject.tag == "Asteroid" 
-		           || hit.collider.gameObject.tag == "Satellite"
-		           || hit.collider.gameObject.tag == "SAsteroid"))
+		foreach(RaycastHit2D h in hits)
 		{
-			m_obstacle = true;
-			obstacleTrans = hit.collider.gameObject.transform;
+			if(h && (h.collider.gameObject.tag == "Asteroid" 
+			           || h.collider.gameObject.tag == "Satellite"
+			           || h.collider.gameObject.tag == "SAsteroid"))
+			{
+				m_obstacle = true;
+				obstacleTrans = h.collider.gameObject.transform;
+				return;
+			}
 		}
 	}
 
