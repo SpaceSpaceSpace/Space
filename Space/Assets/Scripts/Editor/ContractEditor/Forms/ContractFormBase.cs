@@ -132,7 +132,7 @@ public abstract class ContractFormBase : EditorWindow
         {
             string sectorName = sectorNames[newSectorNameIndex];
             objective.sector = sectors[sectorName];
-        }       
+        }
 
         if (derivedType == typeof(ObjectiveKillTarget))
         {
@@ -140,7 +140,13 @@ public abstract class ContractFormBase : EditorWindow
             obj.GuardCount = EditorGUILayout.IntField("Guards", obj.GuardCount);
             objective = obj;
         }
-
+        else if (derivedType == typeof(ObjectiveEscortCargo))
+        {
+            ObjectiveEscortCargo obj = (ObjectiveEscortCargo)objective;
+            obj.CargoShipCount = EditorGUILayout.IntField("Cargo Ships", obj.CargoShipCount);
+            objective = obj;
+        }
+        
         EditorGUILayout.Space();
 
         EditorGUILayout.EndVertical();

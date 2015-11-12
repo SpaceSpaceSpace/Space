@@ -1088,6 +1088,22 @@ Prefab:
       propertyPath: m_TagString
       value: SectorBounds
       objectReference: {fileID: 0}
+    - target: {fileID: 6161738, guid: 01f8c8f6ae2354b188e5b9696a0799ed, type: 2}
+      propertyPath: m_Offset.y
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 6198382, guid: 01f8c8f6ae2354b188e5b9696a0799ed, type: 2}
+      propertyPath: m_Offset.x
+      value: -450
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199132, guid: 01f8c8f6ae2354b188e5b9696a0799ed, type: 2}
+      propertyPath: m_Offset.y
+      value: -450
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194542, guid: 01f8c8f6ae2354b188e5b9696a0799ed, type: 2}
+      propertyPath: m_Offset.x
+      value: 450
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01f8c8f6ae2354b188e5b9696a0799ed, type: 2}
   m_IsPrefabParent: 0
