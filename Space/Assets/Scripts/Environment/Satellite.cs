@@ -124,7 +124,7 @@ public class Satellite : MonoBehaviour {
 
 		//Set the fade speed of the dust poof to be inversely proportional to the mass of the satellite
 		Explode explosion = dust.GetComponent<Explode>();
-		explosion.ParticleRadius = m * 10;
+		explosion.ParticleRadius = m * 5;
 		explosion.ParticleCount = (int)(m * 10);
 		explosion.SpriteRadius = m * 2;
         explosion.FadeSpeed = 3.0f;
