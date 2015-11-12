@@ -23,7 +23,12 @@ public class WeaponInfo {
 	{
 		get{ return name; }
 	}
-	
+
+	public GameObject WeaponPrefab
+	{
+		get{ return weaponPrefab; }
+	}
+
 	public GameObject SpawnWeapon()
 	{
 		return null;
