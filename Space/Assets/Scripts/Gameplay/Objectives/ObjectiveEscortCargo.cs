@@ -3,11 +3,13 @@ using WyrmTale;
 
 public class ObjectiveEscortCargo : Objective
 {
+    public int CargoShipCount;
+
     private static GameObject AISpawner = null;
 
     public ObjectiveEscortCargo()
     {
-        Position = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), 0);
+        Position = new Vector2(Random.Range(-20.0f, 20.0f), Random.Range(-20.0f, 20.0f));
     }
 
     public ObjectiveEscortCargo(float minX, float maxX, float minY, float maxY)
@@ -23,10 +25,13 @@ public class ObjectiveEscortCargo : Objective
     public override void SetupObjective(GameObject objectiveManager)
     {
         if (AISpawner == null)
-            AISpawner = Resources.Load("AISpawner") as GameObject;
+            AISpawner = Resources.Load("CargoSpawner") as GameObject;
 
-        Vector2 spawnPos = new Vector2(Random.Range(-20.0f, 20.0f), Random.Range(-20.0f, 20.0f));
-        AISpawner = (GameObject)GameObject.Instantiate(AISpawner, spawnPos, Quaternion.identity);
+        AISpawnerScript spawnerScript = AISpawner.GetComponent<AISpawnerScript>();
+        spawnerScript.maxAI = CargoShipCount;
+        spawnerScript.startAI = CargoShipCount;
+
+        AISpawner = (GameObject)GameObject.Instantiate(AISpawner, Position, Quaternion.identity);
         float xPos = Random.Range(0.01f, 2.0f);
         float yPos = Random.Range(0.01f, 2.0f);
         if (Random.Range(-1.0f, 1.0f) > 0.0f)
@@ -65,11 +70,12 @@ public class ObjectiveEscortCargo : Objective
     {
         JSON js = new JSON();
         js["Type"] = "EscortCargo";
+        js["CargoShipCount"] = CargoShipCount;
 
         return js;
     }
     protected override void FromJSON(JSON js)
     {
-        
+        CargoShipCount= js.ToInt("CargoShipCount");
     }
 }
