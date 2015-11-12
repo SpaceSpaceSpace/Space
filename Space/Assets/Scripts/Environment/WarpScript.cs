@@ -83,6 +83,7 @@ public class WarpScript : MonoBehaviour
 
 		GameMaster.Master.PlanetName = prefabName;
 		playerShip.transform.position = new Vector3(spaceStation.transform.position.x - 10.0f, spaceStation.transform.position.y, spaceStation.transform.position.z);
+		playerShip.transform.rotation = Quaternion.identity;
 
 		warpEffect.transform.position = starBackground.transform.position;
 		StartCoroutine ("WarpWait");
