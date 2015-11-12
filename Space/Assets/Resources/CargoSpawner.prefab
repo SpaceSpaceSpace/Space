@@ -39,11 +39,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805fe2b097eb297449a3b84b3c0c9146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAI: 5
-  startAI: 5
+  maxAI: 4
+  startAI: 4
   range: 10
   AIPrefab: {fileID: 133512, guid: ef73b1ef7d4c1f543b8b8bcfc9741f65, type: 2}
   squadLeader: {fileID: 0}
+  squad: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
