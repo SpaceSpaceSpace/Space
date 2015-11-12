@@ -20,12 +20,13 @@ public class ContractTargetShipImageForm : ContractFormBase {
         return editor;
     }
 
-    public static ContractTargetShipImageForm Init(ContractTargetShipImage targetShipImage)
+    public static ContractTargetShipImageForm Init(ContractTargetShipImage targetShipImage, int replacementIndex)
     {
         ContractTargetShipImageForm editor = (ContractTargetShipImageForm)GetWindow(typeof(ContractTargetShipImageForm));
         editor.minSize = new Vector2(300, 100);
         editor.Tier = targetShipImage.Tier;
         editor.TargetShipImagePath = targetShipImage.TargetShipImagePath;
+        editor.replacementIndex = replacementIndex;
         editor.Show();
 
         return editor;
