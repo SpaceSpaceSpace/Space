@@ -960,7 +960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &144516
 GameObject:
   m_ObjectHideFlags: 1
@@ -1323,7 +1323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &157026
 GameObject:
   m_ObjectHideFlags: 1
@@ -2532,7 +2532,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 0}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -5345,8 +5345,7 @@ MonoBehaviour:
   targetName: {fileID: 11408870}
   title: {fileID: 11428988}
   reward: {fileID: 0}
-  portrait: {fileID: 0}
-  shipImage: {fileID: 0}
+  portrait: {fileID: 11410248}
   scrollView: {fileID: 104502}
   buttonPrefab: {fileID: 114684, guid: b44139e9f57a2244d8e7a9eacc841f51, type: 2}
   statLocation: {fileID: 139610}
@@ -7238,7 +7237,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -211.000031, y: -170}
+  m_AnchoredPosition: {x: -211.000031, y: -410}
   m_SizeDelta: {x: 247, y: 247}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22404952
