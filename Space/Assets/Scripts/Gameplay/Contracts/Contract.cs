@@ -6,13 +6,19 @@ using UnityEngine.UI;
 public class Contract
 {
 	public bool completed;
-	private string description;
-	private string targetImagePath;
-	private Image targetImage;
-	private string targetShipImagePath;
-	private Image targetShipImage;
-	private string name;
-	private string title;
+
+    public string TargetName {get{ return name; } }
+    public string Title { get { return title; } }
+    public string Description { get { return description; } }
+    public Sprite TargetImage { get { return targetImage; } }
+    public Sprite TargetShipImage { get { return targetShipImage; } }
+    public List<Objective> Objectives { get { return contractObjectives; } }
+
+    private string name;
+    private string title;
+    private string description;
+	private Sprite targetImage;
+	private Sprite targetShipImage;
 	private string reward;
 	private List<Objective> contractObjectives;
     private List<ObjectiveEvent> objectiveEvents;
@@ -23,8 +29,6 @@ public class Contract
 		contractObjectives = new List<Objective> ();
 		completed = false;
 		description = "Go here!";
-		//targetImagePath = "Image Directory";
-		//targetShipImagePath = "ShipImage Directory";
 		name = "Unknown";
 		title = "Unknown Title";
 		reward = "0 Space Dollars";
@@ -39,8 +43,6 @@ public class Contract
         contractObjectives.Add(new ObjectiveTurnInContract());
 
         completed = false;
-		//targetImagePath = "Image Directory";
-		//targetShipImagePath = "ShipImage Directory";
 		name = p_Name;
 		title = p_Title;
 		description = p_Description;
@@ -52,8 +54,8 @@ public class Contract
     {
         contractObjectives = p_Objectives.ToList();
         completed = false;
-        targetImagePath = p_ImagePath;
-        targetShipImagePath = p_ShipImagePath;
+        targetImage = Resources.Load<Sprite>(p_ImagePath);
+        targetShipImage = Resources.Load<Sprite>(p_ShipImagePath);
         name = p_Name;
         title = p_Title;
         description = p_Description;
@@ -64,18 +66,6 @@ public class Contract
     public string Name
 	{
 		get{ return name;}
-	}
-
-	public Dictionary<string,string> GetContractDetails()
-	{
-		Dictionary<string,string> contractDetails = new Dictionary<string, string> ();
-
-		contractDetails.Add ("Name", name);
-		contractDetails.Add ("Title", title);
-		contractDetails.Add ("Reward", reward);
-		contractDetails.Add ("Description", description);
-
-		return contractDetails;
 	}
 
 	public void CompleteContractObjective(Objective completedObjective)
