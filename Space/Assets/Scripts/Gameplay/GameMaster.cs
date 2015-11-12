@@ -5,6 +5,7 @@ public enum GameState
 {
 	MainMenu,
 	Flying,
+	Warping,
 	Station,
 	Customization,
 	GameOver
