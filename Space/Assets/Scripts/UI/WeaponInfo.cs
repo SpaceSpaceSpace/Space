@@ -6,7 +6,7 @@ public class WeaponInfo {
 
 	private string name;
 	WeaponModifier.ModifierNames modifier; 
-	public Dictionary<string,float> attributes;
+	public Dictionary<string,string> attributes;
 
 	public WeaponInfo(WeaponScript.WeaponType weaponType, WeaponModifier.ModifierNames p_Modifier)
 	{
@@ -14,7 +14,7 @@ public class WeaponInfo {
 		WeaponModifier.GetModifiedName( p_Modifier, prefab.name, out name );
 		modifier = p_Modifier;
 
-		attributes = new Dictionary<string, float>();
+		attributes = new Dictionary<string, string>();
 	}
 
 	public string Name
@@ -27,7 +27,7 @@ public class WeaponInfo {
 		return null;
 	}
 
-	public void AddAttribute( string key, float value )
+	public void AddAttribute( string key, string value )
 	{
 		attributes.Add( key, value );
 	}

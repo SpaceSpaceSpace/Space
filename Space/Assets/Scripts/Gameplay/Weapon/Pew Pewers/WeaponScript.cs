@@ -62,4 +62,9 @@ public abstract class WeaponScript : MonoBehaviour
 	}
 
 	protected abstract void ApplyModifier();
+
+	protected float RoundStatToDecimalPlaces( float statValue, int sigFigs )
+	{
+		return (float)System.Math.Round( statValue, sigFigs );
+	}
 }
