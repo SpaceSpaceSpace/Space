@@ -14,12 +14,44 @@ public class WeaponPopulator : MonoBehaviour {
     public float ButtonWidth = 100;
     public float ButtonHeight = 50;
 
+	public GameObject scrollContent;
+	public GameObject buttonPrefab;
+
+
 	// Use this for initialization
 	void Start () {
         WeaponList = Resources.LoadAll<GameObject>("ShipPrefabs/Weapons").ToList<GameObject>();
         WeaponToggleGroup = GetComponent<ToggleGroup>();
 
-        CreateWeaponListButtons();
+        //CreateWeaponListButtons();
+		DisplayInventory ();
+	}
+
+	void OnEnable()
+	{
+		DisplayInventory ();
+	}
+
+	void DisplayInventory()
+	{
+		AttachmentToggle[] buttons = scrollContent.GetComponentsInChildren<AttachmentToggle> ();
+		foreach(AttachmentToggle _button in buttons)
+		{
+			Destroy(_button.gameObject);
+		}
+
+		for(int i = 0; i < GameMaster.playerData.playerInventory.Weapons.Count; i++)
+		{
+			int _i = i;
+			GameObject button = Instantiate(buttonPrefab) as GameObject;
+			button.name = i.ToString();
+			button.transform.SetParent(scrollContent.transform,false);
+			button.GetComponentInChildren<Text>().text = GameMaster.playerData.playerInventory.Weapons[i].Name;
+			Toggle toggle = button.GetComponent<Toggle>();
+			toggle.group = WeaponToggleGroup;
+			AttachmentToggle attachment = button.GetComponent<AttachmentToggle>();
+			attachment.Attachment = GameMaster.playerData.playerInventory.Weapons[i].WeaponPrefab;
+		}
 	}
 
     void CreateWeaponListButtons() 
@@ -85,9 +117,4 @@ public class WeaponPopulator : MonoBehaviour {
             buttonRectTrans.anchoredPosition3D = pos;
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

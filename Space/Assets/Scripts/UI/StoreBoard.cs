@@ -66,11 +66,11 @@ public class StoreBoard : MonoBehaviour {
 		}
 	}
 	
-	public void AcceptContract()
+	public void PurchaseWeapon()
 	{
 		if(currentSelectedWeapon != -1)
 		{
-			//GameMaster.playerData.AcceptContract (currentWeapons[currentSelectedWeapon]);
+			GameMaster.playerData.playerInventory.AddWeapon(currentWeapons[currentSelectedWeapon]);
 
 			GameObject button = scrollView.transform.FindChild (currentSelectedWeapon.ToString()).gameObject;
 
@@ -91,6 +91,8 @@ public class StoreBoard : MonoBehaviour {
 				SetBlankValues();
 			}
 		}
+
+		Debug.Log (GameMaster.playerData.playerInventory.Weapons [0]);
 	}
 
 	public void SetStoreValues(int index)
@@ -119,7 +121,10 @@ public class StoreBoard : MonoBehaviour {
 		currentSelectedWeapon = -1;
 		SetName ("-----");
 		SetTitle ("-----");
-		SetReward("-----");
+		foreach(Transform t in statLocation.transform)
+		{
+			Destroy(t.gameObject);
+		}
 	}
 
 	public void SetName(string p_Name)
