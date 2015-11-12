@@ -5,12 +5,14 @@ using System.Collections.Generic;
 public class WeaponInfo {
 
 	private string name;
-	WeaponModifier.ModifierNames modifier; 
-	public Dictionary<string,string> attributes;
+	private GameObject weaponPrefab;
+	private WeaponModifier.ModifierNames modifier; 
+	private Dictionary<string,string> attributes;
 
 	public WeaponInfo(WeaponScript.WeaponType weaponType, WeaponModifier.ModifierNames p_Modifier)
 	{
 		GameObject prefab = GameMaster.WeaponMngr.GetWeaponPrefab( weaponType );
+		weaponPrefab = prefab;
 		WeaponModifier.GetModifiedName( p_Modifier, prefab.name, out name );
 		modifier = p_Modifier;
 
