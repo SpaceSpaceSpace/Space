@@ -10,6 +10,7 @@ public class PlayerShipScript : ShipScript
 	public List<WeaponScript> Attachments = new List<WeaponScript>();
 	
 	public GameObject objectiveMarker;
+	public GameObject stationMarker;
 	
 	public bool Alive
 	{
