@@ -6,6 +6,11 @@ public class Inventory
 {
 	private List<WeaponInfo> weapons;
 
+	public Inventory()
+	{
+		weapons = new List<WeaponInfo>();
+	}
+
 	public List<WeaponInfo> Weapons
 	{
 		get { return weapons; }
