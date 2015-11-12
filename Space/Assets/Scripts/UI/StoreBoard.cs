@@ -82,6 +82,7 @@ public class StoreBoard : MonoBehaviour {
 			{
 				string indexString = scrollView.transform.GetChild(1).name;
 				int index = int.Parse(indexString);
+				currentSelectedWeapon = index;
 
 				SetStoreValues (index);
 			}
@@ -90,8 +91,6 @@ public class StoreBoard : MonoBehaviour {
 				SetBlankValues();
 			}
 		}
-
-		Debug.Log (GameMaster.playerData.playerInventory.Weapons [0]);
 	}
 
 	public void SetStoreValues(int index)
