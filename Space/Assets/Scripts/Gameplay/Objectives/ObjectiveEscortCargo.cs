@@ -9,21 +9,13 @@ public class ObjectiveEscortCargo : Objective
 
     public ObjectiveEscortCargo()
     {
-        Position = new Vector2(Random.Range(-20.0f, 20.0f), Random.Range(-20.0f, 20.0f));
-    }
-
-    public ObjectiveEscortCargo(float minX, float maxX, float minY, float maxY)
-    {
-        Position = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0);
-    }
-
-    public ObjectiveEscortCargo(Vector3 position)
-    {
-        Position = position;
+        
     }
 
     public override void SetupObjective(GameObject objectiveManager)
     {
+        Position = new Vector2(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
+
         if (AISpawner == null)
             AISpawner = Resources.Load("CargoSpawner") as GameObject;
 
