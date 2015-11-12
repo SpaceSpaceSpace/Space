@@ -22,6 +22,19 @@ public class ContractContentView : ContractViewBase<ContractContent>
             GUILayout.Label("Title: " + content.Title);
             GUILayout.Label("Description: \n" + content.Description);
 
+            if (content.Objectives.Length > 0)
+            {
+                EditorGUILayout.Space();
+                GUILayout.Label("Objectives:");
+
+                foreach (Objective objective in content.Objectives)
+                    GUILayout.Label(objective.GetType().ToString() + " - " + objective.sector.name);
+            }
+            else
+            {
+                GUILayout.Label("No Objectives :(");
+            }
+
             ControlsArea(content);
         }
         GUILayout.EndVertical();

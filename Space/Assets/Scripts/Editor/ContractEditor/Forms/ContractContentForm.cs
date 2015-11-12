@@ -2,21 +2,21 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using WyrmTale;
-using System;
 
 public class ContractContentForm : ContractFormBase
 {
     public int Tier = 1;
     public string Title = "";
     public string Description = "";
+    public List<Objective> Objectives = new List<Objective>();
 
     public static ContractContentForm Init()
     {
         ContractContentForm editor = (ContractContentForm)GetWindow(typeof(ContractContentForm));
         editor.minSize = new Vector2(400, 200);
         editor.replacementIndex = -1;
+        editor.InternalInit();
         editor.Show();
 
         return editor;
@@ -30,10 +30,12 @@ public class ContractContentForm : ContractFormBase
         editor.Tier = contractContent.Tier;
         editor.Title = contractContent.Title;
         editor.Description = contractContent.Description;
+        editor.Objectives = contractContent.Objectives.ToList();
 
         editor.replacementIndex = replacementIndex;
         editor.closeButtonText = "Save";
 
+        editor.InternalInit();
         editor.Show();
 
         return editor;
@@ -51,12 +53,16 @@ public class ContractContentForm : ContractFormBase
         EditorGUILayout.LabelField("Description");
         Description = EditorGUILayout.TextArea(Description, GUILayout.Height(position.height / 4));
 
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Objectives");
+        ObjectivesArea(ref Objectives);
+
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddContract(new ContractContent(Tier, Title, Description));
+                AddContract(new ContractContent(Tier, Title, Description, Objectives.ToArray()));
         }
         EditorGUILayout.EndHorizontal();
 

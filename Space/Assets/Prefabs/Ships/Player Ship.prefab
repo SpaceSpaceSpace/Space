@@ -357,7 +357,6 @@ MonoBehaviour:
   accelForce: 10
   turnForce: 10
   maxMoveSpeed: 7
-  objectivePrefab: {fileID: 146980, guid: 2840ea0ea420db641a04e5bdb32e8cb6, type: 2}
   AttachmentPoints:
   - {x: -.349999994, y: -.150000006}
   - {x: .349999994, y: -.150000006}
@@ -1704,7 +1703,7 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 1000
+    maxNumParticles: 1
   ShapeModule:
     serializedVersion: 2
     enabled: 1
@@ -1723,7 +1722,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 30
+      scalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2691,6 +2690,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_AngularDrag
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.maxNumParticles
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EmissionModule.rate.scalar
       value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
