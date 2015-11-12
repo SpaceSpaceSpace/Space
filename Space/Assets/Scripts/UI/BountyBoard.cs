@@ -25,6 +25,8 @@ public class BountyBoard : MonoBehaviour {
         for (int i = 0; i < 5; i++)
             currentContracts.Add(ContractUtils.GetRandomContract(1));
 
+        Debug.Log(currentContracts.Count);
+
         PopulateButtons();
     }
 
