@@ -7,7 +7,7 @@ public class WeaponInfo {
 	private string name;
 	private GameObject weaponPrefab;
 	private WeaponModifier.ModifierNames modifier; 
-	private Dictionary<string,string> attributes;
+	public Dictionary<string,string> attributes;
 
 	public WeaponInfo(WeaponScript.WeaponType weaponType, WeaponModifier.ModifierNames p_Modifier)
 	{
