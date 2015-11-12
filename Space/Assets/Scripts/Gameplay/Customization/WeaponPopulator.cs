@@ -27,15 +27,30 @@ public class WeaponPopulator : MonoBehaviour {
 		DisplayInventory ();
 	}
 
+	void OnEnable()
+	{
+		DisplayInventory ();
+	}
+
 	void DisplayInventory()
 	{
+		Button[] buttons = scrollContent.GetComponentsInChildren<Button> ();
+		foreach(Button _button in buttons)
+		{
+			Destroy(_button.gameObject);
+		}
+
 		for(int i = 0; i < GameMaster.playerData.playerInventory.Weapons.Count; i++)
 		{
 			int _i = i;
 			GameObject button = Instantiate(buttonPrefab) as GameObject;
 			button.name = i.ToString();
 			button.transform.SetParent(scrollContent.transform,false);
-			button.GetComponentInChildren<Text>().text = GameMaster.playerData.playerInventory.Weapons[i].ToString();
+			button.GetComponentInChildren<Text>().text = GameMaster.playerData.playerInventory.Weapons[i].Name;
+			Toggle toggle = button.GetComponent<Toggle>();
+			toggle.group = WeaponToggleGroup;
+			AttachmentToggle attachment = button.AddComponent<AttachmentToggle>();
+			//attachment.Attachment = weapon;
 		}
 	}
 

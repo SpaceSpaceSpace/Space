@@ -1077,7 +1077,7 @@ GameObject:
   - 222: {fileID: 22259374}
   - 114: {fileID: 11421310}
   m_Layer: 5
-  m_Name: ContractSelectionScrollView
+  m_Name: WeaponSelectionScrollView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2196,7 +2196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: .39199999}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -3461,6 +3461,8 @@ MonoBehaviour:
   ButtonBackground: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   ButtonWidth: 100
   ButtonHeight: 50
+  scrollContent: {fileID: 150696}
+  buttonPrefab: {fileID: 122938, guid: a0908db3ec9f3de408352f09d4b01ef5, type: 2}
 --- !u!114 &11430690
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6577,8 +6579,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: 1}
   m_AnchorMax: {x: .5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 474.399994, y: 0}
+  m_AnchoredPosition: {x: 8.39233398e-05, y: 0}
+  m_SizeDelta: {x: 387.200012, y: 0}
   m_Pivot: {x: .5, y: 1}
 --- !u!224 &22409924
 RectTransform:
