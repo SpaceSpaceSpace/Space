@@ -70,6 +70,8 @@ public class AttachmentPoint : MonoBehaviour {
 
 				//Don't let this happen again until the mouse is lifted
 				attaching = true;
+
+				Destroy(selectedToggle.gameObject);
 			}
 
 			//If it's right mouse button, clear

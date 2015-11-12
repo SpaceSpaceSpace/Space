@@ -34,8 +34,8 @@ public class WeaponPopulator : MonoBehaviour {
 
 	void DisplayInventory()
 	{
-		Button[] buttons = scrollContent.GetComponentsInChildren<Button> ();
-		foreach(Button _button in buttons)
+		AttachmentToggle[] buttons = scrollContent.GetComponentsInChildren<AttachmentToggle> ();
+		foreach(AttachmentToggle _button in buttons)
 		{
 			Destroy(_button.gameObject);
 		}
