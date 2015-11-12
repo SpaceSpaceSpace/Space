@@ -48,15 +48,18 @@ public class ProjectileWeaponScript : WeaponScript
 	public override WeaponInfo ToInfo()
 	{
 		WeaponInfo info = new WeaponInfo( weaponType, modifier );
-		info.AddAttribute( "Damage", damage );
-		info.AddAttribute( "Fire Rate", fireTime );
-		info.AddAttribute( "Projectile Speed", projectileSpeed );
-		info.AddAttribute( "Accuracy", 1 - ( maxSpreadAngle / 360 ) );
+
+		string dmgString = RoundStatToDecimalPlaces( damage, 3 ).ToString();
 
 		if( weaponType == WeaponType.SCATTER_SHOT )
 		{
-			info.AddAttribute( "Projectiles", projectilesPerShot );
+			dmgString += " (x" + projectilesPerShot + ")";
 		}
+
+		info.AddAttribute( "Damage", dmgString );
+		info.AddAttribute( "Fire Rate", RoundStatToDecimalPlaces( 1 / fireTime, 2 ) + "/s" );
+		info.AddAttribute( "Projectile Speed", RoundStatToDecimalPlaces( projectileSpeed, 1 ).ToString() );
+		info.AddAttribute( "Accuracy", RoundStatToDecimalPlaces( ( 1 - ( maxSpreadAngle * 2 / 180 ) ) * 100, 1 ) + "%" );
 
 		return info;
 	}
@@ -71,22 +74,18 @@ public class ProjectileWeaponScript : WeaponScript
 
 		if( weaponType != WeaponType.SCATTER_SHOT )
 		{
-			info.AddAttribute( "Damage", moddedDamage );
+			info.AddAttribute( "Damage", RoundStatToDecimalPlaces( moddedDamage, 1 ).ToString() );
 		}
 		else
 		{
-			info.AddAttribute( "Damage", damage );
+			int bonusProjectiles = (int)WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.BONUS_PROJECTILES );
+			int count = projectilesPerShot + bonusProjectiles;
+			info.AddAttribute( "Damage", RoundStatToDecimalPlaces( damage, 1 ) + " (x" + count + ")" );
 		}
 
-		info.AddAttribute( "Fire Rate", moddedFireRate );
-		info.AddAttribute( "Projectile Speed", projectileSpeed );
-		info.AddAttribute( "Accuracy", 1 - ( moddedAccuracy / 360 ) );
-		
-		if( weaponType == WeaponType.SCATTER_SHOT )
-		{
-			int bonusProjectiles = (int)WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.BONUS_PROJECTILES );
-			info.AddAttribute( "Projectiles", projectilesPerShot + bonusProjectiles );
-		}
+		info.AddAttribute( "Fire Rate", RoundStatToDecimalPlaces( 1 / moddedFireRate, 1 ) + "/s" );
+		info.AddAttribute( "Projectile Speed", RoundStatToDecimalPlaces( projectileSpeed, 1 ).ToString() );
+		info.AddAttribute( "Accuracy", RoundStatToDecimalPlaces( ( 1 - ( moddedAccuracy * 2 / 180 ) ) * 100, 1 ) + "%" );
 		
 		return info;
 	}

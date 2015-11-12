@@ -106,13 +106,13 @@ public class StoreBoard : MonoBehaviour {
 
 		targetName.text = currentWeapons [currentSelectedWeapon].Name;
 
-		foreach(KeyValuePair<string,float> key in currentWeapons[currentSelectedWeapon].attributes)
+		foreach(KeyValuePair<string,string> key in currentWeapons[currentSelectedWeapon].attributes)
 		{
 			GameObject stat = Instantiate(statPrefab);
 			stat.transform.SetParent(statLocation.transform,false);
 			Text[] textObjects = stat.GetComponentsInChildren<Text>();
 			textObjects[0].text = key.Key;
-			textObjects[1].text = key.Value.ToString();
+			textObjects[1].text = key.Value;
 		}
 	}
 
