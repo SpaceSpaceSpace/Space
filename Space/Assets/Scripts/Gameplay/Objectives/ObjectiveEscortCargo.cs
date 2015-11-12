@@ -62,7 +62,7 @@ public class ObjectiveEscortCargo : Objective
 
     public override void HitObjective(Collider2D collider)
     {
-        if (collider.gameObject == PlayerShipScript.player.gameObject)
+        if (collider.name.Contains("CargoShip"))
             completed = true;
     }
 
