@@ -50,7 +50,7 @@ public class WeaponPopulator : MonoBehaviour {
 			Toggle toggle = button.GetComponent<Toggle>();
 			toggle.group = WeaponToggleGroup;
 			AttachmentToggle attachment = button.AddComponent<AttachmentToggle>();
-			//attachment.Attachment = weapon;
+			//attachment.Attachment = GameMaster.playerData.playerInventory.Weapons[i];
 		}
 	}
 
