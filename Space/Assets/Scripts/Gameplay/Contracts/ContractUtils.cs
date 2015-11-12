@@ -57,7 +57,7 @@ public class ContractUtils
             targetShipImage = targetShipImages[Random.Range(0, targetShipImages.Count)];
 
         //Build contract
-        contract = new Contract(targetName.TargetName, content.Title, content.Description, targetImage.TargetImagePath, targetShipImage.TargetShipImagePath, content.Objectives);
+        contract = new Contract(targetName.TargetName, content.Description, content.Title, targetImage.TargetImagePath, targetShipImage.TargetShipImagePath, content.Objectives);
 
         return contract;
     }
