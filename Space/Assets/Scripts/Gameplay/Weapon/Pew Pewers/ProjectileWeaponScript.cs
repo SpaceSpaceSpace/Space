@@ -148,7 +148,7 @@ public class ProjectileWeaponScript : WeaponScript
 			GameObject projectile = (GameObject)Instantiate( projectilePrefab, transform.position, Quaternion.identity );
 			ProjectileScript projScript = projectile.GetComponent<ProjectileScript>();
 			projScript.transform.parent = m_projectileContainer.transform;
-			projScript.Init( damage, projectileSpeed, projectileLifeTime, transform.parent.gameObject );
+			projScript.Init( damage, projectileSpeed, projectileLifeTime, transform.root.gameObject );
 			m_projectilePool[ i ] = projScript;
 			projectile.SetActive( false );
 		}

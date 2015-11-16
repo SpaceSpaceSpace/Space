@@ -13,7 +13,7 @@ public class BeamWeaponScript : WeaponScript
 	void Start ()
 	{
 		Init();
-		m_beam = (GameObject)Instantiate( projectilePrefab, fireFromPoint.position, Quaternion.identity );
+		m_beam = (GameObject)Instantiate( projectilePrefab, fireFromPoint.position, transform.rotation );
 		m_beam.transform.parent = transform;
 		m_beam.SetActive( false );
 	
@@ -24,7 +24,7 @@ public class BeamWeaponScript : WeaponScript
 
 		m_layerMask = ~( 1 << LayerMask.NameToLayer( "Projectiles" ) );
 
-		m_ownCollider = transform.parent.GetComponent<Collider2D>();
+		m_ownCollider = transform.root.GetComponent<Collider2D>();
 	}
 	
 	public override void Fire()

@@ -40,10 +40,10 @@ public class AttachmentPoint : MonoBehaviour {
 
 	void OnMouseOver(){
 
-        if(WeaponToggles.AnyTogglesOn())
+        //if(WeaponToggles.AnyTogglesOn())
 		{
 			spriteRenderer.color = selectedColor;
-			Vector2 pointPos = transform.position;
+			//Vector2 pointPos = transform.position;
 
 			// If it's left mouse button, attach
 			if(Input.GetMouseButtonDown(0) && !attaching)
@@ -51,12 +51,12 @@ public class AttachmentPoint : MonoBehaviour {
 				Toggle selectedToggle = WeaponToggles.ActiveToggles().FirstOrDefault();
 				AttachmentToggle attachmentToggle = selectedToggle.GetComponent<AttachmentToggle>();
 
-				GameObject attachment = attachmentToggle.Attachment;
+				WeaponInfo attachment = attachmentToggle.Attachment;
 
 				//If the ship has an attachment here we should remove it
-				if(ship.Attachments[Index] != null)
+				/*if(ship.WeaponSlots[Index] != null)
 				{
-					WeaponScript currentAttachment = ship.Attachments[Index];
+					WeaponScript currentAttachment = ship.WeaponSlots[Index].Weapon;
 					Destroy(currentAttachment.gameObject);
 				}
 
@@ -65,22 +65,22 @@ public class AttachmentPoint : MonoBehaviour {
 				Transform attachmentTransform = attachmentClone.transform;
 
 				attachmentTransform.position = new Vector3(pointPos.x, pointPos.y, ship.transform.position.z - .1f);
-				attachmentTransform.SetParent(ship.transform);
-				ship.Attachments[Index] = attachmentClone.GetComponent<WeaponScript>();
+				attachmentTransform.SetParent(ship.WeaponSlots[Index].transform);
+				ship.WeaponSlots[Index] = attachmentClone.GetComponent<WeaponSlot>();*/
 
 				//Don't let this happen again until the mouse is lifted
 				attaching = true;
 
+				// Order matters here, kids
 				Destroy(selectedToggle.gameObject);
+				GameMaster.playerData.playerInventory.RemoveWeapon( attachment );
+				ship.WeaponSlots[Index].SetWeapon( attachment.SpawnWeapon() );
 			}
 
 			//If it's right mouse button, clear
 			else if(Input.GetMouseButtonDown(1) && !attaching)
 			{
-				WeaponScript currentAttachment = ship.Attachments[Index];
-				if(currentAttachment != null)
-					Destroy(currentAttachment);
-
+				ship.WeaponSlots[Index].RemoveWeapon();
 			}
 			else if(Input.GetMouseButtonUp(0) && Input.GetMouseButtonUp(1))
 			{

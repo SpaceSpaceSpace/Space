@@ -66,13 +66,13 @@ public class AIShipScript : ShipScript {
 
 
 		// set up variables for weapons
-		m_weapRange = new float[m_weapons.Length];
-		m_weapSpeed = new float[m_weapons.Length];
-		m_weapSpread = new float[m_weapons.Length];
-		m_weapLifeSpan = new float[m_weapons.Length];
-		for(int i = 0; i < m_weapons.Length;i++)
+		m_weapRange = new float[m_weaponSlots.Length];
+		m_weapSpeed = new float[m_weaponSlots.Length];
+		m_weapSpread = new float[m_weaponSlots.Length];
+		m_weapLifeSpan = new float[m_weaponSlots.Length];
+		for(int i = 0; i < m_weaponSlots.Length;i++)
 		{
-			switch(m_weapons[i].weaponType)
+			switch(m_weaponSlots[i].Weapon.weaponType)
 			{
 			case WeaponScript.WeaponType.SCATTER_SHOT:
 			case WeaponScript.WeaponType.LASER_MACHINE_GUN:
@@ -104,7 +104,7 @@ public class AIShipScript : ShipScript {
 		// calculate the weapon range
 		Vector2 velocity = GetComponent<Rigidbody2D>().velocity;
 		float rangePercent = Vector2.Dot(transform.up,velocity.normalized);
-		for(int i = 0; i < m_weapons.Length;i++)
+		for(int i = 0; i < m_weaponSlots.Length;i++)
 		{
 			if(m_weapLifeSpan[i] != -1)
 				m_weapRange[i] = (m_weapSpeed[i] + (velocity.magnitude * rangePercent)) * m_weapLifeSpan[i];
@@ -236,7 +236,7 @@ public class AIShipScript : ShipScript {
 	public void AttackTarget(float maxDistance, string[] friends)
 	{
 		maxDistance = 0;
-		for(int i = 0; i < m_weapons.Length;i++)
+		for(int i = 0; i < m_weaponSlots.Length;i++)
 		{
 			if(m_weapRange[i] > maxDistance)
 				maxDistance = m_weapRange[i];
@@ -259,7 +259,7 @@ public class AIShipScript : ShipScript {
 			m_thrust.Accelerate = false;
 			FaceTarget(m_target.position);
 			m_attackPos = Vector2.zero;
-			for(int i = 0; i < m_weapons.Length;i++)
+			for(int i = 0; i < m_weaponSlots.Length;i++)
 			{
 				if(AngleToTarget(m_target.position) < m_weapSpread[i] && CanSeeTarget(m_target, friends))
 				{
@@ -335,18 +335,18 @@ public class AIShipScript : ShipScript {
 	// Fire weapon at the index, if no idex is provided fire all weapons
 	public void FireWeapon(int index)
 	{
-		if(m_weapons.Length > index)
+		if(m_weaponSlots.Length > index)
 		{
-			m_weapons[index].Fire();
+			m_weaponSlots[index].Fire();
 		}
 	}
 	 
 	public void FireWeapon()
 	{
-		for(int i = 0; i < m_weapons.Length; i++)
+		for(int i = 0; i < m_weaponSlots.Length; i++)
 		{
 
-			m_weapons[i].Fire();
+			m_weaponSlots[i].Fire();
 
 		}
 	}
