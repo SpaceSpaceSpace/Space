@@ -4,7 +4,7 @@ using System.Collections;
 
 public class AttachmentToggle : MonoBehaviour
 {
-	public GameObject Attachment;
+	public WeaponInfo Attachment;
 
 	private Toggle m_toggle;
 
