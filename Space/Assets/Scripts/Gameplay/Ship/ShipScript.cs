@@ -73,7 +73,7 @@ public class ShipScript : MonoBehaviour
 	}
 
 	// Checks which weapons are attached and loads them into m_weapons
-	protected void InitWeapons()
+	public void InitWeapons()
 	{
 		Transform weaponSlots = transform.FindChild( "Weapons" );
 		if( weaponSlots != null )

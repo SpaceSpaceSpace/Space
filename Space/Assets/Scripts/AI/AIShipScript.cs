@@ -72,22 +72,25 @@ public class AIShipScript : ShipScript {
 		m_weapLifeSpan = new float[m_weaponSlots.Length];
 		for(int i = 0; i < m_weaponSlots.Length;i++)
 		{
-			switch(m_weaponSlots[i].Weapon.weaponType)
+			if( m_weaponSlots[i].Weapon != null )
 			{
-			case WeaponScript.WeaponType.SCATTER_SHOT:
-			case WeaponScript.WeaponType.LASER_MACHINE_GUN:
-				ProjectileWeaponScript pScript = GetComponentInChildren<ProjectileWeaponScript>();
-				m_weapSpeed[i] = pScript.projectileSpeed;
-				m_weapLifeSpan[i] = pScript.projectileLifeTime;
-				m_weapSpread[i] = pScript.maxSpreadAngle;
-				break;
-			case WeaponScript.WeaponType.BEAM:
-				BeamWeaponScript bScript = GetComponentInChildren<BeamWeaponScript>();
-				m_weapLifeSpan[i] = -1;
-				m_weapSpread[i] = 0;
-				m_weapSpeed[i] = -1;
-				m_weapRange[i] = bScript.beamRange;
-				break;
+				switch(m_weaponSlots[i].Weapon.weaponType)
+				{
+				case WeaponScript.WeaponType.SCATTER_SHOT:
+				case WeaponScript.WeaponType.LASER_MACHINE_GUN:
+					ProjectileWeaponScript pScript = GetComponentInChildren<ProjectileWeaponScript>();
+					m_weapSpeed[i] = pScript.projectileSpeed;
+					m_weapLifeSpan[i] = pScript.projectileLifeTime;
+					m_weapSpread[i] = pScript.maxSpreadAngle;
+					break;
+				case WeaponScript.WeaponType.BEAM:
+					BeamWeaponScript bScript = GetComponentInChildren<BeamWeaponScript>();
+					m_weapLifeSpan[i] = -1;
+					m_weapSpread[i] = 0;
+					m_weapSpeed[i] = -1;
+					m_weapRange[i] = bScript.beamRange;
+					break;
+				}
 			}
 		}
 
