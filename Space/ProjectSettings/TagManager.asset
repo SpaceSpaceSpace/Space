@@ -12,6 +12,7 @@ TagManager:
   - Asteroid
   - Satellite
   - SectorBounds
+  - CombatZone
   layers:
   - Default
   - TransparentFX

@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100448
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 443210}
+  - 58: {fileID: 5825998}
+  - 114: {fileID: 11499062}
+  m_Layer: 9
+  m_Name: CombatZone
+  m_TagString: CombatZone
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &119368
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +237,18 @@ Transform:
   - {fileID: 400062}
   m_Father: {fileID: 496572}
   m_RootOrder: 5
+--- !u!4 &443210
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100448}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 496572}
+  m_RootOrder: 6
 --- !u!4 &445226
 Transform:
   m_ObjectHideFlags: 1
@@ -273,6 +302,7 @@ Transform:
   - {fileID: 419626}
   - {fileID: 471298}
   - {fileID: 427862}
+  - {fileID: 443210}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!50 &5020736
@@ -291,6 +321,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &5825998
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100448}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 50
 --- !u!60 &6077506
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -353,6 +396,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
@@ -422,6 +466,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
@@ -491,6 +536,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
@@ -694,6 +740,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behaviour: 3
+--- !u!114 &11499062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099760f410eb44c45868a3111c4d93d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outOfCombat: {fileID: 24500003, guid: ca6e7b0dc3202c14883a2027f99d317d, type: 2}
+  inCombat: {fileID: 24527442, guid: ca6e7b0dc3202c14883a2027f99d317d, type: 2}
+  transitionInstruments: []
+  transitionSource: {fileID: 0}
+  bpm: 128
 --- !u!198 &19870482
 ParticleSystem:
   m_ObjectHideFlags: 1
