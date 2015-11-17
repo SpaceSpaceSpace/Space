@@ -219,7 +219,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: 5
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -343,7 +343,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4278672016
+        rgba: 4286759660
       minMaxState: 0
     startSize:
       scalar: .349999994
@@ -1331,6 +1331,14 @@ Prefab:
       propertyPath: satPrefab1
       value: 
       objectReference: {fileID: 115062, guid: c9df612f69fba9b438e126012588d879, type: 2}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startColor.maxColor.rgba
+      value: 4286759660
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 165392}
