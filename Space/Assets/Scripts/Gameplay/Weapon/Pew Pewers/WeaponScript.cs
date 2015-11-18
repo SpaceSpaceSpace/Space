@@ -52,7 +52,7 @@ public abstract class WeaponScript : MonoBehaviour
 	public void SetModifier( WeaponModifier.ModifierNames mod )
 	{
 		modifier = mod;
-		ApplyModifier();
+		//ApplyModifier();
 	}
 	
 	protected void Init()
