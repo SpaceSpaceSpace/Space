@@ -13,7 +13,7 @@ public class BattleMusic : MonoBehaviour {
 	
     
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Ship"))
         {
@@ -22,7 +22,7 @@ public class BattleMusic : MonoBehaviour {
         }
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Ship"))
         {
