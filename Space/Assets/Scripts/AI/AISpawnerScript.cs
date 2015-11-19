@@ -65,7 +65,6 @@ public class AISpawnerScript : MonoBehaviour {
 				AIShipScript ss = g.GetComponent<AIShipScript>();
 				if(objective != null)
 					ss.objective = objective.transform;
-				ss.objective = objective.transform;
 				ss.spawner = this;
 				squad.Add(g);
 				
