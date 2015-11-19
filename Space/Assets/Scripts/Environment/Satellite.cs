@@ -124,7 +124,7 @@ public class Satellite : MonoBehaviour {
 
 		//Set the fade speed of the dust poof to be inversely proportional to the mass of the satellite
 		Explode explosion = dust.GetComponent<Explode>();
-		explosion.ParticleRadius = m * 10;
+		explosion.ParticleRadius = m * 5;
 		explosion.ParticleCount = (int)(m * 10);
 		explosion.SpriteRadius = m * 2;
         explosion.FadeSpeed = 3.0f;
@@ -223,7 +223,7 @@ public class Satellite : MonoBehaviour {
 			{
 				//Rigidbody2D roidRb = col.GetComponent<Rigidbody2D>();
 				//roidRb.AddForce( impulse * percent, ForceMode2D.Impulse );
-				Satellite sat = col.GetComponent<Satellite>();
+				//Satellite sat = col.GetComponent<Satellite>();
 				//sat.ApplyDamage( 10.0f * percent, impulse, pos, false );
 			}
 		}
