@@ -59,21 +59,23 @@ public class ObjectiveEscortCargo : Objective
 	{
 		if(AISpawner != null)
 		{
-			crimSpawnTimer += Time.deltaTime;
 			Vector2 leadPos = AISpawner.GetComponent<AISpawnerScript>().squad[0].transform.position;
-			if(crimSpawnTimer > 10.0f && 
-			   Vector2.Distance(leadPos, PlayerShipScript.player.transform.position) < 15.0f)
+			if(Vector2.Distance(leadPos, PlayerShipScript.player.transform.position) < 15.0f)
 			{
-				float angle = Random.Range(0.0f, 360.0f);
-				Vector2 spawnPos = leadPos;
-				spawnPos += new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * 50.0f;
-				crimSpawner = (GameObject)GameObject.Instantiate(crimSpawner, spawnPos, Quaternion.identity);
-				crimSpawner.GetComponent<AISpawnerScript>().Init();
-				foreach(GameObject g in crimSpawner.GetComponent<AISpawnerScript>().squad)
+				crimSpawnTimer += Time.deltaTime;
+				if(crimSpawnTimer > 20.0f)
 				{
-					g.GetComponent<AIShipScript>().Target = AISpawner.GetComponent<AISpawnerScript>().squad[0].transform;
+					float angle = Random.Range(0.0f, 360.0f);
+					Vector2 spawnPos = leadPos;
+					spawnPos += new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * 50.0f;
+					crimSpawner = (GameObject)GameObject.Instantiate(crimSpawner, spawnPos, Quaternion.identity);
+					crimSpawner.GetComponent<AISpawnerScript>().Init();
+					foreach(GameObject g in crimSpawner.GetComponent<AISpawnerScript>().squad)
+					{
+						g.GetComponent<AIShipScript>().Target = AISpawner.GetComponent<AISpawnerScript>().squad[0].transform;
+					}
+					crimSpawnTimer = 0.0f;
 				}
-				crimSpawnTimer = 0.0f;
 			}
 		}
 	}
