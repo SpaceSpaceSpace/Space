@@ -26,7 +26,6 @@ public class UI_Manager : MonoBehaviour
     {
         instance = this;
 		spaceStationObject = GameObject.Find ("SpaceStore");
-		PlayerShipScript.player.stationMarker.GetComponent<UIMarker> ().AddToTargetStack (spaceStationObject);
         SetAllScreensToInactive();
     }
 	
