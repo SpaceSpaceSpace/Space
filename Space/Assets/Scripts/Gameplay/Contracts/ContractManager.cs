@@ -16,8 +16,8 @@ public class ContractManager : MonoBehaviour
 	void Start ()
     {
         //Load all element JSON
-        string filepath = ContractElement.ContractElementFilePath;
-        elements = ContractUtils.LoadJSONFromFile(filepath);
+        string filepath = ContractUtils.ContractElementFilePath;
+        elements = ContractUtils.LoadJSONFromAsset(filepath);
 
         //Get various elements
         PopulateContents();

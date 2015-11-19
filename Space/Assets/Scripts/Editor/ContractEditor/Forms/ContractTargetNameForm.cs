@@ -55,9 +55,8 @@ public class ContractTargetNameForm : ContractFormBase
 
     private void AddContractTargetName(ContractTargetName targetName)
     {
-        string filepath = ContractElement.ContractElementFilePath;
-
-        JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
+        string filepath = ContractEditorUtils.ContractElementFilePath;
+        JSON elementJSON = ContractEditorUtils.LoadJSONFromFile(filepath);
 
         //Do a bit of deserialization to see if any conflicting contracts exist
         List<JSON> contractTargetNames = elementJSON.ToArray<JSON>("ContractTargetNames").ToList();
@@ -74,7 +73,7 @@ public class ContractTargetNameForm : ContractFormBase
 
         elementJSON["ContractTargetNames"] = contractTargetNames;
 
-        ContractUtils.WriteJSONToFile(filepath, elementJSON);
+        ContractEditorUtils.WriteJSONToFile(filepath, elementJSON);
 
         Close();
     }
