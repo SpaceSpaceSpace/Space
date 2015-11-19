@@ -71,9 +71,8 @@ public class ContractContentForm : ContractFormBase
 
     protected void AddContract(ContractContent content)
     {
-        string filepath = ContractElement.ContractElementFilePath;
-
-        JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
+        string filepath = ContractEditorUtils.ContractElementFilePath;
+        JSON elementJSON = ContractEditorUtils.LoadJSONFromFile(filepath);
 
         //Do a bit of deserialization to see if any conflicting contracts exist
         List<JSON> contractContents = elementJSON.ToArray<JSON>("ContractContents").ToList();
@@ -90,7 +89,7 @@ public class ContractContentForm : ContractFormBase
 
         elementJSON["ContractContents"] = contractContents;
 
-        ContractUtils.WriteJSONToFile(filepath, elementJSON);
+        ContractEditorUtils.WriteJSONToFile(filepath, elementJSON);
 
         Close();
     }
