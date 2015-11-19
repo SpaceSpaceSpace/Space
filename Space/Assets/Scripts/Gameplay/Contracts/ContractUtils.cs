@@ -1,29 +1,25 @@
-﻿using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 using WyrmTale;
 using System.Collections.Generic;
 
 public class ContractUtils
 {
-    public static JSON LoadJSONFromFile(string filepath)
-    {
-        string contractsContent = "{}";
+    public static string ContractElementFilePath = "Contracts/ContractElements";
+    public static string StoryContractFilePath = "Contracts/StoryContracts";
 
-        try
-        {
-            contractsContent = File.ReadAllText(filepath);
-        }
-        catch (FileNotFoundException e) { Debug.Log("Exception: " + e.Message + " " + "Creating new JSON"); }
+    //Load JSON from a text asset in resources
+    public static JSON LoadJSONFromAsset(string filepath)
+    {
+        string contractsContent;
+
+        TextAsset contractFile = Resources.Load<TextAsset>(filepath);
+
+        contractsContent = contractFile.text;
 
         JSON js = new JSON();
         js.serialized = contractsContent;
 
         return js;
-    }
-
-    public static void WriteJSONToFile(string filepath, JSON js)
-    {
-        File.WriteAllText(filepath, js.serialized);
     }
 
     public static Contract GetRandomContract(int Tier)

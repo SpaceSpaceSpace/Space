@@ -56,9 +56,8 @@ public class ContractTargetImageForm : ContractFormBase {
 
     private void AddContractTargetImage(ContractTargetImage targetImage)
     {
-        string filepath = ContractElement.ContractElementFilePath;
-
-        JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
+        string filepath = ContractEditorUtils.ContractElementFilePath;
+        JSON elementJSON = ContractEditorUtils.LoadJSONFromFile(filepath);
 
         //Do a bit of deserialization to see if any conflicting contracts exist
         List<JSON> contractTargetImages = elementJSON.ToArray<JSON>("ContractTargetImages").ToList();
@@ -75,7 +74,7 @@ public class ContractTargetImageForm : ContractFormBase {
 
         elementJSON["ContractTargetImages"] = contractTargetImages;
 
-        ContractUtils.WriteJSONToFile(filepath, elementJSON);
+        ContractEditorUtils.WriteJSONToFile(filepath, elementJSON);
 
         Close();
     }
