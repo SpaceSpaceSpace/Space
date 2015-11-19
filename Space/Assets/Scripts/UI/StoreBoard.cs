@@ -91,8 +91,6 @@ public class StoreBoard : MonoBehaviour {
 				SetBlankValues();
 			}
 		}
-
-		Debug.Log (GameMaster.playerData.playerInventory.Weapons [0]);
 	}
 
 	public void SetStoreValues(int index)

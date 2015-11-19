@@ -31,7 +31,10 @@ public class WeaponInfo {
 
 	public GameObject SpawnWeapon()
 	{
-		return null;
+		GameObject weaponGO = GameObject.Instantiate( weaponPrefab );
+		WeaponScript ws = weaponGO.GetComponent<WeaponScript>();
+		ws.SetModifier( modifier );
+		return weaponGO;
 	}
 
 	public void AddAttribute( string key, string value )

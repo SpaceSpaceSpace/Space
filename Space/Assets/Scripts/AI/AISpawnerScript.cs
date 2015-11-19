@@ -42,9 +42,18 @@ public class AISpawnerScript : MonoBehaviour {
 				else
 					g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.Euler(new Vector3(0.0f, 0.0f, Random.Range(0, 360))));
 
-				g.GetComponent<AIShipScript>().objective = transform; 
-				g.GetComponent<AIShipScript>().spawner = this;
+				AIShipScript ss = g.GetComponent<AIShipScript>();
+				if(objective != null)
+					ss.objective = objective.transform;
+				ss.spawner = this;
 				squad.Add(g);
+
+				ss.InitWeapons();
+				for( int j = 0; j < ss.WeaponSlots.Length; j++ )
+				{
+					WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) Random.Range(0, (int)WeaponScript.WeaponType.SCATTER_SHOT + 1);
+					ss.WeaponSlots[ j ].SetWeapon( Instantiate( GameMaster.WeaponMngr.GetWeaponPrefab( weapon ) ) );
+				}
 			}
 			else //(AIPrefab.GetComponent<ShipBehaviourScript>().behaviour == ShipBehaviourScript.Behaviour.Cargo)
 			{
@@ -52,6 +61,19 @@ public class AISpawnerScript : MonoBehaviour {
 				g.GetComponent<AIShipScript>().objective = objective;
 				g.GetComponent<AIShipScript>().spawner = this;
 				squad.Add(g);
+
+				AIShipScript ss = g.GetComponent<AIShipScript>();
+				if(objective != null)
+					ss.objective = objective.transform;
+				ss.spawner = this;
+				squad.Add(g);
+				
+				ss.InitWeapons();
+				for( int j = 0; j < ss.WeaponSlots.Length; j++ )
+				{
+					WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) Random.Range(0, (int)WeaponScript.WeaponType.SCATTER_SHOT + 1);
+					ss.WeaponSlots[ j ].SetWeapon( Instantiate( GameMaster.WeaponMngr.GetWeaponPrefab( weapon ) ) );
+				}
 			}
 		}
 
@@ -64,6 +86,11 @@ public class AISpawnerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		for(int i = 0; i < squad.Count; i++)
+		{
+			if(squad[i] == null)
+				squad.RemoveAt(i);
+		}
 		if(squad != null && squad.Count == 0)
 			Destroy(this.gameObject);
 	}

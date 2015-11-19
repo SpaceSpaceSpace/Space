@@ -30,7 +30,7 @@ public class ContractTargetNameView : ContractViewBase<ContractTargetName>
 
     protected override void LoadData()
     {
-        JSON allRawData = ContractUtils.LoadJSONFromFile(ContractElement.ContractElementFilePath);
+        JSON allRawData = ContractEditorUtils.LoadJSONFromFile(ContractEditorUtils.ContractElementFilePath);
         JSON[] rawTargetNames = allRawData.ToArray<JSON>("ContractTargetNames");
 
         Data.Clear();
@@ -44,7 +44,7 @@ public class ContractTargetNameView : ContractViewBase<ContractTargetName>
 
     protected override void WriteData()
     {
-        JSON allRawData = ContractUtils.LoadJSONFromFile(ContractElement.ContractElementFilePath);
+        JSON allRawData = ContractEditorUtils.LoadJSONFromFile(ContractEditorUtils.ContractElementFilePath);
         int targetNameCount = Data.Count;
 
         JSON[] rawTargetNames = new JSON[targetNameCount];
@@ -53,6 +53,6 @@ public class ContractTargetNameView : ContractViewBase<ContractTargetName>
 
         allRawData["ContractTargetNames"] = rawTargetNames;
 
-        ContractUtils.WriteJSONToFile(ContractElement.ContractElementFilePath, allRawData);
+        ContractEditorUtils.WriteJSONToFile(ContractEditorUtils.ContractElementFilePath, allRawData);
     }
 }

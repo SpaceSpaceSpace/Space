@@ -73,7 +73,7 @@ public class MineWeaponScript : WeaponScript
 		MineProjectileScript projectile = (MineProjectileScript)Instantiate( m_mineProj, 
 		                                                					 transform.position, 
 		                                               						 Quaternion.identity );
-		projectile.Init( damage, projectileSpeed, mineLifeTime, transform.parent.gameObject );
+		projectile.Init( damage, projectileSpeed, mineLifeTime, transform.root.gameObject );
 		projectile.FireProj( transform.eulerAngles.z );
 		
 		m_soundSystem.PlayOneShot( fireSoundName );
