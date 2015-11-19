@@ -223,7 +223,7 @@ public class Satellite : MonoBehaviour {
 			{
 				//Rigidbody2D roidRb = col.GetComponent<Rigidbody2D>();
 				//roidRb.AddForce( impulse * percent, ForceMode2D.Impulse );
-				Satellite sat = col.GetComponent<Satellite>();
+				//Satellite sat = col.GetComponent<Satellite>();
 				//sat.ApplyDamage( 10.0f * percent, impulse, pos, false );
 			}
 		}
