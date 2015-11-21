@@ -83,7 +83,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 492934}
   - 114: {fileID: 11435390}
-  m_Layer: 9
+  - 58: {fileID: 5898108}
+  m_Layer: 13
   m_Name: DangerZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,6 +346,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &5898108
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132834}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 50
 --- !u!60 &6015708
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -394,6 +408,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
