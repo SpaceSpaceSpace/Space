@@ -41,7 +41,7 @@ public class MusicManager : MonoBehaviour {
     }
     public void TransitionToCombat()
     {
-        inCombat.TransitionTo(m_TransitionIn);
+        inCombat.TransitionTo(m_TransitionIn * 2.0f);
         //PlayTransitionClip();
     }
     public void TransitionToExploration()

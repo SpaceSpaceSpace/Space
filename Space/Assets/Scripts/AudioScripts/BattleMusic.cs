@@ -37,6 +37,10 @@ public class BattleMusic : MonoBehaviour {
             Debug.Log("Transition To Environment");
         }
     }
+    void OnDestroy()
+    {
+        musicManager.GetComponent<MusicManager>().TransitionToExploration();
+    }
 
     
 
