@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using WyrmTale;
+using System.Collections.Generic;
 
 public class ContractContentView : ContractViewBase<ContractContent>
-{        
+{
+    List<Texture2D> TargetShipTextures = new List<Texture2D>();
+
     [MenuItem("Space/View/Contract/Content")]
     static void Init()
     {
@@ -16,11 +19,17 @@ public class ContractContentView : ContractViewBase<ContractContent>
 
     protected override void DisplayData(ContractContent content)
     {
+        int index = Data.IndexOf(content);
+        Texture texture = TargetShipTextures[index];
+
         GUILayout.BeginVertical(EditorStyles.helpBox);
         {    
             GUILayout.Label("Tier: " + content.Tier);
             GUILayout.Label("Title: " + content.Title);
             GUILayout.Label("Description: \n" + content.Description);
+
+            GUILayout.Label("Target Ship Image");
+            GUILayout.Label(texture, GUILayout.MinHeight(ImagePreviewSize), GUILayout.MaxHeight(ImagePreviewSize), GUILayout.MaxWidth(ImagePreviewSize), GUILayout.MinWidth(ImagePreviewSize));
 
             if (content.Objectives.Length > 0)
             {
@@ -48,11 +57,15 @@ public class ContractContentView : ContractViewBase<ContractContent>
         JSON[] rawContracts = allRawData.ToArray<JSON>("ContractContents");
 
         Data.Clear();
+        TargetShipTextures.Clear();
 
         foreach (JSON rawContract in rawContracts)
         {
             ContractContent contract = (ContractContent)rawContract;
+            Texture2D texture = Resources.Load(contract.TargetShipImagePath) as Texture2D;
+
             Data.Add(contract);
+            TargetShipTextures.Add(texture);
         }
     }
 

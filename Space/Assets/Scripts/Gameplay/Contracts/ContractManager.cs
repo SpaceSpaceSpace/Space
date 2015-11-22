@@ -8,7 +8,6 @@ public class ContractManager : MonoBehaviour
     public static List<ContractContent>[] Contents = new List<ContractContent>[10];
     public static List<ContractTargetName>[] TargetNames = new List<ContractTargetName>[10];
     public static List<ContractTargetImage>[] TargetImages = new List<ContractTargetImage>[10];
-    public static List<ContractTargetShipImage>[] TargetShipImages = new List<ContractTargetShipImage>[10];
 
     JSON elements;
 
@@ -23,7 +22,6 @@ public class ContractManager : MonoBehaviour
         PopulateContents();
         PopulateTargetNames();
         PopulateTargetImages();
-        PopulateTargetShipImages();
     }
 
     void PopulateContents()
@@ -78,24 +76,6 @@ public class ContractManager : MonoBehaviour
             }
 
             tierList.Add(targetImage);
-        }
-    }
-    void PopulateTargetShipImages()
-    {
-        JSON[] targetShipImages = elements.ToArray<JSON>("ContractTargetShipImages");
-        for (int i = 0; i < targetShipImages.Length; i++)
-        {
-            ContractTargetShipImage targetShipImage = (ContractTargetShipImage)targetShipImages[i];
-            int tierIndex = targetShipImage.Tier - 1;
-
-            List<ContractTargetShipImage> tierList = TargetShipImages[tierIndex];
-            if (tierList == null)
-            {
-                tierList = new List<ContractTargetShipImage>();
-                TargetShipImages[tierIndex] = tierList;
-            }
-
-            tierList.Add(targetShipImage);
         }
     }
 

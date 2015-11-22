@@ -32,12 +32,10 @@ public class ContractUtils
         List<ContractContent> contents = ContractManager.Contents[indexedTier];
         List<ContractTargetName> targetNames = ContractManager.TargetNames[indexedTier];
         List<ContractTargetImage> targetImages = ContractManager.TargetImages[indexedTier];
-        List<ContractTargetShipImage> targetShipImages = ContractManager.TargetShipImages[indexedTier];
 
         ContractContent content = new ContractContent();
         ContractTargetName targetName = new ContractTargetName();
         ContractTargetImage targetImage = new ContractTargetImage();
-        ContractTargetShipImage targetShipImage = new ContractTargetShipImage();
 
         //Get random content
         if (contents != null)
@@ -49,11 +47,8 @@ public class ContractUtils
         if (targetImages != null)
             targetImage = targetImages[Random.Range(0, targetImages.Count)];
 
-        if (targetShipImages != null)
-            targetShipImage = targetShipImages[Random.Range(0, targetShipImages.Count)];
-
         //Build contract
-        contract = new Contract(targetName.TargetName, content.Description, content.Title, targetImage.TargetImagePath, targetShipImage.TargetShipImagePath, content.Objectives);
+        contract = new Contract(targetName.TargetName, content.Description, content.Title, targetImage.TargetImagePath, content.TargetShipImagePath, content.Objectives);
 
         return contract;
     }
