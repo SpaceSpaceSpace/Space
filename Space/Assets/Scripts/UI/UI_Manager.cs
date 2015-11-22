@@ -133,6 +133,18 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
+	public void ToggleStationMarker()
+	{
+		if(PlayerShipScript.player.stationMarker.activeSelf)
+		{
+			PlayerShipScript.player.stationMarker.SetActive(false);
+		}
+		else
+		{
+			PlayerShipScript.player.stationMarker.SetActive(true);
+		}
+	}
+
     public void SetAllScreensToInactive()
     {
         bountyBoard.SetActive(false);
