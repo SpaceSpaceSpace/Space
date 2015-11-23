@@ -57,7 +57,7 @@ public class ContractForm : ContractFormBase
 
     private void NewContractArea()
     {
-        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
+        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 5);
 
         Title = EditorGUILayout.TextField("Title", Title);
         TargetName = EditorGUILayout.TextField("Target Name", TargetName);

@@ -10,6 +10,8 @@ public abstract class ContractViewBase<T> : EditorWindow
     private MethodInfo EditorInitWithObjectMethod;
     private Vector2 scrollPos;
 
+    protected const int ImagePreviewSize = 70;
+
     private Type type;
     private Type editorType;
 
@@ -26,7 +28,8 @@ public abstract class ContractViewBase<T> : EditorWindow
 
     protected void SetEditorStyles()
     {
-        EditorStyles.textArea.wordWrap = true;
+        EditorStyles.label.wordWrap = true;
+        GUI.skin.label.wordWrap = true;
     }
 
     protected abstract void DisplayData(T data);

@@ -47,6 +47,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &131380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 467106}
+  - 58: {fileID: 5863746}
+  m_Layer: 13
+  m_Name: Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &143854
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +216,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 413462}
   m_RootOrder: 0
+--- !u!4 &467106
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131380}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 469118}
+  m_RootOrder: 5
 --- !u!4 &469118
 Transform:
   m_ObjectHideFlags: 1
@@ -207,7 +235,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 195976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -14.2137823, y: -3.01021171, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 439658}
@@ -215,6 +243,7 @@ Transform:
   - {fileID: 439650}
   - {fileID: 486074}
   - {fileID: 413462}
+  - {fileID: 467106}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &477296
@@ -257,6 +286,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &5863746
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131380}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 15
 --- !u!60 &6015276
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -408,7 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05e96a20a0805a448eaaaa83c9e080e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviour: 2
+  behaviour: 5
 --- !u!114 &11452918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -467,6 +509,8 @@ MonoBehaviour:
   aggro: 0
   obstacleTrans: {fileID: 0}
   spawner: {fileID: 0}
+  enemies: []
+  friends: []
 --- !u!198 &19858998
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -2707,7 +2751,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: -98
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -2722,6 +2766,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: EmissionModule.rate.scalar
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: behaviour
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.g
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

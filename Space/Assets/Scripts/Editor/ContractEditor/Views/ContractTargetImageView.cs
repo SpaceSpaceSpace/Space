@@ -26,7 +26,7 @@ public class ContractTargetImageView : ContractViewBase<ContractTargetImage>
         {
             GUILayout.Label("Tier: " + content.Tier);
             GUILayout.Label("Target Image Path: " + content.TargetImagePath);
-            GUILayout.Label(texture, GUILayout.MaxHeight(70), GUILayout.MaxWidth(70));
+            GUILayout.Label(texture, GUILayout.MinHeight(ImagePreviewSize), GUILayout.MaxHeight(ImagePreviewSize), GUILayout.MaxWidth(ImagePreviewSize), GUILayout.MinWidth(ImagePreviewSize));
 
             ControlsArea(content);
         }
@@ -37,7 +37,7 @@ public class ContractTargetImageView : ContractViewBase<ContractTargetImage>
 
     protected override void LoadData()
     {
-        JSON allRawData = ContractUtils.LoadJSONFromFile(ContractElement.ContractElementFilePath);
+        JSON allRawData = ContractEditorUtils.LoadJSONFromFile(ContractEditorUtils.ContractElementFilePath);
         JSON[] rawContracts = allRawData.ToArray<JSON>("ContractTargetImages");
 
         Data.Clear();
@@ -55,7 +55,7 @@ public class ContractTargetImageView : ContractViewBase<ContractTargetImage>
 
     protected override void WriteData()
     {
-        JSON allRawData = ContractUtils.LoadJSONFromFile(ContractElement.ContractElementFilePath);
+        JSON allRawData = ContractEditorUtils.LoadJSONFromFile(ContractEditorUtils.ContractElementFilePath);
         int contractCount = Data.Count;
 
         JSON[] rawContracts = new JSON[contractCount];
@@ -65,6 +65,6 @@ public class ContractTargetImageView : ContractViewBase<ContractTargetImage>
 
         allRawData["ContractTargetImages"] = rawContracts;
 
-        ContractUtils.WriteJSONToFile(ContractElement.ContractElementFilePath, allRawData);
+        ContractEditorUtils.WriteJSONToFile(ContractEditorUtils.ContractElementFilePath, allRawData);
     }
 }

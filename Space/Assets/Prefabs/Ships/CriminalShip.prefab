@@ -72,6 +72,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &120162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 424782}
+  - 58: {fileID: 5842508}
+  m_Layer: 13
+  m_Name: Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &121502
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +166,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 481390}
   m_RootOrder: 0
+--- !u!4 &424782
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120162}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 432236}
+  m_RootOrder: 5
 --- !u!4 &432236
 Transform:
   m_ObjectHideFlags: 1
@@ -157,7 +185,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 109514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -38.9929924, y: -68.4656448, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 494174}
@@ -165,6 +193,7 @@ Transform:
   - {fileID: 436680}
   - {fileID: 497088}
   - {fileID: 481390}
+  - {fileID: 424782}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &436680
@@ -257,6 +286,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &5842508
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120162}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 15
 --- !u!60 &6065444
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -421,6 +463,8 @@ MonoBehaviour:
   aggro: 0
   obstacleTrans: {fileID: 0}
   spawner: {fileID: 0}
+  enemies: []
+  friends: []
 --- !u!114 &11428840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2806,6 +2850,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: EmissionModule.rate.scalar
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

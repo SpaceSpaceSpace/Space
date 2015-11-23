@@ -17,6 +17,8 @@ public class AIShipScript : ShipScript {
 	public bool aggro; // is the enemy in combat
 	public Transform obstacleTrans;
 	public AISpawnerScript spawner;
+	public string[] enemies;
+	public string[] friends;
 
 	///
 	/// Private Variables
@@ -26,6 +28,12 @@ public class AIShipScript : ShipScript {
 	private float m_wanderAngle;
 	private bool m_obstacle; // is there an obstacle in the way
 	private Vector2 objectiveStartPos;
+
+	// information about the objects around the ship
+	private List<GameObject> lethalObj; // ships that will kill this one, not including the player
+	private List<GameObject> nonLethalObj; // ships that are not friendly, but can't kill this one
+	private List<GameObject> friendObj; // friendly ships
+	private bool playerTarget; // is the player among potential targets
 
 	private float[] m_weapRange;
 	private float[] m_weapSpread;
@@ -53,7 +61,6 @@ public class AIShipScript : ShipScript {
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce);
 
 		player = PlayerShipScript.player.transform;
-		m_target = null;
 		m_wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
 		Go ();
@@ -63,7 +70,10 @@ public class AIShipScript : ShipScript {
 		if(objective != null)
 			objectiveStartPos = objective.position;
 
-
+		friendObj = new List<GameObject>();
+		lethalObj = new List<GameObject>();
+		nonLethalObj = new List<GameObject>();
+		playerTarget = false;
 
 		// set up variables for weapons
 		m_weapRange = new float[m_weaponSlots.Length];
@@ -90,6 +100,12 @@ public class AIShipScript : ShipScript {
 					m_weapSpeed[i] = -1;
 					m_weapRange[i] = bScript.beamRange;
 					break;
+				default:
+					m_weapLifeSpan[i] = -1;
+					m_weapSpread[i] = 0;
+					m_weapSpeed[i] = -1;
+					m_weapRange[i] = 10;
+					break;
 				}
 			}
 		}
@@ -111,6 +127,28 @@ public class AIShipScript : ShipScript {
 		{
 			if(m_weapLifeSpan[i] != -1)
 				m_weapRange[i] = (m_weapSpeed[i] + (velocity.magnitude * rangePercent)) * m_weapLifeSpan[i];
+		}
+
+		for(int i = 0; i < lethalObj.Count; i++)
+		{
+			if(lethalObj[i] == null)
+			{
+				lethalObj.RemoveAt(i);
+			}
+		}
+		for(int i = 0; i < nonLethalObj.Count; i++)
+		{
+			if(nonLethalObj[i] == null)
+			{
+				nonLethalObj.RemoveAt(i);
+			}
+		}
+		for(int i = 0; i < friendObj.Count; i++)
+		{
+			if(friendObj[i] == null)
+			{
+				friendObj.RemoveAt(i);
+			}
 		}
 	}
 
@@ -145,62 +183,36 @@ public class AIShipScript : ShipScript {
 			m_thrust.Accelerate = true;
 	}
 
-	public void SelectTarget(string[] targets)
+	public void SelectTarget()
 	{
-		List<GameObject> potTargets = new List<GameObject>(); // potential targets
-		List<string> potNames = new List<string>(); // the names of the potentials targets
-		bool potPlayer = false; // is the player a potential target
 		if(m_target == null)
 		{
-			float checkDistance = 30.0f;
-			while(potTargets.Count == 0)
+			// if no player and lethal targets
+			if(!playerTarget && lethalObj.Count > 0)
 			{
-				// Get all potential targets
-				Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, checkDistance);
-				foreach(Collider2D c in col)
-				{
-					foreach(string s in targets)
-					{
-						if(c.gameObject.name.Contains(s))
-						{
-							if(s == "Player Ship")
-								potPlayer = true;
-							potTargets.Add(c.gameObject);
-							potNames.Add(s); // using s instead of the actual name to easier search for it in the list
-						}
-					}
-				}
-				// if no targets are found, increase the radius to search
-				checkDistance += 10.0f;
+				int index = Random.Range(0, lethalObj.Count - 1);
+				if(lethalObj[index] != null)
+					m_target = lethalObj[index].transform;
 			}
-
-			// select a random target if the player is not among them
-			if(!potPlayer)
-			{
-				int index = Random.Range(0, potTargets.Count - 1);
-				m_target = potTargets[index].transform;
-			}
-			// if there is a player, but no cops, target the player
-			else if(!potNames.Contains("CopShip"))
+			// if no lethal targets and player
+			else if(lethalObj.Count <= 0 && playerTarget)
 			{
 				m_target = PlayerShipScript.player.transform;
 			}
-			// if there is a player and cops, only target the player or cops
-			else
+			// if player and lethal targets
+			else if(lethalObj.Count > 0 && playerTarget)
 			{
-				// only choose from player and cops to target
-				for(int i = 0; i < potNames.Count;i++)
-				{
-					if(potNames[i] == "Player Ship" || potNames[i] == "CopShip")
-					{
-						potTargets.RemoveAt(i);
-						potNames.RemoveAt(i);
-					}
-				}
-
-				// select a random target from the remaining potential targets
-				int index = Random.Range(0, potTargets.Count - 1);
-				m_target = potTargets[index].transform;
+				int index = Random.Range(0, lethalObj.Count);
+				if(index == lethalObj.Count)
+					m_target = PlayerShipScript.player.transform;
+				else
+					m_target = lethalObj[index].transform;
+			}
+			// if no player and no lethal targets
+			else if(nonLethalObj.Count > 0)
+			{
+				int index = Random.Range(0, nonLethalObj.Count - 1);
+				m_target = nonLethalObj[index].transform;
 			}
 		}
 
@@ -236,7 +248,7 @@ public class AIShipScript : ShipScript {
 	}
 
 
-	public void AttackTarget(float maxDistance, string[] friends)
+	public void AttackTarget(float maxDistance)
 	{
 		maxDistance = 0;
 		for(int i = 0; i < m_weaponSlots.Length;i++)
@@ -264,7 +276,7 @@ public class AIShipScript : ShipScript {
 			m_attackPos = Vector2.zero;
 			for(int i = 0; i < m_weaponSlots.Length;i++)
 			{
-				if(AngleToTarget(m_target.position) < m_weapSpread[i] && CanSeeTarget(m_target, friends))
+				if(AngleToTarget(m_target.position) < Mathf.Clamp(m_weapSpread[i], 10.0f, 90.0f) && CanShootTarget(m_target))
 				{
 					FireWeapon();
 				}
@@ -272,42 +284,38 @@ public class AIShipScript : ShipScript {
 		}
 	}
 
-	public bool CheckAggro(float distance, string[] targets)
+	public bool CheckAggro()
 	{
-		for(int i = 0; i < targets.Length;i++)
+
+		aggro = false;
+
+		if(m_target != null)
 		{
-			Collider2D[] col = Physics2D.OverlapCircleAll(transform.position, distance);
-			foreach(Collider2D c in col)
-			{
-				foreach(string s in targets)
-				{
-					if(c.gameObject.name.Contains(s))
-					{
-						// if the current target is a cargo ship or rescue ship, and the player or cops are in aggro range, change targets
-						if(m_target != null && (m_target.name == "CargoShip" || m_target.name == "RescueShip") 
-						   && (s == "Player Ship" || s == "CopShip"))
-						{
-							m_target = null;
-						}
-						SelectTarget(targets);
-						aggro = true;
-						return true;
-					}
-					else
-						aggro = false;
-
-				}
-			}
-			foreach(GameObject g in squad)
-			{
-				if(g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
-				{
-					SelectTarget(targets);
-					return true;
-				}
-			}
-
+			aggro = true;
 		}
+		// if the current target is nonLethal and a lethal target comes in range
+		if(m_target != null && nonLethalObj.Contains(m_target.gameObject) 
+		   && (playerTarget || lethalObj.Count > 0))
+		{
+			m_target = null;
+		}
+		if(nonLethalObj.Count > 0 || lethalObj.Count > 0 || playerTarget)
+		{
+			SelectTarget();
+			aggro = true;
+			return true;
+		}
+
+		foreach(GameObject g in squad)
+		{
+			if(g!= null && g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
+			{
+				SelectTarget();
+				return true;
+			}
+		}
+
+		
 		return false;
 
 	}
@@ -375,15 +383,18 @@ public class AIShipScript : ShipScript {
 		// Gather all of the data necessary to figure out the flocking vectors
 		foreach(GameObject g in squad)
 		{
-			center += (Vector2)g.transform.position;
-			float dist = Vector2.Distance(g.transform.position, transform.position);
-			if(g != this.gameObject && dist < SEP_DISTANCE)
+			if(g != null)
 			{
-				Vector2 fromShip = (Vector2)(transform.position - g.transform.position);
-				fromShip *= SEP_DISTANCE/fromShip.magnitude;
-				separation += fromShip;
+				center += (Vector2)g.transform.position;
+				float dist = Vector2.Distance(g.transform.position, transform.position);
+				if(g != this.gameObject && dist < SEP_DISTANCE)
+				{
+					Vector2 fromShip = (Vector2)(transform.position - g.transform.position);
+					fromShip *= SEP_DISTANCE/fromShip.magnitude;
+					separation += fromShip;
+				}
+				align += (Vector2)(g.transform.up - transform.up);
 			}
-			align += (Vector2)(g.transform.up - transform.up);
 		}
 
 		align /= squad.Count;
@@ -415,8 +426,11 @@ public class AIShipScript : ShipScript {
 
 	}
 
-	public bool CanSeeTarget(Transform targetTrans, string[] friends)
+	public bool CanShootTarget(Transform targetTrans)
 	{
+		if(targetTrans == null)
+			return false;
+
 		float targetDist = Vector2.Distance(targetTrans.position, transform.position);
 		if(targetDist > 20.0f)
 			return false;
@@ -428,30 +442,26 @@ public class AIShipScript : ShipScript {
 				return false;
 		}
 
-		Vector2 circleStart = transform.position + transform.up * 50.0f;
-		RaycastHit2D[] hits = Physics2D.CircleCastAll(circleStart, 20.0f, transform.up, 15.0f);
+		// if there is something in the way that's not a projectile, return false
+		RaycastHit2D hit = Physics2D.Linecast(transform.position, targetTrans.position, LayerMask.NameToLayer("Projectiles"));
+		if(hit.collider != null && hit.collider.gameObject != targetTrans.gameObject)
+			return false;
 
-		for(int i = 0; i < hits.Length; i++)
+		foreach(GameObject g in friendObj)
 		{
-			foreach(string s in friends)
+			if(g != null)
 			{
-				// if a friend is in the way, don't shoot
-				if(hits[i].collider.gameObject.name.Contains(s) && AngleToTarget(hits[i].collider.gameObject.transform.position) < m_weapSpread[0])
+				// if there is a friend in front and within the weapon spread range, don't shoot
+				if(Vector2.Dot(transform.up, g.transform.position - transform.position) > 0
+				   && AngleToTarget(g.transform.position) < m_weapSpread[0])
 				{
 					return false;
 				}
 			}
 		}
 
-		// if the target is the first thing
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, targetTrans.position - transform.position, 15.0f);
-		
-		if(hit && hit.collider.gameObject.transform == targetTrans)
-			return true;
 
-
-
-		return false;
+		return true;
 	}
 
 	public void AvoidObstacle()
@@ -502,7 +512,7 @@ public class AIShipScript : ShipScript {
 	public void DetectObstacle()
 	{
 		m_obstacle = false;
-		RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, 2.0f, GetComponent<Rigidbody2D>().velocity, 10.0f);
+		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, GetComponent<Rigidbody2D>().velocity, 10.0f);
 
 		foreach(RaycastHit2D h in hits)
 		{
@@ -561,6 +571,83 @@ public class AIShipScript : ShipScript {
 	
 
 		return predictPos;
+	}
+
+	void OnTriggerStay2D(Collider2D col)
+	{
+
+	}
+
+	void OnTriggerEnter2D(Collider2D col)
+	{
+		if(col.gameObject.tag == "Ship")
+		{
+			foreach(string s in enemies)
+			{
+				if(col.gameObject.name.Contains(s))
+				{
+					// figure out what kind of ship this is and change the appropriate variables
+					switch(s)
+					{
+					case "Player Ship":
+						playerTarget = true;
+						break;
+					case "CopShip":
+					case "CriminalShip":
+					case "CriminalLeader":
+						lethalObj.Add(col.gameObject);
+						break;
+					default:
+						nonLethalObj.Add(col.gameObject);
+						break;
+					}
+					return;
+				}
+
+			}
+
+			foreach(string s in friends)
+			{
+				if(col.gameObject.name.Contains(s))
+				{
+					friendObj.Add(col.gameObject);
+					return;
+				}
+			}
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D col)
+	{
+		if(PlayerShipScript.player.gameObject != null &&
+		   col.gameObject == PlayerShipScript.player.gameObject)
+		{
+			playerTarget = false;
+			return;
+		}
+		for(int i = 0; i < lethalObj.Count; i++)
+		{
+			if(col.gameObject == lethalObj[i])
+			{
+				lethalObj.Remove(col.gameObject);
+			}
+		}
+
+		for(int i = 0; i < nonLethalObj.Count; i++)
+		{
+			if(col.gameObject == nonLethalObj[i])
+			{
+				nonLethalObj.Remove(col.gameObject);
+			}
+		}
+
+		for(int i = 0; i < friendObj.Count; i++)
+		{
+			if(col.gameObject == friendObj[i])
+			{
+				friendObj.Remove(col.gameObject);
+			}
+		}
 	}
 
 	void OnDestroy()

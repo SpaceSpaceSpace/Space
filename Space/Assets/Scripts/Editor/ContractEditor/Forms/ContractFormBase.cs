@@ -18,6 +18,10 @@ public abstract class ContractFormBase : EditorWindow
     private static Dictionary<string, Sector> sectors;
     private static string[] sectorNames;
 
+    private static Type[] ObjectiveTypes;
+    private static string[] ObjectiveStrings;
+    private static List<string> ObjectiveStringList;
+
     protected void ImagePreviewArea(string label, ref string path, ref Texture2D image)
     {
         EditorGUILayout.BeginHorizontal();
@@ -37,11 +41,7 @@ public abstract class ContractFormBase : EditorWindow
     }
 
     protected void ObjectivesArea(ref List<Objective> list)
-    {
-        Type[] ObjectiveTypes = GetAllObjectiveTypes();
-        string[] ObjectiveStrings = GetAllObjectiveStrings();
-        List<string> ObjectiveStringList = ObjectiveStrings.ToList();
-        
+    {        
         int listCount = list.Count;
         int newCount = EditorGUILayout.IntField("Objective Count", listCount);
 
@@ -106,12 +106,16 @@ public abstract class ContractFormBase : EditorWindow
                 sectorNames[i] = s.name;
             }
         }
+
+        //Pre-load some assembler level info
+        GetAllObjectiveStrings();
     }
 
     //Sets any specific styles we want on editors
     protected void SetEditorStyles()
     {
         EditorStyles.textArea.wordWrap = true;
+        GUI.skin.textArea.wordWrap = true;
     }
     
     //GUI layout for a specific objective
@@ -152,25 +156,31 @@ public abstract class ContractFormBase : EditorWindow
         EditorGUILayout.EndVertical();
     }
 
-    private Type[] GetAllObjectiveTypes()
+    private void GetAllObjectiveTypes()
     {
-        Type[] types = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
-                        from assemblyType in domainAssembly.GetTypes()
-                        where typeof(Objective).IsAssignableFrom(assemblyType)
-                        select assemblyType).ToArray();
-
-        return types;
+        if (ObjectiveTypes == null)
+        {
+            ObjectiveTypes = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+                            from assemblyType in domainAssembly.GetTypes()
+                            where typeof(Objective).IsAssignableFrom(assemblyType)
+                            select assemblyType).ToArray();
+        }
     }
 
-    private string[] GetAllObjectiveStrings()
+    private void GetAllObjectiveStrings()
     {
-        Type[] types = GetAllObjectiveTypes();
+        GetAllObjectiveTypes();
 
-        string[] strings = new string[types.Length];
-        for (int i = 1; i < strings.Length; i++)
-            strings[i] = types[i].ToString();
+        if (ObjectiveStrings == null)
+        {
+            int length = ObjectiveTypes.Length;
 
-        return strings;
+            ObjectiveStrings = new string[length];
+            for (int i = 1; i < length; i++)
+                ObjectiveStrings[i] = ObjectiveTypes[i].ToString();
+
+            ObjectiveStringList = ObjectiveStrings.ToList();
+        }
     }
 
 

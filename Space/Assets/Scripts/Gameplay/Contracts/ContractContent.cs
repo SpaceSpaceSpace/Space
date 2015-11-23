@@ -5,6 +5,7 @@ public class ContractContent : ContractElement
 {
     public string Title;
     public string Description;
+    public string TargetShipImagePath;
     public Objective[] Objectives;
     
     public ContractContent()
@@ -12,6 +13,7 @@ public class ContractContent : ContractElement
         Tier = 1;
         Title = "";
         Description = "";
+        TargetShipImagePath = "";
         Objectives = new Objective[2];
 
         //Default objectives to kill target
@@ -19,11 +21,12 @@ public class ContractContent : ContractElement
         Objectives[1] = new ObjectiveTurnInContract();
     }
 
-    public ContractContent(int Tier, string Title, string Description, Objective[] Objectives)
+    public ContractContent(int Tier, string Title, string Description, string TargetShipImagePath, Objective[] Objectives)
     {
         this.Tier = Tier;
         this.Title = Title;
         this.Description = Description;
+        this.TargetShipImagePath = TargetShipImagePath;
         this.Objectives = Objectives;
     }
 
@@ -38,6 +41,7 @@ public class ContractContent : ContractElement
         js["Tier"] = contract.Tier;
         js["Title"] = contract.Title;
         js["Description"] = contract.Description;
+        js["TargetShipImagePath"] = contract.TargetShipImagePath;
         js["Objectives"] = Array.ConvertAll(contract.Objectives, item => (JSON)item);
 
         return js;
@@ -51,10 +55,11 @@ public class ContractContent : ContractElement
             int Tier = js.ToInt("Tier");
             string Title = js.ToString("Title");
             string Description = js.ToString("Description");
+            string TargetShipImagePath = js.ToString("TargetShipImagePath");
             JSON[] rawObjectives = js.ToArray<JSON>("Objectives");
             Objective[] Objectives = Array.ConvertAll(rawObjectives, item => (Objective)item);
 
-            return new ContractContent(Tier, Title, Description, Objectives);
+            return new ContractContent(Tier, Title, Description, TargetShipImagePath, Objectives);
         }
     }
 

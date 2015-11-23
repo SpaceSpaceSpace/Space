@@ -7,6 +7,7 @@ public class PlayerShipScript : ShipScript
 	public static PlayerShipScript player = null;
 	
 	public GameObject objectiveMarker;
+	public GameObject stationMarker;
 	
 	public bool Alive
 	{

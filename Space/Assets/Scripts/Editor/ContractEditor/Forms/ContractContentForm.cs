@@ -9,7 +9,10 @@ public class ContractContentForm : ContractFormBase
     public int Tier = 1;
     public string Title = "";
     public string Description = "";
+    public string TargetShipImagePath = "";
     public List<Objective> Objectives = new List<Objective>();
+
+    private Texture2D TargetShipImage;
 
     public static ContractContentForm Init()
     {
@@ -30,6 +33,7 @@ public class ContractContentForm : ContractFormBase
         editor.Tier = contractContent.Tier;
         editor.Title = contractContent.Title;
         editor.Description = contractContent.Description;
+        editor.TargetShipImagePath = contractContent.TargetShipImagePath;
         editor.Objectives = contractContent.Objectives.ToList();
 
         editor.replacementIndex = replacementIndex;
@@ -45,13 +49,16 @@ public class ContractContentForm : ContractFormBase
     {
         SetEditorStyles();
 
-        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
+        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 5);
 
         Title = EditorGUILayout.TextField("Title", Title);
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Description");
         Description = EditorGUILayout.TextArea(Description, GUILayout.Height(position.height / 4));
+
+        EditorGUILayout.Space();
+        ImagePreviewArea("Target Ship", ref TargetShipImagePath, ref TargetShipImage);
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Objectives");
@@ -62,7 +69,7 @@ public class ContractContentForm : ContractFormBase
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddContract(new ContractContent(Tier, Title, Description, Objectives.ToArray()));
+                AddContract(new ContractContent(Tier, Title, Description, TargetShipImagePath, Objectives.ToArray()));
         }
         EditorGUILayout.EndHorizontal();
 
@@ -71,9 +78,8 @@ public class ContractContentForm : ContractFormBase
 
     protected void AddContract(ContractContent content)
     {
-        string filepath = ContractElement.ContractElementFilePath;
-
-        JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
+        string filepath = ContractEditorUtils.ContractElementFilePath;
+        JSON elementJSON = ContractEditorUtils.LoadJSONFromFile(filepath);
 
         //Do a bit of deserialization to see if any conflicting contracts exist
         List<JSON> contractContents = elementJSON.ToArray<JSON>("ContractContents").ToList();
@@ -90,7 +96,7 @@ public class ContractContentForm : ContractFormBase
 
         elementJSON["ContractContents"] = contractContents;
 
-        ContractUtils.WriteJSONToFile(filepath, elementJSON);
+        ContractEditorUtils.WriteJSONToFile(filepath, elementJSON);
 
         Close();
     }
