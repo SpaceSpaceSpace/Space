@@ -78,8 +78,8 @@ public class ProjectileWeaponScript : WeaponScript
 		}
 		else
 		{
-			int bonusProjectiles = (int)WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.BONUS_PROJECTILES );
-			int count = projectilesPerShot + bonusProjectiles;
+			float bonusProjectiles = WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.BONUS_PROJECTILES );
+			int count = Mathf.CeilToInt( projectilesPerShot * bonusProjectiles );
 			info.AddAttribute( "Damage", RoundStatToDecimalPlaces( damage, 1 ) + " (x" + count + ")" );
 		}
 
@@ -100,8 +100,8 @@ public class ProjectileWeaponScript : WeaponScript
 
 		if( weaponType == WeaponType.SCATTER_SHOT )
 		{
-			int bonusProjectiles = (int)WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BONUS_PROJECTILES );
-			projectilesPerShot += bonusProjectiles;
+			float bonusProjectiles = WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BONUS_PROJECTILES );
+			projectilesPerShot = Mathf.CeilToInt( projectilesPerShot * bonusProjectiles);
 		}
 		else
 		{
