@@ -2,21 +2,24 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using WyrmTale;
-using System;
 
 public class ContractContentForm : ContractFormBase
 {
     public int Tier = 1;
     public string Title = "";
     public string Description = "";
+    public string TargetShipImagePath = "";
+    public List<Objective> Objectives = new List<Objective>();
+
+    private Texture2D TargetShipImage;
 
     public static ContractContentForm Init()
     {
         ContractContentForm editor = (ContractContentForm)GetWindow(typeof(ContractContentForm));
         editor.minSize = new Vector2(400, 200);
         editor.replacementIndex = -1;
+        editor.InternalInit();
         editor.Show();
 
         return editor;
@@ -30,10 +33,13 @@ public class ContractContentForm : ContractFormBase
         editor.Tier = contractContent.Tier;
         editor.Title = contractContent.Title;
         editor.Description = contractContent.Description;
+        editor.TargetShipImagePath = contractContent.TargetShipImagePath;
+        editor.Objectives = contractContent.Objectives.ToList();
 
         editor.replacementIndex = replacementIndex;
         editor.closeButtonText = "Save";
 
+        editor.InternalInit();
         editor.Show();
 
         return editor;
@@ -43,7 +49,7 @@ public class ContractContentForm : ContractFormBase
     {
         SetEditorStyles();
 
-        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
+        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 5);
 
         Title = EditorGUILayout.TextField("Title", Title);
 
@@ -51,12 +57,19 @@ public class ContractContentForm : ContractFormBase
         EditorGUILayout.LabelField("Description");
         Description = EditorGUILayout.TextArea(Description, GUILayout.Height(position.height / 4));
 
+        EditorGUILayout.Space();
+        ImagePreviewArea("Target Ship", ref TargetShipImagePath, ref TargetShipImage);
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Objectives");
+        ObjectivesArea(ref Objectives);
+
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddContract(new ContractContent(Tier, Title, Description));
+                AddContract(new ContractContent(Tier, Title, Description, TargetShipImagePath, Objectives.ToArray()));
         }
         EditorGUILayout.EndHorizontal();
 
@@ -65,9 +78,8 @@ public class ContractContentForm : ContractFormBase
 
     protected void AddContract(ContractContent content)
     {
-        string filepath = ContractElement.ContractElementFilePath;
-
-        JSON elementJSON = ContractUtils.LoadJSONFromFile(filepath);
+        string filepath = ContractEditorUtils.ContractElementFilePath;
+        JSON elementJSON = ContractEditorUtils.LoadJSONFromFile(filepath);
 
         //Do a bit of deserialization to see if any conflicting contracts exist
         List<JSON> contractContents = elementJSON.ToArray<JSON>("ContractContents").ToList();
@@ -84,7 +96,7 @@ public class ContractContentForm : ContractFormBase
 
         elementJSON["ContractContents"] = contractContents;
 
-        ContractUtils.WriteJSONToFile(filepath, elementJSON);
+        ContractEditorUtils.WriteJSONToFile(filepath, elementJSON);
 
         Close();
     }

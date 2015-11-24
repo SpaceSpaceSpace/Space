@@ -3,30 +3,32 @@ using WyrmTale;
 
 public class ObjectiveEscortCargo : Objective
 {
+    public int CargoShipCount;
+
     private static GameObject AISpawner = null;
+	private static GameObject crimSpawner = null;
+	private float crimSpawnTimer;
 
     public ObjectiveEscortCargo()
     {
-        Position = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), 0);
-    }
-
-    public ObjectiveEscortCargo(float minX, float maxX, float minY, float maxY)
-    {
-        Position = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0);
-    }
-
-    public ObjectiveEscortCargo(Vector3 position)
-    {
-        Position = position;
+        
     }
 
     public override void SetupObjective(GameObject objectiveManager)
     {
-        if (AISpawner == null)
-            AISpawner = Resources.Load("AISpawner") as GameObject;
+        Position = new Vector2(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
 
-        Vector2 spawnPos = new Vector2(Random.Range(-20.0f, 20.0f), Random.Range(-20.0f, 20.0f));
-        AISpawner = (GameObject)GameObject.Instantiate(AISpawner, spawnPos, Quaternion.identity);
+        if (AISpawner == null)
+            AISpawner = Resources.Load("CargoSpawner") as GameObject;
+		if(crimSpawner == null)
+			crimSpawner = Resources.Load("AISpawner") as GameObject;
+
+        AISpawnerScript spawnerScript = AISpawner.GetComponent<AISpawnerScript>();
+        spawnerScript.maxAI = CargoShipCount;
+        spawnerScript.startAI = CargoShipCount;
+
+		crimSpawnTimer = 0.0f;
+        AISpawner = (GameObject)GameObject.Instantiate(AISpawner, Position, Quaternion.identity);
         float xPos = Random.Range(0.01f, 2.0f);
         float yPos = Random.Range(0.01f, 2.0f);
         if (Random.Range(-1.0f, 1.0f) > 0.0f)
@@ -49,15 +51,36 @@ public class ObjectiveEscortCargo : Objective
         }
 
         Position = new Vector2(xPos, yPos) * 350.0f;
-        AISpawner.GetComponent<AISpawnerScript>().Objective = objectiveManager.transform;
+		AISpawner.GetComponent<AISpawnerScript>().Objective = objectiveManager.transform;
         AISpawner.GetComponent<AISpawnerScript>().Init();
     }
 
-    public override void ObjectiveUpdate() { }
+    public override void ObjectiveUpdate() 
+	{
+		if(AISpawner != null)
+		{
+			crimSpawnTimer += Time.deltaTime;
+			Vector2 leadPos = AISpawner.GetComponent<AISpawnerScript>().squad[0].transform.position;
+			if(crimSpawnTimer > 10.0f && 
+			   Vector2.Distance(leadPos, PlayerShipScript.player.transform.position) < 15.0f)
+			{
+				float angle = Random.Range(0.0f, 360.0f);
+				Vector2 spawnPos = leadPos;
+				spawnPos += new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * 50.0f;
+				crimSpawner = (GameObject)GameObject.Instantiate(crimSpawner, spawnPos, Quaternion.identity);
+				crimSpawner.GetComponent<AISpawnerScript>().Init();
+				foreach(GameObject g in crimSpawner.GetComponent<AISpawnerScript>().squad)
+				{
+					g.GetComponent<AIShipScript>().Target = AISpawner.GetComponent<AISpawnerScript>().squad[0].transform;
+				}
+				crimSpawnTimer = 0.0f;
+			}
+		}
+	}
 
     public override void HitObjective(Collider2D collider)
     {
-        if (collider.gameObject == PlayerShipScript.player.gameObject)
+        if (collider.name.Contains("CargoShip"))
             completed = true;
     }
 
@@ -65,18 +88,12 @@ public class ObjectiveEscortCargo : Objective
     {
         JSON js = new JSON();
         js["Type"] = "EscortCargo";
-        js["PositionX"] = Position.x;
-        js["PositionY"] = Position.y;
-        js["Completed"] = completed;
-        js["Sector"] = 1;
+        js["CargoShipCount"] = CargoShipCount;
 
         return js;
     }
     protected override void FromJSON(JSON js)
     {
-        completed = js.ToBoolean("Completed");
-        float x = js.ToFloat("PositionX");
-        float y = js.ToFloat("PositionY");
-        Position = new Vector2(x, y);
+        CargoShipCount= js.ToInt("CargoShipCount");
     }
 }

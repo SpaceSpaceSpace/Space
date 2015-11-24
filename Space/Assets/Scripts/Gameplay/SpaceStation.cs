@@ -6,8 +6,14 @@ public class SpaceStation : InteractableScript
 
     public PlayerShipScript playerShip;
 
+	void Start()
+	{
+		PlayerShipScript.player.stationMarker.GetComponent<UIMarker> ().AddToTargetStack (gameObject);
+	}
+
     public override void OnInteract()
     {
+		UI_Manager.instance.SpaceStationObject = gameObject;
         UI_Manager.instance.DisplaySpaceStationUI(true);
     }
 

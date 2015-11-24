@@ -13,7 +13,7 @@ public class Customize : MonoBehaviour
     //TODO: FUCK THIS SHIT
     void Start()
     {
-        WeaponToggles = GameObject.Find("Weapons Panel").GetComponent<ToggleGroup>();
+		WeaponToggles = UI_Manager.instance.weaponToggles.GetComponent<ToggleGroup>();
         WeaponToggles.gameObject.SetActive(false);
     }
 
@@ -86,14 +86,14 @@ public class Customize : MonoBehaviour
 		Transform shipTransform = ship.transform;
 		
 		//For each empty attachment point on the ship, draw an indicator that you can click to change the attachements
-		for(int i = 0; i < ship.AttachmentPoints.Count; i++)
+		for(int i = 0; i < ship.WeaponSlots.Length; i++)
 		{
-			Vector2 v = ship.AttachmentPoints[i];
+			Vector3 v = ship.WeaponSlots[i].transform.position;
 
 			GameObject indicator = Instantiate(Resources.Load("ShipPrefabs/AttachmentIndicator")) as GameObject;
 			AttachmentPoint attachment = indicator.GetComponent<AttachmentPoint>();
 			attachment.Index = i;
-			indicator.transform.position = ship.transform.position + (Vector3)v;
+			indicator.transform.position = v;
 			indicator.transform.parent = shipTransform;
 			
 			//Send the toggles to the attachment point so that it knows how to react when a weapon is selected

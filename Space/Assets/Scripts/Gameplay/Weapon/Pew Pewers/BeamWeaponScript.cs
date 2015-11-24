@@ -13,7 +13,7 @@ public class BeamWeaponScript : WeaponScript
 	void Start ()
 	{
 		Init();
-		m_beam = (GameObject)Instantiate( projectilePrefab, fireFromPoint.position, Quaternion.identity );
+		m_beam = (GameObject)Instantiate( projectilePrefab, fireFromPoint.position, transform.rotation );
 		m_beam.transform.parent = transform;
 		m_beam.SetActive( false );
 	
@@ -24,7 +24,7 @@ public class BeamWeaponScript : WeaponScript
 
 		m_layerMask = ~( 1 << LayerMask.NameToLayer( "Projectiles" ) );
 
-		m_ownCollider = transform.parent.GetComponent<Collider2D>();
+		m_ownCollider = transform.root.GetComponent<Collider2D>();
 	}
 	
 	public override void Fire()
@@ -72,18 +72,18 @@ public class BeamWeaponScript : WeaponScript
 	public override WeaponInfo ToInfo()
 	{
 		WeaponInfo info = new WeaponInfo( weaponType, modifier );
-		info.AddAttribute( "Damage", damage );
-		info.AddAttribute( "Range", beamRange );
+		info.AddAttribute( "Damage", RoundStatToDecimalPlaces( damage, 1 ) + "/s" );
+		info.AddAttribute( "Range", RoundStatToDecimalPlaces( beamRange, 1 ).ToString() );
 		return info;
 	}
 
 	public override WeaponInfo ToInfo( WeaponModifier.ModifierNames mod )
 	{
-		float moddedDamage = damage * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.DAMAGE );
-		float moddedRange = beamRange * WeaponModifier.GetModifierValue( modifier, WeaponModifier.Stats.BEAM_RANGE );
+		float moddedDamage = damage * WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.DAMAGE );
+		float moddedRange = beamRange * WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.BEAM_RANGE );
 		WeaponInfo info = new WeaponInfo( weaponType, mod );
-		info.AddAttribute( "Damage", moddedDamage );
-		info.AddAttribute( "Range", moddedRange );
+		info.AddAttribute( "Damage", RoundStatToDecimalPlaces( moddedDamage, 1 ) + "/s" );
+		info.AddAttribute( "Range", RoundStatToDecimalPlaces( moddedRange, 1 ).ToString() );
 		return info;
 	}
 

@@ -14,7 +14,7 @@ GameObject:
   - 114: {fileID: 11408250}
   m_Layer: 10
   m_Name: Hangar
-  m_TagString: Interactable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,8 +67,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f70e8629a545a4aa04cbd2afcc3696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ship: {fileID: 0}
-  WeaponToggles: {fileID: 0}
 --- !u!212 &21298282
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -110,6 +108,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

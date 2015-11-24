@@ -16,10 +16,15 @@ public class ShipScript : MonoBehaviour
 
 	protected HitParticleSpawner m_hitParticles;
 	protected ThrustScript m_thrust;
-	protected WeaponScript[] m_weapons;
+	protected WeaponSlot[] m_weaponSlots;
 	protected ShieldScript m_shield;
 
 	protected static GameObject m_exploder;
+
+	public WeaponSlot[] WeaponSlots
+	{
+		get { return m_weaponSlots; }
+	}
 
 	// Primarily handles "collisions" with projeciles 
 	public void TakeHit( Vector2 force, Vector2 hitPoint )
@@ -60,7 +65,6 @@ public class ShipScript : MonoBehaviour
 
 		InitWeapons();
 
-		// Temporary
 		Transform shieldTrans = transform.FindChild( "Shield" );
 		if( shieldTrans != null )
 		{
@@ -69,35 +73,39 @@ public class ShipScript : MonoBehaviour
 	}
 
 	// Checks which weapons are attached and loads them into m_weapons
-	protected void InitWeapons()
+	public void InitWeapons()
 	{
-		//Loop through children and see which ones are weapons
-		List<WeaponScript> tempWeapons = new List<WeaponScript>();
-
-		for( int i = 0; i < transform.childCount; i++ )
+		Transform weaponSlots = transform.FindChild( "Weapons" );
+		if( weaponSlots != null )
 		{
-			WeaponScript weapon = transform.GetChild( i ).GetComponent<WeaponScript>();
-
-			if(weapon != null)
-				tempWeapons.Add(weapon);			
+			WeaponSlot[] weapons = new WeaponSlot[ weaponSlots.childCount ];
+			for( int i = 0; i < weapons.Length; i++ )
+			{
+				weapons[ i ] = weaponSlots.GetChild( i ).GetComponent<WeaponSlot>();
+			}
+			
+			m_weaponSlots = weapons;
 		}
-
-		m_weapons = tempWeapons.ToArray();
+		else
+		{
+			// Just in case there are no weapons
+			m_weaponSlots = new WeaponSlot[0];
+		}
 	}
 
 	protected void FireWeapons()
 	{
-		for( int i = 0; i < m_weapons.Length; i++ )
+		for( int i = 0; i < m_weaponSlots.Length; i++ )
 		{			
-			m_weapons[ i ].Fire();
+			m_weaponSlots[ i ].Fire();
 		}
 	}
 	
 	protected void ReleaseFire()
 	{
-		for( int i = 0; i < m_weapons.Length; i++ )
+		for( int i = 0; i < m_weaponSlots.Length; i++ )
 		{
-			m_weapons[ i ].OnRelease();
+			m_weaponSlots[ i ].OnRelease();
 		}
 	}
 	

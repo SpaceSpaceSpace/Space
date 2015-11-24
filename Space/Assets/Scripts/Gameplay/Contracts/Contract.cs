@@ -1,66 +1,82 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UI;
 
 public class Contract
 {
 	public bool completed;
-	private string description;
-	//private string targetImagePath;
-	//private Image targetImage;
-	private string targetShipImagePath;
-	private Image targetShipImage;
-	private string name;
-	private string title;
-	private string reward;
-	private List<GameObject> contractObjectives;
+
+    public int Tier { get { return tier; } }
+    public string TargetName { get{ return name; } }
+    public string Title { get { return title; } }
+    public string Description { get { return description; } }
+    public Sprite TargetImage { get { return targetImage; } }
+    public Sprite TargetShipImage { get { return targetShipImage; } }
+    public List<Objective> Objectives { get { return contractObjectives; } }
+    public int Reward{ get{ return reward; } }
+
+    private int tier;
+    private string name;
+    private string title;
+    private string description;
+	private Sprite targetImage;
+	private Sprite targetShipImage;
+    private int reward;
+	private List<Objective> contractObjectives;
+    private List<ObjectiveEvent> objectiveEvents;
     private GameObject objectivePrefab;
 
 	public Contract()
 	{
-		contractObjectives = new List<GameObject> ();
+        tier = 1;
+		contractObjectives = new List<Objective> ();
 		completed = false;
 		description = "Go here!";
-		//targetImagePath = "Image Directory";
-		//targetShipImagePath = "ShipImage Directory";
 		name = "Unknown";
 		title = "Unknown Title";
-		reward = "0 Space Dollars";
+        reward = DetermineReward();
         objectivePrefab = Resources.Load("Objective") as GameObject;
 	}
 
-	public Contract(string p_Name, string p_Description, string p_Title, string p_Reward)
+	public Contract(int p_Tier, string p_Name, string p_Description, string p_Title, string p_Reward)
 	{
-		contractObjectives = new List<GameObject> ();
-		completed = false;
-		//targetImagePath = "Image Directory";
-		//targetShipImagePath = "ShipImage Directory";
-		name = p_Name;
+		contractObjectives = new List<Objective> ();
+
+        contractObjectives.Add(new ObjectiveKillTarget());
+        contractObjectives.Add(new ObjectiveTurnInContract());
+
+        completed = false;
+
+        tier = p_Tier;
+        name = p_Name;
 		title = p_Title;
 		description = p_Description;
-		reward = p_Reward;
+		reward = DetermineReward();
         objectivePrefab = Resources.Load("Objective") as GameObject;
     }
 
-	public string Name
+    public Contract(int p_Tier, string p_Name, string p_Description, string p_Title, string p_ImagePath, string p_ShipImagePath, Objective[] p_Objectives)
+    {
+        contractObjectives = p_Objectives.ToList();
+        completed = false;
+
+        tier = p_Tier;
+        targetImage = Resources.Load<Sprite>(p_ImagePath);
+        targetShipImage = Resources.Load<Sprite>(p_ShipImagePath);
+        name = p_Name;
+        title = p_Title;
+        description = p_Description;
+        reward = DetermineReward();
+        objectivePrefab = Resources.Load("Objective") as GameObject;
+    }
+
+    public string Name
 	{
 		get{ return name;}
 	}
 
-	public Dictionary<string,string> GetContractDetails()
-	{
-		Dictionary<string,string> contractDetails = new Dictionary<string, string> ();
-
-		contractDetails.Add ("Name", name);
-		contractDetails.Add ("Title", title);
-		contractDetails.Add ("Reward", reward);
-		contractDetails.Add ("Description", description);
-
-		return contractDetails;
-	}
-
-	public void CompleteContractObjective(GameObject completedObjective)
+	public void CompleteContractObjective(Objective completedObjective)
 	{
 		contractObjectives.Remove (completedObjective);
 
@@ -70,28 +86,32 @@ public class Contract
 		}
 	}
 
-	//Eventually will spawn objectives based off contract
-	public void SpawnContract()
-	{
-        Objective objective1 = new ObjectiveKillTarget();
-        Objective objective2 = new ObjectiveTurnInContract();
+    //Eventually will spawn objectives based off contract
+    public void SpawnContract()
+    {
+        objectiveEvents = new List<ObjectiveEvent>();
 
-        GameObject contractObjective1 = (GameObject)GameObject.Instantiate(objectivePrefab, objective1.Position, Quaternion.identity);
-        ObjectiveEvent contractObjectiveEvent1 = contractObjective1.GetComponent<ObjectiveEvent>();
-        contractObjectiveEvent1.ObjectiveContract = this;
-        contractObjectiveEvent1.ToComplete = objective1;
-        SetUIMarker (contractObjective1);
+        for (int i = 0; i < contractObjectives.Count; i++)
+        {
+            Objective objective = contractObjectives[i];
 
-		GameObject contractObjective2 = (GameObject)GameObject.Instantiate (objectivePrefab, objective2.Position, Quaternion.identity);
-        ObjectiveEvent contractObjectiveEvent2 = contractObjective2.GetComponent<ObjectiveEvent>();
-        contractObjectiveEvent2.ObjectiveContract = this;
-        contractObjectiveEvent2.ToComplete = objective2;
-        contractObjective2.SetActive (false);
+            GameObject contractObjectiveObject = (GameObject)GameObject.Instantiate(objectivePrefab, objective.Position, Quaternion.identity);
+            ObjectiveEvent contractObjectiveEvent = contractObjectiveObject.GetComponent<ObjectiveEvent>();
+            contractObjectiveEvent.ObjectiveContract = this;
+            contractObjectiveEvent.ToComplete = objective;
 
-        contractObjectiveEvent1.NextObjective = contractObjective2;
+            objectiveEvents.Add(contractObjectiveEvent);
 
-		contractObjectives.Add (contractObjective1);
-		contractObjectives.Add (contractObjective2);
+            if (i == 0)
+            {
+                SetUIMarker(contractObjectiveObject);
+            }
+            else
+            {
+                objectiveEvents[i - 1].NextObjective = contractObjectiveObject;
+                contractObjectiveObject.SetActive(false);
+            }  
+        }
 	}
 
 	public void SetUIMarker(GameObject contractObjective)
@@ -107,4 +127,14 @@ public class Contract
 
 		markerScript.AddToTargetStack (contractObjective);
 	}
+
+    //Return a random amount of money based on the contract tier
+    private int DetermineReward()
+    {
+        int baseReward = tier * 1000;
+        int minMod = tier * 250;
+        int maxMod = tier * 250;
+
+        return Random.Range(baseReward - minMod, baseReward + maxMod);
+    }
 }

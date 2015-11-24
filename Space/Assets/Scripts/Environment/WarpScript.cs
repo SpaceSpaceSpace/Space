@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WarpScript : MonoBehaviour {
-
+public class WarpScript : MonoBehaviour
+{
 	public GameObject hangarPrefab;
 	public GameObject currentPlanet;
+	private GameObject starBackground;
+	public GameObject warpEffect;
 
 	// Use this for initialization
 	void Start () {
+		starBackground = (GameObject)GameObject.Find ("StarBackground");
 		LoadSector (GameMaster.Master.PlanetName);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
 	void LoadSector(string sectorName)
@@ -21,6 +19,11 @@ public class WarpScript : MonoBehaviour {
 		GameObject levelObj = Resources.Load ( "Sectors/" + sectorName ) as GameObject;
 		currentPlanet = Instantiate (levelObj);
 		currentPlanet.name = GameMaster.Master.PlanetName;
+
+		if (!starBackground.activeInHierarchy)
+			starBackground.SetActive (true);
+		if (GameMaster.CurrentGameState == GameState.Warping)
+			GameMaster.CurrentGameState = GameState.Flying;
 	}
 
 	// This will eventually open the warp UI, for now just warps to space station
@@ -54,15 +57,19 @@ public class WarpScript : MonoBehaviour {
 		GameObject playerShip = (GameObject)GameObject.Find ("Player Ship");
 		GameObject spaceStation = (GameObject)GameObject.Find ("SpaceStore");
 
-		StartCoroutine ("WarpWaitTime");
+		StartCoroutine ("WarpWait");
 
         if(playerShip != null && spaceStation != null)
             playerShip.transform.position = spaceStation.transform.position;
 	}
 
-	IEnumerator WarpWaitTime()
+	IEnumerator WarpWait()
 	{
-		yield return new WaitForSeconds (5.0f);
+		warpEffect.SetActive (true);
+		yield return new WaitForSeconds (3.0f);
+
+		warpEffect.SetActive(false);
+		LoadSector(GameMaster.Master.PlanetName);
 	}
 
 	public void WarpToPlanet(string prefabName)
@@ -70,13 +77,19 @@ public class WarpScript : MonoBehaviour {
 		GameObject playerShip = (GameObject)GameObject.Find ("Player Ship");
 		GameObject spaceStation = (GameObject)GameObject.Find ("SpaceStore");
 
+		starBackground.SetActive (false);
+		GameMaster.CurrentGameState = GameState.Warping;
+		UI_Manager.instance.DisplayHangerUI (false);
+
 		GameMaster.Master.PlanetName = prefabName;
 		playerShip.transform.position = new Vector3(spaceStation.transform.position.x - 10.0f, spaceStation.transform.position.y, spaceStation.transform.position.z);
-		//Application.LoadLevel ( "MainScene" );
-		if (currentPlanet != null) 
+		playerShip.transform.rotation = Quaternion.identity;
+
+		warpEffect.transform.position = starBackground.transform.position;
+		StartCoroutine ("WarpWait");
+		if(currentPlanet != null)
 		{
 			GameObject.Destroy(currentPlanet);
-			LoadSector(GameMaster.Master.PlanetName);
 		}
 	}
 }

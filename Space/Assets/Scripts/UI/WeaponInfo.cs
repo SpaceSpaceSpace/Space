@@ -5,29 +5,39 @@ using System.Collections.Generic;
 public class WeaponInfo {
 
 	private string name;
-	WeaponModifier.ModifierNames modifier; 
-	public Dictionary<string,float> attributes;
+	private GameObject weaponPrefab;
+	private WeaponModifier.ModifierNames modifier; 
+	public Dictionary<string,string> attributes;
 
 	public WeaponInfo(WeaponScript.WeaponType weaponType, WeaponModifier.ModifierNames p_Modifier)
 	{
 		GameObject prefab = GameMaster.WeaponMngr.GetWeaponPrefab( weaponType );
+		weaponPrefab = prefab;
 		WeaponModifier.GetModifiedName( p_Modifier, prefab.name, out name );
 		modifier = p_Modifier;
 
-		attributes = new Dictionary<string, float>();
+		attributes = new Dictionary<string, string>();
 	}
 
 	public string Name
 	{
 		get{ return name; }
 	}
-	
-	public GameObject SpawnWeapon()
+
+	public GameObject WeaponPrefab
 	{
-		return null;
+		get{ return weaponPrefab; }
 	}
 
-	public void AddAttribute( string key, float value )
+	public GameObject SpawnWeapon()
+	{
+		GameObject weaponGO = GameObject.Instantiate( weaponPrefab );
+		WeaponScript ws = weaponGO.GetComponent<WeaponScript>();
+		ws.SetModifier( modifier );
+		return weaponGO;
+	}
+
+	public void AddAttribute( string key, string value )
 	{
 		attributes.Add( key, value );
 	}

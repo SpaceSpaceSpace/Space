@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public enum GameState
 {
@@ -10,7 +10,8 @@ public enum GameState
 	GameOver,
 	Pause,
 	H,
-	CHelp
+	CHelp,
+	Warping
 }
 
 public class GameMaster : MonoBehaviour {
@@ -20,7 +21,9 @@ public class GameMaster : MonoBehaviour {
 	public static PlayerData playerData;
 	public static WeaponManager WeaponMngr;
 
-	public string PlanetName = "Planet1";
+    public static Dictionary<string, Sector> Sectors = new Dictionary<string, Sector>();
+
+	public string PlanetName = "Stan C8";
 
 	void Awake ()
 	{
@@ -32,6 +35,11 @@ public class GameMaster : MonoBehaviour {
 
 			playerData = transform.GetComponent<PlayerData> ();
 			WeaponMngr = GetComponent<WeaponManager>();
+
+            //Load all sectors
+            Sector[] sectorObjects = Resources.LoadAll<Sector>("Sectors/");
+            foreach (Sector s in sectorObjects)
+                Sectors[s.name] = s;
 		}
 		else if(Master != this)
 		{

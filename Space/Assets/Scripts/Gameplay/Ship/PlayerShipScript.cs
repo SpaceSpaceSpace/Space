@@ -6,14 +6,12 @@ public class PlayerShipScript : ShipScript
 {
 	public static PlayerShipScript player = null;
 	
-	public List<Vector2> AttachmentPoints = new List<Vector2>();
-	public List<GameObject> Attachments = new List<GameObject>();
-	
 	public GameObject objectiveMarker;
+	public GameObject stationMarker;
 	
 	public bool Alive
 	{
-		get{return m_alive;}
+		get{ return m_alive; }
 	}
 	
 	private Transform m_cameraTransform;
@@ -22,7 +20,7 @@ public class PlayerShipScript : ShipScript
 	
 	public GameObject ObjectiveMarker
 	{
-		get{return objectiveMarker;}
+		get{ return objectiveMarker; }
 	}
 	
 	public float Health
@@ -72,7 +70,7 @@ public class PlayerShipScript : ShipScript
 		m_cameraTransform.position = transform.position;
 		
 		//Don't fire or move if we're docked or dead
-		if(!m_docked && m_alive)
+		if(!m_docked && m_alive && GameMaster.CurrentGameState != GameState.Warping)
 		{
 			// Giving input to the thrust 
 			m_thrust.Accelerate = ( Input.GetAxis( "Vertical" ) > 0 );
@@ -152,11 +150,16 @@ public class PlayerShipScript : ShipScript
 	// Checks if any of the number keys were pressed to toggle weapons
 	private void SetActiveWeapons()
 	{
-		for ( int i = 0; i < m_weapons.Length; i++ )
+		for ( int i = 0; i < m_weaponSlots.Length; i++ )
 		{
 			if ( Input.GetKeyDown( "" + ( i + 1 ) ) )
 			{
-				m_weapons[ i ].ToggleActive();
+				if( m_weaponSlots[ i ].Weapon != null )
+				{
+					m_weaponSlots[ i ].Weapon.ToggleActive();
+
+					UI_Manager.instance.weaponDockUI.GetComponent<WeaponDock>().ToggleWeaponColor( i );
+				}
 			}
 		}
 	}

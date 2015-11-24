@@ -36,9 +36,9 @@ public class MineWeaponScript : WeaponScript
 	public override WeaponInfo ToInfo()
 	{
 		WeaponInfo info = new WeaponInfo( weaponType, modifier );
-		info.AddAttribute( "Damage", damage );
-		info.AddAttribute( "Fire Rate", fireTime );
-		info.AddAttribute( "Projectile Speed", projectileSpeed );
+		info.AddAttribute( "Damage", RoundStatToDecimalPlaces( damage, 1 ).ToString() );
+		info.AddAttribute( "Fire Rate", RoundStatToDecimalPlaces( 1 / fireTime, 1 ) + "/s" );
+		info.AddAttribute( "Projectile Speed", RoundStatToDecimalPlaces( projectileSpeed, 1 ).ToString() );
 		return info;
 	}
 
@@ -49,9 +49,9 @@ public class MineWeaponScript : WeaponScript
 		float moddedFireRate = fireTime / WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.FIRE_RATE );
 
 		WeaponInfo info = new WeaponInfo( weaponType, mod );
-		info.AddAttribute( "Damage", moddedDamage );
-		info.AddAttribute( "Fire Rate", moddedFireRate );
-		info.AddAttribute( "Projectile Speed", moddedSpeed );
+		info.AddAttribute( "Damage", RoundStatToDecimalPlaces( moddedDamage, 1 ).ToString() );
+		info.AddAttribute( "Fire Rate", RoundStatToDecimalPlaces(  1 / moddedFireRate, 1 ) + "/s" );
+		info.AddAttribute( "Projectile Speed", RoundStatToDecimalPlaces( moddedSpeed, 1 ).ToString() );
 		return info;
 	}
 
@@ -73,7 +73,7 @@ public class MineWeaponScript : WeaponScript
 		MineProjectileScript projectile = (MineProjectileScript)Instantiate( m_mineProj, 
 		                                                					 transform.position, 
 		                                               						 Quaternion.identity );
-		projectile.Init( damage, projectileSpeed, mineLifeTime, transform.parent.gameObject );
+		projectile.Init( damage, projectileSpeed, mineLifeTime, transform.root.gameObject );
 		projectile.FireProj( transform.eulerAngles.z );
 		
 		m_soundSystem.PlayOneShot( fireSoundName );

@@ -16,6 +16,9 @@ public class AIShipScript : ShipScript {
 	public Transform objective;
 	public bool aggro; // is the enemy in combat
 	public Transform obstacleTrans;
+	public AISpawnerScript spawner;
+	public string[] enemies;
+	public string[] friends;
 
 	///
 	/// Private Variables
@@ -24,7 +27,18 @@ public class AIShipScript : ShipScript {
 	private Vector2 m_attackPos; // the position the ship will be aiming for when attacking
 	private float m_wanderAngle;
 	private bool m_obstacle; // is there an obstacle in the way
+	private Vector2 objectiveStartPos;
 
+	// information about the objects around the ship
+	private List<GameObject> lethalObj; // ships that will kill this one, not including the player
+	private List<GameObject> nonLethalObj; // ships that are not friendly, but can't kill this one
+	private List<GameObject> friendObj; // friendly ships
+	private bool playerTarget; // is the player among potential targets
+
+	private float[] m_weapRange;
+	private float[] m_weapSpread;
+	private float[] m_weapSpeed;
+	private float[] m_weapLifeSpan;
 
 	// Weights for flocking
 	private const float ALIGNMENT = 4.0f;
@@ -38,19 +52,63 @@ public class AIShipScript : ShipScript {
 	// Acessors
 	public Transform Target { get { return m_target; } set { m_target = value; } }
 	public bool Obstacle { get { return m_obstacle; } }
+	public Vector2 ObjectiveStartPos { get { return objectiveStartPos; } }
+	public float[] WeapRange { get { return m_weapRange; } }
+	public float[] WeapSpread { get { return m_weapSpread; } }
 	// Use this for initialization
 	void Start () {
 		InitShip();
 		m_thrust.Init(accelForce, maxMoveSpeed, turnForce);
 
 		player = PlayerShipScript.player.transform;
-		m_target = PlayerShipScript.player.transform; // Find the player, will likely change
 		m_wanderAngle = 0.0f;
 		m_thrust.AccelPercent = 1.0f;
 		Go ();
 		aggro = false;
 		m_attackPos = Vector2.zero;
 		obstacleTrans = null;
+		if(objective != null)
+			objectiveStartPos = objective.position;
+
+		friendObj = new List<GameObject>();
+		lethalObj = new List<GameObject>();
+		nonLethalObj = new List<GameObject>();
+		playerTarget = false;
+
+		// set up variables for weapons
+		m_weapRange = new float[m_weaponSlots.Length];
+		m_weapSpeed = new float[m_weaponSlots.Length];
+		m_weapSpread = new float[m_weaponSlots.Length];
+		m_weapLifeSpan = new float[m_weaponSlots.Length];
+		for(int i = 0; i < m_weaponSlots.Length;i++)
+		{
+			if( m_weaponSlots[i].Weapon != null )
+			{
+				switch(m_weaponSlots[i].Weapon.weaponType)
+				{
+				case WeaponScript.WeaponType.SCATTER_SHOT:
+				case WeaponScript.WeaponType.LASER_MACHINE_GUN:
+					ProjectileWeaponScript pScript = GetComponentInChildren<ProjectileWeaponScript>();
+					m_weapSpeed[i] = pScript.projectileSpeed;
+					m_weapLifeSpan[i] = pScript.projectileLifeTime;
+					m_weapSpread[i] = pScript.maxSpreadAngle;
+					break;
+				case WeaponScript.WeaponType.BEAM:
+					BeamWeaponScript bScript = GetComponentInChildren<BeamWeaponScript>();
+					m_weapLifeSpan[i] = -1;
+					m_weapSpread[i] = 0;
+					m_weapSpeed[i] = -1;
+					m_weapRange[i] = bScript.beamRange;
+					break;
+				default:
+					m_weapLifeSpan[i] = -1;
+					m_weapSpread[i] = 0;
+					m_weapSpeed[i] = -1;
+					m_weapRange[i] = 10;
+					break;
+				}
+			}
+		}
 
 		for(int i = 0; i < squad.Count; i++)
 		{
@@ -62,6 +120,36 @@ public class AIShipScript : ShipScript {
 	// Update is called once per frame
 	void Update () {
 		DetectObstacle();
+		// calculate the weapon range
+		Vector2 velocity = GetComponent<Rigidbody2D>().velocity;
+		float rangePercent = Vector2.Dot(transform.up,velocity.normalized);
+		for(int i = 0; i < m_weaponSlots.Length;i++)
+		{
+			if(m_weapLifeSpan[i] != -1)
+				m_weapRange[i] = (m_weapSpeed[i] + (velocity.magnitude * rangePercent)) * m_weapLifeSpan[i];
+		}
+
+		for(int i = 0; i < lethalObj.Count; i++)
+		{
+			if(lethalObj[i] == null)
+			{
+				lethalObj.RemoveAt(i);
+			}
+		}
+		for(int i = 0; i < nonLethalObj.Count; i++)
+		{
+			if(nonLethalObj[i] == null)
+			{
+				nonLethalObj.RemoveAt(i);
+			}
+		}
+		for(int i = 0; i < friendObj.Count; i++)
+		{
+			if(friendObj[i] == null)
+			{
+				friendObj.RemoveAt(i);
+			}
+		}
 	}
 
 
@@ -93,6 +181,41 @@ public class AIShipScript : ShipScript {
 
 		if(Vector2.Angle(targetPos - (Vector2)transform.position, transform.up) < 45)
 			m_thrust.Accelerate = true;
+	}
+
+	public void SelectTarget()
+	{
+		if(m_target == null)
+		{
+			// if no player and lethal targets
+			if(!playerTarget && lethalObj.Count > 0)
+			{
+				int index = Random.Range(0, lethalObj.Count - 1);
+				if(lethalObj[index] != null)
+					m_target = lethalObj[index].transform;
+			}
+			// if no lethal targets and player
+			else if(lethalObj.Count <= 0 && playerTarget)
+			{
+				m_target = PlayerShipScript.player.transform;
+			}
+			// if player and lethal targets
+			else if(lethalObj.Count > 0 && playerTarget)
+			{
+				int index = Random.Range(0, lethalObj.Count);
+				if(index == lethalObj.Count)
+					m_target = PlayerShipScript.player.transform;
+				else
+					m_target = lethalObj[index].transform;
+			}
+			// if no player and no lethal targets
+			else if(nonLethalObj.Count > 0)
+			{
+				int index = Random.Range(0, nonLethalObj.Count - 1);
+				m_target = nonLethalObj[index].transform;
+			}
+		}
+
 	}
 
 	// Flee directly from the target
@@ -127,6 +250,12 @@ public class AIShipScript : ShipScript {
 
 	public void AttackTarget(float maxDistance)
 	{
+		maxDistance = 0;
+		for(int i = 0; i < m_weaponSlots.Length;i++)
+		{
+			if(m_weapRange[i] > maxDistance)
+				maxDistance = m_weapRange[i];
+		}
 		if(m_attackPos == Vector2.zero)
 		{
 			float xPos = Random.Range(-maxDistance, maxDistance);
@@ -145,29 +274,48 @@ public class AIShipScript : ShipScript {
 			m_thrust.Accelerate = false;
 			FaceTarget(m_target.position);
 			m_attackPos = Vector2.zero;
-			if(AngleToTarget(m_target.position) < 10.0f && CanSeeTarget(m_target))
+			for(int i = 0; i < m_weaponSlots.Length;i++)
 			{
-				FireWeapon();
+				if(AngleToTarget(m_target.position) < Mathf.Clamp(m_weapSpread[i], 10.0f, 90.0f) && CanShootTarget(m_target))
+				{
+					FireWeapon();
+				}
 			}
 		}
-
-
 	}
 
-	public bool CheckAggro(float distance)
+	public bool CheckAggro()
 	{
-		if(DistanceTo(Target.position) < distance)
+
+		aggro = false;
+
+		if(m_target != null)
 		{
+			aggro = true;
+		}
+		// if the current target is nonLethal and a lethal target comes in range
+		if(m_target != null && nonLethalObj.Contains(m_target.gameObject) 
+		   && (playerTarget || lethalObj.Count > 0))
+		{
+			m_target = null;
+		}
+		if(nonLethalObj.Count > 0 || lethalObj.Count > 0 || playerTarget)
+		{
+			SelectTarget();
 			aggro = true;
 			return true;
 		}
-		else
-			aggro = false;
+
 		foreach(GameObject g in squad)
 		{
-			if(g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
+			if(g!= null && g.GetComponent<AIShipScript>().aggro && g != this.gameObject)
+			{
+				SelectTarget();
 				return true;
+			}
 		}
+
+		
 		return false;
 
 	}
@@ -198,17 +346,19 @@ public class AIShipScript : ShipScript {
 	// Fire weapon at the index, if no idex is provided fire all weapons
 	public void FireWeapon(int index)
 	{
-		if(m_weapons.Length > index)
+		if(m_weaponSlots.Length > index)
 		{
-			m_weapons[index].Fire();
+			m_weaponSlots[index].Fire();
 		}
 	}
 	 
 	public void FireWeapon()
 	{
-		for(int i = 0; i < m_weapons.Length; i++)
+		for(int i = 0; i < m_weaponSlots.Length; i++)
 		{
-			m_weapons[i].Fire();
+
+			m_weaponSlots[i].Fire();
+
 		}
 	}
 
@@ -233,15 +383,18 @@ public class AIShipScript : ShipScript {
 		// Gather all of the data necessary to figure out the flocking vectors
 		foreach(GameObject g in squad)
 		{
-			center += (Vector2)g.transform.position;
-			float dist = Vector2.Distance(g.transform.position, transform.position);
-			if(g != this.gameObject && dist < SEP_DISTANCE)
+			if(g != null)
 			{
-				Vector2 fromShip = (Vector2)(transform.position - g.transform.position);
-				fromShip *= SEP_DISTANCE/fromShip.magnitude;
-				separation += fromShip;
+				center += (Vector2)g.transform.position;
+				float dist = Vector2.Distance(g.transform.position, transform.position);
+				if(g != this.gameObject && dist < SEP_DISTANCE)
+				{
+					Vector2 fromShip = (Vector2)(transform.position - g.transform.position);
+					fromShip *= SEP_DISTANCE/fromShip.magnitude;
+					separation += fromShip;
+				}
+				align += (Vector2)(g.transform.up - transform.up);
 			}
-			align += (Vector2)(g.transform.up - transform.up);
 		}
 
 		align /= squad.Count;
@@ -273,8 +426,11 @@ public class AIShipScript : ShipScript {
 
 	}
 
-	public bool CanSeeTarget(Transform targetTrans)
+	public bool CanShootTarget(Transform targetTrans)
 	{
+		if(targetTrans == null)
+			return false;
+
 		float targetDist = Vector2.Distance(targetTrans.position, transform.position);
 		if(targetDist > 20.0f)
 			return false;
@@ -286,13 +442,26 @@ public class AIShipScript : ShipScript {
 				return false;
 		}
 
-		// if the player is the first thing in front of the enemy
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, targetTrans.position - transform.position, 15.0f);
+		// if there is something in the way that's not a projectile, return false
+		RaycastHit2D hit = Physics2D.Linecast(transform.position, targetTrans.position, LayerMask.NameToLayer("Projectiles"));
+		if(hit.collider != null && hit.collider.gameObject != targetTrans.gameObject)
+			return false;
 
-		if(hit && hit.collider.gameObject.transform == targetTrans)
-			return true;
+		foreach(GameObject g in friendObj)
+		{
+			if(g != null)
+			{
+				// if there is a friend in front and within the weapon spread range, don't shoot
+				if(Vector2.Dot(transform.up, g.transform.position - transform.position) > 0
+				   && AngleToTarget(g.transform.position) < m_weapSpread[0])
+				{
+					return false;
+				}
+			}
+		}
 
-		return false;
+
+		return true;
 	}
 
 	public void AvoidObstacle()
@@ -343,12 +512,18 @@ public class AIShipScript : ShipScript {
 	public void DetectObstacle()
 	{
 		m_obstacle = false;
-		RaycastHit2D hit = Physics2D.CircleCast(transform.position, 5.0f, GetComponent<Rigidbody2D>().velocity, 10.0f);
+		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, GetComponent<Rigidbody2D>().velocity, 10.0f);
 
-		if(hit && hit.collider.gameObject.tag == "Asteroid")
+		foreach(RaycastHit2D h in hits)
 		{
-			m_obstacle = true;
-			obstacleTrans = hit.collider.gameObject.transform;
+			if(h && (h.collider.gameObject.tag == "Asteroid" 
+			           || h.collider.gameObject.tag == "Satellite"
+			           || h.collider.gameObject.tag == "SAsteroid"))
+			{
+				m_obstacle = true;
+				obstacleTrans = h.collider.gameObject.transform;
+				return;
+			}
 		}
 	}
 
@@ -393,10 +568,86 @@ public class AIShipScript : ShipScript {
 		float time =  Mathf.Abs(predictDist / speed); // and use it to determine the amount of time that will take
 		// And now we have the predicted position by advancing the target's position by the time 
 		Vector2 predictPos = (Vector2)target.position + (targetVel * time); 
-
-		Debug.DrawLine(transform.position, predictPos);
+	
 
 		return predictPos;
+	}
+
+	void OnTriggerStay2D(Collider2D col)
+	{
+
+	}
+
+	void OnTriggerEnter2D(Collider2D col)
+	{
+		if(col.gameObject.tag == "Ship")
+		{
+			foreach(string s in enemies)
+			{
+				if(col.gameObject.name.Contains(s))
+				{
+					// figure out what kind of ship this is and change the appropriate variables
+					switch(s)
+					{
+					case "Player Ship":
+						playerTarget = true;
+						break;
+					case "CopShip":
+					case "CriminalShip":
+					case "CriminalLeader":
+						lethalObj.Add(col.gameObject);
+						break;
+					default:
+						nonLethalObj.Add(col.gameObject);
+						break;
+					}
+					return;
+				}
+
+			}
+
+			foreach(string s in friends)
+			{
+				if(col.gameObject.name.Contains(s))
+				{
+					friendObj.Add(col.gameObject);
+					return;
+				}
+			}
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D col)
+	{
+		if(PlayerShipScript.player.gameObject != null &&
+		   col.gameObject == PlayerShipScript.player.gameObject)
+		{
+			playerTarget = false;
+			return;
+		}
+		for(int i = 0; i < lethalObj.Count; i++)
+		{
+			if(col.gameObject == lethalObj[i])
+			{
+				lethalObj.Remove(col.gameObject);
+			}
+		}
+
+		for(int i = 0; i < nonLethalObj.Count; i++)
+		{
+			if(col.gameObject == nonLethalObj[i])
+			{
+				nonLethalObj.Remove(col.gameObject);
+			}
+		}
+
+		for(int i = 0; i < friendObj.Count; i++)
+		{
+			if(col.gameObject == friendObj[i])
+			{
+				friendObj.Remove(col.gameObject);
+			}
+		}
 	}
 
 	void OnDestroy()

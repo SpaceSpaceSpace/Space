@@ -8,6 +8,8 @@ using System.Collections;
 public class ShipBehaviourScript : MonoBehaviour {
 
 	///
+	/// Private
+	///
 	/// Public
 	///
 	// The difference Behaviours a ship can have
@@ -17,7 +19,9 @@ public class ShipBehaviourScript : MonoBehaviour {
 		Civilian,
 		Grunt,
 		Leader,
-		Cargo
+		Cargo,
+		Cop,
+		Rescue
 	}
 
 	public Behaviour behaviour; // to be defined in the inspector
@@ -30,6 +34,19 @@ public class ShipBehaviourScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_shipScript = GetComponent<AIShipScript>();
+		switch (behaviour) {
+		case Behaviour.Civilian:
+		case Behaviour.Cargo:
+		case Behaviour.Cop:
+			m_shipScript.enemies = new string[2]{ "CriminalShip", "CriminalLeader" };
+			m_shipScript.friends = new string[3]{"Player Ship", "CargoShip", "CopShip"};
+			break;
+		case Behaviour.Grunt:
+		case Behaviour.Leader:
+			m_shipScript.enemies = new string[3]{ "Player Ship", "CargoShip", "CopShip" };
+			m_shipScript.friends = new string[2]{ "CriminalShip", "CriminalLeader" };
+			break;
+		}
 	}
 	
 	// Update is called once per frame
@@ -38,25 +55,35 @@ public class ShipBehaviourScript : MonoBehaviour {
 		if(!PlayerShipScript.player.Alive)
 			return;
 
-		DoNormalStuff();
+		// if you reach the edge of the sector, return, unless it's a cargo ship
+		if(!(behaviour == Behaviour.Cargo) && (Mathf.Abs(transform.position.x) > 350.0f || Mathf.Abs(transform.position.y) > 350.0f))
+		{
+			m_shipScript.FaceTarget(Vector2.zero);
+			m_shipScript.MoveForward();
+		}
+		else
+			DoNormalStuff();
 	}
 
 	public void DoNormalStuff() // to be fxed later
 	{
-			switch (behaviour) {
-			case Behaviour.Civilian:
-				Civilian ();
-				break;
-			case Behaviour.Grunt:
-				Grunt ();
-				break;
-			case Behaviour.Leader:
-				Leader ();
-				break;
-			case Behaviour.Cargo:
-				Cargo();
-				break;
-			}
+		switch (behaviour) {
+		case Behaviour.Civilian:
+			Civilian ();
+			break;
+		case Behaviour.Grunt:
+			Grunt ();
+			break;
+		case Behaviour.Leader:
+			Leader ();
+			break;
+		case Behaviour.Cargo:
+			Cargo();
+			break;
+		case Behaviour.Cop:
+			Cop ();
+			break;
+		}
 	}
 
 	public void Civilian()
@@ -67,40 +94,44 @@ public class ShipBehaviourScript : MonoBehaviour {
 	public void Grunt()
 	{
 		m_shipScript.Go ();
-		// If the leader is alive and the player is less than 10 units away, move toward it
-		if(m_shipScript.CheckAggro(15.0f))
+		// If the player is less than 15 units away, move toward it
+		if(m_shipScript.CheckAggro())
 		{
 			if(m_shipScript.Obstacle)
 			{
 				m_shipScript.Stop();
-				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45.0f && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
+				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45.0f && m_shipScript.CanShootTarget(m_shipScript.obstacleTrans))
 				{
 					m_shipScript.FireWeapon();
 				}
 			}
-			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 15.0)
+			if(m_shipScript.Target != null)
 			{
-				m_shipScript.AttackTarget(7.5f);
+				if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 20.0)
+				{
+					m_shipScript.AttackTarget(7.5f);
+				}
+				else
+					m_shipScript.MoveToward(m_shipScript.Target);
 			}
-			else
-				m_shipScript.MoveToward(m_shipScript.Target);
-
-
 		}
-		// If the leader is alive, and the player is not near
+		// If the player is not near
 		else
 		{
 			if(m_shipScript.Obstacle)
 			{
 				m_shipScript.Stop();
 				m_shipScript.FaceTarget(m_shipScript.obstacleTrans.position);
-				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 15.0f && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
+				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 15.0f && m_shipScript.CanShootTarget(m_shipScript.obstacleTrans))
 				{
 					m_shipScript.FireWeapon();
 				}
 			}
-			else if(m_shipScript.DistanceTo(m_shipScript.objective.position) > 25.0f)
-				m_shipScript.MoveToward(m_shipScript.objective);
+			else if(m_shipScript.objective != null && m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
+			{
+				if(m_shipScript.objective != null)
+					m_shipScript.MoveToward(m_shipScript.objective);
+			}
 			else
 				m_shipScript.Flock();
 			m_shipScript.aggro = false;
@@ -109,28 +140,34 @@ public class ShipBehaviourScript : MonoBehaviour {
 
 	public void Leader()
 	{
-		// if the player is not near
-		if(m_shipScript.CheckAggro(15.0f))
+		// if the player is near
+		if(m_shipScript.CheckAggro())
 		{
 			if(m_shipScript.Obstacle)
 			{
 				m_shipScript.Stop();
-				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45.0f && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
+				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45.0f && m_shipScript.CanShootTarget(m_shipScript.obstacleTrans))
 				{
 					m_shipScript.FireWeapon();
 				}
 			}
-			if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 15.0)
+			if(m_shipScript.Target != null)
 			{
-				m_shipScript.AttackTarget(10.0f);
+				if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 20.0)
+				{
+					m_shipScript.AttackTarget(10.0f);
+				}
+				else
+					m_shipScript.MoveToward(m_shipScript.Target);
 			}
-			else
-				m_shipScript.MoveToward(m_shipScript.Target);
 		}
-		else if(m_shipScript.DistanceTo(m_shipScript.Target.position) >10.0f)
+		else
 		{
-			if(m_shipScript.DistanceTo(m_shipScript.objective.position) > 25.0f)
-				m_shipScript.MoveToward(m_shipScript.objective);
+			if(m_shipScript.objective != null && m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
+			{
+				if(m_shipScript.objective != null)
+					m_shipScript.MoveToward(m_shipScript.objective);
+			}	
 			else
 				m_shipScript.Flock();
 			m_shipScript.aggro = false;
@@ -139,7 +176,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 			{
 				m_shipScript.Stop();
 				m_shipScript.FaceTarget(m_shipScript.obstacleTrans.position);
-				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45 && m_shipScript.CanSeeTarget(m_shipScript.obstacleTrans))
+				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45 && m_shipScript.CanShootTarget(m_shipScript.obstacleTrans))
 				{
 					m_shipScript.FireWeapon();
 				}
@@ -148,26 +185,88 @@ public class ShipBehaviourScript : MonoBehaviour {
 
 	}
 
+	public void Cop()
+	{
+		m_shipScript.Go ();
+		// If the player is less than 15 units away, move toward it
+		if(m_shipScript.CheckAggro())
+		{
+			if(m_shipScript.Obstacle)
+			{
+				m_shipScript.Stop();
+				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45.0f && m_shipScript.CanShootTarget(m_shipScript.obstacleTrans))
+				{
+					m_shipScript.FireWeapon();
+				}
+			}
+			if(m_shipScript.Target != null)
+			{
+				if(m_shipScript.DistanceTo(m_shipScript.Target.position) < 15.0)
+				{
+					m_shipScript.AttackTarget(7.5f);
+				}
+				else
+					m_shipScript.MoveToward(m_shipScript.Target);
+			}
+			
+			
+		}
+		// If the player is not near
+		else
+		{
+			if(m_shipScript.Obstacle)
+			{
+				m_shipScript.Stop();
+				m_shipScript.FaceTarget(m_shipScript.obstacleTrans.position);
+				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 15.0f && m_shipScript.CanShootTarget(m_shipScript.obstacleTrans))
+				{
+					m_shipScript.FireWeapon();
+				}
+			}
+			else if(m_shipScript.objective != null && m_shipScript.DistanceTo(m_shipScript.ObjectiveStartPos) > 25.0f)
+			{
+				if(m_shipScript.objective != null)
+					m_shipScript.MoveToward(m_shipScript.objective);
+			}
+			else
+				m_shipScript.Flock();
+			m_shipScript.aggro = false;
+		}
+	}
+
 	public void Cargo()
 	{
 		if(m_shipScript.Obstacle)
 			m_shipScript.Stop();
 		else
 		{
-			m_shipScript.FaceTarget(m_shipScript.objective.position);
-
+			if(m_shipScript.objective != null)
+				m_shipScript.FaceTarget(m_shipScript.objective.position);
 			int index = m_shipScript.squad.IndexOf(this.gameObject);
-
 			if(index != 0)
 				m_shipScript.Chase(5.0f, 4.0f, m_shipScript.squad[index - 1].transform);
 			else
 			{
-				if(m_shipScript.DistanceTo(m_shipScript.squad[1].transform.position) < 5.0f)
+
+				if((m_shipScript.squad.Count == 1 || m_shipScript.DistanceTo(m_shipScript.squad[1].transform.position) < 5.0f) && 
+				    m_shipScript.DistanceTo(PlayerShipScript.player.transform.position) < 15.0f)
 				{
-					m_shipScript.MoveForward();
+					m_shipScript.Go();
 				}
+				else
+					m_shipScript.Stop();
 			}
 		}
 
+		if(Mathf.Abs(transform.position.x) > 400 || Mathf.Abs(transform.position.y) > 400)
+			Destroy(this.gameObject);
+	}
+
+	public void Rescue()
+	{
+		if(m_shipScript.DistanceTo(PlayerShipScript.player.transform.position) < 10.0f)
+		{
+			m_shipScript.Chase(5.0f, 4.0f, PlayerShipScript.player.transform);
+		}
 	}
 }

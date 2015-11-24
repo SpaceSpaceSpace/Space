@@ -1,18 +1,20 @@
-﻿using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 using WyrmTale;
+using System.Collections.Generic;
 
 public class ContractUtils
 {
-    public static JSON LoadJSONFromFile(string filepath)
-    {
-        string contractsContent = "{}";
+    public static string ContractElementFilePath = "Contracts/ContractElements";
+    public static string StoryContractFilePath = "Contracts/StoryContracts";
 
-        try
-        {
-            contractsContent = File.ReadAllText(filepath);
-        }
-        catch (FileNotFoundException e) { Debug.Log("Exception: " + e.Message + " " + "Creating new JSON"); }
+    //Load JSON from a text asset in resources
+    public static JSON LoadJSONFromAsset(string filepath)
+    {
+        string contractsContent;
+
+        TextAsset contractFile = Resources.Load<TextAsset>(filepath);
+
+        contractsContent = contractFile.text;
 
         JSON js = new JSON();
         js.serialized = contractsContent;
@@ -20,8 +22,34 @@ public class ContractUtils
         return js;
     }
 
-    public static void WriteJSONToFile(string filepath, JSON js)
+    public static Contract GetRandomContract(int Tier)
     {
-        File.WriteAllText(filepath, js.serialized);
+        Contract contract = new Contract();
+
+        //Get Contract element Tier lists
+        int indexedTier = Tier - 1;
+
+        List<ContractContent> contents = ContractManager.Contents[indexedTier];
+        List<ContractTargetName> targetNames = ContractManager.TargetNames[indexedTier];
+        List<ContractTargetImage> targetImages = ContractManager.TargetImages[indexedTier];
+
+        ContractContent content = new ContractContent();
+        ContractTargetName targetName = new ContractTargetName();
+        ContractTargetImage targetImage = new ContractTargetImage();
+
+        //Get random content
+        if (contents != null)
+            content = contents[Random.Range(0, contents.Count)];
+
+        if (targetNames != null)
+            targetName = targetNames[Random.Range(0, targetNames.Count)];
+
+        if (targetImages != null)
+            targetImage = targetImages[Random.Range(0, targetImages.Count)];
+
+        //Build contract
+        contract = new Contract(Tier, targetName.TargetName, content.Description, content.Title, targetImage.TargetImagePath, content.TargetShipImagePath, content.Objectives);
+
+        return contract;
     }
 }

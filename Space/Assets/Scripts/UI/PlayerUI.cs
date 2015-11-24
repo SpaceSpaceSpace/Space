@@ -34,7 +34,10 @@ public class PlayerUI : MonoBehaviour
 	void Update()
 	{
 		if(GameMaster.CurrentGameState != GameState.Flying)
+		{
 			PlayerUIObject.SetActive(false);
+			UI_Manager.instance.transform.FindChild ("InteractText").gameObject.SetActive (false);
+		}
 		else
 			PlayerUIObject.SetActive(true);
 	}

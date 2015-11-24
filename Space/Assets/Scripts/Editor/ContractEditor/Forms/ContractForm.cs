@@ -21,6 +21,7 @@ public class ContractForm : ContractFormBase
         ContractForm editor = (ContractForm)GetWindow(typeof(ContractForm));
         editor.minSize = new Vector2(400, 600);
         editor.replacementIndex = -1;
+        editor.InternalInit();
         editor.Show();
 
         return editor;
@@ -30,6 +31,7 @@ public class ContractForm : ContractFormBase
     {
         ContractForm editor = (ContractForm)GetWindow(typeof(ContractForm));
         editor.minSize = new Vector2(400, 600);
+        editor.InternalInit();
         editor.Show();
 
         editor.Tier = existingContract.Tier;
@@ -55,7 +57,7 @@ public class ContractForm : ContractFormBase
 
     private void NewContractArea()
     {
-        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
+        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 5);
 
         Title = EditorGUILayout.TextField("Title", Title);
         TargetName = EditorGUILayout.TextField("Target Name", TargetName);
@@ -70,7 +72,8 @@ public class ContractForm : ContractFormBase
 
         EditorGUILayout.Space();
 
-        ObjectivesArea("Objectives", ref Objectives);
+        EditorGUILayout.LabelField("Objectives");
+        ObjectivesArea(ref Objectives);
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();

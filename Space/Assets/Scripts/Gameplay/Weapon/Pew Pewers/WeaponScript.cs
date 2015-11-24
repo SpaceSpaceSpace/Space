@@ -52,7 +52,7 @@ public abstract class WeaponScript : MonoBehaviour
 	public void SetModifier( WeaponModifier.ModifierNames mod )
 	{
 		modifier = mod;
-		ApplyModifier();
+		//ApplyModifier();
 	}
 	
 	protected void Init()
@@ -62,4 +62,9 @@ public abstract class WeaponScript : MonoBehaviour
 	}
 
 	protected abstract void ApplyModifier();
+
+	protected float RoundStatToDecimalPlaces( float statValue, int sigFigs )
+	{
+		return (float)System.Math.Round( statValue, sigFigs );
+	}
 }

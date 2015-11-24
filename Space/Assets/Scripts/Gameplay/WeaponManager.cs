@@ -16,4 +16,39 @@ public class WeaponManager : MonoBehaviour
 			return weaponPrefabs[ (int)WeaponScript.WeaponType.LASER_MACHINE_GUN ];
 		}
 	}
+
+	public void GetModifierRangeForWeapon( WeaponScript.WeaponType weapon, out int start, out int end )
+	{
+		switch( weapon )
+		{
+		case WeaponScript.WeaponType.BEAM:
+			start = (int)WeaponModifier.BEAM_WEP_START;
+			end = (int)WeaponModifier.BEAM_WEP_END;
+			break;
+		case WeaponScript.WeaponType.LASER_MACHINE_GUN:
+			start = (int)WeaponModifier.PROJ_WEP_START;
+			end = (int)WeaponModifier.PROJ_WEP_END;
+			break;
+		case WeaponScript.WeaponType.MINE_LAUNCHER:
+			start = (int)WeaponModifier.MINE_WEP_START;
+			end = (int)WeaponModifier.MINE_WEP_END;
+			break;
+		case WeaponScript.WeaponType.MISSILE_LAUNCHER:
+			start = (int)WeaponModifier.MISSILE_WEP_START;
+			end = (int)WeaponModifier.MISSILE_WEP_END;
+			break;
+		case WeaponScript.WeaponType.SCATTER_SHOT:
+			start = (int)WeaponModifier.SCATTER_WEP_START;
+			end = (int)WeaponModifier.SCATTER_WEP_END;
+			break;
+		case WeaponScript.WeaponType.SNIPER:
+			start = (int)WeaponModifier.PROJ_WEP_START;
+			end = (int)WeaponModifier.PROJ_WEP_END;
+			break;
+		default:
+			start = (int)WeaponModifier.PROJ_WEP_START;
+			end = (int)WeaponModifier.PROJ_WEP_END;
+			break;
+		}
+	}
 }

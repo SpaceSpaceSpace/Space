@@ -9,6 +9,7 @@ public class UI_Manager : MonoBehaviour
     public GameObject storeBoard;
     public GameObject gameOverScreen;
     public GameObject spaceStationUI;
+	public GameObject hangerUI;
 	public GameObject weaponToggles;
 	public GameObject pauseScreen;
 	public GameObject generalHelp;
@@ -17,6 +18,11 @@ public class UI_Manager : MonoBehaviour
 	public WeaponDock weaponDockUI;
 
     private GameObject spaceStationObject;
+	public GameObject SpaceStationObject
+	{
+		set{spaceStationObject = value;}
+		get{return spaceStationObject;}
+	}
 
     // Use this for initialization
     void Start()
@@ -97,6 +103,20 @@ public class UI_Manager : MonoBehaviour
 	{
 		
 	}
+	public void DisplayHangerUI(bool active)
+	{
+		hangerUI.SetActive (active);
+
+		if(active)
+		{
+			player.Dock();
+			player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+		}
+		else
+		{
+			player.Undock();
+		}
+	}
 	public void UpdateWeaponDockUI()
 	{
 		weaponDockUI.UpdateWeaponDockUI ();
@@ -125,6 +145,18 @@ public class UI_Manager : MonoBehaviour
                 break;
         }
     }
+
+	public void ToggleStationMarker()
+	{
+		if(PlayerShipScript.player.stationMarker.activeSelf)
+		{
+			PlayerShipScript.player.stationMarker.SetActive(false);
+		}
+		else
+		{
+			PlayerShipScript.player.stationMarker.SetActive(true);
+		}
+	}
 
     public void SetAllScreensToInactive()
     {
