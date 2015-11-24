@@ -14,6 +14,8 @@ public class UI_Manager : MonoBehaviour
 	public PlayerShipScript player;
 	public WeaponDock weaponDockUI;
 
+	public Camera otherGameCamera;
+
     private GameObject spaceStationObject;
 	public GameObject SpaceStationObject
 	{
@@ -39,6 +41,9 @@ public class UI_Manager : MonoBehaviour
 
     public void DisplaySpaceStationUI(bool active)
     {
+		Camera.main.rect = new Rect (0f, 0f, 1f, 1f);
+		otherGameCamera.rect = new Rect (0f, 0f, 1f, 1f);
+
         spaceStationUI.SetActive(active);
 		GameMaster.CurrentGameState = GameState.Station;
 
