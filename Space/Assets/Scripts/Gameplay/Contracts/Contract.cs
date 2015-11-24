@@ -7,35 +7,39 @@ public class Contract
 {
 	public bool completed;
 
-    public string TargetName {get{ return name; } }
+    public int Tier { get { return tier; } }
+    public string TargetName { get{ return name; } }
     public string Title { get { return title; } }
     public string Description { get { return description; } }
     public Sprite TargetImage { get { return targetImage; } }
     public Sprite TargetShipImage { get { return targetShipImage; } }
     public List<Objective> Objectives { get { return contractObjectives; } }
+    public int Reward{ get{ return reward; } }
 
+    private int tier;
     private string name;
     private string title;
     private string description;
 	private Sprite targetImage;
 	private Sprite targetShipImage;
-	private string reward;
+    private int reward;
 	private List<Objective> contractObjectives;
     private List<ObjectiveEvent> objectiveEvents;
     private GameObject objectivePrefab;
 
 	public Contract()
 	{
+        tier = 1;
 		contractObjectives = new List<Objective> ();
 		completed = false;
 		description = "Go here!";
 		name = "Unknown";
 		title = "Unknown Title";
-		reward = "0 Space Dollars";
+        reward = DetermineReward();
         objectivePrefab = Resources.Load("Objective") as GameObject;
 	}
 
-	public Contract(string p_Name, string p_Description, string p_Title, string p_Reward)
+	public Contract(int p_Tier, string p_Name, string p_Description, string p_Title, string p_Reward)
 	{
 		contractObjectives = new List<Objective> ();
 
@@ -43,23 +47,27 @@ public class Contract
         contractObjectives.Add(new ObjectiveTurnInContract());
 
         completed = false;
-		name = p_Name;
+
+        tier = p_Tier;
+        name = p_Name;
 		title = p_Title;
 		description = p_Description;
-		reward = p_Reward;
+		reward = DetermineReward();
         objectivePrefab = Resources.Load("Objective") as GameObject;
     }
 
-    public Contract(string p_Name, string p_Description, string p_Title, string p_ImagePath, string p_ShipImagePath, Objective[] p_Objectives)
+    public Contract(int p_Tier, string p_Name, string p_Description, string p_Title, string p_ImagePath, string p_ShipImagePath, Objective[] p_Objectives)
     {
         contractObjectives = p_Objectives.ToList();
         completed = false;
+
+        tier = p_Tier;
         targetImage = Resources.Load<Sprite>(p_ImagePath);
         targetShipImage = Resources.Load<Sprite>(p_ShipImagePath);
         name = p_Name;
         title = p_Title;
         description = p_Description;
-        reward = "";
+        reward = DetermineReward();
         objectivePrefab = Resources.Load("Objective") as GameObject;
     }
 
@@ -119,4 +127,14 @@ public class Contract
 
 		markerScript.AddToTargetStack (contractObjective);
 	}
+
+    //Return a random amount of money based on the contract tier
+    private int DetermineReward()
+    {
+        int baseReward = tier * 1000;
+        int minMod = tier * 250;
+        int maxMod = tier * 250;
+
+        return Random.Range(baseReward - minMod, baseReward + maxMod);
+    }
 }
