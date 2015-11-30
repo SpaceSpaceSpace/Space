@@ -7,8 +7,8 @@ public struct WeaponModifier
 	{
 		DEFAULT,
 		Crappy,
-		Fast,
 		Godly,
+		Fast,
 		of_Doom_suffix,
 		Abundant,
 		Lacking,
@@ -19,20 +19,8 @@ public struct WeaponModifier
 		Reaching,
 		Burny,
 
-		NUM_MODIFIERS,
-
+		NUM_MODIFIERS
 	}
-
-	public const int PROJ_WEP_START = (int)ModifierNames.Crappy;
-	public const int PROJ_WEP_END = (int)ModifierNames.Abundant;
-	public const int SCATTER_WEP_START = PROJ_WEP_END;
-	public const int SCATTER_WEP_END = (int)ModifierNames.Big_Boom_Boom;
-	public const int MISSILE_WEP_START = PROJ_WEP_START;
-	public const int MISSILE_WEP_END = PROJ_WEP_END;
-	public const int MINE_WEP_START = SCATTER_WEP_END;
-	public const int MINE_WEP_END = (int)ModifierNames.Blaarg;
-	public const int BEAM_WEP_START = MINE_WEP_END;
-	public const int BEAM_WEP_END = (int)ModifierNames.NUM_MODIFIERS;
 
 	public enum Stats
 	{
@@ -48,14 +36,27 @@ public struct WeaponModifier
 
 	}
 
+	public const int GENERIC_START = 0;
+	public const int GENERIC_END = (int)ModifierNames.Godly + 1;
+	public const int PROJ_WEP_START = GENERIC_END;
+	public const int PROJ_WEP_END = (int)ModifierNames.of_Doom_suffix + 1;
+	public const int SCATTER_WEP_START = PROJ_WEP_END;
+	public const int SCATTER_WEP_END = (int)ModifierNames.Lacking + 1;
+	public const int MISSILE_WEP_START = PROJ_WEP_START;
+	public const int MISSILE_WEP_END = PROJ_WEP_END;
+	public const int MINE_WEP_START = SCATTER_WEP_END;
+	public const int MINE_WEP_END = (int)ModifierNames.Speedy + 1;
+	public const int BEAM_WEP_START = MINE_WEP_END;
+	public const int BEAM_WEP_END = (int)ModifierNames.NUM_MODIFIERS;
+	
 	public static readonly float[,] modifiers = {
 		{ 1.0f, 1.0f, 1.0f },
 		{ 0.8f, 0.8f, 0.8f },
-		{ 0.9f, 0.9f, 1.2f },
 		{ 2.0f, 2.0f, 2.0f },
+		{ 0.9f, 0.9f, 1.2f },
 		{ 1.5f, 0.7f, 1.0f },
-		{ 5, 1.0f, 1.0f },
-		{ -2, 1.0f, 1.0f },
+		{ 2.0f, 1.0f, 1.0f },
+		{ 0.8f, 1.0f, 1.0f },
 		{ 1.5f, 0.7f, 1.0f },
 		{ 0.9f, 1.0f, 1.2f },
 		{ 1.0f, 1.5f, 1.0f },
