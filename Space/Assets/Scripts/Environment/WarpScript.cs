@@ -23,7 +23,11 @@ public class WarpScript : MonoBehaviour
 		if (!starBackground.activeInHierarchy)
 			starBackground.SetActive (true);
 		if (GameMaster.CurrentGameState == GameState.Warping)
+		{
+			Camera.main.rect = new Rect (0f, .2f, 1f, 1f);
+			UI_Manager.instance.otherGameCamera.rect = new Rect (0f, .2f, 1f, 1f);
 			GameMaster.CurrentGameState = GameState.Flying;
+		}
 	}
 
 	// This will eventually open the warp UI, for now just warps to space station
@@ -65,6 +69,8 @@ public class WarpScript : MonoBehaviour
 
 	IEnumerator WarpWait()
 	{
+		Camera.main.rect = new Rect (0f, 0f, 1f, 1f);
+		UI_Manager.instance.otherGameCamera.rect = new Rect (0f, 0f, 1f, 1f);
 		warpEffect.SetActive (true);
 		yield return new WaitForSeconds (3.0f);
 

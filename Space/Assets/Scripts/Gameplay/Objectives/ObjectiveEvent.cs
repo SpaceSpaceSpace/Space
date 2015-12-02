@@ -38,6 +38,11 @@ public class ObjectiveEvent : MonoBehaviour
         return true;
     }
 
+	public Objective Objective
+	{
+		get { return objective; }
+	}
+
     void Start()
     {
         objective.Position = transform.position;

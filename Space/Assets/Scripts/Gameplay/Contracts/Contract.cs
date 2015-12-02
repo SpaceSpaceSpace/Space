@@ -77,8 +77,7 @@ public class Contract
 			completed = true;
 		}
 	}
-
-    //Eventually will spawn objectives based off contract
+	
     public void SpawnContract()
     {
         objectiveEvents = new List<ObjectiveEvent>();
@@ -104,6 +103,9 @@ public class Contract
                 contractObjectiveObject.SetActive(false);
             }  
         }
+
+		//Populate objective UI
+		UI_Manager.instance.PopulateObjectiveUI (objectiveEvents);
 	}
 
 	public void SetUIMarker(GameObject contractObjective)
