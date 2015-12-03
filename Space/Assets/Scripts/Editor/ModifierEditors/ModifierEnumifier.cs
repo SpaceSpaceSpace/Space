@@ -112,25 +112,6 @@ public class ModifierEnumifier : MonoBehaviour
 		}
 		code = code.Replace( "\\ModifierNames\\", modifierNames );
 
-		// Write in Type data
-		string[] dataStr;
-		ReadLines( WEP_TYPE_DATA_PATH, out dataStr );
-
-		string typeData = "";
-		if( dataStr != null )
-		{
-			typeData += "\n";
-			for( int i = 1; i < dataStr.Length; i++ )
-			{
-				typeData += "\t\t" + dataStr[ i ] + ",\n";
-			}
-		}
-		else
-		{
-			print( "WARNING: Failed to load WeaponTypeData" );
-		}
-		code = code.Replace( "\\AltModifierNames\\", typeData );
-
 		// Write in the stats
 		string statNames = "";
 		for( int i = 1; i < columns; i++ )
@@ -140,6 +121,7 @@ public class ModifierEnumifier : MonoBehaviour
 		code = code.Replace( "\\StatNames\\", statNames );
 
 		// Write in Stat aliases
+		string[] dataStr;
 		ReadLines( STAT_ALIAS_DATA_PATH, out dataStr );
 		
 		string aliasData = "";
@@ -156,6 +138,21 @@ public class ModifierEnumifier : MonoBehaviour
 			print( "WARNING: Failed to load aliasData" );
 		}
 		code = code.Replace( "\\AltStatNames\\", aliasData );
+
+		// Write in Type data
+		ReadLines( WEP_TYPE_DATA_PATH, out dataStr );
+
+		if( dataStr == null || dataStr.Length < 5 )
+		{
+			print( "Error: Failed to load WeaponTypeData" );
+			print( "Cancelled writing file" );
+			return;
+		}
+
+		code = code.Replace( "\\GENERIC_END\\", dataStr[ 1 ] );
+		code = code.Replace( "\\PROJ_WEP_END\\", dataStr[ 2 ] );
+		code = code.Replace( "\\SCATTER_WEP_END\\", dataStr[ 3 ] );
+		code = code.Replace( "\\MINE_WEP_END\\", dataStr[ 4 ] );
 
 		// Write in the stat values
 		string statValues = "";
