@@ -77,7 +77,9 @@ public class ObjectiveEvent : MonoBehaviour
 		
 		for(int i = 0; i < events.Count; i++)
 		{
-			if(events[i].gameObject == this.gameObject)
+			Debug.Log("ObjectiveEvent ID: " + gameObject.GetInstanceID());
+			Debug.Log("UIControllerEvent ID: " + events[i].gameObject.GetInstanceID());
+			if(events[i].gameObject.GetInstanceID() == this.gameObject.GetInstanceID())
 			{
 				UI_Manager.instance.objectivesUIController.CompleteTask(i);
 				break;

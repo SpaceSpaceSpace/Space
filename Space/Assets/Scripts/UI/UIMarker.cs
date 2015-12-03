@@ -40,7 +40,7 @@ public class UIMarker : MonoBehaviour {
 	{
 		for(int i = 0; i < targetStack.Count; i++)
 		{
-			if(targetStack[i] == target)
+			if(targetStack[i].GetInstanceID() == target.GetInstanceID())
 			{
 				currentObjectiveSelected = i;
 				return;
