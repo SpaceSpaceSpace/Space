@@ -57,10 +57,10 @@ public class BlackHole : MonoBehaviour
 				{
 					Vector3 toCenter =  transform.position - col.transform.position;
 
-					float percent = Mathf.Max( 0,  toCenter.magnitude - radius ) / radius;
+					float percent = Mathf.Max( 0,  radius - toCenter.magnitude ) / radius;
 
 					//Vector3 tangential = new Vector3( -toCenter.y, toCenter.x );
-					Vector3 force = toCenter * ( 1 - percent ) * 20 * rb.mass;
+					Vector3 force = toCenter * ( 1 - percent ) * 10 * rb.mass;
 					rb.AddForce( force, ForceMode2D.Force );
 				}
 			}
