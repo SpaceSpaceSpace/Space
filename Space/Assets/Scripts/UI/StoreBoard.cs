@@ -9,7 +9,6 @@ public class StoreBoard : MonoBehaviour {
 	public Text title;
 	public Text reward;
 	public Image portrait;
-	public Image shipImage;
 	public GameObject scrollView;
 	public GameObject buttonPrefab;
 	public GameObject statLocation;
@@ -83,6 +82,7 @@ public class StoreBoard : MonoBehaviour {
 			{
 				string indexString = scrollView.transform.GetChild(1).name;
 				int index = int.Parse(indexString);
+				currentSelectedWeapon = index;
 
 				SetStoreValues (index);
 			}
@@ -103,6 +103,7 @@ public class StoreBoard : MonoBehaviour {
 		currentSelectedWeapon = index;
 
 		targetName.text = currentWeapons [currentSelectedWeapon].Name;
+		portrait.sprite = currentWeapons [currentSelectedWeapon].WeaponPrefab.GetComponent<SpriteRenderer>().sprite;
 
 		foreach(KeyValuePair<string,string> key in currentWeapons[currentSelectedWeapon].attributes)
 		{
@@ -119,6 +120,7 @@ public class StoreBoard : MonoBehaviour {
 		currentSelectedWeapon = -1;
 		SetName ("-----");
 		SetTitle ("-----");
+		portrait.sprite = null;
 		foreach(Transform t in statLocation.transform)
 		{
 			Destroy(t.gameObject);
