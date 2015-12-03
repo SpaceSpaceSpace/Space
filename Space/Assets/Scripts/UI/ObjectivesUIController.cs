@@ -11,7 +11,7 @@ public class ObjectivesUIController : MonoBehaviour {
 
 	public GameObject viewArea;
 
-	public GameObject[] objectivesList;
+	public List<ObjectiveEvent> currentObjectives;
 
 	public void PopulateUIObjectives(List<ObjectiveEvent> objectiveEvents)
 	{
@@ -28,10 +28,22 @@ public class ObjectivesUIController : MonoBehaviour {
 
 			GameObject objectiveUIObject = Instantiate(objectiveTextPrefab) as GameObject;
 			objectiveUIObject.transform.SetParent(viewArea.transform,false);
+			GameObject _objective = objective.gameObject;
+
+			Button objectiveBtn = objectiveUIObject.GetComponent<Button>();
+
+			objectiveBtn.onClick.AddListener(()=>PlayerShipScript.player.ObjectiveMarker.GetComponent<UIMarker>().SetCurrentObjectiveSelected(_objective));
 
 			objectiveUIObject.transform.GetChild(0).GetComponent<Text>().text = objectiveText;
-
-			Debug.Log(objective.Objective.objectiveType);
 		}
+
+		currentObjectives = objectiveEvents;
+	}
+
+	public void CompleteTask(int objectiveIndex)
+	{
+		currentObjectives.RemoveAt (objectiveIndex);
+		Destroy (viewArea.transform.GetChild (objectiveIndex).gameObject);
+		Debug.Log ("Task done");
 	}
 }

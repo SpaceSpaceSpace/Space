@@ -90,6 +90,7 @@ public class Contract
             ObjectiveEvent contractObjectiveEvent = contractObjectiveObject.GetComponent<ObjectiveEvent>();
             contractObjectiveEvent.ObjectiveContract = this;
             contractObjectiveEvent.ToComplete = objective;
+			contractObjectiveObject.name = "objective " + i;
 
             objectiveEvents.Add(contractObjectiveEvent);
 

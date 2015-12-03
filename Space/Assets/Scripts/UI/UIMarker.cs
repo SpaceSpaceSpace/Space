@@ -6,6 +6,13 @@ public class UIMarker : MonoBehaviour {
 
 	public List<GameObject> targetStack;
 
+	private int currentObjectiveSelected;
+	public int CurrentObjectiveSelected
+	{
+		get { return currentObjectiveSelected; } 
+		set { currentObjectiveSelected = value; }
+	}
+
 	// Use this for initialization
 	void Start () {
 	}
@@ -13,6 +20,7 @@ public class UIMarker : MonoBehaviour {
 	public void AddToTargetStack(GameObject newTarget)
 	{
 		targetStack.Add (newTarget);
+		currentObjectiveSelected = targetStack.Count - 1;
 		//targetStack.Insert (0, newTarget);
 	}
 
@@ -24,8 +32,22 @@ public class UIMarker : MonoBehaviour {
 		{
 			gameObject.SetActive(false);
 		}
+
+		currentObjectiveSelected = targetStack.Count - 1;
 	}
-	
+
+	public void SetCurrentObjectiveSelected(GameObject target)
+	{
+		for(int i = 0; i < targetStack.Count; i++)
+		{
+			if(targetStack[i] == target)
+			{
+				currentObjectiveSelected = i;
+				return;
+			}
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -35,7 +57,7 @@ public class UIMarker : MonoBehaviour {
 		}
 
 		transform.localPosition = Vector3.zero;
-		Vector3 direction =  targetStack[targetStack.Count - 1].transform.position - transform.parent.transform.position;
+		Vector3 direction =  targetStack[currentObjectiveSelected].transform.position - transform.parent.transform.position;
 		//Vector3 heading = targetStack [targetStack.Count - 1].transform.position + direction;
 
 		Vector3 newMarkerPos = direction.normalized;
@@ -52,7 +74,7 @@ public class UIMarker : MonoBehaviour {
 
 		transform.eulerAngles = new Vector3 (0, 0, angle+90.0f);
 
-		Debug.DrawLine (targetStack[targetStack.Count - 1].transform.position-direction,targetStack[targetStack.Count - 1].transform.position,Color.blue);
+		Debug.DrawLine (targetStack[currentObjectiveSelected].transform.position-direction,targetStack[targetStack.Count - 1].transform.position,Color.blue);
 
 		//Debug.DrawLine (targetStack [targetStack.Count - 1].transform.position,transform.parent.position, Color.red);
 	}

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class ObjectiveEvent : MonoBehaviour
 {
@@ -71,6 +72,17 @@ public class ObjectiveEvent : MonoBehaviour
             objectiveContract.CompleteContractObjective(objectiveEvent.objective);
             PlayerShipScript.player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(gameObject);
         }
+
+		List<ObjectiveEvent> events = UI_Manager.instance.objectivesUIController.currentObjectives;
+		
+		for(int i = 0; i < events.Count; i++)
+		{
+			if(events[i].gameObject == this.gameObject)
+			{
+				UI_Manager.instance.objectivesUIController.CompleteTask(i);
+				break;
+			}
+		}
 
         Destroy(gameObject);
     }
