@@ -26,7 +26,7 @@ public class ContractTargetImageView : ContractViewBase<ContractTargetImage>
         {
             GUILayout.Label("Tier: " + content.Tier);
             GUILayout.Label("Target Image Path: " + content.TargetImagePath);
-            GUILayout.Label(texture, GUILayout.MaxHeight(70), GUILayout.MaxWidth(70));
+            GUILayout.Label(texture, GUILayout.MinHeight(ImagePreviewSize), GUILayout.MaxHeight(ImagePreviewSize), GUILayout.MaxWidth(ImagePreviewSize), GUILayout.MinWidth(ImagePreviewSize));
 
             ControlsArea(content);
         }

@@ -37,7 +37,7 @@ public class ContractTargetNameForm : ContractFormBase
     {
         SetEditorStyles();
 
-        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 10);
+        Tier = EditorGUILayout.IntSlider("Contract Tier", Tier, 1, 5);
 
         TargetName = EditorGUILayout.TextField("Target Name", TargetName);
 
