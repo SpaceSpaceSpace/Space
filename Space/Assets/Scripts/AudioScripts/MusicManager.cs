@@ -33,12 +33,16 @@ public class MusicManager : MonoBehaviour {
 	void Update () {
 	
 	}
-    void PlayTransitionClip()
+    void PlayTransitionIntoBattle()
     {
         int randClip = Random.Range(0, transitionInstruments.Length);
         transitionSource.clip = transitionInstruments[randClip];
         transitionSource.Play();
     }
+	void PlayTransitionOutOfBattle()
+	{
+
+	}
     public void TransitionToCombat()
     {
         inCombat.TransitionTo(m_TransitionIn * 2.0f);

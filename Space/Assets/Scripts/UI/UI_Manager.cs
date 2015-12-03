@@ -11,6 +11,9 @@ public class UI_Manager : MonoBehaviour
     public GameObject spaceStationUI;
 	public GameObject hangerUI;
 	public GameObject weaponToggles;
+	public GameObject pauseScreen;
+	public GameObject generalHelp;
+	public GameObject customizationHelp;
 	public PlayerShipScript player;
 	public WeaponDock weaponDockUI;
 
@@ -88,7 +91,18 @@ public class UI_Manager : MonoBehaviour
 			GameMaster.CurrentGameState = GameState.Station;
         }
     }
+	public void DisplayPauseScreen(bool active)
+	{
 
+	}
+	public void DisplayGeneralHelp(bool active)
+	{
+		
+	}
+	public void DisplayCustomizationHelp(bool active)
+	{
+		
+	}
 	public void DisplayHangerUI(bool active)
 	{
 		hangerUI.SetActive (active);
@@ -103,7 +117,6 @@ public class UI_Manager : MonoBehaviour
 			player.Undock();
 		}
 	}
-
 	public void UpdateWeaponDockUI()
 	{
 		weaponDockUI.UpdateWeaponDockUI ();
