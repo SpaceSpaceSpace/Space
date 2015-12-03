@@ -14,7 +14,7 @@ public class ObjectiveEscortCargo : Objective
         
     }
 
-    public override void SetupObjective(GameObject objectiveManager)
+    public override void SetupObjective(GameObject objectiveManager, int tier)
     {
         Position = new Vector2(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
 
@@ -24,6 +24,7 @@ public class ObjectiveEscortCargo : Objective
 			crimSpawner = Resources.Load("AISpawner") as GameObject;
 
         AISpawnerScript spawnerScript = AISpawner.GetComponent<AISpawnerScript>();
+		spawnerScript.tier = tier;
         spawnerScript.maxAI = CargoShipCount;
         spawnerScript.startAI = CargoShipCount;
 

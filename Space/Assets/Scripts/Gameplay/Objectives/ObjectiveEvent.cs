@@ -44,7 +44,7 @@ public class ObjectiveEvent : MonoBehaviour
 
         objectiveType = objective.GetType();
 
-        objective.SetupObjective(gameObject);
+        objective.SetupObjective(gameObject, objectiveContract.Tier);
     }
 
     private void CompleteTask()

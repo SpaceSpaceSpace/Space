@@ -5,7 +5,7 @@ public class ObjectiveTurnInContract : Objective
 {
     GameObject store;
 
-    public override void SetupObjective(GameObject objectiveManager)
+    public override void SetupObjective(GameObject objectiveManager, int tier)
     {
         //if(sector != null)
         //    store = sector.SpaceStore.gameObject;

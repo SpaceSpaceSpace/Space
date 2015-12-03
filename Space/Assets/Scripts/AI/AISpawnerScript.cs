@@ -17,6 +17,7 @@ public class AISpawnerScript : MonoBehaviour {
 	public List<GameObject> squad;
 	public Transform Objective { set { objective = value; } }
 	// Use this for initialization
+	public int tier;
 
 	public void Init () {
 
@@ -49,7 +50,7 @@ public class AISpawnerScript : MonoBehaviour {
 				squad.Add(g);
 
 				ss.InitWeapons();
-				for( int j = 0; j < ss.WeaponSlots.Length; j++ )
+				for( int j = 0; j < ss.WeaponSlots.Length && j < tier; j++ )
 				{
 					WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) Random.Range(0, (int)WeaponScript.WeaponType.SCATTER_SHOT + 1);
 					ss.WeaponSlots[ j ].SetWeapon( Instantiate( GameMaster.WeaponMngr.GetWeaponPrefab( weapon ) ) );
@@ -69,7 +70,7 @@ public class AISpawnerScript : MonoBehaviour {
 				squad.Add(g);
 				
 				ss.InitWeapons();
-				for( int j = 0; j < ss.WeaponSlots.Length; j++ )
+				for( int j = 0; j < ss.WeaponSlots.Length && j < tier; j++ )
 				{
 					WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) Random.Range(0, (int)WeaponScript.WeaponType.SCATTER_SHOT + 1);
 					ss.WeaponSlots[ j ].SetWeapon( Instantiate( GameMaster.WeaponMngr.GetWeaponPrefab( weapon ) ) );
