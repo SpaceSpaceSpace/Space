@@ -26,10 +26,20 @@ public class BattleMusic : MonoBehaviour {
             Debug.Log("Transition To Combat");
         }
     }
-
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Ship") && exploring)
+        {
+            musicManager.GetComponent<MusicManager>().TransitionToCombat();
+            exploring = false;
+            fighting = true;
+            Debug.Log("Transition To Combat");
+        }
+    }
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Ship") && fighting)
+        //may be throwing errors when you destroy all of the ships.
+        if (fighting)
         {
             musicManager.GetComponent<MusicManager>().TransitionToExploration();
 			exploring = true;
