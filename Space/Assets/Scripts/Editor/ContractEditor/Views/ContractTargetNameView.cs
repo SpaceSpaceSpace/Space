@@ -4,7 +4,7 @@ using WyrmTale;
 
 public class ContractTargetNameView : ContractViewBase<ContractTargetName>
 {
-    [MenuItem("Space/View/Contract/Target Name")]
+    [MenuItem("Space/Contracts/Target Name")]
     static void Init()
     {
         ContractTargetNameView editor = (ContractTargetNameView)GetWindow(typeof(ContractTargetNameView));
