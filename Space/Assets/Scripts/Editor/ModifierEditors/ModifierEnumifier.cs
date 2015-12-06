@@ -4,21 +4,23 @@ using System.IO;
 
 public class ModifierEnumifier : MonoBehaviour
 {
-	public const string DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifiers.csv";
-	public const string TEMPLATE_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifierTemplate.txt";
-	public const string WEP_TYPE_DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponTypeData.txt";
-	public const string STAT_ALIAS_DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/StatAliasData.txt";
-	public const string CODE_PATH = "Assets/Scripts/Gameplay/Weapon/WeaponModifier.cs";
+    //Static so that they can be easily accessed from other editors
+	public static string DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifiers.csv";
+	public static string WEP_TYPE_DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponTypeData.txt";
+	public static string STAT_ALIAS_DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/StatAliasData.txt";
+
+    public const string TEMPLATE_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifierTemplate.txt";
+    public const string CODE_PATH = "Assets/Scripts/Gameplay/Weapon/WeaponModifier.cs";
 
 	[ MenuItem( "Space/Generate Modifier Code" ) ]
-	static void GenerateFile()
+	public static void GenerateFile()
 	{
 		string[,] data;
 		LoadAndParseData( out data );
 		WriteFile( data );
 	}
 
-	private static void LoadAndParseData( out string[,] data )
+	public static void LoadAndParseData( out string[,] data )
 	{
 		string[] dataStr;
 		ReadLines( DATA_PATH, out dataStr );
