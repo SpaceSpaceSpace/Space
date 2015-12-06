@@ -3,33 +3,13 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
 
-public class Modifier
+public class ScatterModifierView : ContractViewBase<Modifier>
 {
-    public string Name;
-    public float Damage, Accuracy, FireRate;
-
-    public Modifier(string name, float damage, float accuracy, float fireRate)
-    {
-        //Replace spaces with underscores
-        Name = name.Replace(' ', '_');
-        Damage = damage;
-        Accuracy = accuracy;
-        FireRate = fireRate;
-    }
-
-    public override string ToString()
-    {
-        return Name + "," + Damage + "f," + Accuracy + "f," + FireRate + "f";
-    }
-}
-
-public class DefaultModifierView : ContractViewBase<Modifier>
-{
-    [MenuItem("Space/Modifiers/Default")]
+    [MenuItem("Space/Modifiers/Scatter")]
     static void Init()
     {
-        DefaultModifierView editor = (DefaultModifierView)GetWindow(typeof(DefaultModifierView));
-        editor.typeNameOverride = "DefaultModifierForm";
+        ScatterModifierView editor = (ScatterModifierView)GetWindow(typeof(ScatterModifierView));
+        editor.typeNameOverride = "ScatterModifierForm";
         editor.minSize = new Vector2(600, 600);
         editor.LoadData();
         editor.InitBase();
@@ -57,7 +37,7 @@ public class DefaultModifierView : ContractViewBase<Modifier>
         Data.Clear();
 
         string[,] rawData;
-        ModifierEnumifier.LoadAndParseData(out rawData, 0);
+        ModifierEnumifier.LoadAndParseData(out rawData, 2);
 
         //Loop through raw data and build modifiers
         int rows = rawData.GetLength(0);
@@ -80,7 +60,7 @@ public class DefaultModifierView : ContractViewBase<Modifier>
 
     protected override void WriteData()
     {
-        ModifierEnumifier.WriteTypeModifiers(0, Data);
+        ModifierEnumifier.WriteTypeModifiers(2, Data);
 
         ModifierEnumifier.GenerateFile();
     }

@@ -7,7 +7,7 @@ public class ContractContentView : ContractViewBase<ContractContent>
 {
     List<Texture2D> TargetShipTextures = new List<Texture2D>();
 
-    [MenuItem("Space/View/Contract/Content")]
+    [MenuItem("Space/Contracts/Content")]
     static void Init()
     {
         ContractContentView editor = (ContractContentView)GetWindow(typeof(ContractContentView));

@@ -6,7 +6,7 @@ public class ContractView : EditorWindow
 {
     private Vector2 scrollPos;
 
-	[MenuItem("Space/View/Contract/Story Contract")]
+	[MenuItem("Space/Contracts/Story Contract")]
 	static void Init()
 	{
         ContractView editor = (ContractView)GetWindow(typeof(ContractView));
