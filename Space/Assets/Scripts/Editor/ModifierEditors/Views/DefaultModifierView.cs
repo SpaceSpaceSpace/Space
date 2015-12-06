@@ -23,12 +23,13 @@ public class Modifier
     }
 }
 
-public class ModifierView : ContractViewBase<Modifier>
+public class DefaultModifierView : ContractViewBase<Modifier>
 {
-    [MenuItem("Space/Modifiers")]
+    [MenuItem("Space/Modifiers/Default")]
     static void Init()
     {
-        ModifierView editor = (ModifierView)GetWindow(typeof(ModifierView));
+        DefaultModifierView editor = (DefaultModifierView)GetWindow(typeof(DefaultModifierView));
+        editor.typeNameOverride = "DefaultModifierForm";
         editor.minSize = new Vector2(600, 600);
         editor.LoadData();
         editor.InitBase();
@@ -56,14 +57,13 @@ public class ModifierView : ContractViewBase<Modifier>
         Data.Clear();
 
         string[,] rawData;
-        ModifierEnumifier.LoadAndParseData(out rawData);
+        ModifierEnumifier.LoadAndParseData(out rawData, 1);
 
         //Loop through raw data and build modifiers
         int rows = rawData.GetLength(0);
         int columns = rawData.GetLength(1);
 
-        //Start at 2nd row because first row is ignorable
-        for (int i = 1; i < rows; i++)
+        for (int i = 0; i < rows; i++)
         {
             string name = rawData[i, 0];
 

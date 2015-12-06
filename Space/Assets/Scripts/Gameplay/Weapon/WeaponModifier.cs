@@ -18,8 +18,6 @@ public struct WeaponModifier
 		Blaarg,
 		Reaching,
 		Burny,
-		of_Joe_suffix,
-		a,
 
 		NUM_MODIFIERS
 	}
@@ -65,8 +63,6 @@ public struct WeaponModifier
 		{ 0.8f, 0.8f, 0f },
 		{ 1f, 1.2f, 0f },
 		{ 1.2f, 1f, 0f },
-		{ 0f, 0f, 0f },
-		{ 0f, 0f, 0f },
 
 	};
 
