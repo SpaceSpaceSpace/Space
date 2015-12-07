@@ -27,6 +27,8 @@ public class Contract
     private List<ObjectiveEvent> objectiveEvents;
     private GameObject objectivePrefab;
 
+	private GameObject contractPlanet;
+
 	public Contract()
 	{
         tier = 1;
@@ -37,6 +39,8 @@ public class Contract
 		title = "Unknown Title";
         reward = DetermineReward();
         objectivePrefab = Resources.Load("Objective") as GameObject;
+
+		contractPlanet = WarpScript.instance.currentPlanet;
 	}
 
 	public Contract(int p_Tier, string p_Name, string p_Description, string p_Title, string p_Reward)
@@ -54,6 +58,8 @@ public class Contract
 		description = p_Description;
 		reward = DetermineReward();
         objectivePrefab = Resources.Load("Objective") as GameObject;
+
+		contractPlanet = WarpScript.instance.currentPlanet;
     }
 
     public Contract(int p_Tier, string p_Name, string p_Description, string p_Title, string p_ImagePath, string p_ShipImagePath, Objective[] p_Objectives)
@@ -69,6 +75,8 @@ public class Contract
         description = p_Description;
         reward = DetermineReward();
         objectivePrefab = Resources.Load("Objective") as GameObject;
+
+		contractPlanet = WarpScript.instance.currentPlanet;
     }
 
     public string Name
@@ -111,6 +119,7 @@ public class Contract
                 objectiveEvents[i - 1].NextObjective = contractObjectiveObject;
                 contractObjectiveObject.SetActive(false);
             }  
+			contractObjectiveObject.transform.parent = contractPlanet.transform;
         }
 	}
 

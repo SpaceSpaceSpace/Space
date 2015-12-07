@@ -34,6 +34,7 @@ public class ObjectiveKillTarget : Objective
             AISpawner = Resources.Load("AISpawner") as GameObject;
 
         GameObject spawner = (GameObject)GameObject.Instantiate(AISpawner, Position, Quaternion.identity);
+		spawner.transform.parent = WarpScript.instance.currentPlanet.transform;
         AISpawnerScript aiSpawnerScript = spawner.GetComponent<AISpawnerScript>();
         aiSpawnerScript.startAI = GuardCount + 1;
         aiSpawnerScript.maxAI = GuardCount + 1;
