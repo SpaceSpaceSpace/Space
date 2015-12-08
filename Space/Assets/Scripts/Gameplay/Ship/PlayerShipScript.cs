@@ -8,6 +8,8 @@ public class PlayerShipScript : ShipScript
 	
 	public GameObject objectiveMarker;
 	public GameObject stationMarker;
+
+	public bool devGod;
 	
 	public bool Alive
 	{
@@ -143,8 +145,11 @@ public class PlayerShipScript : ShipScript
 	
 	public override void ApplyDamage( float damage, float shieldPen = 0.0f )
 	{
-		base.ApplyDamage( damage, shieldPen );
-		EventManager.TriggerEvent( EventDefs.PLAYER_HEALTH_UPDATE );
+		if(!devGod)
+		{
+			base.ApplyDamage( damage, shieldPen );
+			EventManager.TriggerEvent( EventDefs.PLAYER_HEALTH_UPDATE );
+		}
 	}
 	
 	// Checks if any of the number keys were pressed to toggle weapons

@@ -36,11 +36,11 @@ public class UIMarker : MonoBehaviour {
 		currentObjectiveSelected = targetStack.Count - 1;
 	}
 
-	public void SetCurrentObjectiveSelected(GameObject target)
+	public void SetCurrentObjectiveSelected(int targetInstanceID)
 	{
 		for(int i = 0; i < targetStack.Count; i++)
 		{
-			if(targetStack[i].GetInstanceID() == target.GetInstanceID())
+			if(targetStack[i].GetInstanceID() == targetInstanceID)
 			{
 				currentObjectiveSelected = i;
 				return;

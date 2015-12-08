@@ -73,13 +73,13 @@ public class ObjectiveEvent : MonoBehaviour
             PlayerShipScript.player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(gameObject);
         }
 
-		List<ObjectiveEvent> events = UI_Manager.instance.objectivesUIController.currentObjectives;
+		List<int> eventsInstanceIDs = UI_Manager.instance.objectivesUIController.currentObjectives;
 		
-		for(int i = 0; i < events.Count; i++)
+		for(int i = 0; i < eventsInstanceIDs.Count; i++)
 		{
 			Debug.Log("ObjectiveEvent ID: " + gameObject.GetInstanceID());
-			Debug.Log("UIControllerEvent ID: " + events[i].gameObject.GetInstanceID());
-			if(events[i].gameObject.GetInstanceID() == this.gameObject.GetInstanceID())
+			Debug.Log("UIControllerEvent ID: " + eventsInstanceIDs[i]);
+			if(eventsInstanceIDs[i] == this.gameObject.GetInstanceID())
 			{
 				UI_Manager.instance.objectivesUIController.CompleteTask(i);
 				break;
