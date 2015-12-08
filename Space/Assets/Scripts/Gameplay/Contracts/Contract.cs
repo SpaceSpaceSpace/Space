@@ -15,6 +15,7 @@ public class Contract
     public Sprite TargetShipImage { get { return targetShipImage; } }
     public List<Objective> Objectives { get { return contractObjectives; } }
     public int Reward{ get{ return reward; } }
+    public bool IsStoryContract = false;
 
     private int tier;
     private string name;
