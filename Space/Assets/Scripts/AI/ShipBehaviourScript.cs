@@ -21,7 +21,8 @@ public class ShipBehaviourScript : MonoBehaviour {
 		Leader,
 		Cargo,
 		Cop,
-		Rescue
+		Rescue,
+		Turret
 	}
 
 	public Behaviour behaviour; // to be defined in the inspector
@@ -267,6 +268,22 @@ public class ShipBehaviourScript : MonoBehaviour {
 		if(m_shipScript.DistanceTo(PlayerShipScript.player.transform.position) < 10.0f)
 		{
 			m_shipScript.Chase(5.0f, 4.0f, PlayerShipScript.player.transform);
+		}
+	}
+
+	public void Turret()
+	{
+		// If the player is less than 15 units away, move toward it
+		if(m_shipScript.CheckAggro())
+		{
+			if(m_shipScript.Target != null)
+			{
+				m_shipScript.FaceTarget(m_shipScript.Target.position);
+				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45.0f && m_shipScript.CanShootTarget(m_shipScript.obstacleTrans))
+				{
+					m_shipScript.FireWeapon();
+				}
+			}
 		}
 	}
 }
