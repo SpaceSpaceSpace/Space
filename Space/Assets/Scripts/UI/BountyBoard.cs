@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using System;
 
 public class BountyBoard : MonoBehaviour {
+
+    public static int MaxBountyLevel = 1;
 
     public Text targetName;
     public Text title;
@@ -23,7 +23,9 @@ public class BountyBoard : MonoBehaviour {
         currentContracts = new List<Contract>();
 
         for (int i = 0; i < 5; i++)
-            currentContracts.Add(ContractUtils.GetRandomContract(1));
+            currentContracts.Add(ContractUtils.GetRandomContract(Random.Range(1, MaxBountyLevel)));
+
+        currentContracts.Add(ContractUtils.GetStoryContract(MaxBountyLevel));
 
         PopulateButtons();
     }

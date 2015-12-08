@@ -7,7 +7,6 @@ public class ObjectiveEvent : MonoBehaviour
     private GameObject target;
     private GameObject nextObjective;
     Objective objective;
-    Type objectiveType;
 
     //Look into enums for different objective types
 
@@ -42,8 +41,6 @@ public class ObjectiveEvent : MonoBehaviour
     {
         objective.Position = transform.position;
 
-        objectiveType = objective.GetType();
-
         objective.SetupObjective(gameObject);
     }
 
@@ -66,6 +63,10 @@ public class ObjectiveEvent : MonoBehaviour
             objectiveContract.CompleteContractObjective(objectiveEvent.objective);
             PlayerShipScript.player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(gameObject);
         }
+
+        //If this was a story contract make another story contract available
+        if (objectiveContract.IsStoryContract)
+            BountyBoard.MaxBountyLevel++;
 
         Destroy(gameObject);
     }
