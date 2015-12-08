@@ -39,6 +39,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 		case Behaviour.Civilian:
 		case Behaviour.Cargo:
 		case Behaviour.Cop:
+		case Behaviour.Rescue:
 			m_shipScript.enemies = new string[2]{ "CriminalShip", "CriminalLeader" };
 			m_shipScript.friends = new string[3]{"Player Ship", "CargoShip", "CopShip"};
 			break;
@@ -57,7 +58,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 			return;
 
 		// if you reach the edge of the sector, return, unless it's a cargo ship
-		if(!(behaviour == Behaviour.Cargo) && (Mathf.Abs(transform.position.x) > 350.0f || Mathf.Abs(transform.position.y) > 350.0f))
+		if(!(behaviour == Behaviour.Cargo) && (Mathf.Abs(transform.position.x) > 300.0f || Mathf.Abs(transform.position.y) > 300.0f))
 		{
 			m_shipScript.FaceTarget(Vector2.zero);
 			m_shipScript.MoveForward();
