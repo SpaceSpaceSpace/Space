@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WarpScript : MonoBehaviour
 {
@@ -8,17 +9,42 @@ public class WarpScript : MonoBehaviour
 	private GameObject starBackground;
 	public GameObject warpEffect;
 
+	public List<GameObject> allPlanets;
+
+	public static WarpScript instance;
+
 	// Use this for initialization
 	void Start () {
+		if (instance == null) {
+			instance = this;
+		}
 		starBackground = (GameObject)GameObject.Find ("StarBackground");
-		LoadSector (GameMaster.Master.PlanetName);
+		allPlanets = new List<GameObject> ();
+		LoadSector ();//LOL
 	}
 
-	void LoadSector(string sectorName)
+	void LoadSector()
 	{
-		GameObject levelObj = Resources.Load ( "Sectors/" + sectorName ) as GameObject;
-		currentPlanet = Instantiate (levelObj);
-		currentPlanet.name = GameMaster.Master.PlanetName;
+		bool planetExists = false;
+		GameObject levelObj = GameMaster.Sectors [GameMaster.Master.PlanetName].gameObject;
+
+		// Checks if the planet being loaded already exists
+		foreach(GameObject planet in allPlanets)
+		{
+			if(planet.name == GameMaster.Master.PlanetName)
+			{
+				planetExists = true;
+				planet.SetActive(true);
+				currentPlanet = planet;
+			}
+		}
+
+		if (!planetExists) 
+		{
+			currentPlanet = Instantiate (levelObj);
+			currentPlanet.name = GameMaster.Master.PlanetName;
+			allPlanets.Add (currentPlanet);
+		} 
 
 		if (!starBackground.activeInHierarchy)
 			starBackground.SetActive (true);
@@ -69,7 +95,7 @@ public class WarpScript : MonoBehaviour
 		yield return new WaitForSeconds (3.0f);
 
 		warpEffect.SetActive(false);
-		LoadSector(GameMaster.Master.PlanetName);
+		LoadSector();//LOL
 	}
 
 	public void WarpToPlanet(string prefabName)
@@ -89,7 +115,7 @@ public class WarpScript : MonoBehaviour
 		StartCoroutine ("WarpWait");
 		if(currentPlanet != null)
 		{
-			GameObject.Destroy(currentPlanet);
+			currentPlanet.SetActive(false);
 		}
 	}
 }

@@ -14,7 +14,11 @@ public class ObjectiveTurnInContract : Objective
 
         //TODO: Make this unnecessary
         if (store == null)
+		{
             store = GameObject.Find("SpaceStore");
+			store.transform.parent = WarpScript.instance.currentPlanet.transform;
+		}
+			
     }
 
     public override void ObjectiveUpdate()

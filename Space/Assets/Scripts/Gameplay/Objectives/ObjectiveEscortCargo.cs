@@ -29,6 +29,7 @@ public class ObjectiveEscortCargo : Objective
 
 		crimSpawnTimer = 0.0f;
         AISpawner = (GameObject)GameObject.Instantiate(AISpawner, Position, Quaternion.identity);
+		AISpawner.transform.parent = WarpScript.instance.currentPlanet.transform;
         float xPos = Random.Range(0.01f, 2.0f);
         float yPos = Random.Range(0.01f, 2.0f);
         if (Random.Range(-1.0f, 1.0f) > 0.0f)
@@ -68,6 +69,7 @@ public class ObjectiveEscortCargo : Objective
 				Vector2 spawnPos = leadPos;
 				spawnPos += new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * 50.0f;
 				crimSpawner = (GameObject)GameObject.Instantiate(crimSpawner, spawnPos, Quaternion.identity);
+				crimSpawner.transform.parent = WarpScript.instance.currentPlanet.transform;
 				crimSpawner.GetComponent<AISpawnerScript>().Init();
 				foreach(GameObject g in crimSpawner.GetComponent<AISpawnerScript>().squad)
 				{
