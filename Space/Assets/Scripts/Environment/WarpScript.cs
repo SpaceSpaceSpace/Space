@@ -50,6 +50,11 @@ public class WarpScript : MonoBehaviour
 			starBackground.SetActive (true);
 		if (GameMaster.CurrentGameState == GameState.Warping)
 			GameMaster.CurrentGameState = GameState.Flying;
+			GameObject hangar = (GameObject)GameObject.Find ("Hangar");
+			if(hangar != null)
+			{
+				GameObject.Destroy(hangar);
+			}
 	}
 
 	// This will eventually open the warp UI, for now just warps to space station
