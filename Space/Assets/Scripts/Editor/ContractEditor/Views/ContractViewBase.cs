@@ -15,12 +15,17 @@ public abstract class ContractViewBase<T> : EditorWindow
     private Type type;
     private Type editorType;
 
+    protected string typeNameOverride = null;
+
     protected List<T> Data = new List<T>();
 
     protected void InitBase()
     {
         type = typeof(T);
-        editorType = Type.GetType(type.ToString() + "Form");
+        if (typeNameOverride == null)
+            editorType = Type.GetType(type.ToString() + "Form");
+        else
+            editorType = Type.GetType(typeNameOverride);
 
         EditorInitMethod = editorType.GetMethod("Init", new Type[] { });
         EditorInitWithObjectMethod = editorType.GetMethod("Init", new Type[] { type, typeof(int) });

@@ -30,6 +30,7 @@ public class ObjectiveEscortCargo : Objective
 
 		crimSpawnTimer = 0.0f;
         AISpawner = (GameObject)GameObject.Instantiate(AISpawner, Position, Quaternion.identity);
+		AISpawner.transform.parent = WarpScript.instance.currentPlanet.transform;
         float xPos = Random.Range(0.01f, 2.0f);
         float yPos = Random.Range(0.01f, 2.0f);
         if (Random.Range(-1.0f, 1.0f) > 0.0f)

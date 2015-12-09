@@ -12,11 +12,6 @@ public class HangarScript : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
-		// Hangar UI
-		GameObject level = GameObject.Find("Planet1");
-		
-		GameObject warpMngr = GameObject.Find("Warp Manager");
-
 		UI_Manager.instance.DisplayHangerUI (true);
 	}
 

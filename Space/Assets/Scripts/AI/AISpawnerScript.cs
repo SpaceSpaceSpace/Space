@@ -101,6 +101,7 @@ public class AISpawnerScript : MonoBehaviour {
 		for(int i = 0; i < squad.Count; i++)
 		{
 			squad[i].GetComponent<AIShipScript>().squad = squad;
+			squad[i].transform.parent = WarpScript.instance.currentPlanet.transform;
 		}
 	
 	}

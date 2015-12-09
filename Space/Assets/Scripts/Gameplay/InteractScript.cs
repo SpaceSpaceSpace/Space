@@ -25,7 +25,43 @@ public class InteractScript : MonoBehaviour
 
 			warpScript.CallHangar();
 		}
+		if (Input.GetButtonDown ("Pause") && GameMaster.CurrentGameState != GameState.Pause) 
+		{
+			//pause the game
 
+			GameMaster.CurrentGameState = GameState.Pause;
+			Time.timeScale = 0.0f;
+		}
+		if (Input.GetKeyDown(KeyCode.Escape) && GameMaster.CurrentGameState == GameState.Pause) 
+		{
+			//unpause the game
+			GameMaster.CurrentGameState = GameState.Flying;
+			Time.timeScale = 1.0f;
+		}
+		if (Input.GetButtonDown ("Help") && GameMaster.CurrentGameState == GameState.Customization) 
+		{
+			//show the customization help
+			GameMaster.CurrentGameState = GameState.CHelp;
+			Time.timeScale = 0.0f;
+		}
+		if (Input.GetButtonDown ("Help") && GameMaster.CurrentGameState == GameState.Flying) 
+		{
+			//show the general help
+			GameMaster.CurrentGameState = GameState.H;
+			Time.timeScale = 0.0f;
+		}
+		if ( Input.GetKeyDown(KeyCode.Escape) && GameMaster.CurrentGameState == GameState.H) 
+		{
+			//return the game from a help screen to gameplay
+			GameMaster.CurrentGameState = GameState.Flying;
+			Time.timeScale = 1.0f;
+		}
+		if ( Input.GetKeyDown(KeyCode.Escape) && GameMaster.CurrentGameState == GameState.CHelp) 
+		{
+			//return the game from a help screen to gameplay
+			GameMaster.CurrentGameState = GameState.Flying;
+			Time.timeScale = 1.0f;
+		}
 		//TEMPORARY -- This functionality will be replaced with the Space Station UI
 		if(Input.GetKeyDown (KeyCode.E) && GameMaster.CurrentGameState != GameState.Customization)
 		{
