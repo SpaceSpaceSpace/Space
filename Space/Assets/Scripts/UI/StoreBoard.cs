@@ -7,7 +7,7 @@ public class StoreBoard : MonoBehaviour {
 
 	public Text targetName;
 	public Text title;
-	public Text reward;
+	public Text cost;
 	public Image portrait;
 	public GameObject scrollView;
 	public GameObject buttonPrefab;
@@ -137,8 +137,8 @@ public class StoreBoard : MonoBehaviour {
 		title.text = p_Title;
 	}
 
-	public void SetReward(string p_Reward)
+	public void SetCost(string p_Cost)
 	{
-		reward.text = p_Reward;
+		cost.text = p_Cost;
 	}
 }

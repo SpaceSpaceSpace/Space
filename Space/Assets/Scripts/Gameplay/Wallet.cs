@@ -7,10 +7,10 @@ public class Wallet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //give the player some funds to start and buy a couple weapons 
+        //players start from the bottom and got to work to earn money for weapons better than the ones we start them with. 
         if (player)
         {
-            starBucks = 1000;
+            starBucks = 0;
         }
         //give vendors some cash to purchase weapons that the player wants to sell
         else

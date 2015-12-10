@@ -51,6 +51,7 @@ public class ProjectileWeaponScript : WeaponScript
 
 		string dmgString = RoundStatToDecimalPlaces( damage, 3 ).ToString();
 
+
 		if( weaponType == WeaponType.SCATTER_SHOT )
 		{
 			dmgString += " (x" + projectilesPerShot + ")";
@@ -60,6 +61,7 @@ public class ProjectileWeaponScript : WeaponScript
 		info.AddAttribute( "Fire Rate", RoundStatToDecimalPlaces( 1 / fireTime, 2 ) + "/s" );
 		info.AddAttribute( "Projectile Speed", RoundStatToDecimalPlaces( projectileSpeed, 1 ).ToString() );
 		info.AddAttribute( "Accuracy", RoundStatToDecimalPlaces( ( 1 - ( maxSpreadAngle * 2 / 180 ) ) * 100, 1 ) + "%" );
+		info.AddAttribute( "Cost", cost);
 
 		return info;
 	}
