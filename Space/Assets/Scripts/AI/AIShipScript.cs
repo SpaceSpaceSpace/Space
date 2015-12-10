@@ -19,6 +19,7 @@ public class AIShipScript : ShipScript {
 	public AISpawnerScript spawner;
 	public string[] enemies;
 	public string[] friends;
+	public Sprite destroyedSprite;
 
 	///
 	/// Private Variables
@@ -88,6 +89,7 @@ public class AIShipScript : ShipScript {
 				{
 				case WeaponScript.WeaponType.SCATTER_SHOT:
 				case WeaponScript.WeaponType.LASER_MACHINE_GUN:
+				case WeaponScript.WeaponType.SNIPER:
 					ProjectileWeaponScript pScript = GetComponentInChildren<ProjectileWeaponScript>();
 					m_weapSpeed[i] = pScript.projectileSpeed;
 					m_weapLifeSpan[i] = pScript.projectileLifeTime;
@@ -166,6 +168,36 @@ public class AIShipScript : ShipScript {
 		else
 			m_thrust.TurnDirection = 0;
 
+	}
+
+	public void TurnWeapon()
+	{
+		if(m_weaponSlots[0].Weapon != null)
+		{
+			float angle = m_weaponSlots[0].Weapon.transform.eulerAngles.z;
+			float targetAngle = Vector2.Angle(Vector2.up, m_target.position - transform.position);
+			if(Vector2.Dot(Vector2.right, m_target.position - transform.position) > 0)
+				targetAngle = 360.0f - targetAngle;
+			if(Mathf.Abs(angle - targetAngle) > 5.0f || Mathf.Abs((angle + 360.0f) - targetAngle) > 5.0f)
+			{
+				if(angle > targetAngle)
+				{
+					if(angle - targetAngle > 180)
+						angle += 180.0f * Time.deltaTime;
+					else
+						angle -= 180.0f * Time.deltaTime;
+				}
+				else
+				{
+					if(targetAngle - angle > 180)
+						angle -= 180.0f * Time.deltaTime;
+					else
+						angle += 180.0f * Time.deltaTime;
+				}
+			}
+
+			m_weaponSlots[0].Weapon.transform.eulerAngles = new Vector3(0, 0, angle);
+		}
 	}
 
 	// Move toward the target's predicted position
@@ -655,5 +687,22 @@ public class AIShipScript : ShipScript {
 	void OnDestroy()
 	{
 		squad.Remove (this.gameObject);
+	}
+
+	protected override void Die()
+	{
+		switch(GetComponent<ShipBehaviourScript>().behaviour)
+		{
+		case ShipBehaviourScript.Behaviour.Turret:
+			GetComponent<SpriteRenderer>().sprite = destroyedSprite;
+			GetComponent<CircleCollider2D>().enabled = false;
+			m_weaponSlots[0].Weapon.GetComponent<SpriteRenderer>().enabled = false;
+			Destroy(m_weaponSlots[0].Weapon);
+			Instantiate(m_exploder, transform.position, Quaternion.identity);
+			break;
+		default:
+			base.Die();
+			break;
+		}
 	}
 }

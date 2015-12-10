@@ -7,7 +7,6 @@ public class ObjectiveEscortCargo : Objective
 
     private static GameObject AISpawner = null;
 	private static GameObject crimSpawner = null;
-	private float cargoDistance;
 	private int waveDistance;
 	private int tier;
 
@@ -30,8 +29,7 @@ public class ObjectiveEscortCargo : Objective
 		spawnerScript.tier = tier;
         spawnerScript.maxAI = CargoShipCount;
         spawnerScript.startAI = CargoShipCount;
-
-		cargoDistance = 0.0f;
+		
 		waveDistance = Random.Range(80, 120);
         AISpawner = (GameObject)GameObject.Instantiate(AISpawner, Position, Quaternion.identity);
 		AISpawner.transform.parent = WarpScript.instance.currentPlanet.transform;
@@ -66,7 +64,7 @@ public class ObjectiveEscortCargo : Objective
 		if(AISpawner != null)
 		{
 			Vector2 leadPos = AISpawner.GetComponent<AISpawnerScript>().squad[0].transform.position;
-			cargoDistance = Vector2.Distance(Vector2.zero, leadPos);
+			float cargoDistance = Vector2.Distance(Vector2.zero, leadPos);
 			if(Vector2.Distance(leadPos, PlayerShipScript.player.transform.position) < 15.0f)
 			{
 				if(cargoDistance > waveDistance && waveDistance < 350)

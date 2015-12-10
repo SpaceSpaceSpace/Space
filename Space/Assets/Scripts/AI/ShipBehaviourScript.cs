@@ -45,8 +45,21 @@ public class ShipBehaviourScript : MonoBehaviour {
 			break;
 		case Behaviour.Grunt:
 		case Behaviour.Leader:
+		case Behaviour.Turret:
 			m_shipScript.enemies = new string[3]{ "Player Ship", "CargoShip", "CopShip" };
 			m_shipScript.friends = new string[2]{ "CriminalShip", "CriminalLeader" };
+			break;
+		}
+
+		// For special objects which won't be spawned through AISpawners 
+		switch (GetComponent<ShipBehaviourScript>().behaviour)
+		{
+		case ShipBehaviourScript.Behaviour.Turret:
+			AIShipScript ss = GetComponent<AIShipScript>();
+			
+			ss.InitWeapons();
+			WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) Random.Range(0, (int)WeaponScript.WeaponType.SCATTER_SHOT + 1);
+			ss.WeaponSlots[ 0 ].SetWeapon( Instantiate( GameMaster.WeaponMngr.GetWeaponPrefab( weapon ) ) );
 			break;
 		}
 	}
@@ -84,6 +97,12 @@ public class ShipBehaviourScript : MonoBehaviour {
 			break;
 		case Behaviour.Cop:
 			Cop ();
+			break;
+		case Behaviour.Rescue:
+			Rescue();
+			break;
+		case Behaviour.Turret:
+			Turret();
 			break;
 		}
 	}
@@ -274,15 +293,19 @@ public class ShipBehaviourScript : MonoBehaviour {
 
 	public void Turret()
 	{
-		// If the player is less than 15 units away, move toward it
-		if(m_shipScript.CheckAggro())
+		if(m_shipScript.WeaponSlots[0].Weapon != null)
 		{
-			if(m_shipScript.Target != null)
+			// If the player is less than 15 units away, move toward it
+			if(m_shipScript.CheckAggro())
 			{
-				m_shipScript.FaceTarget(m_shipScript.Target.position);
-				if(m_shipScript.AngleToTarget(m_shipScript.obstacleTrans.position) < 45.0f && m_shipScript.CanShootTarget(m_shipScript.obstacleTrans))
+				if(m_shipScript.Target != null)
 				{
-					m_shipScript.FireWeapon();
+					m_shipScript.TurnWeapon();
+					Vector2 weaponRot = m_shipScript.WeaponSlots[0].Weapon.transform.up;
+					if(Vector2.Angle(weaponRot, m_shipScript.Target.position - transform.position) < 45.0f && m_shipScript.CanShootTarget(m_shipScript.Target))
+					{
+						m_shipScript.FireWeapon();
+					}
 				}
 			}
 		}
