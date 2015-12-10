@@ -5,7 +5,7 @@ using System.IO;
 public class MineModifierForm : ContractFormBase
 {
     public string Name;
-    public float Damage, Accuracy, FireRate;
+    public float Damage, Accuracy, FireRate, CostMod;
 
     public static MineModifierForm Init()
     {
@@ -42,13 +42,14 @@ public class MineModifierForm : ContractFormBase
         Damage = EditorGUILayout.FloatField("Damage", Damage);
         Accuracy = EditorGUILayout.FloatField("Accuracy", Accuracy);
         FireRate = EditorGUILayout.FloatField("FireRate", FireRate);
+        CostMod = EditorGUILayout.FloatField("Cost Mod", CostMod);
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddMineModifier(new Modifier(Name, Damage, Accuracy, FireRate));
+                AddMineModifier(new Modifier(Name, Damage, Accuracy, FireRate, CostMod));
         }
         EditorGUILayout.EndHorizontal();
 

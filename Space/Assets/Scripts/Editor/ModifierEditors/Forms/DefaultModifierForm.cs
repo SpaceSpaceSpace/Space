@@ -5,7 +5,7 @@ using System.IO;
 public class DefaultModifierForm : ContractFormBase
 {
     public string Name;
-    public float Damage, Accuracy, FireRate;
+    public float Damage, Accuracy, FireRate, CostMod;
 
     public static DefaultModifierForm Init()
     {
@@ -42,13 +42,14 @@ public class DefaultModifierForm : ContractFormBase
         Damage = EditorGUILayout.FloatField("Damage", Damage);
         Accuracy = EditorGUILayout.FloatField("Accuracy", Accuracy);
         FireRate = EditorGUILayout.FloatField("FireRate", FireRate);
+        CostMod = EditorGUILayout.FloatField("Cost Mod", CostMod);
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddDefaultModifier(new Modifier(Name, Damage, Accuracy, FireRate));
+                AddDefaultModifier(new Modifier(Name, Damage, Accuracy, FireRate, CostMod));
         }
         EditorGUILayout.EndHorizontal();
 

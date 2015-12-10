@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class ContractView : EditorWindow 
 {
     private Vector2 scrollPos;
+    private int ImagePreviewSize = 70;
 
 	[MenuItem("Space/Contracts/Story Contract")]
 	static void Init()
@@ -79,7 +80,7 @@ public class ContractView : EditorWindow
                     if (ContractModel.ContractTargetImages.ContainsKey(targetImagePath))
                     {
                         GUILayout.Label("Target Image - " + targetImagePath);
-                        GUILayout.Label(ContractModel.ContractTargetImages[targetImagePath]);
+                        GUILayout.Label(ContractModel.ContractTargetImages[targetImagePath], GUILayout.MinHeight(ImagePreviewSize), GUILayout.MaxHeight(ImagePreviewSize), GUILayout.MaxWidth(ImagePreviewSize), GUILayout.MinWidth(ImagePreviewSize));
                     }
                 }
                 EditorGUILayout.EndVertical();
@@ -91,7 +92,7 @@ public class ContractView : EditorWindow
                     if (ContractModel.ContractTargetShipImages.ContainsKey(targetShipImagePath))
                     {
                         GUILayout.Label("Target Ship Image - " + targetShipImagePath);
-                        GUILayout.Label(ContractModel.ContractTargetShipImages[targetShipImagePath]);
+                        GUILayout.Label(ContractModel.ContractTargetShipImages[targetShipImagePath], GUILayout.MinHeight(ImagePreviewSize), GUILayout.MaxHeight(ImagePreviewSize), GUILayout.MaxWidth(ImagePreviewSize), GUILayout.MinWidth(ImagePreviewSize));
                     }
                 }
                 EditorGUILayout.EndVertical();
