@@ -14,11 +14,10 @@ public struct WeaponModifier
 		Lacking,
 		Big_Boom_Boom,
 		Rapid,
-		Speedy,
-		Blaarg,
+		Focused,
+		Cheap,
 		Reaching,
 		Burny,
-		aaaaaa,
 
 		NUM_MODIFIERS
 	}
@@ -46,14 +45,14 @@ public struct WeaponModifier
 	public const int MISSILE_WEP_START = PROJ_WEP_START;
 	public const int MISSILE_WEP_END = PROJ_WEP_END;
 	public const int MINE_WEP_START = SCATTER_WEP_END;
-	public const int MINE_WEP_END = (int)ModifierNames.Speedy + 1;
+	public const int MINE_WEP_END = (int)ModifierNames.Focused + 1;
 	public const int BEAM_WEP_START = MINE_WEP_END;
 	public const int BEAM_WEP_END = (int)ModifierNames.NUM_MODIFIERS;
 	
 	public static readonly float[,] modifiers = {
-		{ 0.9f, 0.9f, 1.2f },
-		{ 0.8f, 0.8f, 0.8f },
-		{ 0.8f, 0.8f, 0.8f },
+		{ 1f, 1f, 1f },
+		{ 0.5f, 0.5f, 0.5f },
+		{ 1.5f, 1.5f, 1.5f },
 		{ 0.9f, 0.9f, 1.2f },
 		{ 1.5f, 0.7f, 1f },
 		{ 2f, 1f, 1f },
@@ -64,7 +63,6 @@ public struct WeaponModifier
 		{ 0.8f, 0.8f, 0f },
 		{ 1f, 1.2f, 0f },
 		{ 1.2f, 1f, 0f },
-		{ 0f, 0f, 0f },
 
 	};
 
