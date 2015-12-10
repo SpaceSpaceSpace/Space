@@ -43,10 +43,11 @@ public class AISpawnerScript : MonoBehaviour {
 				else
 					g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.Euler(new Vector3(0.0f, 0.0f, Random.Range(0, 360))));
 
-				g.GetComponent<ShieldScript>().maxShieldAmount = tier * 20;
-				g.GetComponent<ShieldScript>().rechargeRate = 10 - tier;
+				//g.GetComponent<ShieldScript>().maxShieldAmount = tier * 20;
+				//g.GetComponent<ShieldScript>().rechargeRate = 10 - tier;
 				break;
 			default:
+				g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.Euler(new Vector3(0.0f, 0.0f, Random.Range(0, 360))));
 				break;
 
 			}
@@ -58,7 +59,7 @@ public class AISpawnerScript : MonoBehaviour {
 			squad.Add(g);
 			
 			ss.InitWeapons();
-			for( int j = 0; j < ss.WeaponSlots.Length && j < tier / 2; j++ )
+			for( int j = 0; j < ss.WeaponSlots.Length && j < tier; j++ )
 			{
 				WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) Random.Range(0, (int)WeaponScript.WeaponType.SCATTER_SHOT + 1);
 				ss.WeaponSlots[ j ].SetWeapon( Instantiate( GameMaster.WeaponMngr.GetWeaponPrefab( weapon ) ) );

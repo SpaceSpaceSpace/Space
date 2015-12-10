@@ -288,17 +288,19 @@ public class AIShipScript : ShipScript {
 	{
 
 		aggro = false;
-
-		if(m_target != null)
-		{
-			aggro = true;
-		}
+		
 		// if the current target is nonLethal and a lethal target comes in range
 		if(m_target != null && nonLethalObj.Contains(m_target.gameObject) 
 		   && (playerTarget || lethalObj.Count > 0))
 		{
 			m_target = null;
 		}
+		else if (m_target !=null)
+		{
+			aggro = true;
+			return true;
+		}
+
 		if(nonLethalObj.Count > 0 || lethalObj.Count > 0 || playerTarget)
 		{
 			SelectTarget();

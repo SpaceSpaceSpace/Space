@@ -7,14 +7,16 @@ public class ObjectiveEscortCargo : Objective
 
     private static GameObject AISpawner = null;
 	private static GameObject crimSpawner = null;
-	private float crimSpawnTimer;
+	private float cargoDistance;
+	private int waveDistance;
+	private int tier;
 
     public ObjectiveEscortCargo()
     {
         
     }
 
-    public override void SetupObjective(GameObject objectiveManager, int tier)
+    public override void SetupObjective(GameObject objectiveManager, int a_tier)
     {
         Position = new Vector2(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
 
@@ -24,11 +26,13 @@ public class ObjectiveEscortCargo : Objective
 			crimSpawner = Resources.Load("AISpawner") as GameObject;
 
         AISpawnerScript spawnerScript = AISpawner.GetComponent<AISpawnerScript>();
+		tier = a_tier;
 		spawnerScript.tier = tier;
         spawnerScript.maxAI = CargoShipCount;
         spawnerScript.startAI = CargoShipCount;
 
-		crimSpawnTimer = 0.0f;
+		cargoDistance = 0.0f;
+		waveDistance = Random.Range(80, 120);
         AISpawner = (GameObject)GameObject.Instantiate(AISpawner, Position, Quaternion.identity);
 		AISpawner.transform.parent = WarpScript.instance.currentPlanet.transform;
         float xPos = Random.Range(0.01f, 2.0f);
@@ -62,21 +66,24 @@ public class ObjectiveEscortCargo : Objective
 		if(AISpawner != null)
 		{
 			Vector2 leadPos = AISpawner.GetComponent<AISpawnerScript>().squad[0].transform.position;
+			cargoDistance = Vector2.Distance(Vector2.zero, leadPos);
 			if(Vector2.Distance(leadPos, PlayerShipScript.player.transform.position) < 15.0f)
 			{
-				crimSpawnTimer += Time.deltaTime;
-				if(crimSpawnTimer > 20.0f)
+				if(cargoDistance > waveDistance && waveDistance < 350)
 				{
+					waveDistance += Random.Range(80, 120);
 					float angle = Random.Range(0.0f, 360.0f);
 					Vector2 spawnPos = leadPos;
 					spawnPos += new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * 50.0f;
 					crimSpawner = (GameObject)GameObject.Instantiate(crimSpawner, spawnPos, Quaternion.identity);
+					crimSpawner.GetComponent<AISpawnerScript>().tier = tier;
+					crimSpawner.GetComponent<AISpawnerScript>().squadLeader = null;
+					crimSpawner.GetComponent<AISpawnerScript>().startAI = 1 + tier;
 					crimSpawner.GetComponent<AISpawnerScript>().Init();
 					foreach(GameObject g in crimSpawner.GetComponent<AISpawnerScript>().squad)
 					{
 						g.GetComponent<AIShipScript>().Target = AISpawner.GetComponent<AISpawnerScript>().squad[0].transform;
 					}
-					crimSpawnTimer = 0.0f;
 				}
 			}
 		}
