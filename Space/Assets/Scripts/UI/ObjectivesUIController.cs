@@ -12,6 +12,7 @@ public class ObjectivesUIController : MonoBehaviour {
 	public GameObject viewArea;
 
 	public List<int> currentObjectives;
+	public List<Button> currentButtons;
 
 	public void PopulateUIObjectives(List<ObjectiveEvent> objectiveEvents)
 	{
@@ -37,12 +38,30 @@ public class ObjectivesUIController : MonoBehaviour {
 			objectiveUIObject.transform.GetChild(0).GetComponent<Text>().text = objectiveText;
 
 			currentObjectives.Add(_objectiveInstanceID);
+			currentButtons.Add(objectiveBtn);
+		}
+	}
+
+	public void SetButtonColor(int id, Vector4 color)
+	{
+		for(int i = 0; i < currentObjectives.Count; i++)
+		{
+			if(currentObjectives[i] == id)
+			{
+				currentButtons[i].GetComponent<Image>().color = color;
+			}
 		}
 	}
 
 	public void CompleteTask(int objectiveIndex)
 	{
+		if((objectiveIndex+1) < currentObjectives.Count)
+		{
+			SetButtonColor(currentObjectives[objectiveIndex+1],new Vector4(255f,255f,255f));
+		}
+
 		currentObjectives.RemoveAt (objectiveIndex);
+		currentButtons.RemoveAt (objectiveIndex);
 		Destroy (viewArea.transform.GetChild (objectiveIndex).gameObject);
 		Debug.Log ("Task done");
 	}

@@ -42,8 +42,13 @@ public class UIMarker : MonoBehaviour {
 		{
 			if(targetStack[i].GetInstanceID() == targetInstanceID)
 			{
+				UI_Manager.instance.objectivesUIController.SetButtonColor(targetInstanceID, new Vector4(255f,255f,255f,255f));
 				currentObjectiveSelected = i;
 				return;
+			}
+			else
+			{
+				UI_Manager.instance.objectivesUIController.SetButtonColor(targetInstanceID, new Vector4(255f,0f,0f,255f));
 			}
 		}
 	}
