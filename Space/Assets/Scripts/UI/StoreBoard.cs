@@ -26,10 +26,13 @@ public class StoreBoard : MonoBehaviour {
 
 			GameObject g = GameMaster.WeaponMngr.GetWeaponPrefab (weapon);
 
-			int start = 0;
-			int end = 0;
+			int start = WeaponModifier.GENERIC_START;
+			int end = WeaponModifier.GENERIC_END;
 
-			GameMaster.WeaponMngr.GetModifierRangeForWeapon( weapon, out start, out end );
+			if( Random.Range( 0, 100 ) > 20 )
+			{
+				GameMaster.WeaponMngr.GetModifierRangeForWeapon( weapon, out start, out end );
+			}
 
 			WeaponModifier.ModifierNames modifier = (WeaponModifier.ModifierNames)Random.Range( start, end );
 			currentWeapons.Add (g.GetComponent<WeaponScript> ().ToInfo (modifier));
