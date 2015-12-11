@@ -17,7 +17,7 @@ public abstract class Objective
     protected bool completed;
 
     //Override to describe what happens during this objective
-    public abstract void SetupObjective(GameObject objectiveManager);
+    public abstract void SetupObjective(GameObject objectiveManager, int tier = 0);
 
     public abstract void ObjectiveUpdate();
 

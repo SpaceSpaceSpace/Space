@@ -13,8 +13,8 @@ public class MusicManager : MonoBehaviour {
 
     public AudioMixerSnapshot outOfCombat;
     public AudioMixerSnapshot inCombat;
-    public AudioClip[] transitionInstruments;
-    public AudioSource transitionSource;
+    public AudioMixerSnapshot transitionToBattle;
+    public AudioMixerSnapshot transitionFromBattle;
     public float bpm = 128;
 
 
@@ -33,19 +33,23 @@ public class MusicManager : MonoBehaviour {
 	void Update () {
 	
 	}
-    void PlayTransitionClip()
+    void PlayTransitionIntoBattle()
     {
-        int randClip = Random.Range(0, transitionInstruments.Length);
-        transitionSource.clip = transitionInstruments[randClip];
-        transitionSource.Play();
+        transitionToBattle.TransitionTo(m_TransitionIn);
     }
+	void PlayTransitionOutOfBattle()
+	{
+        transitionFromBattle.TransitionTo(m_TransitionIn);
+	}
     public void TransitionToCombat()
     {
+        PlayTransitionIntoBattle();
         inCombat.TransitionTo(m_TransitionIn * 2.0f);
         //PlayTransitionClip();
     }
     public void TransitionToExploration()
     {
+        PlayTransitionOutOfBattle();
         outOfCombat.TransitionTo(m_TransitionOut);
     }
 }

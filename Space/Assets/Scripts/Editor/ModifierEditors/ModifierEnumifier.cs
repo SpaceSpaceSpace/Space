@@ -1,72 +1,311 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.IO;
-
+using System.Collections.Generic;
+using System.Linq;
 public class ModifierEnumifier : MonoBehaviour
 {
-	public const string DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifiers.csv";
-	public const string TEMPLATE_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifierTemplate.txt";
-	public const string WEP_TYPE_DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponTypeData.txt";
-	public const string STAT_ALIAS_DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/StatAliasData.txt";
-	public const string CODE_PATH = "Assets/Scripts/Gameplay/Weapon/WeaponModifier.cs";
+    //Static so that they can be easily accessed from other editors
+    public static string DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifiers.csv";
+    public static string WEP_TYPE_DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponTypeData.txt";
+    public static string STAT_ALIAS_DATA_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/StatAliasData.txt";
 
-	[ MenuItem( "Space/Generate Modifier Code" ) ]
-	static void GenerateFile()
-	{
-		string[,] data;
-		LoadAndParseData( out data );
-		WriteFile( data );
-	}
+    public const string TEMPLATE_PATH = "Assets/Scripts/Editor/ModifierEditors/Data/WeaponModifierTemplate.txt";
+    public const string CODE_PATH = "Assets/Scripts/Gameplay/Weapon/WeaponModifier.cs";
 
-	private static void LoadAndParseData( out string[,] data )
-	{
-		string[] dataStr;
-		ReadLines( DATA_PATH, out dataStr );
+    [MenuItem("Space/Generate Modifier Code")]
+    public static void GenerateFile()
+    {
+        string[,] data;
+        LoadAndParseData(out data);
+        WriteFile(data);
+    }
 
-		if( dataStr == null )
-		{
-			data = null;
-			return;
-		}
+    public static void LoadAndParseData(out string[,] data, int typeIndex = -1)
+    {
+        string[] dataStr;
+        ReadLines(DATA_PATH, out dataStr);
 
-		string[] lineData = dataStr[ 0 ].Split( ',' );
+        if (dataStr == null)
+        {
+            data = null;
+            return;
+        }
 
-		int numLines = dataStr.Length;
-		int numIndices = lineData.Length;
+        string[] lineData = dataStr[0].Split(',');
 
-		data = new string[ numLines, numIndices ];
+        int numLines = dataStr.Length;
+        int numIndices = lineData.Length;
 
-		for( int i = 0; i < numLines; i++ )
-		{
-			lineData = dataStr[ i ].Split( ',' );
-			for( int j = 0; j < numIndices; j++ )
-			{
-				if( j < lineData.Length )
-				{
-					data[ i, j ] = lineData[ j ];
-				}
-				else
-				{
-					print( "ERROR: Data missing at line " + i + "m index " + j );
-					data = null;
-					return;
-				}
-			}
-		}
-	}
+        data = new string[numLines, numIndices];
 
-	private static void ReadLines( string path, out string[] dataStr )
-	{
-		if( File.Exists( path ) )
-		{
-			dataStr = File.ReadAllLines( path );
-		}
-		else
-		{
-			print( "Could not find file at path " + path );
-			dataStr = null;
-		}
-	}
+        for (int i = 0; i < numLines; i++)
+        {
+            lineData = dataStr[i].Split(',');
+            for (int j = 0; j < numIndices; j++)
+            {
+                if (j < lineData.Length)
+                {
+                    data[i, j] = lineData[j];
+                }
+                else
+                {
+                    print("ERROR: Data missing at line " + i + "m index " + j);
+                    data = null;
+                    return;
+                }
+            }
+        }
+
+        //If we're given a type index, we'll look up where we should start and end for that type
+        if (typeIndex > -1)
+        {
+            int startIndex = 0;
+            int endIndex = numLines - 1;
+
+            //Load the type data for examination
+            string[] typeStr;
+            ReadLines(WEP_TYPE_DATA_PATH, out typeStr);
+
+            string startStr = null;
+            string endStr = null;
+
+            if (typeIndex > 0)
+                startStr = typeStr[typeIndex];
+            else
+                startStr = "ModifierName";
+            endStr = typeStr[typeIndex + 1];
+
+            for (int i = 0; i < numLines; i++)
+            {
+                string name = data[i, 0];
+                if (name == startStr)
+                    startIndex = i + 1;
+                if (name == endStr)
+                    endIndex = i;
+            }
+
+            int newRowCount = (1 + endIndex) - startIndex;
+
+            string[,] filteredData = new string[newRowCount, numIndices];
+            for (int i = 0; i < newRowCount; i++)
+            { 
+                for (int j = 0; j < numIndices; j++)
+                    filteredData[i, j] = data[startIndex + i, j];
+            }
+
+            data = filteredData;
+        }
+    }
+
+    private static void ReadLines(string path, out string[] dataStr)
+    {
+        if (File.Exists(path))
+        {
+            dataStr = File.ReadAllLines(path);
+        }
+        else
+        {
+            print("Could not find file at path " + path);
+            dataStr = null;
+        }
+    }
+
+    //Writes out a new modifier or a replacement for an existing modifer
+    //Modifier = the modifier to write out
+    //replacementIndex = the index of the modifier to replace or -1 if to append
+    //typeIndex = the index of the type to replace based off the weapon types file
+    public static bool WriteNewModifier(Modifier modifier, int replacementIndex, int typeIndex)
+    {
+        //Append CSV of modifier to the end of the data
+        //Modify the stat alias data to match the new file
+
+        if (!File.Exists(DATA_PATH))
+        {
+            Debug.Log("ERROR: Could not find Weapon Modifier Data");
+            return false;
+        }
+        if (!File.Exists(WEP_TYPE_DATA_PATH))
+        {
+            Debug.Log("ERROR: Could not find Weapon Type Data");
+            return false;
+        }
+
+        //Load Data
+        string allData = File.ReadAllText(DATA_PATH);
+        string[] dataLines = allData.Replace("\r", "").Split('\n');
+
+        //Load Types
+        string allTypes = File.ReadAllText(WEP_TYPE_DATA_PATH);
+        string[] typeLines = allTypes.Replace("\r", "").Split('\n');
+
+        //Test if a modifier with this name exists already
+        for (int i = 0; i < dataLines.Length; i++)
+        {
+            string line = dataLines[i];
+            if (line.StartsWith(modifier.Name + ','))
+            {
+                if (EditorUtility.DisplayDialog("Conflict", "A Modifier with this name already exists. Do you want to overwrite?", "Yes", "Oops, Cancel"))
+                    replacementIndex = i - 1;
+                else
+                    return false;
+            }
+        }
+
+        //Determine end point of this type
+        string lastEndName = typeLines[typeIndex];
+        string currentEndName = typeLines[typeIndex + 1];
+
+        int currentEndIndexInData = 0;
+        int lastEndIndex = 0;
+        for (int i = 0; i < dataLines.Length; i++)
+        {
+            string line = dataLines[i];
+            if (line.Contains(currentEndName))
+                currentEndIndexInData = i - 1;
+            if (line.Contains(lastEndName))
+                lastEndIndex = i - 1;
+        }
+
+        //Just insert to the end of this type data
+        if (replacementIndex < 0)
+        {
+            WriteType(typeIndex, modifier.Name);
+
+            List<string> dataList = dataLines.ToList();
+
+            dataList.Insert(currentEndIndexInData + 2, modifier.ToString());
+
+            allData = "";
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                string line = dataList[i];
+
+                if (i < dataList.Count - 1)
+                    allData += line + '\n';
+                else
+                    allData += line;
+            }
+        } //Overwrite
+        else
+        {
+            replacementIndex += lastEndIndex;
+            if (typeIndex > 0)
+                replacementIndex++;
+
+            //If we're replacing the current end name, we need to edit the type data file
+            if (replacementIndex == currentEndIndexInData)
+            {
+                WriteType(typeIndex, modifier.Name);
+            }
+
+            dataLines[replacementIndex + 1] = modifier.ToString();
+
+            allData = "";
+            for (int i = 0; i < dataLines.Length; i++)
+            {
+                string line = dataLines[i];
+
+                if (i < dataLines.Length - 1)
+                    allData += line + '\n';
+                else
+                    allData += line;
+            }
+        }
+
+        File.WriteAllText(DATA_PATH, allData);
+
+        return true;
+    }
+
+    public static void WriteTypeModifiers(int typeIndex, List<Modifier> modifiers)
+    {
+        //Append CSV of modifier to the end of the data
+        if (!File.Exists(DATA_PATH))
+        {
+            Debug.Log("ERROR: Could not find Weapon Modifier Data");
+            return;
+        }
+
+        if (!File.Exists(WEP_TYPE_DATA_PATH))
+        {
+            Debug.Log("ERROR: Could not find Weapon Type Data");
+            return;
+        }
+
+        //Load Data
+        string allData = File.ReadAllText(DATA_PATH);
+        string[] dataLines = allData.Replace("\r", "").Split('\n');
+
+        //Load Types
+        string allTypes = File.ReadAllText(WEP_TYPE_DATA_PATH);
+        string[] typeLines = allTypes.Replace("\r", "").Split('\n');
+
+        //Find the start and end of this type in the data file
+        string lastEndName = typeLines[typeIndex];
+        string currentEndName = typeLines[typeIndex + 1];
+
+        int currentEndIndexInData = 0;
+        int lastEndIndex = 0;
+        for (int i = 0; i < dataLines.Length; i++)
+        {
+            string line = dataLines[i];
+            if (line.Contains(currentEndName))
+                currentEndIndexInData = i - 1;
+            if (line.Contains(lastEndName))
+                lastEndIndex = i;
+        }
+
+        string newData = "";
+
+        int sizeChange = modifiers.Count - (currentEndIndexInData - lastEndIndex) - 1;
+
+        //Write unchanged mods before this type
+        for (int i = 0; i < lastEndIndex + 1; i++)
+            newData += dataLines[i] + '\n';
+
+        //Write changed mods
+        for (int i = 0; i < modifiers.Count; i++)
+        {
+            Modifier mod = modifiers[i];
+
+            newData += mod.ToString() + '\n';
+        }
+
+        //Write unchanged mods after this type
+        for (int i = lastEndIndex + modifiers.Count - sizeChange + 1; i < dataLines.Length; i++)
+        {
+            if (i < dataLines.Length - 1)
+                newData += dataLines[i] + '\n';
+            else
+                newData += dataLines[i];
+        }
+
+        //Write out changed end type
+        WriteType(typeIndex, modifiers.Last().Name);
+
+        File.WriteAllText(DATA_PATH, newData);
+    }
+
+    private static void WriteType(int index, string name)
+    {
+        //Load Types
+        string allTypes = File.ReadAllText(WEP_TYPE_DATA_PATH);
+        string[] typeLines = allTypes.Replace("\r", "").Split('\n');
+
+        typeLines[index + 1] = name;
+        allTypes = "";
+        for (int i = 0; i < typeLines.Length; i++)
+        {
+            string line = typeLines[i];
+
+            if (i < typeLines.Length - 1)
+                allTypes += line + '\n';
+            else
+                allTypes += line;
+        }
+        File.WriteAllText(WEP_TYPE_DATA_PATH, allTypes);
+    }
 
 	private static void WriteFile( string[,] data )
 	{

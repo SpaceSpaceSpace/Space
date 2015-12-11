@@ -5,6 +5,7 @@ using WyrmTale;
 public class ContractManager : MonoBehaviour
 {
     //Arrays of lists to store data in
+    public static List<ContractModel> StoryContracts = new List<ContractModel>();
     public static List<ContractContent>[] Contents = new List<ContractContent>[10];
     public static List<ContractTargetName>[] TargetNames = new List<ContractTargetName>[10];
     public static List<ContractTargetImage>[] TargetImages = new List<ContractTargetImage>[10];
@@ -18,10 +19,29 @@ public class ContractManager : MonoBehaviour
         string filepath = ContractUtils.ContractElementFilePath;
         elements = ContractUtils.LoadJSONFromAsset(filepath);
 
+        //Load story contracts once
+        PopulateStoryContracts();
+
         //Get various elements
         PopulateContents();
         PopulateTargetNames();
         PopulateTargetImages();
+    }
+
+    void PopulateStoryContracts()
+    {
+        string filepath = ContractUtils.StoryContractFilePath;
+        JSON js = ContractUtils.LoadJSONFromAsset(filepath);
+
+        JSON[] rawContracts = js.ToArray<JSON>("Contracts");
+
+        foreach (JSON rawContract in rawContracts)
+        {
+            ContractModel contract = (ContractModel)rawContract;
+
+            StoryContracts.Add(contract);
+        }
+
     }
 
     void PopulateContents()
