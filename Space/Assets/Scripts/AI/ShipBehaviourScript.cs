@@ -41,12 +41,12 @@ public class ShipBehaviourScript : MonoBehaviour {
 		case Behaviour.Cop:
 		case Behaviour.Rescue:
 			m_shipScript.enemies = new string[2]{ "CriminalShip", "CriminalLeader" };
-			m_shipScript.friends = new string[3]{"Player Ship", "CargoShip", "CopShip"};
+			m_shipScript.friends = new string[4]{"Player Ship", "CargoShip", "CopShip", "RescueShip"};
 			break;
 		case Behaviour.Grunt:
 		case Behaviour.Leader:
 		case Behaviour.Turret:
-			m_shipScript.enemies = new string[3]{ "Player Ship", "CargoShip", "CopShip" };
+			m_shipScript.enemies = new string[4]{ "Player Ship", "CargoShip", "CopShip", "RescueShip" };
 			m_shipScript.friends = new string[2]{ "CriminalShip", "CriminalLeader" };
 			break;
 		}
@@ -285,10 +285,13 @@ public class ShipBehaviourScript : MonoBehaviour {
 
 	public void Rescue()
 	{
+
 		if(m_shipScript.DistanceTo(PlayerShipScript.player.transform.position) < 10.0f)
 		{
 			m_shipScript.Chase(5.0f, 4.0f, PlayerShipScript.player.transform);
 		}
+		else
+			m_shipScript.Stop();
 	}
 
 	public void Turret()

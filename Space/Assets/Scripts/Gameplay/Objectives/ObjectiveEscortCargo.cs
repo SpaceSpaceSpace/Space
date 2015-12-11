@@ -61,7 +61,7 @@ public class ObjectiveEscortCargo : Objective
 
     public override void ObjectiveUpdate() 
 	{
-		if(AISpawner != null)
+		if(AISpawner != null && AISpawner.GetComponent<AISpawnerScript>().squad[0] != null)
 		{
 			Vector2 leadPos = AISpawner.GetComponent<AISpawnerScript>().squad[0].transform.position;
 			float cargoDistance = Vector2.Distance(Vector2.zero, leadPos);
