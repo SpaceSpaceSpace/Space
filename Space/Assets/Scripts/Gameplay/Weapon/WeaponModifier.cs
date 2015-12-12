@@ -53,7 +53,7 @@ public struct WeaponModifier
 	public static readonly float[,] modifiers = {
 		{ 0.9f, 0.9f, 1.2f, 1.0f },
 		{ 0.8f, 0.8f, 0.8f, 1.0f },
-		{ 0.8f, 0.8f, 0.8f, 1.0f },
+		{ 2f, 2f, 2f, 1f },
 		{ 0.9f, 0.9f, 1.2f, 1.0f },
 		{ 1.5f, 0.7f, 1f, 1.0f },
 		{ 2f, 1f, 1f, 1.0f },
