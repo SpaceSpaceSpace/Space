@@ -16,6 +16,7 @@ public class StoreBoard : MonoBehaviour {
 	public Text spaceBucks;
 	private List<WeaponInfo> currentWeapons;
 	private int currentSelectedWeapon;
+	public GameObject repairButton;
 
 	void OnEnable()
 	{
@@ -101,7 +102,18 @@ public class StoreBoard : MonoBehaviour {
 
 	public void Repair()
 	{
+		StartCoroutine ("ChangeText");
+
 		PlayerShipScript.player.Repair ();
+	}
+
+	public IEnumerator ChangeText()
+	{
+		repairButton.GetComponentInChildren<Text> ().text = "Health Restored";
+
+		yield return new WaitForSeconds (2.0f);
+
+		repairButton.GetComponentInChildren<Text> ().text = "Repair";
 	}
 
 	public void SetStoreValues(int index)

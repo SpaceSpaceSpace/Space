@@ -5445,6 +5445,7 @@ MonoBehaviour:
   statLocation: {fileID: 139610}
   statPrefab: {fileID: 105418, guid: 7aeca145941fb0d43b90a8562128c927, type: 2}
   spaceBucks: {fileID: 11408870}
+  repairButton: {fileID: 186620}
 --- !u!114 &11472208
 MonoBehaviour:
   m_ObjectHideFlags: 1
