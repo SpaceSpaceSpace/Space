@@ -11,6 +11,8 @@ public class BountyBoard : MonoBehaviour {
     public Text description;
     public Text objectives;
     public Text reward;
+	public Text tier;
+	public GameObject isStoryContract;
     public Image portrait;
     public Image shipImage;
     public GameObject scrollView;
@@ -25,7 +27,13 @@ public class BountyBoard : MonoBehaviour {
         for (int i = 0; i < 5; i++)
             currentContracts.Add(ContractUtils.GetRandomContract(Random.Range(1, MaxBountyLevel)));
 
-        currentContracts.Add(ContractUtils.GetStoryContract(MaxBountyLevel));
+        Contract latestStoryContract = ContractUtils.GetStoryContract(MaxBountyLevel);
+        if (latestStoryContract != null)
+            currentContracts.Add(latestStoryContract);
+        else
+            Debug.Log("Shit");
+
+        Debug.Log(MaxBountyLevel);
 
         PopulateButtons();
     }
@@ -92,6 +100,17 @@ public class BountyBoard : MonoBehaviour {
         SetPortrait(contract.TargetImage);
         SetShipImage(contract.TargetShipImage);
         SetObjectives(contract.Objectives);
+		SetTierLevel (contract.Tier.ToString());
+
+		isStoryContract.SetActive (true);
+		if(contract.IsStoryContract)
+		{
+			isStoryContract.GetComponent<Text>().text = "Story Mission";
+		}
+		else
+		{
+			isStoryContract.GetComponent<Text>().text = "Side Mission";
+		}
     }
 
     private void SetBlankValues()
@@ -101,6 +120,8 @@ public class BountyBoard : MonoBehaviour {
         SetTitle("-----");
         SetDescription("-----", "");
         SetReward("-----");
+		SetTierLevel ("------");
+		isStoryContract.SetActive (false);
     }
 
     public void SetName(string p_Name)
@@ -134,6 +155,11 @@ public class BountyBoard : MonoBehaviour {
     {
         shipImage.sprite = p_ShipImage;
     }
+
+	public void SetTierLevel(string p_tier)
+	{
+		tier.text = p_tier;
+	}
 
     public void SetObjectives(List<Objective> p_Objectives)
     {

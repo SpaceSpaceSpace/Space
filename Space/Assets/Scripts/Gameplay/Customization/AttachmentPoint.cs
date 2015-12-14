@@ -49,6 +49,11 @@ public class AttachmentPoint : MonoBehaviour {
 			if(Input.GetMouseButtonDown(0) && !attaching)
 			{
 				Toggle selectedToggle = WeaponToggles.ActiveToggles().FirstOrDefault();
+
+                //Exit early if nothing is selected
+                if (selectedToggle == null)
+                    return;
+
 				AttachmentToggle attachmentToggle = selectedToggle.GetComponent<AttachmentToggle>();
 
 				WeaponInfo attachment = attachmentToggle.Attachment;
