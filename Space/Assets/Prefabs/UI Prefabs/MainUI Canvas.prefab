@@ -2466,7 +2466,8 @@ MonoBehaviour:
   canvasGroup: {fileID: 22572110}
   objectiveTextPrefab: {fileID: 182142, guid: fdc9caf6a5bacfa449b0413ec051b57d, type: 2}
   viewArea: {fileID: 100054}
-  currentObjectives: []
+  currentObjectives: 
+  currentButtons: []
 --- !u!114 &11407652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5500,6 +5501,9 @@ MonoBehaviour:
   spaceStationUI: {fileID: 189364}
   hangerUI: {fileID: 184756}
   weaponToggles: {fileID: 130788}
+  pauseScreen: {fileID: 0}
+  generalHelp: {fileID: 0}
+  customizationHelp: {fileID: 0}
   player: {fileID: 0}
   weaponDockUI: {fileID: 11432670}
   objectivesUIController: {fileID: 11407630}
