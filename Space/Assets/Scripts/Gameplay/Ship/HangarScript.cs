@@ -12,15 +12,16 @@ public class HangarScript : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
-		UI_Manager.instance.DisplayHangerUI (true);
+		if(coll.gameObject.name == "Player Ship")
+			UI_Manager.instance.DisplayHangerUI (true);
 	}
 
 	void GoToPlayer()
 	{
 		// Seek code for Hangar to drift toward player
 		//gameObject.transform.LookAt (player.transform.position);
-
-		gameObject.transform.position += (player.transform.position - transform.position) * 1.0f * Time.deltaTime;
+		if(player != null)
+			gameObject.transform.position += (player.transform.position - transform.position) * 1.0f * Time.deltaTime;
 	}
 	
 	// Update is called once per frame
