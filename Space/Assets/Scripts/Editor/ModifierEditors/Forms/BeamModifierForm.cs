@@ -5,7 +5,7 @@ using System.IO;
 public class BeamModifierForm : ContractFormBase
 {
     public string Name;
-    public float Damage, Accuracy, FireRate;
+    public float Damage, Accuracy, FireRate, CostMod;
 
     public static BeamModifierForm Init()
     {
@@ -42,13 +42,14 @@ public class BeamModifierForm : ContractFormBase
         Damage = EditorGUILayout.FloatField("Damage", Damage);
         Accuracy = EditorGUILayout.FloatField("Accuracy", Accuracy);
         FireRate = EditorGUILayout.FloatField("FireRate", FireRate);
+        CostMod = EditorGUILayout.FloatField("Cost Mod", CostMod);
 
         GUILayout.FlexibleSpace();
         EditorGUILayout.BeginHorizontal();
         {
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(closeButtonText))
-                AddBeamModifier(new Modifier(Name, Damage, Accuracy, FireRate));
+                AddBeamModifier(new Modifier(Name, Damage, Accuracy, FireRate, CostMod));
         }
         EditorGUILayout.EndHorizontal();
 

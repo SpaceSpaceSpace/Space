@@ -42,7 +42,7 @@ public class ContractForm : ContractFormBase
         editor.TargetShipImagePath = existingContract.TargetShipImagePath;
         editor.Objectives = existingContract.Objectives.ToList();
 
-        editor.replacementIndex = -1;
+        editor.replacementIndex = replacementIndex;
         editor.closeButtonText = "Save";
 
         return editor;

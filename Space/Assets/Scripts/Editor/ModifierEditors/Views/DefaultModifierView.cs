@@ -6,20 +6,21 @@ using System.IO;
 public class Modifier
 {
     public string Name;
-    public float Damage, Accuracy, FireRate;
+    public float Damage, Accuracy, FireRate, CostMod;
 
-    public Modifier(string name, float damage, float accuracy, float fireRate)
+    public Modifier(string name, float damage, float accuracy, float fireRate, float costMod)
     {
         //Replace spaces with underscores
         Name = name.Replace(' ', '_');
         Damage = damage;
         Accuracy = accuracy;
         FireRate = fireRate;
+        CostMod = costMod;
     }
 
     public override string ToString()
     {
-        return Name + "," + Damage + "f," + Accuracy + "f," + FireRate + "f";
+        return Name + "," + Damage + "f," + Accuracy + "f," + FireRate + "f," + CostMod + "f";
     }
 }
 
@@ -40,10 +41,31 @@ public class DefaultModifierView : ContractViewBase<Modifier>
     {
         GUILayout.BeginVertical(EditorStyles.helpBox);
         {
+            float damagePercent = (data.Damage - 1) * 100;
+            string damageString = damagePercent + "%";
+            if (damagePercent > 0)
+                damageString = "+" + damageString;
+
+            float accuracyPercent = (data.Accuracy - 1) * 100;
+            string accuracyString = accuracyPercent + "%";
+            if (accuracyPercent > 0)
+                accuracyString = "+" + accuracyString;
+
+            float fireRatePercent = (data.FireRate - 1) * 100;
+            string fireRateString = fireRatePercent + "%";
+            if (fireRatePercent > 0)
+                fireRateString = "+" + fireRateString;
+
+            float costModPercent = (data.CostMod - 1) * 100;
+            string costModString = costModPercent + "%";
+            if (costModPercent > 0)
+                costModString = "+" + costModString;
+
             GUILayout.Label("Name: " + data.Name);
-            GUILayout.Label("Damage: " + data.Damage);
-            GUILayout.Label("Accuracy: " + data.Accuracy);
-            GUILayout.Label("Fire Rate: " + data.FireRate);
+            GUILayout.Label("Damage: " + damageString);
+            GUILayout.Label("Accuracy: " + accuracyString);
+            GUILayout.Label("Fire Rate: " + fireRateString);
+            GUILayout.Label("Cost Modification: " + costModString);
 
             ControlsArea(data);
         }
@@ -69,12 +91,14 @@ public class DefaultModifierView : ContractViewBase<Modifier>
             string damageString = rawData[i, 1].TrimEnd('f');
             string accuracyString = rawData[i, 2].TrimEnd('f');
             string fireRateString = rawData[i, 3].TrimEnd('f');
+            string costModString = rawData[i, 4].TrimEnd('f');
 
             float damage = float.Parse(damageString);
             float accuracy = float.Parse(accuracyString);
             float fireRate = float.Parse(fireRateString);
+            float costMod = float.Parse(costModString);
 
-            Data.Add(new Modifier(name, damage, accuracy, fireRate));
+            Data.Add(new Modifier(name, damage, accuracy, fireRate, costMod));
         }
     }
 
