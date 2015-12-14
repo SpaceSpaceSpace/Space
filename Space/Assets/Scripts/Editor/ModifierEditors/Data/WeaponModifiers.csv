@@ -1,6 +1,5 @@
 ModifierName,DAMAGE,ACCURACY,FIRE_RATE,COST_MOD
-
-DEFAULT,1f,1f,1f,1.0f
+DEFAULT,1f,1f,1f,1f
 Crappy,0.5f,0.5f,0.5f,1.0f
 Godly,1.5f,1.5f,1.5f,1.0f
 Fast,0.9f,0.9f,1.2f,1.0f
@@ -13,4 +12,3 @@ Focused,1f,1.5f,1f,1.0f
 Cheap,0.8f,0.8f,0f,1.0f
 Reaching,1f,1.2f,0f,1.0f
 Burny,1.2f,1f,0f,1.0f
-
