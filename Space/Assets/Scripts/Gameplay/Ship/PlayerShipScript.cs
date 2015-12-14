@@ -66,6 +66,7 @@ public class PlayerShipScript : ShipScript
 		m_cameraTransform = Camera.main.transform.parent;
 
 		SetDefaultLoadout ();
+		GameMaster.playerData.playerMoney = 25;
 	}
 	
 	void Update ()
@@ -143,6 +144,12 @@ public class PlayerShipScript : ShipScript
 	{
 		m_docked = false;
 		InitWeapons();
+	}
+
+	public void Repair()
+	{
+		m_health = m_maxHealth;
+		EventManager.TriggerEvent (EventDefs.PLAYER_HEALTH_UPDATE);
 	}
 	
 	public override void ApplyDamage( float damage, float shieldPen = 0.0f )
