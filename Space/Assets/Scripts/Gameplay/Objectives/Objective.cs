@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using WyrmTale;
 
 //Really just a base class that all ContractObjectives will inherit from
@@ -15,6 +16,8 @@ public abstract class Objective
     }
 
     protected bool completed;
+
+	public string objectiveType;
 
     //Override to describe what happens during this objective
     public abstract void SetupObjective(GameObject objectiveManager, int tier = 0);
@@ -81,6 +84,8 @@ public abstract class Objective
                 objective.sector = Resources.Load<Sector>("Sectors/" + sectorName);
             else
                 objective.sector = GameMaster.Sectors[sectorName];
+
+			objective.objectiveType = type;
 
             return objective;
         }
