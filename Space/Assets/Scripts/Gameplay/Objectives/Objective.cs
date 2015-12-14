@@ -61,6 +61,9 @@ public abstract class Objective
                 case "EscortCargo":
                     objective = new ObjectiveEscortCargo();
                     break;
+                case "Rescue":
+                    objective = new ObjectiveRescue();
+                    break;
                 default:
                     objective = new ObjectiveTurnInContract();
                     break;
