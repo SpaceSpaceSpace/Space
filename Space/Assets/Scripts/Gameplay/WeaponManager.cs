@@ -9,12 +9,12 @@ public class WeaponManager : MonoBehaviour
 	void Start()
 	{
 		costs = new int[ (int)WeaponScript.WeaponType.NUM_WEAPONS ];
-		costs[(int)WeaponScript.WeaponType.LASER_MACHINE_GUN] = 100;
-		costs[(int)WeaponScript.WeaponType.SNIPER] = 100;
-		costs[(int)WeaponScript.WeaponType.SCATTER_SHOT] = 100;
-		costs[(int)WeaponScript.WeaponType.BEAM] = 100;
-		costs[(int)WeaponScript.WeaponType.MISSILE_LAUNCHER] = 100;
-		costs[(int)WeaponScript.WeaponType.MINE_LAUNCHER] = 100;
+		costs[(int)WeaponScript.WeaponType.LASER_MACHINE_GUN] = 25;
+		costs[(int)WeaponScript.WeaponType.SNIPER] = 25;
+		costs[(int)WeaponScript.WeaponType.SCATTER_SHOT] = 25;
+		costs[(int)WeaponScript.WeaponType.BEAM] = 25;
+		costs[(int)WeaponScript.WeaponType.MISSILE_LAUNCHER] = 50;
+		costs[(int)WeaponScript.WeaponType.MINE_LAUNCHER] = 50;
 	}
 
 

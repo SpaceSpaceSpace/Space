@@ -6,6 +6,7 @@ public class MineWeaponScript : WeaponScript
 	public float fireTime = 1.0f;
 	public float mineLifeTime = 60.0f;
 	public float projectileSpeed = 10.0f;
+	public float cost = 50.0f;
 
 	private MineProjectileScript m_mineProj;
 	private bool m_canFire = true;

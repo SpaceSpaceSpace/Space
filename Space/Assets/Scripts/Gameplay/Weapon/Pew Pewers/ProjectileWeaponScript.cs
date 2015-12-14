@@ -61,7 +61,7 @@ public class ProjectileWeaponScript : WeaponScript
 		info.AddAttribute( "Fire Rate", RoundStatToDecimalPlaces( 1 / fireTime, 2 ) + "/s" );
 		info.AddAttribute( "Projectile Speed", RoundStatToDecimalPlaces( projectileSpeed, 1 ).ToString() );
 		info.AddAttribute( "Accuracy", RoundStatToDecimalPlaces( ( 1 - ( maxSpreadAngle * 2 / 180 ) ) * 100, 1 ) + "%" );
-		info.AddAttribute( "Cost", cost);
+		info.AddAttribute( "Cost", RoundStatToDecimalPlaces(cost,1).ToString());
 
 		return info;
 	}
@@ -71,6 +71,7 @@ public class ProjectileWeaponScript : WeaponScript
 		float moddedDamage = damage * WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.DAMAGE );
 		float moddedFireRate = fireTime / WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.FIRE_RATE );
 		float moddedAccuracy = maxSpreadAngle / WeaponModifier.GetModifierValue( mod, WeaponModifier.Stats.ACCURACY );
+		float moddedCost = cost * WeaponModifier.GetModifierValue(mod, WeaponModifier.Stats.COST_MOD);
 
 		WeaponInfo info = new WeaponInfo( weaponType, mod );
 
@@ -88,7 +89,8 @@ public class ProjectileWeaponScript : WeaponScript
 		info.AddAttribute( "Fire Rate", RoundStatToDecimalPlaces( 1 / moddedFireRate, 1 ) + "/s" );
 		info.AddAttribute( "Projectile Speed", RoundStatToDecimalPlaces( projectileSpeed, 1 ).ToString() );
 		info.AddAttribute( "Accuracy", RoundStatToDecimalPlaces( ( 1 - ( moddedAccuracy * 2 / 180 ) ) * 100, 1 ) + "%" );
-		
+		info.AddAttribute( "Cost", moddedCost.ToString());
+
 		return info;
 	}
 

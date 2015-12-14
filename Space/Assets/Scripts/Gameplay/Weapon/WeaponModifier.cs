@@ -10,14 +10,12 @@ public struct WeaponModifier
 		Godly,
 		Fast,
 		of_Doom_suffix,
-		Abundant,
-		Lacking,
 		Big_Boom_Boom,
 		Rapid,
 		Speedy,
-		Blaarg,
-		Reaching,
-		Burny,
+		Abundant,
+		Lacking,
+		Big_Boom_Boom,
 
 		NUM_MODIFIERS
 	}
@@ -51,19 +49,17 @@ public struct WeaponModifier
 	public const int BEAM_WEP_END = (int)ModifierNames.NUM_MODIFIERS;
 	
 	public static readonly float[,] modifiers = {
-		{ 0.9f, 0.9f, 1.2f, 1.0f },
+		{ 1f, 1f, 1f, 1f },
 		{ 0.8f, 0.8f, 0.8f, 1.0f },
-		{ 2f, 2f, 2f, 1f },
+		{ 2f, 2f, 2f, 2f },
 		{ 0.9f, 0.9f, 1.2f, 1.0f },
-		{ 1.5f, 0.7f, 1f, 1.0f },
-		{ 2f, 1f, 1f, 1.0f },
-		{ 0.8f, 1f, 1f, 1.0f },
-		{ 1.5f, 0.7f, 1f, 1.0f },
-		{ 0.9f, 1f, 1.2f, 1.0f },
-		{ 1f, 1.5f, 1f, 1.0f },
-		{ 0.8f, 0.8f, 0f, 1.0f },
-		{ 1f, 1.2f, 0f, 1.0f },
-		{ 1.2f, 1f, 0f, 1.0f },
+		{ 1.4f, 0.8f, 0.8f, 1f },
+		{ 1.5f, 0.7f, 1f, 1f },
+		{ 0.9f, 1f, 1.2f, 1f },
+		{ 1f, 1.5f, 1f, 1f },
+		{ 3f, 2f, 1f, 2f },
+		{ 0.8f, 0.4f, 1f, 0f },
+		{ 1.2f, 0.8f, 1f, 1f },
 
 	};
 

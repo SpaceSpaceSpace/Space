@@ -6,6 +6,7 @@ public class ExplosiveProjectile : ProjectileScript
 	public float blastRadius = 10.0f;
 	public float blastForce = 10.0f;
 	public float safetyTime = 0.5f;
+	public float cost = 50.0f;
 
 	private bool m_safety = true; // Shouldn't detonate too soon after firing
 
