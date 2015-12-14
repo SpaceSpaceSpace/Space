@@ -13,6 +13,7 @@ public class StoreBoard : MonoBehaviour {
 	public GameObject buttonPrefab;
 	public GameObject statLocation;
 	public GameObject statPrefab;
+	public Text spaceBucks;
 	private List<WeaponInfo> currentWeapons;
 	private int currentSelectedWeapon;
 
@@ -40,6 +41,8 @@ public class StoreBoard : MonoBehaviour {
 
 		//GameObject g2 = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponScript.WeaponType.MISSILE_LAUNCHER);
 		//currentWeapons.Add (g2.GetComponent<WeaponScript> ().ToInfo(WeaponModifier.ModifierNames.));
+
+		spaceBucks.text = "$* " + GameMaster.playerData.playerMoney;
 
 		PopulateButtons ();
 	}
@@ -94,6 +97,11 @@ public class StoreBoard : MonoBehaviour {
 				SetBlankValues();
 			}
 		}
+	}
+
+	public void Repair()
+	{
+		PlayerShipScript.player.Repair ();
 	}
 
 	public void SetStoreValues(int index)
