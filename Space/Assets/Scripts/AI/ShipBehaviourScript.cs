@@ -21,7 +21,8 @@ public class ShipBehaviourScript : MonoBehaviour {
 		Leader,
 		Cargo,
 		Cop,
-		Rescue
+		Rescue,
+		Turret
 	}
 
 	public Behaviour behaviour; // to be defined in the inspector
@@ -38,13 +39,27 @@ public class ShipBehaviourScript : MonoBehaviour {
 		case Behaviour.Civilian:
 		case Behaviour.Cargo:
 		case Behaviour.Cop:
+		case Behaviour.Rescue:
 			m_shipScript.enemies = new string[2]{ "CriminalShip", "CriminalLeader" };
-			m_shipScript.friends = new string[3]{"Player Ship", "CargoShip", "CopShip"};
+			m_shipScript.friends = new string[4]{"Player Ship", "CargoShip", "CopShip", "RescueShip"};
 			break;
 		case Behaviour.Grunt:
 		case Behaviour.Leader:
-			m_shipScript.enemies = new string[3]{ "Player Ship", "CargoShip", "CopShip" };
+		case Behaviour.Turret:
+			m_shipScript.enemies = new string[4]{ "Player Ship", "CargoShip", "CopShip", "RescueShip" };
 			m_shipScript.friends = new string[2]{ "CriminalShip", "CriminalLeader" };
+			break;
+		}
+
+		// For special objects which won't be spawned through AISpawners 
+		switch (GetComponent<ShipBehaviourScript>().behaviour)
+		{
+		case ShipBehaviourScript.Behaviour.Turret:
+			AIShipScript ss = GetComponent<AIShipScript>();
+			
+			ss.InitWeapons();
+			WeaponScript.WeaponType weapon = (WeaponScript.WeaponType) Random.Range(0, (int)WeaponScript.WeaponType.SCATTER_SHOT + 1);
+			ss.WeaponSlots[ 0 ].SetWeapon( Instantiate( GameMaster.WeaponMngr.GetWeaponPrefab( weapon ) ) );
 			break;
 		}
 	}
@@ -56,7 +71,7 @@ public class ShipBehaviourScript : MonoBehaviour {
 			return;
 
 		// if you reach the edge of the sector, return, unless it's a cargo ship
-		if(!(behaviour == Behaviour.Cargo) && (Mathf.Abs(transform.position.x) > 350.0f || Mathf.Abs(transform.position.y) > 350.0f))
+		if(!(behaviour == Behaviour.Cargo) && (Mathf.Abs(transform.position.x) > 300.0f || Mathf.Abs(transform.position.y) > 300.0f))
 		{
 			m_shipScript.FaceTarget(Vector2.zero);
 			m_shipScript.MoveForward();
@@ -82,6 +97,12 @@ public class ShipBehaviourScript : MonoBehaviour {
 			break;
 		case Behaviour.Cop:
 			Cop ();
+			break;
+		case Behaviour.Rescue:
+			Rescue();
+			break;
+		case Behaviour.Turret:
+			Turret();
 			break;
 		}
 	}
@@ -264,9 +285,32 @@ public class ShipBehaviourScript : MonoBehaviour {
 
 	public void Rescue()
 	{
+
 		if(m_shipScript.DistanceTo(PlayerShipScript.player.transform.position) < 10.0f)
 		{
 			m_shipScript.Chase(5.0f, 4.0f, PlayerShipScript.player.transform);
+		}
+		else
+			m_shipScript.Stop();
+	}
+
+	public void Turret()
+	{
+		if(m_shipScript.WeaponSlots[0].Weapon != null)
+		{
+			// If the player is less than 15 units away, move toward it
+			if(m_shipScript.CheckAggro())
+			{
+				if(m_shipScript.Target != null)
+				{
+					m_shipScript.TurnWeapon();
+					Vector2 weaponRot = m_shipScript.WeaponSlots[0].Weapon.transform.up;
+					if(Vector2.Angle(weaponRot, m_shipScript.Target.position - transform.position) < 45.0f && m_shipScript.CanShootTarget(m_shipScript.Target))
+					{
+						m_shipScript.FireWeapon();
+					}
+				}
+			}
 		}
 	}
 }

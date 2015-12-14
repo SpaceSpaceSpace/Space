@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class UIMarker : MonoBehaviour {
 
-	public List<GameObject> targetStack;
+	public List<GameObject> targetStack = new List<GameObject>();
 
 	// Use this for initialization
 	void Start () {
@@ -28,11 +28,11 @@ public class UIMarker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-		if(targetStack.Count == 0)
-		{
-			gameObject.SetActive(false);
-		}
+
+        if (targetStack.Count == 0)
+        {
+            gameObject.SetActive(false);
+        }
 
 		transform.localPosition = Vector3.zero;
 		Vector3 direction =  targetStack[targetStack.Count - 1].transform.position - transform.parent.transform.position;

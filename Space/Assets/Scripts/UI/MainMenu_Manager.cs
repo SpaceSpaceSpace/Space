@@ -13,6 +13,7 @@ public class MainMenu_Manager : MonoBehaviour {
 		GameMaster.CurrentGameState = GameState.Flying;
 
 		Application.LoadLevel ("MainScene");
+		print (SFXLibrary.Instance);
 	}
 
 	public void Quit()

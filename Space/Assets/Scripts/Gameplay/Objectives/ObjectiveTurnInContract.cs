@@ -5,7 +5,7 @@ public class ObjectiveTurnInContract : Objective
 {
     GameObject store;
 
-    public override void SetupObjective(GameObject objectiveManager)
+    public override void SetupObjective(GameObject objectiveManager, int tier)
     {
         //if(sector != null)
         //    store = sector.SpaceStore.gameObject;
@@ -14,7 +14,11 @@ public class ObjectiveTurnInContract : Objective
 
         //TODO: Make this unnecessary
         if (store == null)
+		{
             store = GameObject.Find("SpaceStore");
+			store.transform.parent = WarpScript.instance.currentPlanet.transform;
+		}
+			
     }
 
     public override void ObjectiveUpdate()

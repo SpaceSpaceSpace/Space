@@ -18,8 +18,6 @@ public struct WeaponModifier
 		Blaarg,
 		Reaching,
 		Burny,
-		of_Joe_suffix,
-		a,
 
 		NUM_MODIFIERS
 	}
@@ -29,6 +27,7 @@ public struct WeaponModifier
 		DAMAGE,
 		ACCURACY,
 		FIRE_RATE,
+		COST_MOD,
 
 		NUM_STATS,
 
@@ -52,21 +51,19 @@ public struct WeaponModifier
 	public const int BEAM_WEP_END = (int)ModifierNames.NUM_MODIFIERS;
 	
 	public static readonly float[,] modifiers = {
-		{ 1f, 1f, 1f },
-		{ 0.8f, 0.8f, 0.8f },
-		{ 2f, 2f, 2f },
-		{ 0.9f, 0.9f, 1.2f },
-		{ 1.5f, 0.7f, 1f },
-		{ 2f, 1f, 1f },
-		{ 0.8f, 1f, 1f },
-		{ 1.5f, 0.7f, 1f },
-		{ 0.9f, 1f, 1.2f },
-		{ 1f, 1.5f, 1f },
-		{ 0.8f, 0.8f, 0f },
-		{ 1f, 1.2f, 0f },
-		{ 1.2f, 1f, 0f },
-		{ 0f, 0f, 0f },
-		{ 0f, 0f, 0f },
+		{ 0.9f, 0.9f, 1.2f, 1.0f },
+		{ 0.8f, 0.8f, 0.8f, 1.0f },
+		{ 2f, 2f, 2f, 1f },
+		{ 0.9f, 0.9f, 1.2f, 1.0f },
+		{ 1.5f, 0.7f, 1f, 1.0f },
+		{ 2f, 1f, 1f, 1.0f },
+		{ 0.8f, 1f, 1f, 1.0f },
+		{ 1.5f, 0.7f, 1f, 1.0f },
+		{ 0.9f, 1f, 1.2f, 1.0f },
+		{ 1f, 1.5f, 1f, 1.0f },
+		{ 0.8f, 0.8f, 0f, 1.0f },
+		{ 1f, 1.2f, 0f, 1.0f },
+		{ 1.2f, 1f, 0f, 1.0f },
 
 	};
 

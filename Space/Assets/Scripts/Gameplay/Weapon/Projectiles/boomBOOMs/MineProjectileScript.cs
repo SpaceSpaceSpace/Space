@@ -4,9 +4,14 @@ using System.Collections;
 public class MineProjectileScript : ExplosiveProjectile
 {
 	private Animator m_animator;
+	private float m_plantedLifeTime;
+	private float m_unplantedLifeTime = 3.0f;
 
 	void Start()
 	{
+		m_plantedLifeTime = m_lifeTime - m_unplantedLifeTime;
+		m_lifeTime = m_unplantedLifeTime;
+
 		m_animator = GetComponent<Animator>();
 	}
 
@@ -24,6 +29,7 @@ public class MineProjectileScript : ExplosiveProjectile
 	{
 		Destroy( GetComponent<Rigidbody2D>() );
 		Destroy( GetComponent<Collider2D>() );
+		m_lifeTime += m_plantedLifeTime;
 		transform.parent = target;
 	}
 
