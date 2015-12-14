@@ -187,6 +187,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &145230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 467836}
+  - 20: {fileID: 2003142}
+  m_Layer: 0
+  m_Name: UI_Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &146606
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,6 +638,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 419880}
   m_RootOrder: 4
+--- !u!4 &467836
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145230}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 468328}
+  m_RootOrder: 2
 --- !u!4 &468328
 Transform:
   m_ObjectHideFlags: 1
@@ -634,6 +662,7 @@ Transform:
   m_Children:
   - {fileID: 405802}
   - {fileID: 400312}
+  - {fileID: 467836}
   - {fileID: 489952}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -697,7 +726,7 @@ Transform:
   m_Children:
   - {fileID: 419880}
   m_Father: {fileID: 468328}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!4 &494716
 Transform:
   m_ObjectHideFlags: 1
@@ -722,6 +751,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 419880}
   m_RootOrder: 6
+--- !u!20 &2003142
+Camera:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145230}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 4
+  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: .300000012
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 32
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_HDR: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: .0219999999
+  m_StereoMirrorMode: 0
 --- !u!20 &2012038
 Camera:
   m_ObjectHideFlags: 1
@@ -750,7 +812,6 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -784,7 +845,6 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 9ac1a33ea2db23b42b5d8f43eb57696e, type: 2}
   m_TargetDisplay: 0
-  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -814,11 +874,10 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294962943
+    m_Bits: 4294962911
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -847,7 +906,6 @@ AudioSource:
   m_Pitch: 1
   Loop: 1
   Mute: 0
-  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
@@ -916,9 +974,8 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
-  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
@@ -987,9 +1044,8 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
-  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
@@ -1060,7 +1116,6 @@ AudioSource:
   m_Pitch: 1
   Loop: 1
   Mute: 0
-  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
@@ -1149,8 +1204,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outOfCombat: {fileID: 24500003, guid: ca6e7b0dc3202c14883a2027f99d317d, type: 2}
   inCombat: {fileID: 24527442, guid: ca6e7b0dc3202c14883a2027f99d317d, type: 2}
-  transitionInstruments: []
-  transitionSource: {fileID: 0}
+  transitionToBattle: {fileID: 0}
+  transitionFromBattle: {fileID: 0}
   bpm: 128
 --- !u!124 &12407502
 Behaviour:

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class ObjectiveEvent : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class ObjectiveEvent : MonoBehaviour
     private GameObject target;
     private GameObject nextObjective;
     Objective objective;
+    Type objectiveType;
 
     //Look into enums for different objective types
 
@@ -37,10 +39,16 @@ public class ObjectiveEvent : MonoBehaviour
         return true;
     }
 
+	public Objective Objective
+	{
+		get { return objective; }
+	}
+
     void Start()
     {
         objective.Position = transform.position;
 
+        objectiveType = objective.GetType();
         objective.SetupObjective(gameObject, objectiveContract.Tier);
     }
 
@@ -64,9 +72,19 @@ public class ObjectiveEvent : MonoBehaviour
             PlayerShipScript.player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(gameObject);
         }
 
-        //If this was a story contract make another story contract available
-        if (objectiveContract.IsStoryContract)
-            BountyBoard.MaxBountyLevel++;
+		if (objectiveContract.IsStoryContract)
+            BountyBoard.MaxBountyLevel++;		List<int> eventsInstanceIDs = UI_Manager.instance.objectivesUIController.currentObjectives;
+		
+		for(int i = 0; i < eventsInstanceIDs.Count; i++)
+		{
+			Debug.Log("ObjectiveEvent ID: " + gameObject.GetInstanceID());
+			Debug.Log("UIControllerEvent ID: " + eventsInstanceIDs[i]);
+			if(eventsInstanceIDs[i] == this.gameObject.GetInstanceID())
+			{
+				UI_Manager.instance.objectivesUIController.CompleteTask(i);
+				break;
+			}
+		}
 
         Destroy(gameObject);
     }
