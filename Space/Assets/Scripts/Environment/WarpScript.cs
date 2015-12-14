@@ -20,9 +20,22 @@ public class WarpScript : MonoBehaviour
 		}
 		starBackground = (GameObject)GameObject.Find ("StarBackground");
 		allPlanets = new List<GameObject> ();
+		LoadAllSectors();
 		LoadSector ();//LOL
 	}
 
+	void LoadAllSectors()
+	{
+		foreach(KeyValuePair<string, Sector> v in GameMaster.Sectors)
+		{
+			GameObject levelObj = v.Value.gameObject;
+
+			GameObject g = Instantiate (levelObj);
+			g.name = v.Key;
+			allPlanets.Add (g);
+			g.SetActive(false);
+		}
+	}
 	void LoadSector()
 	{
 		bool planetExists = false;

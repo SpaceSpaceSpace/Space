@@ -8,7 +8,7 @@ public abstract class Objective
     public Vector2 Position;
 
     //The Sector the objective takes place in
-    public Sector sector;
+	public Sector sector = GameMaster.Sectors["Nek’tan Prime"];
 
     public bool Completed {
         get { return completed; }

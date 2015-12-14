@@ -15,7 +15,7 @@ public class AISpawnerScript : MonoBehaviour {
 	private Transform objective;
 
 	public List<GameObject> squad;
-	public Transform Objective { set { objective = value; } }
+	public Transform Objective { get { return objective; } set { objective = value; } }
 	// Use this for initialization
 	public int tier;
 

@@ -6,7 +6,7 @@ public class ObjectiveEvent : MonoBehaviour
     private Contract objectiveContract;
     private GameObject target;
     private GameObject nextObjective;
-    Objective objective;
+    public Objective objective;
 
     //Look into enums for different objective types
 
@@ -39,9 +39,9 @@ public class ObjectiveEvent : MonoBehaviour
 
     void Start()
     {
-        objective.Position = transform.position;
+		objective.Position = transform.position;
 
-        objective.SetupObjective(gameObject, objectiveContract.Tier);
+		objective.SetupObjective(gameObject, objectiveContract.Tier);
     }
 
     private void CompleteTask()
