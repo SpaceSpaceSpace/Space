@@ -10,7 +10,6 @@ public struct WeaponModifier
 		Godly,
 		Fast,
 		of_Doom_suffix,
-		Big_Boom_Boom,
 		Rapid,
 		Speedy,
 		Abundant,

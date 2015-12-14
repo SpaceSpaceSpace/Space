@@ -19,10 +19,17 @@ public class Wallet : MonoBehaviour {
         }
 	}
 	
-    public void MakeItRain(int sB, Wallet otherPerson)
+    public bool MakeItRain(int sB, Wallet otherPerson)
     {
+		if(sB > starBucks)
+			return false;
+		else
+		{
         otherPerson.GetPaid(sB);
         starBucks -= sB;
+			return true;
+		}
+
     }
     public void GetPaid(int sB)
     {
@@ -32,7 +39,7 @@ public class Wallet : MonoBehaviour {
     {
         value /= 4;
     }
-    public string ToString()
+    public string ToWords()
     {
         string thisWallet = "";
         if (player)
