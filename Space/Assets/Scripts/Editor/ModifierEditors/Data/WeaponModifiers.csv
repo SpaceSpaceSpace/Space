@@ -1,7 +1,7 @@
 ModifierName,DAMAGE,ACCURACY,FIRE_RATE,COST_MOD
 DEFAULT,0.9f,0.9f,1.2f,1.0f
 Crappy,0.8f,0.8f,0.8f,1.0f
-Godly,0.8f,0.8f,0.8f,1.0f
+Godly,2f,2f,2f,1f
 Fast,0.9f,0.9f,1.2f,1.0f
 of_Doom_suffix,1.5f,0.7f,1f,1.0f
 Abundant,2f,1f,1f,1.0f

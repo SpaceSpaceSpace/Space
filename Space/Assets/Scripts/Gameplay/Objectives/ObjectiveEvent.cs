@@ -41,7 +41,7 @@ public class ObjectiveEvent : MonoBehaviour
     {
         objective.Position = transform.position;
 
-        objective.SetupObjective(gameObject);
+        objective.SetupObjective(gameObject, objectiveContract.Tier);
     }
 
     private void CompleteTask()
