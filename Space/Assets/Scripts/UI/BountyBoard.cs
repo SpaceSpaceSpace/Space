@@ -27,7 +27,13 @@ public class BountyBoard : MonoBehaviour {
         for (int i = 0; i < 5; i++)
             currentContracts.Add(ContractUtils.GetRandomContract(Random.Range(1, MaxBountyLevel)));
 
-        currentContracts.Add(ContractUtils.GetStoryContract(MaxBountyLevel));
+        Contract latestStoryContract = ContractUtils.GetStoryContract(MaxBountyLevel);
+        if (latestStoryContract != null)
+            currentContracts.Add(latestStoryContract);
+        else
+            Debug.Log("Shit");
+
+        Debug.Log(MaxBountyLevel);
 
         PopulateButtons();
     }

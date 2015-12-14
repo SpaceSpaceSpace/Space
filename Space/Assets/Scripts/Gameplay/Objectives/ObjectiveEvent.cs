@@ -71,9 +71,9 @@ public class ObjectiveEvent : MonoBehaviour
             objectiveContract.CompleteContractObjective(objectiveEvent.objective);
             PlayerShipScript.player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(gameObject);
         }
+            
 
-		if (objectiveContract.IsStoryContract)
-            BountyBoard.MaxBountyLevel++;		List<int> eventsInstanceIDs = UI_Manager.instance.objectivesUIController.currentObjectives;
+        List<int> eventsInstanceIDs = UI_Manager.instance.objectivesUIController.currentObjectives;
 		
 		for(int i = 0; i < eventsInstanceIDs.Count; i++)
 		{

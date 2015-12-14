@@ -92,7 +92,10 @@ public class Contract
 		if(contractObjectives.Count == 0)
 		{
 			completed = true;
-		}
+            //If the contract is a story contract, increase the max bounty level
+            if(IsStoryContract)
+                BountyBoard.MaxBountyLevel++;
+        }
 	}
 	
     public void SpawnContract()
