@@ -87,51 +87,59 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &108703600
+--- !u!1001 &707364733
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 424730, guid: 42862a13c5a45415a8984598837a1618, type: 2}
+    - target: {fileID: 461570, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 424730, guid: 42862a13c5a45415a8984598837a1618, type: 2}
+    - target: {fileID: 461570, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 424730, guid: 42862a13c5a45415a8984598837a1618, type: 2}
+    - target: {fileID: 461570, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 424730, guid: 42862a13c5a45415a8984598837a1618, type: 2}
+    - target: {fileID: 461570, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 424730, guid: 42862a13c5a45415a8984598837a1618, type: 2}
+    - target: {fileID: 461570, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 424730, guid: 42862a13c5a45415a8984598837a1618, type: 2}
+    - target: {fileID: 461570, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 424730, guid: 42862a13c5a45415a8984598837a1618, type: 2}
+    - target: {fileID: 461570, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 424730, guid: 42862a13c5a45415a8984598837a1618, type: 2}
+    - target: {fileID: 461570, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 115708, guid: 42862a13c5a45415a8984598837a1618, type: 2}
-      propertyPath: m_Name
-      value: My Ex Wife's Heart :'(
+    - target: {fileID: 21237468, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 421434, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 421434, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 42862a13c5a45415a8984598837a1618, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: 115b4729f36874ea880b43d525ab601a, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1418415879
 GameObject:

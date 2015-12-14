@@ -20,7 +20,7 @@ public abstract class Objective
 	public string objectiveType;
 
     //Override to describe what happens during this objective
-    public abstract void SetupObjective(GameObject objectiveManager);
+    public abstract void SetupObjective(GameObject objectiveManager, int tier = 0);
 
     public abstract void ObjectiveUpdate();
 

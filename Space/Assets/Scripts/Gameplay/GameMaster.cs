@@ -8,6 +8,9 @@ public enum GameState
 	Station,
 	Customization,
 	GameOver,
+	Pause,
+	H,
+	CHelp,
 	Warping
 }
 

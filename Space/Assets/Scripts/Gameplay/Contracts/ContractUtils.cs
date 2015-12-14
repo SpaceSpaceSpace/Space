@@ -24,8 +24,6 @@ public class ContractUtils
 
     public static Contract GetRandomContract(int Tier)
     {
-        Contract contract = new Contract();
-
         //Get Contract element Tier lists
         int indexedTier = Tier - 1;
 
@@ -48,8 +46,26 @@ public class ContractUtils
             targetImage = targetImages[Random.Range(0, targetImages.Count)];
 
         //Build contract
-        contract = new Contract(targetName.TargetName, content.Description, content.Title, targetImage.TargetImagePath, content.TargetShipImagePath, content.Objectives);
+        Contract contract = new Contract(Tier, targetName.TargetName, content.Description, content.Title, targetImage.TargetImagePath, content.TargetShipImagePath, content.Objectives);
 
         return contract;
+    }
+
+    public static Contract GetStoryContract(int Tier)
+    {
+        Contract contract = new Contract();
+
+        foreach (ContractModel model in ContractManager.StoryContracts)
+        {
+            if (model.Tier == Tier)
+            {
+                contract = new Contract(Tier, model.TargetName, model.Description, model.Title, model.TargetImagePath, model.TargetShipImagePath, model.Objectives);
+                contract.IsStoryContract = true;
+
+                return contract;
+            }
+        }
+
+        return null;
     }
 }

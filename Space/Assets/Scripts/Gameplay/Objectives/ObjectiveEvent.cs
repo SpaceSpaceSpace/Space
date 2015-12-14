@@ -49,8 +49,7 @@ public class ObjectiveEvent : MonoBehaviour
         objective.Position = transform.position;
 
         objectiveType = objective.GetType();
-
-        objective.SetupObjective(gameObject);
+        objective.SetupObjective(gameObject, objectiveContract.Tier);
     }
 
     private void CompleteTask()
@@ -73,7 +72,8 @@ public class ObjectiveEvent : MonoBehaviour
             PlayerShipScript.player.ObjectiveMarker.GetComponent<UIMarker>().removeTargetFromStack(gameObject);
         }
 
-		List<int> eventsInstanceIDs = UI_Manager.instance.objectivesUIController.currentObjectives;
+		if (objectiveContract.IsStoryContract)
+            BountyBoard.MaxBountyLevel++;		List<int> eventsInstanceIDs = UI_Manager.instance.objectivesUIController.currentObjectives;
 		
 		for(int i = 0; i < eventsInstanceIDs.Count; i++)
 		{

@@ -16,7 +16,7 @@ public class ContractModel
 
     public static string StoryContractsPath = "Assets/Resources/Contracts/";
     public static string StoryContractsName = "StoryContracts";
-    public static string StoryContractsExt = ".json";
+    public static string StoryContractsExt = ".txt";
 
     public static List<ContractModel> Contracts = new List<ContractModel>();
     public static Dictionary<string, Texture2D> ContractTargetImages = new Dictionary<string, Texture2D>();
