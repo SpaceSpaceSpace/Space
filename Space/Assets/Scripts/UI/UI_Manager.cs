@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class UI_Manager : MonoBehaviour
 	public GameObject customizationHelp;
 	public PlayerShipScript player;
 	public WeaponDock weaponDockUI;
+
+	public ObjectivesUIController objectivesUIController;
+
+	public Camera otherGameCamera;
 
     private GameObject spaceStationObject;
 	public GameObject SpaceStationObject
@@ -43,18 +48,22 @@ public class UI_Manager : MonoBehaviour
     public void DisplaySpaceStationUI(bool active)
     {
         spaceStationUI.SetActive(active);
-		GameMaster.CurrentGameState = GameState.Station;
 
         if (active)
         {
+			GameMaster.CurrentGameState = GameState.Station;
             player.Dock();
 			player.transform.position = spaceStationObject.transform.position;
             player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+			Camera.main.rect = new Rect (0f, 0f, 1f, 1f);
+			otherGameCamera.rect = new Rect (0f, 0f, 1f, 1f);
         }
         else
         {
 			GameMaster.CurrentGameState = GameState.Flying;
             player.Undock();
+			Camera.main.rect = new Rect (0f, .2f, 1f, 1f);
+			otherGameCamera.rect = new Rect (0f, .2f, 1f, 1f);
         }
     }
 
@@ -135,6 +144,8 @@ public class UI_Manager : MonoBehaviour
         {
             case GameState.GameOver:
                 gameOverScreen.SetActive(true);
+				Camera.main.rect = new Rect (0f, 0f, 1f, 1f);
+				otherGameCamera.rect = new Rect (0f, 0f, 1f, 1f);
                 break;
             case GameState.MainMenu:
                 GameMaster.CurrentGameState = GameState.MainMenu;
@@ -156,6 +167,11 @@ public class UI_Manager : MonoBehaviour
 		{
 			PlayerShipScript.player.stationMarker.SetActive(true);
 		}
+	}
+
+	public void PopulateObjectiveUI(List<ObjectiveEvent> objectiveEvents)
+	{
+		objectivesUIController.PopulateUIObjectives (objectiveEvents);
 	}
 
     public void SetAllScreensToInactive()

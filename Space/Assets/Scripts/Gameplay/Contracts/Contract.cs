@@ -94,8 +94,7 @@ public class Contract
 			completed = true;
 		}
 	}
-
-    //Eventually will spawn objectives based off contract
+	
     public void SpawnContract()
     {
         objectiveEvents = new List<ObjectiveEvent>();
@@ -108,6 +107,7 @@ public class Contract
             ObjectiveEvent contractObjectiveEvent = contractObjectiveObject.GetComponent<ObjectiveEvent>();
             contractObjectiveEvent.ObjectiveContract = this;
             contractObjectiveEvent.ToComplete = objective;
+			contractObjectiveObject.name = "objective " + i;
 
             objectiveEvents.Add(contractObjectiveEvent);
 
@@ -122,6 +122,9 @@ public class Contract
             }  
 			contractObjectiveObject.transform.parent = contractPlanet.transform;
         }
+
+		//Populate objective UI
+		UI_Manager.instance.PopulateObjectiveUI (objectiveEvents);
 	}
 
 	public void SetUIMarker(GameObject contractObjective)
