@@ -186,6 +186,7 @@ public class PlayerShipScript : ShipScript
 		m_weaponSlots [0].SetWeapon (wep3.SpawnWeapon ());
 		m_weaponSlots [1].SetWeapon (wep2.SpawnWeapon ());
 		m_weaponSlots [2].SetWeapon (wep1.SpawnWeapon ());
+		UI_Manager.instance.UpdateWeaponDockUI ();
 	}
 	
 	protected override void Die()
