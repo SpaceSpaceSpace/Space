@@ -20,6 +20,8 @@ public class AISpawnerScript : MonoBehaviour {
 	// Use this for initialization
 	public int tier;
 
+	public GameObject mom;
+
 	public void Init () {
 
 		currentAI = maxAI;
@@ -44,8 +46,14 @@ public class AISpawnerScript : MonoBehaviour {
 				else
 					g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.Euler(new Vector3(0.0f, 0.0f, Random.Range(0, 360))));
 
-				//g.GetComponent<ShieldScript>().maxShieldAmount = tier * 20;
-				//g.GetComponent<ShieldScript>().rechargeRate = 10 - tier;
+				g.GetComponentInChildren<ShieldScript>().maxShieldAmount = (tier - 1) * 20;
+				break;
+			case ShipBehaviourScript.Behaviour.Cargo:
+
+				if(objective.GetComponent<ObjectiveEvent>().ObjectiveContract.IsStoryContract)
+					g = (GameObject)GameObject.Instantiate(mom, spawnPos, Quaternion.Euler(new Vector3(0.0f, 0.0f, Random.Range(0, 360))));
+				else
+					g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.Euler(new Vector3(0.0f, 0.0f, Random.Range(0, 360))));
 				break;
 			default:
 				g = (GameObject)GameObject.Instantiate(AIPrefab, spawnPos, Quaternion.Euler(new Vector3(0.0f, 0.0f, Random.Range(0, 360))));
