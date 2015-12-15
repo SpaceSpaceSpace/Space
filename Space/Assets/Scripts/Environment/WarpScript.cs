@@ -20,9 +20,22 @@ public class WarpScript : MonoBehaviour
 		}
 		starBackground = (GameObject)GameObject.Find ("StarBackground");
 		allPlanets = new List<GameObject> ();
+		LoadAllSectors();
 		LoadSector ();//LOL
 	}
 
+	void LoadAllSectors()
+	{
+		foreach(KeyValuePair<string, Sector> v in GameMaster.Sectors)
+		{
+			GameObject levelObj = v.Value.gameObject;
+
+			GameObject g = Instantiate (levelObj);
+			g.name = v.Key;
+			allPlanets.Add (g);
+			g.SetActive(false);
+		}
+	}
 	void LoadSector()
 	{
 		bool planetExists = false;
@@ -36,6 +49,14 @@ public class WarpScript : MonoBehaviour
 				planetExists = true;
 				planet.SetActive(true);
 				currentPlanet = planet;
+
+				foreach (Contract c in GameMaster.playerData.playerContracts)
+				{
+					if(c.objectiveEvents[0].Objective.sector.name == planet.name)
+					{
+						c.objectiveEvents[0].gameObject.SetActive(true);
+					}
+				}
 			}
 		}
 
