@@ -56,7 +56,10 @@ public class ProjectileWeaponScript : WeaponScript
 		{
 			dmgString += " (x" + projectilesPerShot + ")";
 		}
-
+        if(weaponType == WeaponType.MISSILE_LAUNCHER)
+        {
+            SetCost(50.0f);
+        }
 		info.AddAttribute( "Damage", dmgString );
 		info.AddAttribute( "Fire Rate", RoundStatToDecimalPlaces( 1 / fireTime, 2 ) + "/s" );
 		info.AddAttribute( "Projectile Speed", RoundStatToDecimalPlaces( projectileSpeed, 1 ).ToString() );

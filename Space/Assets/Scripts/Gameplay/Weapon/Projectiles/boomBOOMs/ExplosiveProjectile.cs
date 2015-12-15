@@ -21,6 +21,7 @@ public class ExplosiveProjectile : ProjectileScript
 	{
 		if(ms_explosion == null)
 			ms_explosion = Resources.Load("ShipPrefabs/MissileExplosion") as GameObject;
+        
 	}
 
 	void OnCollisionEnter2D( Collision2D collision )

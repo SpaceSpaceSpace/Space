@@ -2,8 +2,6 @@ ModifierName,DAMAGE,ACCURACY,FIRE_RATE,COST_MOD
 Fast,0.9f,0.9f,1.2f,1f
 of_Doom_suffix,1.4f,0.8f,0.8f,1f
 Godly,1.5f,1.5f,1.5f,1.0f
-Fast,0.9f,0.9f,1.2f,1.0f
-of_Doom_suffix,1.5f,0.7f,1f,1.0f
 Abundant,3f,2f,1f,2f
 Lacking,0.8f,0.4f,1f,1f
 Big_Boom_Boom,1.2f,0.8f,1f,1f
@@ -12,3 +10,4 @@ Focused,1f,1.5f,1f,1.0f
 Cheap,1.25f,1f,0.75f,1f
 Reaching,1f,1f,0.8f,1f
 Burny,1.2f,0.8f,1f,1f
+DEFAULT,1f,1f,1f

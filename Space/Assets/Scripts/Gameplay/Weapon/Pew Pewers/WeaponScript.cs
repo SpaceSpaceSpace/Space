@@ -68,7 +68,7 @@ public abstract class WeaponScript : MonoBehaviour
 	{
 		return (float)System.Math.Round( statValue, sigFigs );
 	}
-	protected void SetCost(int c)
+	protected void SetCost(float c)
 	{
 		cost = c;
 	}

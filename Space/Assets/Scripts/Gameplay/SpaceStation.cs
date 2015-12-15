@@ -5,6 +5,7 @@ public class SpaceStation : InteractableScript
 {
 
     public PlayerShipScript playerShip;
+    
 
 	void Start()
 	{

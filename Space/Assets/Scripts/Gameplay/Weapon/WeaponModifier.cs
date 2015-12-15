@@ -5,8 +5,6 @@ public struct WeaponModifier
 {
 	public enum ModifierNames
 	{
-		Fast,
-		of_Doom_suffix,
 		Godly,
 		Fast,
 		of_Doom_suffix,
@@ -18,6 +16,8 @@ public struct WeaponModifier
 		Cheap,
 		Reaching,
 		Burny,
+        Crappy,
+        DEFAULT,
 
 		NUM_MODIFIERS
 	}

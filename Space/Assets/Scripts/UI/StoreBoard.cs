@@ -43,7 +43,7 @@ public class StoreBoard : MonoBehaviour {
 		//GameObject g2 = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponScript.WeaponType.MISSILE_LAUNCHER);
 		//currentWeapons.Add (g2.GetComponent<WeaponScript> ().ToInfo(WeaponModifier.ModifierNames.));
 
-		spaceBucks.text = "$* " + GameMaster.playerData.playerMoney;
+		spaceBucks.text = "$* " + GameMaster.playerData.playerWallet.GetSpaceBux();
 
 		PopulateButtons ();
 	}
@@ -74,8 +74,11 @@ public class StoreBoard : MonoBehaviour {
 	
 	public void PurchaseWeapon()
 	{
+        if (GameMaster.playerData.playerWallet.GetSpaceBux() < currentWeapons[currentSelectedWeapon].GetCost())
+            return;
 		if(currentSelectedWeapon != -1)
 		{
+
 			GameMaster.playerData.playerInventory.AddWeapon(currentWeapons[currentSelectedWeapon]);
 
 			GameObject button = scrollView.transform.FindChild (currentSelectedWeapon.ToString()).gameObject;
