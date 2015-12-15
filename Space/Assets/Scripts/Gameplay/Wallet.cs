@@ -25,7 +25,7 @@ public class Wallet : MonoBehaviour {
 			return false;
 		else
 		{
-        otherPerson.GetPaid(sB);
+        otherPerson.Reward(sB);
         spaceBux -= sB;
 			return true;
 		}

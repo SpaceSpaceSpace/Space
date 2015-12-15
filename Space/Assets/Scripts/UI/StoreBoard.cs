@@ -102,6 +102,8 @@ public class StoreBoard : MonoBehaviour {
 				SetBlankValues();
 			}
 		}
+
+		spaceBucks.text = "$* " + GameMaster.playerData.playerWallet.GetSpaceBux();
 	}
 
 	public void Repair()
