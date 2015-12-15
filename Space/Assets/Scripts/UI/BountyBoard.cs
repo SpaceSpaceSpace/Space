@@ -118,7 +118,7 @@ public class BountyBoard : MonoBehaviour {
         currentSelectedContract = -1;
         SetName("-----");
         SetTitle("-----");
-        SetDescription("-----", "");
+        SetDescription("-----", ", ");
         SetReward("-----");
 		SetTierLevel ("------");
 		isStoryContract.SetActive (false);
@@ -138,6 +138,10 @@ public class BountyBoard : MonoBehaviour {
     {
         //Replace all instances of $name with p_Name
         string fixedDesc = p_Des.Replace("$name", p_Name);
+
+        //Replace all instances of locaiton with the last objective's sector name
+        fixedDesc = fixedDesc.Replace("$location", "this sector");
+
         description.text = fixedDesc;
     }
 
