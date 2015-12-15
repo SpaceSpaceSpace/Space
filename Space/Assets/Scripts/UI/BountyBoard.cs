@@ -179,6 +179,9 @@ public class BountyBoard : MonoBehaviour {
                     ObjectiveEscortCargo escort = (ObjectiveEscortCargo)objective;
                     objectives.text += "Escort " + escort.CargoShipCount + " Cargo Ships";
                     break;
+				case "Rescue":
+					objectives.text += "Rescue Target";
+					break;
             }
 
             objectives.text += '\n';

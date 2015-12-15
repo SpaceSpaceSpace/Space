@@ -25,6 +25,7 @@ public class ObjectivesUIController : MonoBehaviour {
 				case "EscortCargo": objectiveText = "Escort cargo ship"; break;
 				case "TurnInContract": objectiveText = "Return contract to space station"; break;
 				case "KillTarget": objectiveText = "Kill target ship"; break;
+				case "Rescue": objectiveText = "Rescure target ship"; break;
 			}
 
 			GameObject objectiveUIObject = Instantiate(objectiveTextPrefab) as GameObject;
