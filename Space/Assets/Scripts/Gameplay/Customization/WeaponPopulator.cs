@@ -35,12 +35,16 @@ public class WeaponPopulator : MonoBehaviour {
 
 	void DisplayInventory()
 	{
+		if (GameMaster.playerData == null) {
+			return;
+		}
+
 		AttachmentToggle[] buttons = scrollContent.GetComponentsInChildren<AttachmentToggle> ();
 		foreach(AttachmentToggle _button in buttons)
 		{
 			Destroy(_button.gameObject);
 		}
-
+		
 		for(int i = 0; i < GameMaster.playerData.playerInventory.Weapons.Count; i++)
 		{
 			GameObject button = Instantiate(buttonPrefab) as GameObject;
