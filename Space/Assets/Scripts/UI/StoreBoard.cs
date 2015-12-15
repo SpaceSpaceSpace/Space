@@ -7,7 +7,7 @@ public class StoreBoard : MonoBehaviour {
 
 	public Text targetName;
 	public Text title;
-	public Text reward;
+	public Text cost;
 	public Image portrait;
 	public GameObject scrollView;
 	public GameObject buttonPrefab;
@@ -17,6 +17,7 @@ public class StoreBoard : MonoBehaviour {
 	private List<WeaponInfo> currentWeapons;
 	private int currentSelectedWeapon;
 	public GameObject repairButton;
+    public Wallet storeSafe;
 
 	void OnEnable()
 	{
@@ -43,7 +44,7 @@ public class StoreBoard : MonoBehaviour {
 		//GameObject g2 = GameMaster.WeaponMngr.GetWeaponPrefab (WeaponScript.WeaponType.MISSILE_LAUNCHER);
 		//currentWeapons.Add (g2.GetComponent<WeaponScript> ().ToInfo(WeaponModifier.ModifierNames.));
 
-		spaceBucks.text = "$* " + GameMaster.playerData.playerMoney;
+		spaceBucks.text = "$* " + GameMaster.playerData.playerWallet.GetSpaceBux();
 
 		PopulateButtons ();
 	}
@@ -74,10 +75,13 @@ public class StoreBoard : MonoBehaviour {
 	
 	public void PurchaseWeapon()
 	{
+        if (GameMaster.playerData.playerWallet.GetSpaceBux() < currentWeapons[currentSelectedWeapon].GetCost())
+            return;
 		if(currentSelectedWeapon != -1)
 		{
-			GameMaster.playerData.playerInventory.AddWeapon(currentWeapons[currentSelectedWeapon]);
 
+			GameMaster.playerData.playerInventory.AddWeapon(currentWeapons[currentSelectedWeapon]);
+            GameMaster.playerData.playerWallet.MakeItRain(currentWeapons[currentSelectedWeapon].GetCost(), storeSafe);
 			GameObject button = scrollView.transform.FindChild (currentSelectedWeapon.ToString()).gameObject;
 
 			if(button != null)
@@ -160,8 +164,8 @@ public class StoreBoard : MonoBehaviour {
 		title.text = p_Title;
 	}
 
-	public void SetReward(string p_Reward)
+	public void SetCost(string p_Cost)
 	{
-		reward.text = p_Reward;
+		cost.text = p_Cost;
 	}
 }
