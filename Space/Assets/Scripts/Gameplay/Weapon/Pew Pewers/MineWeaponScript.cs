@@ -15,7 +15,7 @@ public class MineWeaponScript : WeaponScript
 	{
 		m_mineProj = projectilePrefab.GetComponent<MineProjectileScript>();
 		Init();
-        SetCost(50);
+        SetCost(100);
 	}
 
 	public override void Fire()

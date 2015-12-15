@@ -93,6 +93,8 @@ public class Contract
 		{
 			completed = true;
             //If the contract is a story contract, increase the max bounty level
+            Debug.Log(Reward);
+            GameMaster.playerData.playerWallet.Reward(Reward);
             if(IsStoryContract)
                 BountyBoard.MaxBountyLevel++;
         }
@@ -147,9 +149,9 @@ public class Contract
     //Return a random amount of money based on the contract tier
     private int DetermineReward()
     {
-        int baseReward = tier * 1000;
-        int minMod = tier * 250;
-        int maxMod = tier * 250;
+        int baseReward = tier * 100;
+        int minMod = tier * 25;
+        int maxMod = tier * 25;
 
         return Random.Range(baseReward - minMod, baseReward + maxMod);
     }

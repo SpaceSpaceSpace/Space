@@ -17,6 +17,7 @@ public class StoreBoard : MonoBehaviour {
 	private List<WeaponInfo> currentWeapons;
 	private int currentSelectedWeapon;
 	public GameObject repairButton;
+    public Wallet storeSafe;
 
 	void OnEnable()
 	{
@@ -80,7 +81,7 @@ public class StoreBoard : MonoBehaviour {
 		{
 
 			GameMaster.playerData.playerInventory.AddWeapon(currentWeapons[currentSelectedWeapon]);
-
+            GameMaster.playerData.playerWallet.MakeItRain(currentWeapons[currentSelectedWeapon].GetCost(), storeSafe);
 			GameObject button = scrollView.transform.FindChild (currentSelectedWeapon.ToString()).gameObject;
 
 			if(button != null)

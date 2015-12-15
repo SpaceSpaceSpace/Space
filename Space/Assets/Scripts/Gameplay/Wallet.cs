@@ -31,6 +31,11 @@ public class Wallet : MonoBehaviour {
 		}
 
     }
+    public void Reward(int sB)
+    {
+        spaceBux += sB;
+        
+    }
     public void GetPaid(int sB)
     {
         spaceBux += sB;
