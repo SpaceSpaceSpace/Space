@@ -4,6 +4,19 @@ using System.Collections;
 public class WeaponManager : MonoBehaviour
 {
 	public GameObject[] weaponPrefabs;
+	public int[] costs;
+
+	void Start()
+	{
+		costs = new int[ (int)WeaponScript.WeaponType.NUM_WEAPONS ];
+		costs[(int)WeaponScript.WeaponType.LASER_MACHINE_GUN] = 25;
+		costs[(int)WeaponScript.WeaponType.SNIPER] = 25;
+		costs[(int)WeaponScript.WeaponType.SCATTER_SHOT] = 25;
+		costs[(int)WeaponScript.WeaponType.BEAM] = 25;
+		costs[(int)WeaponScript.WeaponType.MISSILE_LAUNCHER] = 50;
+		costs[(int)WeaponScript.WeaponType.MINE_LAUNCHER] = 50;
+	}
+
 
 	public GameObject GetWeaponPrefab( WeaponScript.WeaponType type )
 	{

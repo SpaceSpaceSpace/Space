@@ -30,14 +30,15 @@ public class ObjectiveRescue : Objective {
 		tier = a_tier;
 		rescueSpawner = (GameObject)GameObject.Instantiate(rescueSpawner, Position, Quaternion.identity);
 
-		Position = PlayerShipScript.player.stationMarker.transform.position;
+		Position = GameObject.Find("SpaceStore").transform.position;
 		rescueSpawner.GetComponent<AISpawnerScript>().Objective = objectiveManager.transform;
 		rescueSpawner.GetComponent<AISpawnerScript>().Init();
+		//objectiveManager.GetComponent<ObjectiveEvent>().ObjectiveContract.SetUIMarker(rescueSpawner.GetComponent<AISpawnerScript>().squad[0]);
 	}
 	
 	public override void ObjectiveUpdate() 
 	{
-		if(crimSpawner != null && rescueSpawner.GetComponent<AISpawnerScript>().squad[0] != null)
+		if(crimSpawner != null && rescueSpawner != null && rescueSpawner.GetComponent<AISpawnerScript>().squad[0] != null)
 		{
 			Vector2 rescuePos = rescueSpawner.GetComponent<AISpawnerScript>().squad[0].transform.position;
 			//float rescueDistance = Vector2.Distance(PlayerShipScript.player.stationMarker.transform.position, rescuePos);
@@ -64,7 +65,12 @@ public class ObjectiveRescue : Objective {
 	public override void HitObjective(Collider2D collider)
 	{
 		if (collider.name.Contains("RescueShip"))
+		{
 			completed = true;
+			GameObject.Destroy(rescueSpawner.GetComponent<AISpawnerScript>().squad[0]);
+		}
+
+
 	}
 	
 	protected override JSON ToJSON()

@@ -25,6 +25,7 @@ public class BeamWeaponScript : WeaponScript
 		m_layerMask = ~( 1 << LayerMask.NameToLayer( "Projectiles" ) );
 
 		m_ownCollider = transform.root.GetComponent<Collider2D>();
+        
 	}
 	
 	public override void Fire()
@@ -74,6 +75,7 @@ public class BeamWeaponScript : WeaponScript
 		WeaponInfo info = new WeaponInfo( weaponType, modifier );
 		info.AddAttribute( "Damage", RoundStatToDecimalPlaces( damage, 1 ) + "/s" );
 		info.AddAttribute( "Range", RoundStatToDecimalPlaces( beamRange, 1 ).ToString() );
+        info.AddAttribute("Cost", RoundStatToDecimalPlaces(cost, 1).ToString());
 		return info;
 	}
 
@@ -84,6 +86,7 @@ public class BeamWeaponScript : WeaponScript
 		WeaponInfo info = new WeaponInfo( weaponType, mod );
 		info.AddAttribute( "Damage", RoundStatToDecimalPlaces( moddedDamage, 1 ) + "/s" );
 		info.AddAttribute( "Range", RoundStatToDecimalPlaces( moddedRange, 1 ).ToString() );
+        info.AddAttribute("Cost", RoundStatToDecimalPlaces(cost, 1).ToString());
 		return info;
 	}
 

@@ -5,6 +5,7 @@ public class SpaceStation : InteractableScript
 {
 
     public PlayerShipScript playerShip;
+    
 
 	void Start()
 	{
@@ -24,7 +25,9 @@ public class SpaceStation : InteractableScript
         {
             if (GameMaster.playerData.playerContracts[i].completed)
             {
+                
                 GameMaster.playerData.playerContracts.Remove(GameMaster.playerData.playerContracts[i]);
+                
                 i--;
                 if (i < 0)
                     i = 0;

@@ -1,13 +1,16 @@
 fileFormatVersion: 2
 guid: bd41f78f895c59e4099c239ff5316cb1
-timeCreated: 1447870072
+timeCreated: 1450139279
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - outOfCombat: {fileID: 24500003, guid: ca6e7b0dc3202c14883a2027f99d317d, type: 2}
   - inCombat: {fileID: 24527442, guid: ca6e7b0dc3202c14883a2027f99d317d, type: 2}
-  - transitionSource: {instanceID: 0}
+  - transitionToBattle: {fileID: 24520096, guid: ca6e7b0dc3202c14883a2027f99d317d,
+      type: 2}
+  - transitionFromBattle: {fileID: 24520622, guid: ca6e7b0dc3202c14883a2027f99d317d,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

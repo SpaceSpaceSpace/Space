@@ -25,7 +25,7 @@ public class Contract
 	private Sprite targetShipImage;
     private int reward;
 	private List<Objective> contractObjectives;
-    private List<ObjectiveEvent> objectiveEvents;
+    public List<ObjectiveEvent> objectiveEvents;
     private GameObject objectivePrefab;
 
 	private GameObject contractPlanet;
@@ -93,6 +93,8 @@ public class Contract
 		{
 			completed = true;
             //If the contract is a story contract, increase the max bounty level
+            Debug.Log(Reward);
+            GameMaster.playerData.playerWallet.Reward(Reward);
             if(IsStoryContract)
                 BountyBoard.MaxBountyLevel++;
         }
@@ -110,6 +112,15 @@ public class Contract
             ObjectiveEvent contractObjectiveEvent = contractObjectiveObject.GetComponent<ObjectiveEvent>();
             contractObjectiveEvent.ObjectiveContract = this;
             contractObjectiveEvent.ToComplete = objective;
+			foreach(GameObject g in WarpScript.instance.allPlanets)
+			{
+				if(g.name == objective.sector.name)
+				{
+					contractObjectiveObject.transform.parent = g.transform;
+					if(g.name == WarpScript.instance.currentPlanet.name)
+						contractObjectiveObject.gameObject.SetActive(true);
+				}
+			}
 			contractObjectiveObject.name = "objective " + i;
 
             objectiveEvents.Add(contractObjectiveEvent);
@@ -123,7 +134,7 @@ public class Contract
                 objectiveEvents[i - 1].NextObjective = contractObjectiveObject;
                 contractObjectiveObject.SetActive(false);
             }  
-			contractObjectiveObject.transform.parent = contractPlanet.transform;
+			//contractObjectiveObject.transform.parent = contractPlanet.transform;
         }
 
 		//Populate objective UI
@@ -147,9 +158,9 @@ public class Contract
     //Return a random amount of money based on the contract tier
     private int DetermineReward()
     {
-        int baseReward = tier * 1000;
-        int minMod = tier * 250;
-        int maxMod = tier * 250;
+        int baseReward = tier * 100;
+        int minMod = tier * 25;
+        int maxMod = tier * 25;
 
         return Random.Range(baseReward - minMod, baseReward + maxMod);
     }

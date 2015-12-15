@@ -25,6 +25,7 @@ public abstract class WeaponScript : MonoBehaviour
 	public string fireSoundName = "Laser_Bolt";
 
 	public float damage = 10.0f;
+	public int cost = 50;
 
 	public WeaponType weaponType = WeaponType.LASER_MACHINE_GUN;
 	public WeaponModifier.ModifierNames modifier = WeaponModifier.ModifierNames.DEFAULT;
@@ -67,4 +68,9 @@ public abstract class WeaponScript : MonoBehaviour
 	{
 		return (float)System.Math.Round( statValue, sigFigs );
 	}
+	protected void SetCost(int c)
+	{
+		cost = c;
+	}
+
 }

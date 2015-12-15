@@ -6,6 +6,7 @@ public class MineWeaponScript : WeaponScript
 	public float fireTime = 1.0f;
 	public float mineLifeTime = 60.0f;
 	public float projectileSpeed = 10.0f;
+	
 
 	private MineProjectileScript m_mineProj;
 	private bool m_canFire = true;
@@ -14,6 +15,7 @@ public class MineWeaponScript : WeaponScript
 	{
 		m_mineProj = projectilePrefab.GetComponent<MineProjectileScript>();
 		Init();
+        SetCost(100);
 	}
 
 	public override void Fire()
@@ -39,6 +41,7 @@ public class MineWeaponScript : WeaponScript
 		info.AddAttribute( "Damage", RoundStatToDecimalPlaces( damage, 1 ).ToString() );
 		info.AddAttribute( "Fire Rate", RoundStatToDecimalPlaces( 1 / fireTime, 1 ) + "/s" );
 		info.AddAttribute( "Projectile Speed", RoundStatToDecimalPlaces( projectileSpeed, 1 ).ToString() );
+        info.AddAttribute("Cost", RoundStatToDecimalPlaces(cost, 1).ToString());
 		return info;
 	}
 
@@ -52,6 +55,7 @@ public class MineWeaponScript : WeaponScript
 		info.AddAttribute( "Damage", RoundStatToDecimalPlaces( moddedDamage, 1 ).ToString() );
 		info.AddAttribute( "Fire Rate", RoundStatToDecimalPlaces(  1 / moddedFireRate, 1 ) + "/s" );
 		info.AddAttribute( "Projectile Speed", RoundStatToDecimalPlaces( moddedSpeed, 1 ).ToString() );
+        info.AddAttribute("Cost", RoundStatToDecimalPlaces(cost, 1).ToString());
 		return info;
 	}
 

@@ -8,6 +8,7 @@ public class PlayerShipScript : ShipScript
 	
 	public GameObject objectiveMarker;
 	public GameObject stationMarker;
+    public GameObject playerWallet;
 
 	public bool devGod;
 	
@@ -66,7 +67,7 @@ public class PlayerShipScript : ShipScript
 		m_cameraTransform = Camera.main.transform.parent;
 
 		SetDefaultLoadout ();
-		GameMaster.playerData.playerMoney = 25;
+		GameMaster.playerData.playerWallet = playerWallet.GetComponent<Wallet>();
 	}
 	
 	void Update ()

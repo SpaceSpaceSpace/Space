@@ -44,7 +44,7 @@ public class ObjectiveEvent : MonoBehaviour
 		get { return objective; }
 	}
 
-    void Start()
+    void OnEnable()
     {
         objective.Position = transform.position;
 

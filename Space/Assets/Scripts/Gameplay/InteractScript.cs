@@ -4,6 +4,7 @@ public class InteractScript : MonoBehaviour
 {
 	public const string INTERACTABLE_TAG = "Interactable";
 	public GameObject interactText;
+    public Wallet coinPurse;
 	
 	private InteractableScript m_targetInteractible;
 	private Customize m_customization;
@@ -47,6 +48,8 @@ public class InteractScript : MonoBehaviour
 		if (Input.GetButtonDown ("Help") && GameMaster.CurrentGameState == GameState.Flying) 
 		{
 			//show the general help
+            string wallet = coinPurse.ToString();
+            Debug.Log(wallet);
 			GameMaster.CurrentGameState = GameState.H;
 			Time.timeScale = 0.0f;
 		}
