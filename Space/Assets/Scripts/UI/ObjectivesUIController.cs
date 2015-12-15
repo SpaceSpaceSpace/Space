@@ -22,7 +22,7 @@ public class ObjectivesUIController : MonoBehaviour {
 
 			switch(objective.Objective.objectiveType)
 			{
-				case "EscortCargo": objectiveText = "Escort cargo ship"; break;
+				case "EscortCargo": objectiveText = "Escort cargo ship from center of planet"; break;
 				case "TurnInContract": objectiveText = "Return contract to space station"; break;
 				case "KillTarget": objectiveText = "Kill target ship"; break;
 				case "Rescue": objectiveText = "Rescure target ship"; break;
