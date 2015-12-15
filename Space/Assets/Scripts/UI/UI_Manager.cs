@@ -9,6 +9,7 @@ public class UI_Manager : MonoBehaviour
     public GameObject bountyBoard;
     public GameObject storeBoard;
     public GameObject gameOverScreen;
+	public GameObject pauseUI;
     public GameObject spaceStationUI;
 	public GameObject hangerUI;
 	public GameObject weaponToggles;
@@ -102,7 +103,14 @@ public class UI_Manager : MonoBehaviour
     }
 	public void DisplayPauseScreen(bool active)
 	{
+		pauseUI.SetActive (active);
 
+		if(!active)
+		{
+			Time.timeScale = 1.0f;
+			GameMaster.CurrentGameState = GameState.Flying;
+
+		}
 	}
 	public void DisplayGeneralHelp(bool active)
 	{
@@ -180,5 +188,6 @@ public class UI_Manager : MonoBehaviour
         gameOverScreen.SetActive(false);
         storeBoard.SetActive(false);
         spaceStationUI.SetActive(false);
+		pauseUI.SetActive (false);
     }
 }
