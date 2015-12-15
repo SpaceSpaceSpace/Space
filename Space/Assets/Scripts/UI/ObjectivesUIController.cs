@@ -63,6 +63,6 @@ public class ObjectivesUIController : MonoBehaviour {
 		currentObjectives.RemoveAt (objectiveIndex);
 		currentButtons.RemoveAt (objectiveIndex);
 		Destroy (viewArea.transform.GetChild (objectiveIndex).gameObject);
-		Debug.Log ("Task done");
+		
 	}
 }

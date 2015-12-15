@@ -41,4 +41,12 @@ public class WeaponInfo {
 	{
 		attributes.Add( key, value );
 	}
+    public int GetCost()
+    {
+        string costOut = "";
+        int costF = 0;
+        attributes.TryGetValue("Cost", out costOut);
+        costF = int.Parse(costOut);
+        return costF;
+    }
 }

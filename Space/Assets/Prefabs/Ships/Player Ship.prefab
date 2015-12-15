@@ -91,6 +91,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &167422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 436242}
+  - 114: {fileID: 11448010}
+  m_Layer: 0
+  m_Name: PlayerWallet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &172028
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,6 +269,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 441918}
   m_RootOrder: 0
+--- !u!4 &436242
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167422}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 115.797119, y: 97.3915863, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 497826}
+  m_RootOrder: 8
 --- !u!4 &441918
 Transform:
   m_ObjectHideFlags: 1
@@ -358,6 +386,7 @@ Transform:
   - {fileID: 432300}
   - {fileID: 441918}
   - {fileID: 401000}
+  - {fileID: 436242}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!50 &5041380
@@ -505,6 +534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: {fileID: 0}
+  coinPurse: {fileID: 11448010}
 --- !u!114 &11412936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -558,6 +588,20 @@ MonoBehaviour:
   maxMoveSpeed: 7
   objectiveMarker: {fileID: 197306}
   stationMarker: {fileID: 192520}
+  playerWallet: {fileID: 167422}
+  devGod: 0
+--- !u!114 &11448010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20c9523fe2041ec4eb1c237bb354caea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: 1
 --- !u!114 &11448964
 MonoBehaviour:
   m_ObjectHideFlags: 1
