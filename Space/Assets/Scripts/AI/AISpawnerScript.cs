@@ -112,6 +112,7 @@ public class AISpawnerScript : MonoBehaviour {
 		if(objective != null)
 			ss.objective = objective.transform;
 		ss.spawner = this;
+		ss.Target = PlayerShipScript.player.transform;
 		squad.Add(g);
 		
 		ss.InitWeapons();
