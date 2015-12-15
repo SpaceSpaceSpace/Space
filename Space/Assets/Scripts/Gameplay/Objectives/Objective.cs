@@ -13,6 +13,7 @@ public abstract class Objective
 
     public bool Completed {
         get { return completed; }
+		set {completed = value; }
     }
 
     protected bool completed;
