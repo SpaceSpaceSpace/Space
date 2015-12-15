@@ -214,6 +214,7 @@ public class PlayerShipScript : ShipScript
 		GameMaster.CurrentGameState = GameState.GameOver;
 		UI_Manager.instance.ChangeUIState (GameState.GameOver);
 
-		base.Die();
+		Instantiate(m_exploder, transform.position, Quaternion.identity);
+		gameObject.SetActive(false);
 	}
 }
