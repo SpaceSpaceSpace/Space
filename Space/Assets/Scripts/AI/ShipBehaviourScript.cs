@@ -41,12 +41,12 @@ public class ShipBehaviourScript : MonoBehaviour {
 		case Behaviour.Cop:
 		case Behaviour.Rescue:
 			m_shipScript.enemies = new string[2]{ "CriminalShip", "CriminalLeader" };
-			m_shipScript.friends = new string[4]{"Player Ship", "CargoShip", "CopShip", "RescueShip"};
+			m_shipScript.friends = new string[5]{"Player Ship", "CargoShip", "CopShip", "RescueShip", "Mom"};
 			break;
 		case Behaviour.Grunt:
 		case Behaviour.Leader:
 		case Behaviour.Turret:
-			m_shipScript.enemies = new string[4]{ "Player Ship", "CargoShip", "CopShip", "RescueShip" };
+			m_shipScript.enemies = new string[5]{ "Player Ship", "CargoShip", "CopShip", "RescueShip", "Mom"};
 			m_shipScript.friends = new string[2]{ "CriminalShip", "CriminalLeader" };
 			break;
 		}

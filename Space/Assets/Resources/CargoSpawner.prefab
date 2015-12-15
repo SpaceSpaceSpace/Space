@@ -39,12 +39,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805fe2b097eb297449a3b84b3c0c9146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAI: 4
-  startAI: 4
+  respawn: 0
+  maxAI: 1
+  startAI: 1
   range: 10
   AIPrefab: {fileID: 133512, guid: ef73b1ef7d4c1f543b8b8bcfc9741f65, type: 2}
   squadLeader: {fileID: 0}
   squad: []
+  tier: 1
+  mom: {fileID: 162412, guid: df3a0fd451f093e4886c85b57b30e5d7, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -56,6 +59,10 @@ Prefab:
       propertyPath: AIPrefab
       value: 
       objectReference: {fileID: 133512, guid: ef73b1ef7d4c1f543b8b8bcfc9741f65, type: 2}
+    - target: {fileID: 0}
+      propertyPath: mom
+      value: 
+      objectReference: {fileID: 162412, guid: df3a0fd451f093e4886c85b57b30e5d7, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 156952}
