@@ -31,7 +31,7 @@ public class UI_Manager : MonoBehaviour
 	}
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         instance = this;
 		spaceStationObject = GameObject.Find ("SpaceStore");
@@ -156,6 +156,7 @@ public class UI_Manager : MonoBehaviour
 				otherGameCamera.rect = new Rect (0f, 0f, 1f, 1f);
                 break;
             case GameState.MainMenu:
+				Time.timeScale = 1.0f;
                 GameMaster.CurrentGameState = GameState.MainMenu;
                 Application.LoadLevel("MainMenu");
                 break;
