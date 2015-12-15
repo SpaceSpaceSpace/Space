@@ -173,6 +173,8 @@ public class BountyBoard : MonoBehaviour {
         {
             Objective objective = p_Objectives[i];
 
+			Debug.Log(objective.GetType().ToString());
+
             switch (objective.GetType().ToString())
             {
                 case "ObjectiveKillTarget":
@@ -183,6 +185,9 @@ public class BountyBoard : MonoBehaviour {
                     ObjectiveEscortCargo escort = (ObjectiveEscortCargo)objective;
                     objectives.text += "Escort " + escort.CargoShipCount + " Cargo Ships";
                     break;
+				case "ObjectiveRescue":
+					objectives.text += "Rescue Target";
+					break;
             }
 
             objectives.text += '\n';
