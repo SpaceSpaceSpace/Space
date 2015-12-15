@@ -47,6 +47,17 @@ public class GameMaster : MonoBehaviour {
 		}
 	}
 
+	void OnLevelWasLoaded(int level)
+	{
+		if(level == 1)
+		{
+			Time.timeScale = 1.0f;
+			PlanetName = "Stan C8";
+			playerData.playerInventory = new Inventory();
+			playerData.playerContracts = new List<Contract>();
+		}
+	}
+
 	void Update () {
 
 		//Go to Main Menu
