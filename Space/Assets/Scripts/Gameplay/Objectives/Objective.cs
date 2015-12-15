@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using WyrmTale;
 
 //Really just a base class that all ContractObjectives will inherit from
@@ -8,13 +9,15 @@ public abstract class Objective
     public Vector2 Position;
 
     //The Sector the objective takes place in
-	public Sector sector;
+    public Sector sector;
 
     public bool Completed {
         get { return completed; }
     }
 
     protected bool completed;
+
+	public string objectiveType;
 
     //Override to describe what happens during this objective
     public abstract void SetupObjective(GameObject objectiveManager, int tier = 0);
@@ -61,11 +64,15 @@ public abstract class Objective
                 case "EscortCargo":
                     objective = new ObjectiveEscortCargo();
                     break;
+                case "Rescue":
+                    objective = new ObjectiveRescue();
+                    break;
                 default:
                     objective = new ObjectiveTurnInContract();
                     break;
             }
             objective.FromJSON(js);
+
             //Generic JSON
             objective.completed = js.ToBoolean("Completed");
             float x = js.ToFloat("PositionX");
@@ -81,8 +88,8 @@ public abstract class Objective
             else
                 objective.sector = GameMaster.Sectors[sectorName];
 
+			objective.objectiveType = type;
 
-			Debug.Log("Objective " + objective + " Sector " + objective.sector.name);
             return objective;
         }
     }

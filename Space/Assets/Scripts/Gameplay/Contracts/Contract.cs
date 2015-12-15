@@ -92,10 +92,12 @@ public class Contract
 		if(contractObjectives.Count == 0)
 		{
 			completed = true;
-		}
+            //If the contract is a story contract, increase the max bounty level
+            if(IsStoryContract)
+                BountyBoard.MaxBountyLevel++;
+        }
 	}
-
-    //Eventually will spawn objectives based off contract
+	
     public void SpawnContract()
     {
         objectiveEvents = new List<ObjectiveEvent>();
@@ -118,6 +120,7 @@ public class Contract
 						contractObjectiveObject.gameObject.SetActive(true);
 				}
 			}
+			contractObjectiveObject.name = "objective " + i;
 
             objectiveEvents.Add(contractObjectiveEvent);
 
@@ -132,6 +135,9 @@ public class Contract
             }  
 			//contractObjectiveObject.transform.parent = contractPlanet.transform;
         }
+
+		//Populate objective UI
+		UI_Manager.instance.PopulateObjectiveUI (objectiveEvents);
 	}
 
 	public void SetUIMarker(GameObject contractObjective)

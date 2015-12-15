@@ -108,15 +108,19 @@ public class WarpScript : MonoBehaviour
 	{
 		GameObject playerShip = (GameObject)GameObject.Find ("Player Ship");
 		GameObject spaceStation = (GameObject)GameObject.Find ("SpaceStore");
+		starBackground.SetActive (false);
 
-		StartCoroutine ("WarpWait");
+		StartCoroutine ("WarpWait", playerShip);
 
         if(playerShip != null && spaceStation != null)
             playerShip.transform.position = spaceStation.transform.position;
+
+		starBackground.SetActive (true);
 	}
 
-	IEnumerator WarpWait()
+	IEnumerator WarpWait(GameObject playerShip)
 	{
+		warpEffect.transform.position = playerShip.transform.position;
 		warpEffect.SetActive (true);
 		yield return new WaitForSeconds (3.0f);
 
@@ -134,11 +138,13 @@ public class WarpScript : MonoBehaviour
 		UI_Manager.instance.DisplayHangerUI (false);
 
 		GameMaster.Master.PlanetName = prefabName;
-		playerShip.transform.position = new Vector3(spaceStation.transform.position.x - 10.0f, spaceStation.transform.position.y, spaceStation.transform.position.z);
+		if(spaceStation != null)
+			playerShip.transform.position = new Vector3(spaceStation.transform.position.x - 10.0f, spaceStation.transform.position.y, spaceStation.transform.position.z);
+
 		playerShip.transform.rotation = Quaternion.identity;
 
 		warpEffect.transform.position = starBackground.transform.position;
-		StartCoroutine ("WarpWait");
+		StartCoroutine ("WarpWait", playerShip);
 		if(currentPlanet != null)
 		{
 			currentPlanet.SetActive(false);
