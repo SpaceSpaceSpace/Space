@@ -8,7 +8,7 @@ public abstract class Objective
     public Vector2 Position;
 
     //The Sector the objective takes place in
-	public Sector sector = GameMaster.Sectors["Nek’tan Prime"];
+	public Sector sector;
 
     public bool Completed {
         get { return completed; }
@@ -66,7 +66,6 @@ public abstract class Objective
                     break;
             }
             objective.FromJSON(js);
-
             //Generic JSON
             objective.completed = js.ToBoolean("Completed");
             float x = js.ToFloat("PositionX");
@@ -82,6 +81,8 @@ public abstract class Objective
             else
                 objective.sector = GameMaster.Sectors[sectorName];
 
+
+			Debug.Log("Objective " + objective + " Sector " + objective.sector.name);
             return objective;
         }
     }

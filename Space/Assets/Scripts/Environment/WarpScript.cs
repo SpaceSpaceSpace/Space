@@ -49,6 +49,14 @@ public class WarpScript : MonoBehaviour
 				planetExists = true;
 				planet.SetActive(true);
 				currentPlanet = planet;
+
+				foreach (Contract c in GameMaster.playerData.playerContracts)
+				{
+					if(c.objectiveEvents[0].objective.sector.name == planet.name)
+					{
+						c.objectiveEvents[0].gameObject.SetActive(true);
+					}
+				}
 			}
 		}
 

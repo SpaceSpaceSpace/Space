@@ -12,7 +12,7 @@ public class ObjectiveEscortCargo : Objective
 
     public ObjectiveEscortCargo()
     {
-        
+
     }
 
     public override void SetupObjective(GameObject objectiveManager, int a_tier)
@@ -32,16 +32,7 @@ public class ObjectiveEscortCargo : Objective
 		
 		waveDistance = Random.Range(80, 120);
         AISpawner = (GameObject)GameObject.Instantiate(AISpawner, Position, Quaternion.identity);
-
-		foreach(GameObject g in WarpScript.instance.allPlanets)
-		{
-			Debug.Log(g.name);
-			Debug.Log(objectiveManager.GetComponent<ObjectiveEvent>().objective.sector.ToString());
-			if(g.name == objectiveManager.GetComponent<ObjectiveEvent>().objective.sector.name)
-			{
-				AISpawner.transform.parent = g.transform;
-			}
-		}
+		
         float xPos = Random.Range(0.01f, 2.0f);
         float yPos = Random.Range(0.01f, 2.0f);
         if (Random.Range(-1.0f, 1.0f) > 0.0f)
