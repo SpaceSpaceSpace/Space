@@ -3425,7 +3425,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: b97ff230db6f3473d92ba914829d5f8b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4d0ee159613e84d3c92deee336df0485, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -5872,7 +5872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetName: {fileID: 11480852}
   title: {fileID: 11428988}
-  reward: {fileID: 0}
+  cost: {fileID: 0}
   portrait: {fileID: 11410248}
   scrollView: {fileID: 104502}
   buttonPrefab: {fileID: 114684, guid: b44139e9f57a2244d8e7a9eacc841f51, type: 2}
@@ -5880,6 +5880,7 @@ MonoBehaviour:
   statPrefab: {fileID: 105418, guid: 7aeca145941fb0d43b90a8562128c927, type: 2}
   spaceBucks: {fileID: 11408870}
   repairButton: {fileID: 186620}
+  storeSafe: {fileID: 11446538, guid: 5e57c7c7fd7130a4abe69087a68107bf, type: 2}
 --- !u!114 &11472208
 MonoBehaviour:
   m_ObjectHideFlags: 1
