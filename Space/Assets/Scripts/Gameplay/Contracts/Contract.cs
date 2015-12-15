@@ -87,6 +87,7 @@ public class Contract
 
 	public void CompleteContractObjective(Objective completedObjective)
 	{
+		completedObjective.Completed = false;
 		contractObjectives.Remove (completedObjective);
 
 		if(contractObjectives.Count == 0)
