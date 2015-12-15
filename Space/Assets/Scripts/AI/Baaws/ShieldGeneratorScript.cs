@@ -5,6 +5,11 @@ public class ShieldGeneratorScript : ShipScript
 {
 	public Sprite destroyedSprite;
 
+	void Start()
+	{
+		InitShip();
+	}
+
 	protected override void Die()
 	{
 		EventManager.TriggerEvent( "GeneratorDestroyed" );

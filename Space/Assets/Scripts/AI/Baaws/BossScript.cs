@@ -3,16 +3,13 @@ using System.Collections;
 
 public class BossScript : MonoBehaviour
 {
-	public GameObject turretContainer;
 	public GameObject explosion;
 
-	private int m_generatorCount;
+	private int m_generatorCount = 16;
 
 	void Start ()
 	{
-		m_generatorCount = turretContainer.transform.childCount; // 1 generator per turret container
 		EventManager.AddEventListener( "GeneratorDestroyed", OnGeneratorDestroyed );
-	
 	}
 	
 	private void OnGeneratorDestroyed()
@@ -26,7 +23,7 @@ public class BossScript : MonoBehaviour
 
 	private void BoomBoom()
 	{
-		for( int i = 0; i < 20; i++ )
+		for( int i = 0; i < 30; i++ )
 		{
 			StartCoroutine( SpawnExplosion() );
 		}
