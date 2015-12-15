@@ -139,16 +139,19 @@ public class ModifierEnumifier : MonoBehaviour
         string allTypes = File.ReadAllText(WEP_TYPE_DATA_PATH);
         string[] typeLines = allTypes.Replace("\r", "").Split('\n');
 
-        //Test if a modifier with this name exists already
-        for (int i = 0; i < dataLines.Length; i++)
+        if (replacementIndex < 0)
         {
-            string line = dataLines[i];
-            if (line.StartsWith(modifier.Name + ','))
+            //Test if a modifier with this name exists already
+            for (int i = 0; i < dataLines.Length; i++)
             {
-                if (EditorUtility.DisplayDialog("Conflict", "A Modifier with this name already exists. Do you want to overwrite?", "Yes", "Oops, Cancel"))
-                    replacementIndex = i - 1;
-                else
-                    return false;
+                string line = dataLines[i];
+                if (line.StartsWith(modifier.Name + ','))
+                {
+                    if (EditorUtility.DisplayDialog("Conflict", "A Modifier with this name already exists. Do you want to overwrite?", "Yes", "Oops, Cancel"))
+                        replacementIndex = i - 1;
+                    else
+                        return false;
+                }
             }
         }
 

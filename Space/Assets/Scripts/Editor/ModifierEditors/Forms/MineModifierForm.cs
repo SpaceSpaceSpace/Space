@@ -26,6 +26,7 @@ public class MineModifierForm : ContractFormBase
         editor.Damage = modifier.Damage;
         editor.Accuracy = modifier.Accuracy;
         editor.FireRate = modifier.FireRate;
+        editor.CostMod = modifier.CostMod;
 
         editor.closeButtonText = "Save";
         editor.replacementIndex = replacementIndex;

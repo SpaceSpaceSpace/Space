@@ -121,6 +121,7 @@ public class Satellite : MonoBehaviour {
 		float rotation = Random.Range(0, 360);
 		Vector3 rotVector = new Vector3(0,0,rotation);
 		GameObject dust = Instantiate(m_dustplosion,transform.position, Quaternion.Euler(rotVector)) as GameObject;
+		dust.transform.parent = WarpScript.instance.currentPlanet.transform;
 
 		//Set the fade speed of the dust poof to be inversely proportional to the mass of the satellite
 		Explode explosion = dust.GetComponent<Explode>();
@@ -148,11 +149,13 @@ public class Satellite : MonoBehaviour {
             Vector2 offset2 = colToCenterPerp * ((split2Mass/-2) + Mathf.Epsilon);
 
             GameObject split1 = (GameObject)Instantiate(satPrefab, new Vector2(transform.position.x, transform.position.y) + offset1, Quaternion.identity);
+			split1.transform.parent = WarpScript.instance.currentPlanet.transform;
             Satellite split1Sat = split1.GetComponent<Satellite>();
             split1Sat.ScaleMass(split1Mass, true);
             split1Sat.invincible = true;
             split1Sat.StartCoroutine("InvincibleTimer");
 			GameObject split2 = (GameObject)Instantiate(satPrefab1, new Vector2(transform.position.x, transform.position.y) + offset2,Quaternion.identity);
+			split2.transform.parent = WarpScript.instance.currentPlanet.transform;
             Satellite splite2Sat = split2.GetComponent<Satellite>();
 			splite2Sat.ScaleMass(split2Mass, true);
             splite2Sat.invincible = true;

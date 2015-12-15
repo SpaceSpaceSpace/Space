@@ -8,6 +8,8 @@ public class PlayerShipScript : ShipScript
 	
 	public GameObject objectiveMarker;
 	public GameObject stationMarker;
+
+	public bool devGod;
 	
 	public bool Alive
 	{
@@ -62,6 +64,9 @@ public class PlayerShipScript : ShipScript
 		// The camera is parented to a GO and offset on the Z axis
 		// We're keeping the parent so we don't have to set the Z when moving the camera
 		m_cameraTransform = Camera.main.transform.parent;
+
+		SetDefaultLoadout ();
+		GameMaster.playerData.playerMoney = 25;
 	}
 	
 	void Update ()
@@ -140,11 +145,20 @@ public class PlayerShipScript : ShipScript
 		m_docked = false;
 		InitWeapons();
 	}
+
+	public void Repair()
+	{
+		m_health = m_maxHealth;
+		EventManager.TriggerEvent (EventDefs.PLAYER_HEALTH_UPDATE);
+	}
 	
 	public override void ApplyDamage( float damage, float shieldPen = 0.0f )
 	{
-		base.ApplyDamage( damage, shieldPen );
-		EventManager.TriggerEvent( EventDefs.PLAYER_HEALTH_UPDATE );
+		if(!devGod)
+		{
+			base.ApplyDamage( damage, shieldPen );
+			EventManager.TriggerEvent( EventDefs.PLAYER_HEALTH_UPDATE );
+		}
 	}
 	
 	// Checks if any of the number keys were pressed to toggle weapons
@@ -162,6 +176,24 @@ public class PlayerShipScript : ShipScript
 				}
 			}
 		}
+	}
+
+	private void SetDefaultLoadout()
+	{
+		GameObject g = GameMaster.WeaponMngr.GetWeaponPrefab ( WeaponScript.WeaponType.LASER_MACHINE_GUN );
+		WeaponModifier.ModifierNames mod = WeaponModifier.ModifierNames.Crappy;
+		WeaponInfo wep1 = g.GetComponent<WeaponScript> ().ToInfo ( mod );
+
+		g = GameMaster.WeaponMngr.GetWeaponPrefab ( WeaponScript.WeaponType.SNIPER );
+		WeaponInfo wep2 = g.GetComponent<WeaponScript> ().ToInfo ( mod );
+
+		g = GameMaster.WeaponMngr.GetWeaponPrefab ( WeaponScript.WeaponType.BEAM );
+		WeaponInfo wep3 = g.GetComponent<WeaponScript> ().ToInfo ( mod );
+
+		m_weaponSlots [0].SetWeapon (wep3.SpawnWeapon ());
+		m_weaponSlots [1].SetWeapon (wep2.SpawnWeapon ());
+		m_weaponSlots [2].SetWeapon (wep1.SpawnWeapon ());
+		UI_Manager.instance.UpdateWeaponDockUI ();
 	}
 	
 	protected override void Die()
