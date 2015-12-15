@@ -29,15 +29,9 @@ public class InteractScript : MonoBehaviour
 		if (Input.GetButtonDown ("Pause") && GameMaster.CurrentGameState != GameState.Pause) 
 		{
 			//pause the game
-
+			UI_Manager.instance.DisplayPauseScreen(true);
 			GameMaster.CurrentGameState = GameState.Pause;
 			Time.timeScale = 0.0f;
-		}
-		if (Input.GetKeyDown(KeyCode.Escape) && GameMaster.CurrentGameState == GameState.Pause) 
-		{
-			//unpause the game
-			GameMaster.CurrentGameState = GameState.Flying;
-			Time.timeScale = 1.0f;
 		}
 		if (Input.GetButtonDown ("Help") && GameMaster.CurrentGameState == GameState.Customization) 
 		{
