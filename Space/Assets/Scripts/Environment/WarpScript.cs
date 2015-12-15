@@ -52,7 +52,7 @@ public class WarpScript : MonoBehaviour
 
 				foreach (Contract c in GameMaster.playerData.playerContracts)
 				{
-					if(c.objectiveEvents[0].objective.sector.name == planet.name)
+					if(c.objectiveEvents[0].Objective.sector.name == planet.name)
 					{
 						c.objectiveEvents[0].gameObject.SetActive(true);
 					}

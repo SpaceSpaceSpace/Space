@@ -112,7 +112,6 @@ public class Contract
             contractObjectiveEvent.ToComplete = objective;
 			foreach(GameObject g in WarpScript.instance.allPlanets)
 			{
-				//Debug.Log(objectiveManager.GetComponent<ObjectiveEvent>().objective.sector.ToString());
 				if(g.name == objective.sector.name)
 				{
 					contractObjectiveObject.transform.parent = g.transform;
