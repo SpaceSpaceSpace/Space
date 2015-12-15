@@ -29,6 +29,7 @@ public class ObjectiveEscortCargo : Objective
 		spawnerScript.tier = tier;
         spawnerScript.maxAI = CargoShipCount;
         spawnerScript.startAI = CargoShipCount;
+
 		
 		waveDistance = Random.Range(80, 120);
         AISpawner = (GameObject)GameObject.Instantiate(AISpawner, Position, Quaternion.identity);
@@ -76,7 +77,7 @@ public class ObjectiveEscortCargo : Objective
 					crimSpawner = (GameObject)GameObject.Instantiate(crimSpawner, spawnPos, Quaternion.identity);
 					crimSpawner.GetComponent<AISpawnerScript>().tier = tier;
 					crimSpawner.GetComponent<AISpawnerScript>().squadLeader = null;
-					crimSpawner.GetComponent<AISpawnerScript>().startAI = 1 + tier;
+					crimSpawner.GetComponent<AISpawnerScript>().startAI = tier;
 					crimSpawner.GetComponent<AISpawnerScript>().Init();
 					foreach(GameObject g in crimSpawner.GetComponent<AISpawnerScript>().squad)
 					{
@@ -89,7 +90,7 @@ public class ObjectiveEscortCargo : Objective
 
     public override void HitObjective(Collider2D collider)
     {
-        if (collider.name.Contains("CargoShip"))
+        if (collider.name.Contains("CargoShip") || collider.name.Contains("Mom"))
             completed = true;
     }
 
